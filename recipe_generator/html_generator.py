@@ -133,16 +133,23 @@ def generate_overview_html(
     Returns:
         Complete HTML page as a string
     """
+    # Sort recipes by category
+    category_order = {'🥩': 0, '🐟': 1, '🥦': 2, '🥣': 3}
+    sorted_recipes = sorted(
+        recipes_data,
+        key=lambda x: category_order.get(x[1].get('category', ''), 999)
+    )
+
     # Generate recipe entries
     recipe_entries = []
-    for filename, recipe in recipes_data:
+    for filename, recipe in sorted_recipes:
         description = escape(recipe.get('description', ''))
         servings = recipe['servings']
         prep_time = recipe['prep_time']
         cook_time = recipe['cook_time']
         category = recipe.get('category', '')
 
-        recipe_entry = f'''    <div class="recipe-card">
+        recipe_entry = f'''    <div class="recipe-card" data-category="{category}">
         <h2><a href="{escape(filename)}">{category} {escape(recipe['name'])}</a></h2>
         <p class="description">{description}</p>
         <p class="meta">
@@ -176,7 +183,41 @@ def generate_overview_html(
 <body>
     <h1>{get_text('overview_title')}</h1>
 
+    <div class="filter-buttons">
+        <button class="filter-btn active" data-filter="all">{get_text('filter_all')}</button>
+        <button class="filter-btn" data-filter="🥩">🥩 {get_text('filter_meat')}</button>
+        <button class="filter-btn" data-filter="🐟">🐟 {get_text('filter_fish')}</button>
+        <button class="filter-btn" data-filter="🥦">🥦 {get_text('filter_vegetarian')}</button>
+        <button class="filter-btn" data-filter="🥣">🥣 {get_text('filter_sweet')}</button>
+    </div>
+
 {chr(10).join(recipe_entries)}{footer_html}
+
+    <script>
+        // Filter functionality
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const recipeCards = document.querySelectorAll('.recipe-card');
+
+        filterButtons.forEach(button => {{
+            button.addEventListener('click', () => {{
+                // Update active button
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+
+                // Get filter value
+                const filterValue = button.dataset.filter;
+
+                // Filter recipes
+                recipeCards.forEach(card => {{
+                    if (filterValue === 'all' || card.dataset.category === filterValue) {{
+                        card.classList.remove('hidden');
+                    }} else {{
+                        card.classList.add('hidden');
+                    }}
+                }});
+            }});
+        }});
+    </script>
 </body>
 </html>'''
 

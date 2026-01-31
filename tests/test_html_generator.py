@@ -318,9 +318,11 @@ class TestGenerateOverviewHtml:
             'cook_time': 20,
         })
         html = generate_overview_html(sample_recipes_data)
-        assert '<script>' not in html
-        assert '&lt;script&gt;' in html
+        # Check that recipe name with XSS is escaped
+        assert '&lt;script&gt;alert(&quot;xss&quot;)&lt;/script&gt;' in html
         assert '&amp;' in html
+        # Make sure we still have our legitimate filter script
+        assert 'filterButtons' in html
 
     def test_html_without_descriptions(self, sample_recipes_data):
         """Test HTML generation when recipes lack descriptions."""
@@ -378,3 +380,43 @@ class TestGenerateOverviewHtml:
         deployment_time = datetime(2024, 1, 15, 14, 30, 0, tzinfo=timezone.utc)
         html = generate_overview_html(sample_recipes_data, deployment_time)
         assert 'class="deployment-info"' in html
+
+    def test_filter_buttons_included(self, sample_recipes_data):
+        """Test that filter buttons are included."""
+        html = generate_overview_html(sample_recipes_data)
+        assert 'filter-buttons' in html
+        assert 'data-filter="all"' in html
+        assert 'data-filter="🥩"' in html
+        assert 'data-filter="🐟"' in html
+        assert 'data-filter="🥦"' in html
+        assert 'data-filter="🥣"' in html
+
+    def test_recipe_cards_have_category_data_attribute(self, sample_recipes_data):
+        """Test that recipe cards have category data attribute."""
+        html = generate_overview_html(sample_recipes_data)
+        assert 'data-category="🥦"' in html
+        assert 'data-category="🥩"' in html
+
+    def test_filter_javascript_included(self, sample_recipes_data):
+        """Test that filter JavaScript is included."""
+        html = generate_overview_html(sample_recipes_data)
+        assert '<script>' in html
+        assert 'filterButtons' in html
+        assert 'recipeCards' in html
+        assert 'addEventListener' in html
+
+    def test_recipes_sorted_by_category(self):
+        """Test that recipes are sorted by category."""
+        recipes_data = [
+            ('sweet.html', {'name': 'Sweet Recipe', 'category': '🥣', 'servings': 1, 'prep_time': 5, 'cook_time': 10}),
+            ('meat.html', {'name': 'Meat Recipe', 'category': '🥩', 'servings': 2, 'prep_time': 10, 'cook_time': 20}),
+            ('veg.html', {'name': 'Veg Recipe', 'category': '🥦', 'servings': 3, 'prep_time': 15, 'cook_time': 25}),
+            ('fish.html', {'name': 'Fish Recipe', 'category': '🐟', 'servings': 4, 'prep_time': 20, 'cook_time': 30}),
+        ]
+        html = generate_overview_html(recipes_data)
+        # Check order: meat (🥩) should come before fish (🐟), fish before veg (🥦), veg before sweet (🥣)
+        meat_pos = html.find('Meat Recipe')
+        fish_pos = html.find('Fish Recipe')
+        veg_pos = html.find('Veg Recipe')
+        sweet_pos = html.find('Sweet Recipe')
+        assert meat_pos < fish_pos < veg_pos < sweet_pos

@@ -19,6 +19,11 @@ TEXTS = {
         "min_total": "min gesamt",
         "view_recipe": "Rezept ansehen →",
         "last_updated": "Zuletzt aktualisiert:",
+        "filter_all": "Alle",
+        "filter_meat": "Fleisch",
+        "filter_fish": "Fisch",
+        "filter_vegetarian": "Vegetarisch",
+        "filter_sweet": "Süß",
 
         # Detail page
         "recipe_title_suffix": "Rezept",
@@ -37,6 +42,11 @@ TEXTS = {
         "min_total": "min total",
         "view_recipe": "View Recipe →",
         "last_updated": "Last updated:",
+        "filter_all": "All",
+        "filter_meat": "Meat",
+        "filter_fish": "Fish",
+        "filter_vegetarian": "Vegetarian",
+        "filter_sweet": "Sweet",
 
         # Detail page
         "recipe_title_suffix": "Recipe",
@@ -102,6 +112,30 @@ OVERVIEW_PAGE_CSS = """
 h1 {
     color: #2c5282;
 }
+.filter-buttons {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+}
+.filter-btn {
+    padding: 10px 20px;
+    border: 2px solid #2c5282;
+    background-color: white;
+    color: #2c5282;
+    border-radius: 6px;
+    font-size: 1em;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.filter-btn:hover {
+    background-color: #e2e8f0;
+}
+.filter-btn.active {
+    background-color: #2c5282;
+    color: white;
+}
 .recipe-card {
     border: 1px solid #e2e8f0;
     border-radius: 8px;
@@ -109,6 +143,9 @@ h1 {
     margin-bottom: 20px;
     background-color: #f7fafc;
     transition: box-shadow 0.2s;
+}
+.recipe-card.hidden {
+    display: none;
 }
 .recipe-card:hover {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
