@@ -69,6 +69,9 @@ def generate_recipe_detail_html(recipe: dict[str, Any]) -> str:
                     <span itemprop="text">{escape(instruction)}</span>
                 </li>''')
 
+    # Get category emoji if available
+    category = recipe.get('category', '')
+
     html = f'''<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -83,7 +86,7 @@ def generate_recipe_detail_html(recipe: dict[str, Any]) -> str:
 <body>
     <a href="index.html" class="back-button">← Back to Recipes</a>
     <div itemscope itemtype="https://schema.org/Recipe">
-        <h1 itemprop="name">{escape(recipe['name'])}</h1>
+        <h1 itemprop="name">{category} {escape(recipe['name'])}</h1>
 
         <p itemprop="description">{escape(recipe.get('description', ''))}</p>
 
@@ -137,9 +140,10 @@ def generate_overview_html(
         servings = recipe['servings']
         prep_time = recipe['prep_time']
         cook_time = recipe['cook_time']
+        category = recipe.get('category', '')
 
         recipe_entry = f'''    <div class="recipe-card">
-        <h2><a href="{escape(filename)}">{escape(recipe['name'])}</a></h2>
+        <h2><a href="{escape(filename)}">{category} {escape(recipe['name'])}</a></h2>
         <p class="description">{description}</p>
         <p class="meta">
             <span class="servings">🍽️ {servings} servings</span> •

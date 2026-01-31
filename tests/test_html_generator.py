@@ -130,6 +130,7 @@ class TestGenerateRecipeDetailHtml:
             'name': 'Chocolate Cake',
             'description': 'A rich chocolate cake',
             'author': 'Test Chef',
+            'category': '🥦',
             'servings': 8,
             'prep_time': 20,
             'cook_time': 40,
@@ -250,6 +251,7 @@ class TestGenerateOverviewHtml:
             ('recipe1.html', {
                 'name': 'Recipe One',
                 'description': 'First recipe description',
+                'category': '🥦',
                 'servings': 4,
                 'prep_time': 10,
                 'cook_time': 20,
@@ -257,6 +259,7 @@ class TestGenerateOverviewHtml:
             ('recipe2.html', {
                 'name': 'Recipe Two',
                 'description': 'Second recipe description',
+                'category': '🥩',
                 'servings': 6,
                 'prep_time': 15,
                 'cook_time': 30,
@@ -309,6 +312,7 @@ class TestGenerateOverviewHtml:
         sample_recipes_data[0] = ('test.html', {
             'name': 'Recipe with <script>alert("xss")</script>',
             'description': 'Description & special chars',
+            'category': '🥦',
             'servings': 4,
             'prep_time': 10,
             'cook_time': 20,
@@ -322,6 +326,7 @@ class TestGenerateOverviewHtml:
         """Test HTML generation when recipes lack descriptions."""
         sample_recipes_data[0] = ('test.html', {
             'name': 'Recipe Without Description',
+            'category': '🐟',
             'servings': 4,
             'prep_time': 10,
             'cook_time': 20,
@@ -345,6 +350,7 @@ class TestGenerateOverviewHtml:
             ('single.html', {
                 'name': 'Single Recipe',
                 'description': 'Only recipe',
+                'category': '🥩',
                 'servings': 2,
                 'prep_time': 5,
                 'cook_time': 10,
