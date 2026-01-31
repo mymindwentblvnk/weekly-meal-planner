@@ -49,11 +49,11 @@ jobs:
           <html>
           <head>
             <meta charset="UTF-8">
-            <meta http-equiv="refresh" content="0; url=/bring/">
+            <meta http-equiv="refresh" content="0; url=bring/">
             <title>Redirecting...</title>
           </head>
           <body>
-            <p>Redirecting to <a href="/bring/">recipes</a>...</p>
+            <p>Redirecting to <a href="bring/">recipes</a>...</p>
           </body>
           </html>
           EOF
