@@ -102,6 +102,10 @@ def generate_recipe_detail_html(recipe: dict[str, Any]) -> str:
         <span class="lang-de">🇬🇧 English</span>
         <span class="lang-en">🇩🇪 Deutsch</span>
     </button>
+    <button class="dark-mode-toggle" onclick="toggleDarkMode()">
+        <span class="light-mode-indicator">🌙</span>
+        <span class="dark-mode-indicator">☀️</span>
+    </button>
     <a href="index.html" class="back-button">{bilingual_text('back_to_recipes')}</a>
     <div itemscope itemtype="https://schema.org/Recipe">
         <h1 itemprop="name">{category} {escape(recipe['name'])}</h1>
@@ -168,10 +172,40 @@ def generate_recipe_detail_html(recipe: dict[str, Any]) -> str:
             }});
         }}
 
-        // Apply saved language preference on page load
+        // Dark mode toggle functionality
+        function toggleDarkMode() {{
+            const isDark = document.body.classList.toggle('dark-mode');
+            localStorage.setItem('darkMode', isDark ? 'enabled' : 'disabled');
+            updateDarkModeButton(isDark);
+        }}
+
+        function updateDarkModeButton(isDark) {{
+            const lightIndicator = document.querySelector('.light-mode-indicator');
+            const darkIndicator = document.querySelector('.dark-mode-indicator');
+            if (isDark) {{
+                lightIndicator.style.display = 'none';
+                darkIndicator.style.display = 'inline';
+            }} else {{
+                lightIndicator.style.display = 'inline';
+                darkIndicator.style.display = 'none';
+            }}
+        }}
+
+        // Apply saved preferences on page load
         document.addEventListener('DOMContentLoaded', function() {{
+            // Apply language
             const savedLang = localStorage.getItem('language') || 'de';
             applyLanguage(savedLang);
+
+            // Apply dark mode
+            const darkMode = localStorage.getItem('darkMode');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const isDark = darkMode === 'enabled' || (darkMode === null && prefersDark);
+
+            if (isDark) {{
+                document.body.classList.add('dark-mode');
+            }}
+            updateDarkModeButton(isDark);
         }});
     </script>
 </body>
@@ -245,6 +279,10 @@ def generate_overview_html(
         <span class="lang-de">🇬🇧 English</span>
         <span class="lang-en">🇩🇪 Deutsch</span>
     </button>
+    <button class="dark-mode-toggle" onclick="toggleDarkMode()">
+        <span class="light-mode-indicator">🌙</span>
+        <span class="dark-mode-indicator">☀️</span>
+    </button>
     <h1>{bilingual_text('overview_title')}</h1>
 
     <div class="filter-buttons">
@@ -299,10 +337,40 @@ def generate_overview_html(
             }});
         }}
 
-        // Apply saved language preference on page load
+        // Dark mode toggle functionality
+        function toggleDarkMode() {{
+            const isDark = document.body.classList.toggle('dark-mode');
+            localStorage.setItem('darkMode', isDark ? 'enabled' : 'disabled');
+            updateDarkModeButton(isDark);
+        }}
+
+        function updateDarkModeButton(isDark) {{
+            const lightIndicator = document.querySelector('.light-mode-indicator');
+            const darkIndicator = document.querySelector('.dark-mode-indicator');
+            if (isDark) {{
+                lightIndicator.style.display = 'none';
+                darkIndicator.style.display = 'inline';
+            }} else {{
+                lightIndicator.style.display = 'inline';
+                darkIndicator.style.display = 'none';
+            }}
+        }}
+
+        // Apply saved preferences on page load
         document.addEventListener('DOMContentLoaded', function() {{
+            // Apply language
             const savedLang = localStorage.getItem('language') || 'de';
             applyLanguage(savedLang);
+
+            // Apply dark mode
+            const darkMode = localStorage.getItem('darkMode');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const isDark = darkMode === 'enabled' || (darkMode === null && prefersDark);
+
+            if (isDark) {{
+                document.body.classList.add('dark-mode');
+            }}
+            updateDarkModeButton(isDark);
         }});
     </script>
 </body>
