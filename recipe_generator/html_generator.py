@@ -96,7 +96,7 @@ def generate_recipe_detail_html(recipe: dict[str, Any]) -> str:
         <time itemprop="cookTime" datetime="{format_time(recipe['cook_time'])}">Cook time: {recipe['cook_time']} minutes</time>
         <br>
         <meta itemprop="recipeYield" content="{recipe['servings']} servings">
-        <span>Yield: {recipe['servings']} servings</span>
+        <span>Servings: {recipe['servings']}</span>
 
         <h2>Ingredients:</h2>
         <ul>
