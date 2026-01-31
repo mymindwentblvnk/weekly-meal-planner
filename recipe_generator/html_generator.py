@@ -116,7 +116,7 @@ def generate_recipe_detail_html(recipe: dict[str, Any]) -> str:
 
 
 def generate_overview_html(recipes_data: list[tuple[str, dict[str, Any]]]) -> str:
-    """Generate overview page listing all recipes with Bring! widgets.
+    """Generate overview page listing all recipes.
 
     Args:
         recipes_data: List of tuples containing (filename, recipe_dict)
@@ -127,20 +127,19 @@ def generate_overview_html(recipes_data: list[tuple[str, dict[str, Any]]]) -> st
     # Generate recipe entries
     recipe_entries = []
     for filename, recipe in recipes_data:
-        # Get ingredient names only (without amounts) for display
-        ingredient_names = [escape(ing['name']) for ing in recipe['ingredients']]
-        ingredients_list = ', '.join(ingredient_names)
+        description = escape(recipe.get('description', ''))
+        servings = recipe['servings']
+        prep_time = recipe['prep_time']
+        cook_time = recipe['cook_time']
 
-        # Generate Schema.org metadata
-        schema_metadata = generate_schema_metadata(recipe)
-
-        recipe_entry = f'''    <div class="recipe-card" itemscope itemtype="https://schema.org/Recipe">
-        <h2><a href="{escape(filename)}" itemprop="name">{escape(recipe['name'])}</a></h2>
-        <p class="ingredients"><strong>Ingredients:</strong> {ingredients_list}</p>
-
-        {schema_metadata}
-
-        {generate_bring_widget()}
+        recipe_entry = f'''    <div class="recipe-card">
+        <h2><a href="{escape(filename)}">{escape(recipe['name'])}</a></h2>
+        <p class="description">{description}</p>
+        <p class="meta">
+            <span class="servings">🍽️ {servings} servings</span> •
+            <span class="time">⏱️ {prep_time + cook_time} min total</span>
+        </p>
+        <a href="{escape(filename)}" class="view-recipe-btn">View Recipe →</a>
     </div>'''
         recipe_entries.append(recipe_entry)
 
@@ -157,7 +156,7 @@ def generate_overview_html(recipes_data: list[tuple[str, dict[str, Any]]]) -> st
 </head>
 <body>
     <h1>Recipe Collection</h1>
-    <p>Browse all recipes and add ingredients to your Bring! shopping list with one click.</p>
+    <p>Browse recipes and click through to add ingredients to your Bring! shopping list.</p>
 
 {chr(10).join(recipe_entries)}
 </body>
