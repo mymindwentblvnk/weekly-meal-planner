@@ -70,14 +70,14 @@ instructions:
 
 The project includes a GitHub Actions workflow that automatically:
 1. Generates HTML files from your YAML recipes
-2. Deploys them to GitHub Pages in the `/bring` subfolder
+2. Deploys them to GitHub Pages
 
 ### Setup GitHub Pages
 
 1. Go to your repository **Settings** → **Pages**
 2. Under **Source**, select **GitHub Actions**
 3. Push changes to the `main` branch
-4. Your recipes will be available at: `https://YOUR_USERNAME.github.io/REPO_NAME/bring/`
+4. Your recipes will be available at: `https://YOUR_USERNAME.github.io/REPO_NAME/`
 
 The workflow runs automatically on every push to `main`, or can be triggered manually from the Actions tab.
 

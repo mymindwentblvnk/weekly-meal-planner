@@ -40,23 +40,8 @@ jobs:
 
       - name: Prepare GitHub Pages deployment
         run: |
-          mkdir -p _site/bring
-          cp -r output/* _site/bring/
-
-          # Create index.html that redirects to bring/
-          cat > _site/index.html << 'EOF'
-          <!DOCTYPE html>
-          <html>
-          <head>
-            <meta charset="UTF-8">
-            <meta http-equiv="refresh" content="0; url=bring/">
-            <title>Redirecting...</title>
-          </head>
-          <body>
-            <p>Redirecting to <a href="bring/">recipes</a>...</p>
-          </body>
-          </html>
-          EOF
+          mkdir -p _site
+          cp -r output/* _site/
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
