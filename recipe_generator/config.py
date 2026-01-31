@@ -87,4 +87,15 @@ h1 {
     background-color: #1e3a5f;
     text-decoration: none;
 }
+.deployment-info {
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid #e2e8f0;
+    text-align: center;
+    color: #718096;
+    font-size: 0.85em;
+}
+.deployment-info p {
+    margin: 0;
+}
 """

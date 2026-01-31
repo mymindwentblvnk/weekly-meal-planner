@@ -1,6 +1,7 @@
 """Tests for HTML generation functions."""
 
 import pytest
+from datetime import datetime, timezone
 from recipe_generator.html_generator import (
     format_time,
     generate_bring_widget,
@@ -352,3 +353,22 @@ class TestGenerateOverviewHtml:
         html = generate_overview_html(recipes_data)
         assert 'Single Recipe' in html
         assert 'href="single.html"' in html
+
+    def test_deployment_time_included(self, sample_recipes_data):
+        """Test that deployment time is included when provided."""
+        deployment_time = datetime(2024, 1, 15, 14, 30, 0, tzinfo=timezone.utc)
+        html = generate_overview_html(sample_recipes_data, deployment_time)
+        assert 'Last updated:' in html
+        assert 'January 15, 2024' in html
+
+    def test_deployment_time_not_included_when_none(self, sample_recipes_data):
+        """Test that deployment time footer is not included when None."""
+        html = generate_overview_html(sample_recipes_data, None)
+        assert 'Last updated:' not in html
+        assert '<footer class="deployment-info">' not in html
+
+    def test_deployment_time_footer_has_correct_class(self, sample_recipes_data):
+        """Test that deployment footer has correct CSS class."""
+        deployment_time = datetime(2024, 1, 15, 14, 30, 0, tzinfo=timezone.utc)
+        html = generate_overview_html(sample_recipes_data, deployment_time)
+        assert 'class="deployment-info"' in html

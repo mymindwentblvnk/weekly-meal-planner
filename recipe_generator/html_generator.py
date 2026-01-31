@@ -2,6 +2,7 @@
 
 from typing import Any
 from html import escape
+from datetime import datetime
 
 from .config import COMMON_CSS, DETAIL_PAGE_CSS, OVERVIEW_PAGE_CSS
 
@@ -115,11 +116,15 @@ def generate_recipe_detail_html(recipe: dict[str, Any]) -> str:
     return html
 
 
-def generate_overview_html(recipes_data: list[tuple[str, dict[str, Any]]]) -> str:
+def generate_overview_html(
+    recipes_data: list[tuple[str, dict[str, Any]]],
+    deployment_time: datetime | None = None
+) -> str:
     """Generate overview page listing all recipes.
 
     Args:
         recipes_data: List of tuples containing (filename, recipe_dict)
+        deployment_time: Optional datetime for when the page was deployed
 
     Returns:
         Complete HTML page as a string
@@ -143,6 +148,15 @@ def generate_overview_html(recipes_data: list[tuple[str, dict[str, Any]]]) -> st
     </div>'''
         recipe_entries.append(recipe_entry)
 
+    # Generate footer with deployment time
+    footer_html = ""
+    if deployment_time:
+        formatted_time = deployment_time.strftime("%B %d, %Y at %H:%M UTC")
+        footer_html = f'''
+    <footer class="deployment-info">
+        <p>Last updated: {formatted_time}</p>
+    </footer>'''
+
     html = f'''<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -158,7 +172,7 @@ def generate_overview_html(recipes_data: list[tuple[str, dict[str, Any]]]) -> st
     <h1>Recipe Collection</h1>
     <p>Browse recipes and click through to add ingredients to your Bring! shopping list.</p>
 
-{chr(10).join(recipe_entries)}
+{chr(10).join(recipe_entries)}{footer_html}
 </body>
 </html>'''
 
