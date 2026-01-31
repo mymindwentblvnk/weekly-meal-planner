@@ -300,23 +300,31 @@ def generate_overview_html(
         const filterButtons = document.querySelectorAll('.filter-btn');
         const recipeCards = document.querySelectorAll('.recipe-card');
 
+        function applyFilter(filterValue) {{
+            // Update active button
+            filterButtons.forEach(btn => {{
+                if (btn.dataset.filter === filterValue) {{
+                    btn.classList.add('active');
+                }} else {{
+                    btn.classList.remove('active');
+                }}
+            }});
+
+            // Filter recipes
+            recipeCards.forEach(card => {{
+                if (filterValue === 'all' || card.dataset.category === filterValue) {{
+                    card.classList.remove('hidden');
+                }} else {{
+                    card.classList.add('hidden');
+                }}
+            }});
+        }}
+
         filterButtons.forEach(button => {{
             button.addEventListener('click', () => {{
-                // Update active button
-                filterButtons.forEach(btn => btn.classList.remove('active'));
-                button.classList.add('active');
-
-                // Get filter value
                 const filterValue = button.dataset.filter;
-
-                // Filter recipes
-                recipeCards.forEach(card => {{
-                    if (filterValue === 'all' || card.dataset.category === filterValue) {{
-                        card.classList.remove('hidden');
-                    }} else {{
-                        card.classList.add('hidden');
-                    }}
-                }});
+                localStorage.setItem('recipeFilter', filterValue);
+                applyFilter(filterValue);
             }});
         }});
 
@@ -371,6 +379,10 @@ def generate_overview_html(
                 document.body.classList.add('dark-mode');
             }}
             updateDarkModeButton(isDark);
+
+            // Apply saved filter
+            const savedFilter = localStorage.getItem('recipeFilter') || 'all';
+            applyFilter(savedFilter);
         }});
     </script>
 </body>
