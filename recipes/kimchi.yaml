@@ -1,0 +1,40 @@
+name: Kimchi
+description: Traditionell fermentierter koreanischer Chinakohl mit Chili, Ingwer und Knoblauch.
+author: Traditional Korean
+category: 🥦
+servings: 8
+prep_time: 30  # minutes
+cook_time: 0   # minutes (fermentation time not included)
+
+ingredients:
+  - name: Chinakohl
+    amount: 1 kg
+  - name: Meersalz
+    amount: 60 g
+  - name: Wasser
+    amount: 1 L
+  - name: Knoblauchzehen
+    amount: 6
+  - name: Ingwer (frisch)
+    amount: 30 g
+  - name: Gochugaru (koreanisches Chilipulver)
+    amount: 40 g
+  - name: Fischsauce
+    amount: 3 EL
+  - name: Zucker
+    amount: 1 EL
+  - name: Frühlingszwiebeln
+    amount: 4
+  - name: Möhre
+    amount: 1
+  - name: Rettich (Daikon)
+    amount: 100 g
+
+instructions:
+  - Chinakohl vierteln und in mundgerechte Stücke schneiden. Mit Meersalz und Wasser in einer großen Schüssel vermengen und 2 Stunden ziehen lassen.
+  - In der Zwischenzeit Knoblauch und Ingwer fein hacken oder reiben. Mit Gochugaru, Fischsauce und Zucker zu einer Paste verrühren.
+  - Frühlingszwiebeln in Ringe schneiden, Möhre und Rettich in dünne Stifte schneiden.
+  - Chinakohl gründlich abspülen und gut abtropfen lassen. Überschüssiges Wasser ausdrücken.
+  - Chinakohl mit der Gewürzpaste, Frühlingszwiebeln, Möhren und Rettich gut vermischen. Dabei Handschuhe tragen.
+  - Kimchi fest in ein sauberes Glas drücken, sodass keine Luftblasen entstehen. Mit einem Gewicht beschweren, damit alles von Flüssigkeit bedeckt ist.
+  - Bei Raumtemperatur 3-5 Tage fermentieren lassen, dann im Kühlschrank lagern. Nach 1-2 Wochen ist das Kimchi optimal fermentiert.
