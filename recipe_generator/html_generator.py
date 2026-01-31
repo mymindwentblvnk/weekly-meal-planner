@@ -92,6 +92,8 @@ def generate_recipe_detail_html(recipe: dict[str, Any]) -> str:
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{escape(recipe['name'])} {get_text('recipe_title_suffix')}</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
     <style>
         {COMMON_CSS}
         {DETAIL_PAGE_CSS}
@@ -269,6 +271,8 @@ def generate_overview_html(
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{get_text('overview_title')}</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
     <style>
         {COMMON_CSS}
         {OVERVIEW_PAGE_CSS}
