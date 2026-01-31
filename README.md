@@ -39,6 +39,27 @@
 
 5. Open `output/index.html` in your browser to view the recipe collection
 
+### Running Tests
+
+The project includes comprehensive unit tests with 100% code coverage.
+
+Run the tests:
+```bash
+uv run pytest
+```
+
+Run tests with coverage report:
+```bash
+uv run pytest --cov=recipe_generator --cov-report=term-missing
+```
+
+The test suite includes:
+- Recipe validation tests
+- HTML generation tests
+- Configuration tests
+
+Tests are automatically run on every push via GitHub Actions.
+
 ## Recipe Format
 
 Create YAML files in the `recipes/` directory with the following structure:
@@ -91,11 +112,16 @@ bring-recipes-adder/
 │   ├── config.py               # Configuration & CSS
 │   ├── html_generator.py       # HTML generation
 │   └── validators.py           # Recipe validation
+├── tests/                       # Unit tests
+│   ├── test_config.py
+│   ├── test_html_generator.py
+│   └── test_validators.py
 ├── recipes/                     # YAML recipe files
 │   └── *.yaml
 ├── output/                      # Generated HTML (gitignored)
 ├── .github/workflows/
-│   └── deploy.yml              # GitHub Actions workflow
+│   ├── deploy.yml              # Deploy to GitHub Pages
+│   └── test.yml                # Run tests on push
 └── pyproject.toml              # Python dependencies
 ```
 
