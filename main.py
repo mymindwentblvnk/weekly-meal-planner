@@ -96,11 +96,98 @@ def generate_html(recipe: dict[str, Any]) -> str:
     return html
 
 
+def generate_overview_html(recipes_data: list[tuple[str, dict[str, Any]]]) -> str:
+    """Generate overview page listing all recipes with Bring! widgets."""
+
+    # Generate recipe entries
+    recipe_entries = []
+    for filename, recipe in recipes_data:
+        # Get ingredient names only (without amounts) for display
+        ingredient_names = [ing['name'] for ing in recipe['ingredients']]
+        ingredients_list = ', '.join(ingredient_names)
+
+        # Generate full ingredient list with Schema.org markup for Bring! widget
+        ingredients_schema = []
+        for ingredient in recipe['ingredients']:
+            # Format: amount + name (e.g., "500g flour")
+            ingredients_schema.append(f'            <meta itemprop="recipeIngredient" content="{ingredient["amount"]} {ingredient["name"]}">')
+
+        recipe_entry = f'''    <div class="recipe-card" itemscope itemtype="https://schema.org/Recipe">
+        <h2><a href="{filename}" itemprop="name">{recipe['name']}</a></h2>
+        <p class="ingredients"><strong>Ingredients:</strong> {ingredients_list}</p>
+
+        <meta itemprop="description" content="{recipe.get('description', '')}">
+        <meta itemprop="recipeYield" content="{recipe['servings']} servings">
+        <meta itemprop="prepTime" content="{format_time(recipe['prep_time'])}">
+        <meta itemprop="cookTime" content="{format_time(recipe['cook_time'])}">
+{chr(10).join(ingredients_schema)}
+
+        <script async="async" src="//platform.getbring.com/widgets/import.js"></script>
+        <div data-bring-import style="display:none">
+            <a href="https://www.getbring.com">Bring! Einkaufsliste App f&uuml;r iPhone und Android</a>
+        </div>
+    </div>'''
+        recipe_entries.append(recipe_entry)
+
+    html = f'''<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipe Collection</title>
+    <style>
+        body {{
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }}
+        h1 {{
+            color: #2c5282;
+        }}
+        .recipe-card {{
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            background-color: #f7fafc;
+        }}
+        .recipe-card h2 {{
+            margin-top: 0;
+            color: #2d3748;
+        }}
+        .recipe-card a {{
+            color: #2c5282;
+            text-decoration: none;
+        }}
+        .recipe-card a:hover {{
+            text-decoration: underline;
+        }}
+        .ingredients {{
+            color: #4a5568;
+            line-height: 1.6;
+        }}
+    </style>
+</head>
+<body>
+    <h1>Recipe Collection</h1>
+    <p>Browse all recipes and add ingredients to your Bring! shopping list with one click.</p>
+
+{chr(10).join(recipe_entries)}
+</body>
+</html>'''
+
+    return html
+
+
 def main():
     """Generate HTML files from YAML recipes."""
     recipes_dir = Path("recipes")
     output_dir = Path("output")
     output_dir.mkdir(exist_ok=True)
+
+    # Store recipes for overview generation
+    recipes_data = []
 
     # Process all YAML files in recipes directory
     for yaml_file in recipes_dir.glob("*.yaml"):
@@ -110,15 +197,27 @@ def main():
         with open(yaml_file, 'r', encoding='utf-8') as f:
             recipe = yaml.safe_load(f)
 
-        # Generate HTML
+        # Generate recipe detail HTML
         html = generate_html(recipe)
 
         # Write HTML file
-        output_file = output_dir / f"{yaml_file.stem}.html"
+        output_filename = f"{yaml_file.stem}.html"
+        output_file = output_dir / output_filename
         with open(output_file, 'w', encoding='utf-8') as f:
             f.write(html)
 
         print(f"  → Generated {output_file}")
+
+        # Store recipe data for overview
+        recipes_data.append((output_filename, recipe))
+
+    # Generate overview page
+    print("Generating overview page...")
+    overview_html = generate_overview_html(recipes_data)
+    overview_file = output_dir / "index.html"
+    with open(overview_file, 'w', encoding='utf-8') as f:
+        f.write(overview_html)
+    print(f"  → Generated {overview_file}")
 
     print("\nDone! HTML files are in the 'output' directory.")
 
