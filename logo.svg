@@ -1,34 +1,22 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
-  <!-- Background circle -->
-  <circle cx="100" cy="100" r="95" fill="#2c5282" stroke="#1e3a5f" stroke-width="3"/>
+  <defs>
+    <style>
+      .logo-text {
+        font-family: Georgia, 'Times New Roman', serif;
+        font-size: 120px;
+        font-weight: bold;
+        fill: #ffffff;
+      }
+    </style>
+  </defs>
 
-  <!-- Chef's hat -->
-  <g transform="translate(100, 100)">
-    <!-- Hat top (puffy part) -->
-    <ellipse cx="0" cy="-35" rx="50" ry="30" fill="#ffffff"/>
-    <circle cx="-30" cy="-40" r="18" fill="#ffffff"/>
-    <circle cx="30" cy="-40" r="18" fill="#ffffff"/>
-    <circle cx="0" cy="-50" r="20" fill="#ffffff"/>
+  <!-- Outer gold ring -->
+  <circle cx="100" cy="100" r="94" fill="#d4af37"/>
 
-    <!-- Hat band -->
-    <rect x="-45" y="-25" width="90" height="15" rx="3" fill="#ffffff"/>
+  <!-- Inner blue circle -->
+  <circle cx="100" cy="100" r="89" fill="#2c5282"/>
 
-    <!-- Hat bottom -->
-    <path d="M -45 -10 L -50 20 L 50 20 L 45 -10 Z" fill="#ffffff"/>
-
-    <!-- Utensils overlay -->
-    <!-- Fork -->
-    <g transform="translate(-25, 10)">
-      <rect x="-2" y="0" width="4" height="35" rx="1" fill="#2c5282"/>
-      <rect x="-6" y="0" width="2" height="15" rx="1" fill="#2c5282"/>
-      <rect x="0" y="0" width="2" height="15" rx="1" fill="#2c5282"/>
-      <rect x="4" y="0" width="2" height="15" rx="1" fill="#2c5282"/>
-    </g>
-
-    <!-- Spoon -->
-    <g transform="translate(25, 10)">
-      <rect x="-2" y="10" width="4" height="25" rx="1" fill="#2c5282"/>
-      <ellipse cx="0" cy="5" rx="5" ry="7" fill="#2c5282"/>
-    </g>
-  </g>
+  <!-- Letter R with shadow -->
+  <text x="100" y="100" text-anchor="middle" dominant-baseline="central" class="logo-text" opacity="0.3" transform="translate(2, 2)">R</text>
+  <text x="100" y="100" text-anchor="middle" dominant-baseline="central" class="logo-text">R</text>
 </svg>

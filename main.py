@@ -14,143 +14,135 @@ from recipe_generator import (
 
 
 def create_logo(size):
-    """Create a chef hat logo at the specified size."""
+    """Create a restaurant-style logo with 'R' for Rezepte."""
     # Create image with transparent background
     img = Image.new('RGBA', (size, size), (0, 0, 0, 0))
     draw = ImageDraw.Draw(img)
 
     # Colors
     bg_color = (44, 82, 130)  # #2c5282
+    border_color = (30, 58, 95)  # darker blue
     white = (255, 255, 255)
+    gold = (212, 175, 55)  # restaurant gold accent
 
-    # Draw circular background
-    margin = size * 0.05
-    draw.ellipse(
-        [margin, margin, size - margin, size - margin],
-        fill=bg_color,
-        outline=(30, 58, 95),
-        width=max(1, size // 60)
-    )
-
-    # Chef hat proportions (scaled to image size)
     center_x = size / 2
     center_y = size / 2
 
-    # Hat dimensions scaled by size
-    scale = size / 200
+    # Draw circular background with elegant border
+    margin = size * 0.03
+    border_width = max(2, size // 40)
 
-    # Hat band
-    band_width = 90 * scale
-    band_height = 15 * scale
-    band_y = center_y - 10 * scale
-    draw.rounded_rectangle(
-        [
-            center_x - band_width/2,
-            band_y,
-            center_x + band_width/2,
-            band_y + band_height
-        ],
-        radius=3 * scale,
-        fill=white
-    )
-
-    # Hat top (puffy circles)
-    puff_radius = 18 * scale
+    # Outer gold ring
     draw.ellipse(
-        [
-            center_x - puff_radius,
-            center_y - 50 * scale - puff_radius,
-            center_x + puff_radius,
-            center_y - 50 * scale + puff_radius
-        ],
-        fill=white
+        [margin, margin, size - margin, size - margin],
+        fill=gold,
+        outline=None
     )
 
-    # Side puffs
-    for x_offset in [-30 * scale, 30 * scale]:
-        draw.ellipse(
+    # Inner blue circle
+    inner_margin = margin + border_width
+    draw.ellipse(
+        [inner_margin, inner_margin, size - inner_margin, size - inner_margin],
+        fill=bg_color,
+        outline=None
+    )
+
+    # Try to use a font for the R
+    try:
+        from PIL import ImageFont
+        # Try to load a serif font - these are common on macOS
+        font_size = int(size * 0.6)
+        font = None
+
+        # Try different serif fonts
+        for font_name in ['/System/Library/Fonts/Supplemental/Times New Roman.ttf',
+                         '/System/Library/Fonts/Supplemental/Georgia.ttf',
+                         '/Library/Fonts/Times New Roman.ttf',
+                         '/System/Library/Fonts/SupplementalSerif.ttf']:
+            try:
+                font = ImageFont.truetype(font_name, font_size)
+                break
+            except:
+                continue
+
+        if font is None:
+            # Fallback to default font
+            font = ImageFont.load_default()
+            # Scale up the default font usage
+            font_size = int(size * 0.5)
+    except:
+        font = None
+        font_size = int(size * 0.5)
+
+    # Draw the letter R
+    text = "R"
+
+    if font:
+        # Get text bounding box for centering
+        bbox = draw.textbbox((0, 0), text, font=font)
+        text_width = bbox[2] - bbox[0]
+        text_height = bbox[3] - bbox[1]
+
+        # Center the text
+        text_x = center_x - text_width / 2
+        text_y = center_y - text_height / 2 - bbox[1]
+
+        # Draw text with slight shadow for depth
+        shadow_offset = max(1, size // 80)
+        draw.text((text_x + shadow_offset, text_y + shadow_offset), text, fill=(0, 0, 0, 100), font=font)
+        draw.text((text_x, text_y), text, fill=white, font=font)
+    else:
+        # Fallback: draw a simple serif-style R using shapes
+        scale = size / 200
+
+        # Vertical stem
+        stem_width = 20 * scale
+        stem_height = 100 * scale
+        draw.rectangle(
             [
-                center_x + x_offset - puff_radius,
-                center_y - 40 * scale - puff_radius,
-                center_x + x_offset + puff_radius,
-                center_y - 40 * scale + puff_radius
+                center_x - stem_width/2,
+                center_y - stem_height/2,
+                center_x + stem_width/2,
+                center_y + stem_height/2
             ],
             fill=white
         )
 
-    # Center large ellipse
-    draw.ellipse(
-        [
-            center_x - 50 * scale,
-            center_y - 60 * scale,
-            center_x + 50 * scale,
-            center_y - 10 * scale
-        ],
-        fill=white
-    )
-
-    # Hat bottom (trapezoid as polygon)
-    hat_bottom = [
-        (center_x - 45 * scale, band_y + band_height),
-        (center_x - 50 * scale, center_y + 20 * scale),
-        (center_x + 50 * scale, center_y + 20 * scale),
-        (center_x + 45 * scale, band_y + band_height),
-    ]
-    draw.polygon(hat_bottom, fill=white)
-
-    # Fork on left
-    fork_x = center_x - 25 * scale
-    fork_y = center_y + 10 * scale
-    fork_width = 4 * scale
-    fork_height = 35 * scale
-
-    # Fork handle
-    draw.rounded_rectangle(
-        [fork_x - fork_width/2, fork_y, fork_x + fork_width/2, fork_y + fork_height],
-        radius=max(1, scale),
-        fill=bg_color
-    )
-
-    # Fork tines
-    tine_width = 2 * scale
-    for x_offset in [-6 * scale, 0, 4 * scale]:
+        # Top bowl (rounded rectangle for P-like top)
+        bowl_width = 45 * scale
+        bowl_height = 45 * scale
         draw.rounded_rectangle(
             [
-                fork_x + x_offset,
-                fork_y,
-                fork_x + x_offset + tine_width,
-                fork_y + 15 * scale
+                center_x - stem_width/2,
+                center_y - stem_height/2,
+                center_x + bowl_width,
+                center_y - stem_height/2 + bowl_height
             ],
-            radius=max(1, scale),
+            radius=22 * scale,
+            fill=white
+        )
+
+        # Inner cutout for bowl
+        inner_radius = 15 * scale
+        draw.rounded_rectangle(
+            [
+                center_x + stem_width/2,
+                center_y - stem_height/2 + 7 * scale,
+                center_x + bowl_width - 7 * scale,
+                center_y - stem_height/2 + bowl_height - 7 * scale
+            ],
+            radius=inner_radius,
             fill=bg_color
         )
 
-    # Spoon on right
-    spoon_x = center_x + 25 * scale
-    spoon_y = center_y + 10 * scale
-
-    # Spoon handle
-    draw.rounded_rectangle(
-        [
-            spoon_x - fork_width/2,
-            spoon_y + 10 * scale,
-            spoon_x + fork_width/2,
-            spoon_y + 35 * scale
-        ],
-        radius=max(1, scale),
-        fill=bg_color
-    )
-
-    # Spoon bowl
-    draw.ellipse(
-        [
-            spoon_x - 5 * scale,
-            spoon_y,
-            spoon_x + 5 * scale,
-            spoon_y + 14 * scale
-        ],
-        fill=bg_color
-    )
+        # Diagonal leg
+        leg_points = [
+            (center_x + stem_width/2, center_y),
+            (center_x + bowl_width + 5 * scale, center_y + stem_height/2),
+            (center_x + bowl_width + 15 * scale, center_y + stem_height/2),
+            (center_x + stem_width/2 + 15 * scale, center_y),
+        ]
+        draw.polygon(leg_points, fill=white)
 
     return img
 
