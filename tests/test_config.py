@@ -34,8 +34,8 @@ class TestConfiguration:
         """Test that DETAIL_PAGE_CSS is a non-empty string."""
         assert isinstance(DETAIL_PAGE_CSS, str)
         assert len(DETAIL_PAGE_CSS) > 0
-        assert '.amount' in DETAIL_PAGE_CSS
-        assert '.ingredient' in DETAIL_PAGE_CSS
+        assert '.recipe-info-table' in DETAIL_PAGE_CSS
+        assert '.ingredients-table' in DETAIL_PAGE_CSS
 
     def test_overview_page_css_is_string(self):
         """Test that OVERVIEW_PAGE_CSS is a non-empty string."""

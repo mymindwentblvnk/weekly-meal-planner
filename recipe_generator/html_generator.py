@@ -54,13 +54,13 @@ def generate_recipe_detail_html(recipe: dict[str, Any]) -> str:
     Returns:
         Complete HTML page as a string
     """
-    # Generate ingredients HTML
-    ingredients_html = []
+    # Generate ingredients table rows
+    ingredients_rows = []
     for ingredient in recipe['ingredients']:
-        ingredients_html.append(f'''            <li itemprop="recipeIngredient">
-                <span class="amount">{escape(str(ingredient['amount']))}</span>
-                <span class="ingredient">{escape(ingredient['name'])}</span>
-            </li>''')
+        ingredients_rows.append(f'''            <tr itemprop="recipeIngredient">
+                <td>{escape(str(ingredient['amount']))}</td>
+                <td>{escape(ingredient['name'])}</td>
+            </tr>''')
 
     # Generate instructions HTML
     instructions_html = []
@@ -94,17 +94,33 @@ def generate_recipe_detail_html(recipe: dict[str, Any]) -> str:
             <meta itemprop="name" content="{escape(recipe.get('author', 'Unknown'))}">
         </div>
 
-        <time itemprop="prepTime" datetime="{format_time(recipe['prep_time'])}">{get_text('prep_time')} {recipe['prep_time']} {get_text('minutes')}</time>
-        <br>
-        <time itemprop="cookTime" datetime="{format_time(recipe['cook_time'])}">{get_text('cook_time')} {recipe['cook_time']} {get_text('minutes')}</time>
-        <br>
-        <meta itemprop="recipeYield" content="{recipe['servings']} servings">
-        <span>{get_text('servings_label')} {recipe['servings']}</span>
+        <table class="recipe-info-table">
+            <tr>
+                <td><time itemprop="prepTime" datetime="{format_time(recipe['prep_time'])}">{get_text('prep_time')}</time></td>
+                <td>{recipe['prep_time']} {get_text('minutes')}</td>
+            </tr>
+            <tr>
+                <td><time itemprop="cookTime" datetime="{format_time(recipe['cook_time'])}">{get_text('cook_time')}</time></td>
+                <td>{recipe['cook_time']} {get_text('minutes')}</td>
+            </tr>
+            <tr>
+                <td><meta itemprop="recipeYield" content="{recipe['servings']} servings">{get_text('servings_label')}</td>
+                <td>{recipe['servings']}</td>
+            </tr>
+        </table>
 
         <h2>{get_text('ingredients_heading')}</h2>
-        <ul>
-{chr(10).join(ingredients_html)}
-        </ul>
+        <table class="ingredients-table">
+            <thead>
+                <tr>
+                    <th>{get_text('amount_label')}</th>
+                    <th>{get_text('ingredient_label')}</th>
+                </tr>
+            </thead>
+            <tbody>
+{chr(10).join(ingredients_rows)}
+            </tbody>
+        </table>
 
         <h2>{get_text('instructions_heading')}</h2>
         <div itemprop="recipeInstructions" itemscope itemtype="https://schema.org/HowToSection">

@@ -34,6 +34,8 @@ TEXTS = {
         "servings_label": "Portionen:",
         "ingredients_heading": "Zutaten:",
         "instructions_heading": "Zubereitung:",
+        "amount_label": "Menge",
+        "ingredient_label": "Zutat",
     },
     "en": {
         # Overview page
@@ -57,6 +59,8 @@ TEXTS = {
         "servings_label": "Servings:",
         "ingredients_heading": "Ingredients:",
         "instructions_heading": "Instructions:",
+        "amount_label": "Amount",
+        "ingredient_label": "Ingredient",
     },
 }
 
@@ -90,13 +94,58 @@ DETAIL_PAGE_CSS = """
     background-color: #cbd5e0;
     text-decoration: none;
 }
-.amount {
-    font-weight: bold;
-    min-width: 80px;
-    display: inline-block;
-    color: #2c5282;
+.recipe-info-table {
+    width: 100%;
+    max-width: 500px;
+    margin: 20px 0;
+    border-collapse: collapse;
+    background-color: #f7fafc;
+    border-radius: 8px;
+    overflow: hidden;
 }
-.ingredient {
+.recipe-info-table td {
+    padding: 12px 16px;
+    border-bottom: 1px solid #e2e8f0;
+}
+.recipe-info-table td:first-child {
+    font-weight: 600;
+    color: #2d3748;
+    width: 50%;
+}
+.recipe-info-table td:last-child {
+    color: #4a5568;
+}
+.recipe-info-table tr:last-child td {
+    border-bottom: none;
+}
+.ingredients-table {
+    width: 100%;
+    margin: 20px 0;
+    border-collapse: collapse;
+    background-color: #f7fafc;
+    border-radius: 8px;
+    overflow: hidden;
+}
+.ingredients-table th {
+    background-color: #2c5282;
+    color: white;
+    padding: 12px 16px;
+    text-align: left;
+    font-weight: 600;
+}
+.ingredients-table td {
+    padding: 10px 16px;
+    border-bottom: 1px solid #e2e8f0;
+}
+.ingredients-table tr:last-child td {
+    border-bottom: none;
+}
+.ingredients-table td:first-child {
+    font-weight: 600;
+    color: #2c5282;
+    width: 30%;
+}
+.ingredients-table td:last-child {
     color: #333;
 }
 ul {
