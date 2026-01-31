@@ -1,0 +1,44 @@
+name: Gulasch nach Oma Magda
+description: Herzhaftes Rindergulasch mit Paprika und Zwiebeln in würziger Sauce nach Omas traditionellem Rezept.
+author: Chefkoch
+category: 🥩
+servings: 4
+prep_time: 20  # minutes
+cook_time: 120  # minutes
+
+ingredients:
+  - name: Rindergulasch
+    amount: 800 g
+  - name: Zwiebeln
+    amount: 3
+  - name: Knoblauchzehen
+    amount: 2
+  - name: Paprikaschoten (rot)
+    amount: 2
+  - name: Tomatenmark
+    amount: 2 EL
+  - name: Paprikapulver (edelsüß)
+    amount: 2 EL
+  - name: Kümmel (gemahlen)
+    amount: 1 TL
+  - name: Rinderbrühe
+    amount: 500 ml
+  - name: Rotwein (trocken)
+    amount: 150 ml
+  - name: Lorbeerblätter
+    amount: 2
+  - name: Salz
+    amount: nach Geschmack
+  - name: Pfeffer
+    amount: nach Geschmack
+  - name: Öl zum Anbraten
+    amount: 2 EL
+
+instructions:
+  - Rindfleisch in mundgerechte Würfel schneiden und trocken tupfen. Zwiebeln schälen und würfeln, Knoblauch fein hacken, Paprika in Streifen schneiden.
+  - Öl in einem großen Topf oder Bräter erhitzen. Fleischwürfel portionsweise scharf anbraten, bis sie rundherum Farbe bekommen. Herausnehmen und beiseite stellen.
+  - Zwiebeln und Knoblauch im gleichen Topf glasig dünsten. Tomatenmark zugeben und kurz mitrösten.
+  - Paprikapulver einrühren und sofort mit Rotwein und Rinderbrühe ablöschen, damit das Paprikapulver nicht verbrennt.
+  - Fleisch zurück in den Topf geben. Paprikastreifen, Lorbeerblätter und Kümmel hinzufügen. Mit Salz und Pfeffer würzen.
+  - Zugedeckt bei niedriger Hitze etwa 2 Stunden schmoren lassen, bis das Fleisch butterzart ist. Gelegentlich umrühren und bei Bedarf etwas Flüssigkeit nachgießen.
+  - Zum Schluss Lorbeerblätter entfernen, mit Salz und Pfeffer abschmecken. Klassisch mit Spätzle, Kartoffeln oder Brot servieren.
