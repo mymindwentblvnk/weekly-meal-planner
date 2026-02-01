@@ -216,6 +216,15 @@ escape(str(ingredient['amount']))
 6. **Multiple languages**: i18n support for recipe text
 7. **Theme customization**: User-configurable color schemes
 
+## Development Workflow
+
+### Pre-Commit Rules
+
+**ALWAYS run `/fill-descriptions` before committing**
+- This ensures all recipe descriptions are filled in before code is committed
+- Prevents recipes with "tbd." descriptions from being deployed
+- Should be run as the last step before any git commit
+
 ## Key Takeaways
 
 1. **Start simple, refactor when needed**: Single file → modules → package

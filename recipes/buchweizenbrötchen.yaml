@@ -1,0 +1,31 @@
+name: Buchweizenbrötchen
+description: tbd.
+author: VitaMoment
+category: 🍞
+servings: 1
+prep_time: 30  # minutes
+cook_time: 25  # minutes
+
+ingredients:
+  - name: Eier
+    amount: 3
+  - name: Frischkäse (fettreduziert)
+    amount: 200 g
+  - name: Buchweizenmehl
+    amount: 150 g
+  - name: Mandelmehl
+    amount: 75 g
+  - name: Sesam
+    amount: 30 g
+  - name: Backpulver
+    amount: 10 g
+  - name: Flohsamenschalen (gemahlen)
+    amount: 5 g
+
+instructions:
+  - Backofen auf 190 °C Ober-/Unterhitze vorheizen.
+  - Eier in einer großen Schüssel verquirlen. Frischkäse unterrühren.
+  - Alle trockenen Zutaten mischen und ebenfalls unterrühren.
+  - Schüssel mit einem sauberen Geschirrtuch abdecken und etwa 20 Minuten ruhen lassen.
+  - Aus dem Teig mit angefeuchteten Händen kleine Brötchen formen und auf mit Backpapier ausgelegtes Backblech legen. Mit Sesam bestreuen.
+  - Rund 20-25 Minuten im Backofen backen.
