@@ -292,13 +292,13 @@ def generate_overview_html(
     <h1>{bilingual_text('overview_title')}</h1>
 
     <div class="filter-buttons">
-        <button class="filter-btn active" data-filter="all">{bilingual_text('filter_all')}</button>
-        <button class="filter-btn" data-filter="🥩">🥩 {bilingual_text('filter_meat')}</button>
-        <button class="filter-btn" data-filter="🐟">🐟 {bilingual_text('filter_fish')}</button>
-        <button class="filter-btn" data-filter="🥦">🥦 {bilingual_text('filter_vegetarian')}</button>
-        <button class="filter-btn" data-filter="🍞">🍞 {bilingual_text('filter_bread')}</button>
-        <button class="filter-btn" data-filter="🥣">🥣 {bilingual_text('filter_sweet')}</button>
-        <button class="filter-btn" data-filter="fast">⚡ {bilingual_text('filter_fast')}</button>
+        <button class="filter-btn active" data-filter="all" data-filter-type="category">{bilingual_text('filter_all')}</button>
+        <button class="filter-btn" data-filter="🥩" data-filter-type="category">🥩 {bilingual_text('filter_meat')}</button>
+        <button class="filter-btn" data-filter="🐟" data-filter-type="category">🐟 {bilingual_text('filter_fish')}</button>
+        <button class="filter-btn" data-filter="🥦" data-filter-type="category">🥦 {bilingual_text('filter_vegetarian')}</button>
+        <button class="filter-btn" data-filter="🍞" data-filter-type="category">🍞 {bilingual_text('filter_bread')}</button>
+        <button class="filter-btn" data-filter="🥣" data-filter-type="category">🥣 {bilingual_text('filter_sweet')}</button>
+        <button class="filter-btn" data-filter="fast" data-filter-type="time">⚡ {bilingual_text('filter_fast')}</button>
     </div>
 
 {chr(10).join(recipe_entries)}{footer_html}
@@ -308,33 +308,38 @@ def generate_overview_html(
         const filterButtons = document.querySelectorAll('.filter-btn');
         const recipeCards = document.querySelectorAll('.recipe-card');
 
-        function applyFilter(filterValue) {{
-            // Update active button
-            filterButtons.forEach(btn => {{
-                if (btn.dataset.filter === filterValue) {{
-                    btn.classList.add('active');
+        let categoryFilter = 'all';
+        let timeFilterActive = false;
+
+        function applyFilters() {{
+            recipeCards.forEach(card => {{
+                // Check category filter
+                const matchesCategory = categoryFilter === 'all' || card.dataset.category === categoryFilter;
+
+                // Check time filter
+                const matchesTime = !timeFilterActive || card.dataset.time === 'fast';
+
+                // Show card only if it matches both filters
+                if (matchesCategory && matchesTime) {{
+                    card.classList.remove('hidden');
                 }} else {{
-                    btn.classList.remove('active');
+                    card.classList.add('hidden');
                 }}
             }});
 
-            // Filter recipes
-            recipeCards.forEach(card => {{
-                if (filterValue === 'all') {{
-                    card.classList.remove('hidden');
-                }} else if (filterValue === 'fast') {{
-                    // Filter by time
-                    if (card.dataset.time === 'fast') {{
-                        card.classList.remove('hidden');
+            // Update button states
+            filterButtons.forEach(btn => {{
+                if (btn.dataset.filterType === 'category') {{
+                    if (btn.dataset.filter === categoryFilter) {{
+                        btn.classList.add('active');
                     }} else {{
-                        card.classList.add('hidden');
+                        btn.classList.remove('active');
                     }}
-                }} else {{
-                    // Filter by category
-                    if (card.dataset.category === filterValue) {{
-                        card.classList.remove('hidden');
+                }} else if (btn.dataset.filterType === 'time') {{
+                    if (timeFilterActive) {{
+                        btn.classList.add('active');
                     }} else {{
-                        card.classList.add('hidden');
+                        btn.classList.remove('active');
                     }}
                 }}
             }});
@@ -342,9 +347,14 @@ def generate_overview_html(
 
         filterButtons.forEach(button => {{
             button.addEventListener('click', () => {{
-                const filterValue = button.dataset.filter;
-                localStorage.setItem('recipeFilter', filterValue);
-                applyFilter(filterValue);
+                if (button.dataset.filterType === 'category') {{
+                    categoryFilter = button.dataset.filter;
+                    localStorage.setItem('recipeCategoryFilter', categoryFilter);
+                }} else if (button.dataset.filterType === 'time') {{
+                    timeFilterActive = !timeFilterActive;
+                    localStorage.setItem('recipeTimeFilter', timeFilterActive ? 'active' : 'inactive');
+                }}
+                applyFilters();
             }});
         }});
 
@@ -400,9 +410,10 @@ def generate_overview_html(
             }}
             updateDarkModeButton(isDark);
 
-            // Apply saved filter
-            const savedFilter = localStorage.getItem('recipeFilter') || 'all';
-            applyFilter(savedFilter);
+            // Apply saved filters
+            categoryFilter = localStorage.getItem('recipeCategoryFilter') || 'all';
+            timeFilterActive = localStorage.getItem('recipeTimeFilter') === 'active';
+            applyFilters();
         }});
     </script>
 </body>
