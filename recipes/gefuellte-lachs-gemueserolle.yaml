@@ -1,0 +1,28 @@
+name: Falscher Toast mit Feta
+description: Getoastete Süßkartoffelscheiben mit cremigem Erbsen-Avocado-Aufstrich und Feta.
+author: VitaMoment
+category: 🥦
+servings: 1
+prep_time: 20  # minutes
+cook_time: 15  # minutes
+
+ingredients:
+  - name: Süßkartoffel
+    amount: 250 g
+  - name: Erbsen (tiefgekühlt)
+    amount: 50 g
+  - name: Avocado
+    amount: 65 g
+  - name: Getrocknete Tomaten (ohne Öl)
+    amount: 30 g
+  - name: Zitronensaft
+    amount: 8 ml
+  - name: Feta (fettreduziert)
+    amount: 90 g
+
+instructions:
+  - Süßkartoffel schälen und in Scheiben schneiden und mehrfach toasten (alternativ im Backofen garen).
+  - Erbsen im kochenden, gesalzenen Wasser kurz garen.
+  - Avocado halbieren, das Fruchtfleisch lösen und mit den gegarten Erbsen in einem hohen Gefäß pürieren.
+  - Getrocknete Tomaten klein schneiden, zu dem Püree geben und mit Zitronensaft, Salz, Pfeffer, Koriander nach Geschmack würzen.
+  - Süßkartoffelscheiben aus dem Toaster nehmen, mit Erbsen-Avocado-Püree belegen und mit Fetabröseln bestreuen.

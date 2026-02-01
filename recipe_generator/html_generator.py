@@ -348,7 +348,12 @@ def generate_overview_html(
         filterButtons.forEach(button => {{
             button.addEventListener('click', () => {{
                 if (button.dataset.filterType === 'category') {{
-                    categoryFilter = button.dataset.filter;
+                    // Toggle category filter: if clicking active category, go back to 'all'
+                    if (categoryFilter === button.dataset.filter && categoryFilter !== 'all') {{
+                        categoryFilter = 'all';
+                    }} else {{
+                        categoryFilter = button.dataset.filter;
+                    }}
                     localStorage.setItem('recipeCategoryFilter', categoryFilter);
                 }} else if (button.dataset.filterType === 'time') {{
                     timeFilterActive = !timeFilterActive;
