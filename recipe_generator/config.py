@@ -572,6 +572,21 @@ h1 {
         grid-template-columns: 1fr 1fr;
     }
 }
+
+/* Responsive: Prevent h1 overlap with top-nav buttons on small screens */
+@media (max-width: 768px) {
+    h1 {
+        padding-right: 180px; /* Account for emoji buttons width */
+        font-size: 2em; /* Slightly smaller on small screens */
+    }
+}
+
+@media (max-width: 480px) {
+    h1 {
+        padding-right: 180px;
+        font-size: 1.6em; /* Even smaller on very small screens */
+    }
+}
 .filter-btn {
     padding: 10px 20px;
     border: 2px solid var(--primary-color);
