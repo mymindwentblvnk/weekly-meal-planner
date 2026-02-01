@@ -209,11 +209,104 @@ body {
     gap: 10px;
 }
 
-.toggle-indicator {
+/* iOS-style toggle switches */
+.toggle-switch {
+    position: relative;
+    width: 56px;
+    height: 28px;
     margin-left: auto;
-    color: var(--primary-color);
-    font-weight: bold;
+    flex-shrink: 0;
+}
+
+.toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.toggle-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: 0.3s;
+    border-radius: 28px;
+}
+
+.toggle-slider:before {
+    position: absolute;
+    content: "";
+    height: 22px;
+    width: 22px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: 0.3s;
+    border-radius: 50%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+input:checked + .toggle-slider {
+    background-color: var(--primary-color);
+}
+
+input:checked + .toggle-slider:before {
+    transform: translateX(28px);
+}
+
+/* Language toggle with flags */
+.language-toggle-switch {
+    position: relative;
+    width: 64px;
+    height: 32px;
+    margin-left: auto;
+    flex-shrink: 0;
+    background-color: var(--border-color);
+    border-radius: 32px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 4px;
+    transition: 0.3s;
+}
+
+.language-toggle-switch .flag {
     font-size: 1.2em;
+    z-index: 1;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.3s;
+}
+
+.language-toggle-switch .flag.inactive {
+    opacity: 0.4;
+}
+
+.language-toggle-switch .flag.active {
+    opacity: 1;
+}
+
+.language-toggle-switch:before {
+    content: "";
+    position: absolute;
+    height: 26px;
+    width: 26px;
+    left: 3px;
+    background-color: white;
+    transition: 0.3s;
+    border-radius: 50%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.language-toggle-switch.active:before {
+    transform: translateX(32px);
 }
 
 
