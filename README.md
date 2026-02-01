@@ -68,6 +68,7 @@ Create YAML files in the `recipes/` directory with the following structure:
 name: Simple Pasta Dough
 description: A basic pasta dough recipe with just three ingredients.
 author: Your Name
+category: 🍞  # See allowed categories below
 servings: 4
 prep_time: 15  # minutes
 cook_time: 0   # minutes
@@ -86,6 +87,16 @@ instructions:
   - Mix until a dough forms, then knead for 10 minutes.
   - Rest for 30 minutes before rolling out.
 ```
+
+### Allowed Categories
+
+Use one of the following emoji categories for your recipe:
+
+- `🍞` - Bread & Baked Goods
+- `🥩` - Meat Dishes
+- `🐟` - Fish & Seafood
+- `🥦` - Vegetable Dishes
+- `🥣` - Sweet Breakfast (Porridge, etc.)
 
 ## GitHub Pages Deployment
 
