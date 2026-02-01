@@ -1,32 +1,30 @@
-name: Chiasamenbrot
-description: Proteinreiches Brot ohne Weizen mit Chia, Leinsamen und Mandeln.
+name: Sesam-Rucola-Brot
+description: Herzhaftes Brot mit Rucola, Haferflocken und Sesam.
 author: VitaMoment
 category: 🍞
 servings: 1
 prep_time: 10  # minutes
-cook_time: 60  # minutes
+cook_time: 50  # minutes
 
 ingredients:
-  - name: Magerquark
-    amount: 300 g
-  - name: Eier
-    amount: 4
-  - name: Chiasamen
-    amount: 100 g
-  - name: Leinsamen (geschrotet)
-    amount: 30 g
-  - name: Mandeln (gemahlen)
-    amount: 70 g
-  - name: Backpulver
-    amount: 12 g
-  - name: Chiliflocken
-    amount: 1 Prise
-  - name: Haferflocken (zum Bestreuen)
+  - name: Rucola
+    amount: 60 g
+  - name: Getrocknete Tomaten (ohne Öl)
     amount: 20 g
+  - name: Haferflocken
+    amount: 500 g
+  - name: Quark (Fettanteil 20%)
+    amount: 500 g
+  - name: Backpulver
+    amount: 25 g
+  - name: Eier
+    amount: 3
+  - name: Sesam
+    amount: 40 g
 
 instructions:
   - Backofen auf 180 °C Ober-/Unterhitze vorheizen.
-  - Magerquark mit den Eiern in einer großen Schüssel cremig rühren.
-  - Chiasamen, Leinsamen, Mandeln, Backpulver, Salz, Pfeffer und Chiliflocken hinzufügen und gut vermengen.
-  - In eine mit Backpapier ausgekleidete Kastenform füllen, etwas Wasser aufpinseln und nach Belieben mit Haferflocken bestreuen.
-  - Für etwa 60 Minuten im Ofen backen.
+  - Rucola und getrocknete Tomaten klein schneiden.
+  - Haferflocken, Quark, Backpulver, Eier, Rucola, Tomaten, Salz und Pfeffer zu einem Teig vermengen.
+  - Brotlaib formen, mit etwas Wasser bestreichen und Sesam bestreuen.
+  - Brot auf ein mit Backpapier ausgelegtes Backblech legen und für etwa 50 Minuten backen.

@@ -1,5 +1,0 @@
-{
-  "name": "fill-descriptions",
-  "description": "Generate descriptions for all recipes that have 'tbd.' as description",
-  "prompt": "Find all recipe YAML files in the recipes/ directory that have 'description: tbd.' in them.\n\nFor each recipe with tbd. description:\n1. Read the full recipe YAML file\n2. Analyze the recipe name, ingredients, and instructions\n3. Generate a concise, appetizing German description (1-2 sentences) that:\n   - Highlights the main ingredients (skip common ones like salt, pepper, oil, eggs, onions)\n   - Describes what makes this recipe special or appealing\n   - Matches the style of existing recipe descriptions\n4. Replace 'description: tbd.' with the generated description\n5. Save the updated file\n\nAfter updating all recipes:\n- Regenerate the HTML files using: uv run python main.py\n- Show a summary of which recipes were updated\n- Commit all changes with message: 'Generate descriptions for recipes with tbd.'\n- Push to remote\n\nBe creative but keep descriptions authentic and appetizing!"
-}

@@ -1,28 +1,36 @@
-name: Falscher Toast mit Feta
-description: Getoastete Süßkartoffelscheiben mit cremigem Erbsen-Avocado-Aufstrich und Feta.
+name: Gefüllte Lachs-Gemüserolle
+description: Gerollter Gemüseteig gefüllt mit Räucherlachs, Frischkäse und frischen Kräutern.
 author: VitaMoment
 category: 🥦
 servings: 1
-prep_time: 20  # minutes
-cook_time: 15  # minutes
+prep_time: 15  # minutes
+cook_time: 40  # minutes
 
 ingredients:
-  - name: Süßkartoffel
-    amount: 250 g
-  - name: Erbsen (tiefgekühlt)
-    amount: 50 g
-  - name: Avocado
-    amount: 65 g
-  - name: Getrocknete Tomaten (ohne Öl)
-    amount: 30 g
-  - name: Zitronensaft
-    amount: 8 ml
-  - name: Feta (fettreduziert)
-    amount: 90 g
+  - name: Zucchini
+    amount: 200 g
+  - name: Möhren
+    amount: 200 g
+  - name: Zwiebel
+    amount: 1
+  - name: Eier
+    amount: 3
+  - name: Frischkäse mit Kräutern (Doppelrahmstufe)
+    amount: 150 g
+  - name: Wildräucherlachs
+    amount: 200 g
+  - name: Dill
+    amount: 1 EL
+  - name: Schnittlauch (getrocknet)
+    amount: 1 EL
 
 instructions:
-  - Süßkartoffel schälen und in Scheiben schneiden und mehrfach toasten (alternativ im Backofen garen).
-  - Erbsen im kochenden, gesalzenen Wasser kurz garen.
-  - Avocado halbieren, das Fruchtfleisch lösen und mit den gegarten Erbsen in einem hohen Gefäß pürieren.
-  - Getrocknete Tomaten klein schneiden, zu dem Püree geben und mit Zitronensaft, Salz, Pfeffer, Koriander nach Geschmack würzen.
-  - Süßkartoffelscheiben aus dem Toaster nehmen, mit Erbsen-Avocado-Püree belegen und mit Fetabröseln bestreuen.
+  - Backofen auf 180 °C Umluft vorheizen.
+  - Zucchini und Möhren schälen, reiben und salzen, kurz ziehen lassen und anschließend die Flüssigkeit mit einem Küchentuch ausdrücken.
+  - Zwiebel schälen und würfeln.
+  - Eier zu der Gemüsemasse geben und alles gründlich vermengen.
+  - Die Masse gleichmäßig in rechteckiger Form auf einem mit Backpapier ausgelegten Backblech verteilen und für rund 30 Minuten backen.
+  - Den gebackenen Teig auf dem Backpapier aus dem Ofen nehmen, einige Minuten abkühlen lassen und vorsichtig vom Backpapier lösen.
+  - Anschließend mit Frischkäse bestreichen und Wild-räucherlachs, Dill und Schnittlauch darauf verteilen.
+  - Den belegten Teig vorsichtig zusammenrollen, in 2 Portionen teilen und eine davon genießen.
+  - Die 2. Portion lässt sich perfekt in Frischhaltefolie im Kühlschrank für den nächsten Tag aufbewahren.
