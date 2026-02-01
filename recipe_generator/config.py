@@ -23,6 +23,7 @@ TEXTS = {
         "filter_meat": "Fleisch",
         "filter_fish": "Fisch",
         "filter_vegetarian": "Vegetarisch",
+        "filter_bread": "Brot",
         "filter_sweet": "Süß",
         "filter_fast": "Schnell (≤30 min)",
 
@@ -49,6 +50,7 @@ TEXTS = {
         "filter_meat": "Meat",
         "filter_fish": "Fish",
         "filter_vegetarian": "Vegetarian",
+        "filter_bread": "Bread",
         "filter_sweet": "Sweet",
         "filter_fast": "Fast (≤30 min)",
 

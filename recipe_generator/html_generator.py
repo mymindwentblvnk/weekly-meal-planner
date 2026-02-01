@@ -230,7 +230,7 @@ def generate_overview_html(
         Complete HTML page as a string
     """
     # Sort recipes by category
-    category_order = {'🥩': 0, '🐟': 1, '🥦': 2, '🥣': 3}
+    category_order = {'🥩': 0, '🐟': 1, '🥦': 2, '🍞': 3, '🥣': 4}
     sorted_recipes = sorted(
         recipes_data,
         key=lambda x: category_order.get(x[1].get('category', ''), 999)
@@ -296,6 +296,7 @@ def generate_overview_html(
         <button class="filter-btn" data-filter="🥩">🥩 {bilingual_text('filter_meat')}</button>
         <button class="filter-btn" data-filter="🐟">🐟 {bilingual_text('filter_fish')}</button>
         <button class="filter-btn" data-filter="🥦">🥦 {bilingual_text('filter_vegetarian')}</button>
+        <button class="filter-btn" data-filter="🍞">🍞 {bilingual_text('filter_bread')}</button>
         <button class="filter-btn" data-filter="🥣">🥣 {bilingual_text('filter_sweet')}</button>
         <button class="filter-btn" data-filter="fast">⚡ {bilingual_text('filter_fast')}</button>
     </div>
