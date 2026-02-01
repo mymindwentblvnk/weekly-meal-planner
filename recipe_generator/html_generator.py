@@ -108,10 +108,13 @@ def generate_recipe_detail_html(recipe: dict[str, Any]) -> str:
             </div>
             <div class="burger-item" onclick="toggleLanguage()">
                 <span>{bilingual_text('menu_language')}</span>
-                <div class="language-toggle-switch" id="languageToggle">
-                    <span class="flag flag-de">🇩🇪</span>
-                    <span class="flag flag-en">🇬🇧</span>
-                </div>
+                <label class="language-toggle-switch">
+                    <input type="checkbox" id="languageToggle">
+                    <span class="language-slider">
+                        <span class="flag flag-de">🇩🇪</span>
+                        <span class="flag flag-en">🇬🇧</span>
+                    </span>
+                </label>
             </div>
             <div class="burger-item" onclick="toggleDarkMode()">
                 <span class="light-mode-text">{bilingual_text('menu_dark_mode')}</span>
@@ -236,18 +239,23 @@ def generate_recipe_detail_html(recipe: dict[str, Any]) -> str:
             // Update language toggle switch
             const languageToggle = document.getElementById('languageToggle');
             if (languageToggle) {{
-                if (lang === 'en') {{
-                    languageToggle.classList.add('active');
-                    languageToggle.querySelector('.flag-de').classList.add('inactive');
-                    languageToggle.querySelector('.flag-de').classList.remove('active');
-                    languageToggle.querySelector('.flag-en').classList.add('active');
-                    languageToggle.querySelector('.flag-en').classList.remove('inactive');
-                }} else {{
-                    languageToggle.classList.remove('active');
-                    languageToggle.querySelector('.flag-de').classList.add('active');
-                    languageToggle.querySelector('.flag-de').classList.remove('inactive');
-                    languageToggle.querySelector('.flag-en').classList.add('inactive');
-                    languageToggle.querySelector('.flag-en').classList.remove('active');
+                languageToggle.checked = (lang === 'en');
+
+                // Update icon states
+                const deFlag = languageToggle.parentElement.querySelector('.flag-de');
+                const enFlag = languageToggle.parentElement.querySelector('.flag-en');
+                if (deFlag && enFlag) {{
+                    if (lang === 'en') {{
+                        deFlag.classList.add('inactive');
+                        deFlag.classList.remove('active');
+                        enFlag.classList.add('active');
+                        enFlag.classList.remove('inactive');
+                    }} else {{
+                        deFlag.classList.add('active');
+                        deFlag.classList.remove('inactive');
+                        enFlag.classList.add('inactive');
+                        enFlag.classList.remove('active');
+                    }}
                 }}
             }}
         }}
@@ -387,10 +395,13 @@ def generate_overview_html(
             </div>
             <div class="burger-item" onclick="toggleLanguage()">
                 <span>{bilingual_text('menu_language')}</span>
-                <div class="language-toggle-switch" id="languageToggle">
-                    <span class="flag flag-de">🇩🇪</span>
-                    <span class="flag flag-en">🇬🇧</span>
-                </div>
+                <label class="language-toggle-switch">
+                    <input type="checkbox" id="languageToggle">
+                    <span class="language-slider">
+                        <span class="flag flag-de">🇩🇪</span>
+                        <span class="flag flag-en">🇬🇧</span>
+                    </span>
+                </label>
             </div>
             <div class="burger-item" onclick="toggleDarkMode()">
                 <span class="light-mode-text">{bilingual_text('menu_dark_mode')}</span>
@@ -516,18 +527,23 @@ def generate_overview_html(
             // Update language toggle switch
             const languageToggle = document.getElementById('languageToggle');
             if (languageToggle) {{
-                if (lang === 'en') {{
-                    languageToggle.classList.add('active');
-                    languageToggle.querySelector('.flag-de').classList.add('inactive');
-                    languageToggle.querySelector('.flag-de').classList.remove('active');
-                    languageToggle.querySelector('.flag-en').classList.add('active');
-                    languageToggle.querySelector('.flag-en').classList.remove('inactive');
-                }} else {{
-                    languageToggle.classList.remove('active');
-                    languageToggle.querySelector('.flag-de').classList.add('active');
-                    languageToggle.querySelector('.flag-de').classList.remove('inactive');
-                    languageToggle.querySelector('.flag-en').classList.add('inactive');
-                    languageToggle.querySelector('.flag-en').classList.remove('active');
+                languageToggle.checked = (lang === 'en');
+
+                // Update icon states
+                const deFlag = languageToggle.parentElement.querySelector('.flag-de');
+                const enFlag = languageToggle.parentElement.querySelector('.flag-en');
+                if (deFlag && enFlag) {{
+                    if (lang === 'en') {{
+                        deFlag.classList.add('inactive');
+                        deFlag.classList.remove('active');
+                        enFlag.classList.add('active');
+                        enFlag.classList.remove('inactive');
+                    }} else {{
+                        deFlag.classList.add('active');
+                        deFlag.classList.remove('inactive');
+                        enFlag.classList.add('inactive');
+                        enFlag.classList.remove('active');
+                    }}
                 }}
             }}
         }}
@@ -706,10 +722,13 @@ def generate_stats_html(recipes_data: list[tuple[str, dict[str, Any]]]) -> str:
             </div>
             <div class="burger-item" onclick="toggleLanguage()">
                 <span>{bilingual_text('menu_language')}</span>
-                <div class="language-toggle-switch" id="languageToggle">
-                    <span class="flag flag-de">🇩🇪</span>
-                    <span class="flag flag-en">🇬🇧</span>
-                </div>
+                <label class="language-toggle-switch">
+                    <input type="checkbox" id="languageToggle">
+                    <span class="language-slider">
+                        <span class="flag flag-de">🇩🇪</span>
+                        <span class="flag flag-en">🇬🇧</span>
+                    </span>
+                </label>
             </div>
             <div class="burger-item" onclick="toggleDarkMode()">
                 <span class="light-mode-text">{bilingual_text('menu_dark_mode')}</span>
@@ -828,18 +847,23 @@ def generate_stats_html(recipes_data: list[tuple[str, dict[str, Any]]]) -> str:
             // Update language toggle switch
             const languageToggle = document.getElementById('languageToggle');
             if (languageToggle) {{
-                if (lang === 'en') {{
-                    languageToggle.classList.add('active');
-                    languageToggle.querySelector('.flag-de').classList.add('inactive');
-                    languageToggle.querySelector('.flag-de').classList.remove('active');
-                    languageToggle.querySelector('.flag-en').classList.add('active');
-                    languageToggle.querySelector('.flag-en').classList.remove('inactive');
-                }} else {{
-                    languageToggle.classList.remove('active');
-                    languageToggle.querySelector('.flag-de').classList.add('active');
-                    languageToggle.querySelector('.flag-de').classList.remove('inactive');
-                    languageToggle.querySelector('.flag-en').classList.add('inactive');
-                    languageToggle.querySelector('.flag-en').classList.remove('active');
+                languageToggle.checked = (lang === 'en');
+
+                // Update icon states
+                const deFlag = languageToggle.parentElement.querySelector('.flag-de');
+                const enFlag = languageToggle.parentElement.querySelector('.flag-en');
+                if (deFlag && enFlag) {{
+                    if (lang === 'en') {{
+                        deFlag.classList.add('inactive');
+                        deFlag.classList.remove('active');
+                        enFlag.classList.add('active');
+                        enFlag.classList.remove('inactive');
+                    }} else {{
+                        deFlag.classList.add('active');
+                        deFlag.classList.remove('inactive');
+                        enFlag.classList.add('inactive');
+                        enFlag.classList.remove('active');
+                    }}
                 }}
             }}
         }}
