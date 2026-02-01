@@ -24,6 +24,7 @@ TEXTS = {
         "filter_fish": "Fisch",
         "filter_vegetarian": "Vegetarisch",
         "filter_sweet": "Süß",
+        "filter_fast": "Schnell (≤30 min)",
 
         # Detail page
         "recipe_title_suffix": "Rezept",
@@ -49,6 +50,7 @@ TEXTS = {
         "filter_fish": "Fish",
         "filter_vegetarian": "Vegetarian",
         "filter_sweet": "Sweet",
+        "filter_fast": "Fast (≤30 min)",
 
         # Detail page
         "recipe_title_suffix": "Recipe",

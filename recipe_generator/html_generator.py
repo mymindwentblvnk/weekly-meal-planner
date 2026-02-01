@@ -243,14 +243,16 @@ def generate_overview_html(
         servings = recipe['servings']
         prep_time = recipe['prep_time']
         cook_time = recipe['cook_time']
+        total_time = prep_time + cook_time
         category = recipe.get('category', '')
+        time_category = 'fast' if total_time <= 30 else 'slow'
 
-        recipe_entry = f'''    <div class="recipe-card" data-category="{category}">
+        recipe_entry = f'''    <div class="recipe-card" data-category="{category}" data-time="{time_category}">
         <h2><a href="{escape(filename)}">{category} {escape(recipe['name'])}</a></h2>
         <p class="description">{description}</p>
         <p class="meta">
             <span class="servings">🍽️ {servings} {bilingual_text('servings')}</span> •
-            <span class="time">⏱️ {prep_time + cook_time} {bilingual_text('min_total')}</span>
+            <span class="time">⏱️ {total_time} {bilingual_text('min_total')}</span>
         </p>
         <a href="{escape(filename)}" class="view-recipe-btn">{bilingual_text('view_recipe')}</a>
     </div>'''
@@ -295,6 +297,7 @@ def generate_overview_html(
         <button class="filter-btn" data-filter="🐟">🐟 {bilingual_text('filter_fish')}</button>
         <button class="filter-btn" data-filter="🥦">🥦 {bilingual_text('filter_vegetarian')}</button>
         <button class="filter-btn" data-filter="🥣">🥣 {bilingual_text('filter_sweet')}</button>
+        <button class="filter-btn" data-filter="fast">⚡ {bilingual_text('filter_fast')}</button>
     </div>
 
 {chr(10).join(recipe_entries)}{footer_html}
@@ -316,10 +319,22 @@ def generate_overview_html(
 
             // Filter recipes
             recipeCards.forEach(card => {{
-                if (filterValue === 'all' || card.dataset.category === filterValue) {{
+                if (filterValue === 'all') {{
                     card.classList.remove('hidden');
+                }} else if (filterValue === 'fast') {{
+                    // Filter by time
+                    if (card.dataset.time === 'fast') {{
+                        card.classList.remove('hidden');
+                    }} else {{
+                        card.classList.add('hidden');
+                    }}
                 }} else {{
-                    card.classList.add('hidden');
+                    // Filter by category
+                    if (card.dataset.category === filterValue) {{
+                        card.classList.remove('hidden');
+                    }} else {{
+                        card.classList.add('hidden');
+                    }}
                 }}
             }});
         }}
