@@ -1,0 +1,31 @@
+name: Pfannkuchen mit Himbeerfüllung
+description: Fluffige Buchweizen-Pfannkuchen mit frischer Himbeer-Joghurt-Füllung und Minze. Ein süßes, gesundes Frühstück.
+author: VitaMoment
+category: 🥣
+servings: 2
+prep_time: 5  # minutes
+cook_time: 15  # minutes
+
+ingredients:
+  - name: Eier
+    amount: 2
+  - name: Haferdrink (ungesüßt)
+    amount: 250 ml
+  - name: Buchweizenmehl
+    amount: 150 g
+  - name: Honig
+    amount: 10 g
+  - name: Himbeeren
+    amount: 250 g
+  - name: Minze (frisch)
+    amount: Bund
+  - name: Naturjoghurt (3,5% Fettanteil)
+    amount: 150 g
+  - name: Kokosöl
+    amount: 10 g
+
+instructions:
+  - Eier, Haferdrink, Buchweizenmehl, Honig und etwas Salz in einer Schüssel zu einem Teig verarbeiten.
+  - Himbeeren und Minzblätter waschen und mit dem Joghurt vermengen.
+  - Öl in einer Pfanne erhitzen und beide Pfannkuchen bei geringer Temperatur goldbraun ausbacken.
+  - Auf einem Teller servieren und mit Himbeer-Joghurt toppen.
