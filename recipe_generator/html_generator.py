@@ -226,7 +226,7 @@ def generate_recipe_detail_html(recipe: dict[str, Any], slug: str) -> str:
 
             // Always add to plan (allow duplicates)
             plan.recipes.push({{
-                id: Date.now() + Math.random(), // Unique ID for each instance
+                id: String(Date.now() + Math.random()), // Unique ID for each instance (as string)
                 name: recipeData.name,
                 slug: recipeData.slug,
                 category: recipeData.category,
@@ -1034,7 +1034,7 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]]) -> str:
                 if (!recipeInfo) return; // Skip if recipe not found
 
                 // Use recipe.id or fall back to slug+addedAt for backwards compatibility
-                const recipeId = recipe.id || `${{recipe.slug}}-${{recipe.addedAt}}`;
+                const recipeId = String(recipe.id || `${{recipe.slug}}-${{recipe.addedAt}}`);
 
                 const cookedClass = recipe.cooked ? 'cooked' : '';
                 const statusText = recipe.cooked
@@ -1096,8 +1096,8 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]]) -> str:
 
             // Find recipe by ID (or fallback to slug+addedAt for backwards compatibility)
             const recipe = plan.recipes.find(r => {{
-                const id = r.id || `${{r.slug}}-${{r.addedAt}}`;
-                return id === recipeId;
+                const id = String(r.id || `${{r.slug}}-${{r.addedAt}}`);
+                return id === String(recipeId);
             }});
 
             if (recipe) {{
@@ -1128,8 +1128,8 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]]) -> str:
 
             // Find and remove recipe by ID (or fallback to slug+addedAt for backwards compatibility)
             const index = plan.recipes.findIndex(r => {{
-                const id = r.id || `${{r.slug}}-${{r.addedAt}}`;
-                return id === recipeId;
+                const id = String(r.id || `${{r.slug}}-${{r.addedAt}}`);
+                return id === String(recipeId);
             }});
 
             if (index >= 0) {{
