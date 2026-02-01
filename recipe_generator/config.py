@@ -209,6 +209,13 @@ body {
     gap: 10px;
 }
 
+.toggle-indicator {
+    margin-left: auto;
+    color: var(--primary-color);
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
 
 .lang-de, .lang-en {
     display: none;

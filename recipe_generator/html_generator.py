@@ -108,13 +108,15 @@ def generate_recipe_detail_html(recipe: dict[str, Any]) -> str:
             </div>
             <div class="burger-item" onclick="toggleLanguage()">
                 <span>🌐</span>
-                <span>{bilingual_text('menu_language')}: <span class="lang-de">English</span><span class="lang-en">Deutsch</span></span>
+                <span>{bilingual_text('menu_language')}: <span class="lang-de">Deutsch</span><span class="lang-en">English</span></span>
+                <span class="toggle-indicator">✓</span>
             </div>
             <div class="burger-item" onclick="toggleDarkMode()">
                 <span class="light-mode-indicator">🌙</span>
                 <span class="dark-mode-indicator">☀️</span>
                 <span class="light-mode-text">{bilingual_text('menu_dark_mode')}</span>
                 <span class="dark-mode-text">{bilingual_text('menu_light_mode')}</span>
+                <span class="toggle-indicator dark-mode-check">✓</span>
             </div>
         </div>
     </div>
@@ -246,6 +248,9 @@ def generate_recipe_detail_html(recipe: dict[str, Any]) -> str:
             document.querySelectorAll('.dark-mode-text').forEach(el => {{
                 el.style.display = isDark ? 'inline' : 'none';
             }});
+            document.querySelectorAll('.dark-mode-check').forEach(el => {{
+                el.style.display = 'inline';
+            }});
         }}
 
         // Apply saved preferences on page load
@@ -344,13 +349,15 @@ def generate_overview_html(
             </div>
             <div class="burger-item" onclick="toggleLanguage()">
                 <span>🌐</span>
-                <span>{bilingual_text('menu_language')}: <span class="lang-de">English</span><span class="lang-en">Deutsch</span></span>
+                <span>{bilingual_text('menu_language')}: <span class="lang-de">Deutsch</span><span class="lang-en">English</span></span>
+                <span class="toggle-indicator">✓</span>
             </div>
             <div class="burger-item" onclick="toggleDarkMode()">
                 <span class="light-mode-indicator">🌙</span>
                 <span class="dark-mode-indicator">☀️</span>
                 <span class="light-mode-text">{bilingual_text('menu_dark_mode')}</span>
                 <span class="dark-mode-text">{bilingual_text('menu_light_mode')}</span>
+                <span class="toggle-indicator dark-mode-check">✓</span>
             </div>
         </div>
     </div>
@@ -482,6 +489,9 @@ def generate_overview_html(
             }});
             document.querySelectorAll('.dark-mode-text').forEach(el => {{
                 el.style.display = isDark ? 'inline' : 'none';
+            }});
+            document.querySelectorAll('.dark-mode-check').forEach(el => {{
+                el.style.display = 'inline';
             }});
         }}
 
@@ -620,13 +630,15 @@ def generate_stats_html(recipes_data: list[tuple[str, dict[str, Any]]]) -> str:
             </div>
             <div class="burger-item" onclick="toggleLanguage()">
                 <span>🌐</span>
-                <span>{bilingual_text('menu_language')}: <span class="lang-de">English</span><span class="lang-en">Deutsch</span></span>
+                <span>{bilingual_text('menu_language')}: <span class="lang-de">Deutsch</span><span class="lang-en">English</span></span>
+                <span class="toggle-indicator">✓</span>
             </div>
             <div class="burger-item" onclick="toggleDarkMode()">
                 <span class="light-mode-indicator">🌙</span>
                 <span class="dark-mode-indicator">☀️</span>
                 <span class="light-mode-text">{bilingual_text('menu_dark_mode')}</span>
                 <span class="dark-mode-text">{bilingual_text('menu_light_mode')}</span>
+                <span class="toggle-indicator dark-mode-check">✓</span>
             </div>
         </div>
     </div>
@@ -751,6 +763,9 @@ def generate_stats_html(recipes_data: list[tuple[str, dict[str, Any]]]) -> str:
             }});
             document.querySelectorAll('.dark-mode-text').forEach(el => {{
                 el.style.display = isDark ? 'inline' : 'none';
+            }});
+            document.querySelectorAll('.dark-mode-check').forEach(el => {{
+                el.style.display = 'inline';
             }});
         }}
 
