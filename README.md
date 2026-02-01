@@ -4,7 +4,7 @@
 
 ## Demo
 
-![Demo](media/demo.gif)
+<img src="media/demo.gif" alt="Demo" width="400">
 
 ## Features
 
