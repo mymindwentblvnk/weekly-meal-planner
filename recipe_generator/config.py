@@ -182,14 +182,11 @@ body {
 }
 
 .burger-item {
-    padding: 12px 16px;
-    cursor: pointer;
     color: var(--text-color);
     border-bottom: 1px solid var(--border-color);
     transition: background-color 0.2s;
     display: flex;
     align-items: center;
-    gap: 10px;
 }
 
 .burger-item:last-child {
@@ -200,13 +197,40 @@ body {
     background-color: var(--bg-secondary);
 }
 
-.burger-item a {
-    color: var(--text-color);
-    text-decoration: none;
-    flex: 1;
+.burger-item > a,
+.burger-item > label {
+    padding: 12px 16px;
+    cursor: pointer;
     display: flex;
     align-items: center;
     gap: 10px;
+    flex: 1;
+    margin: 0;
+}
+
+.burger-item a {
+    color: var(--text-color);
+    text-decoration: none;
+}
+
+.toggle-item-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: 1;
+    padding: 12px 16px;
+    margin: 0;
+    cursor: pointer;
+}
+
+.toggle-item-label input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.toggle-text {
+    flex: 1;
 }
 
 /* iOS-style toggle switches */
