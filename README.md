@@ -96,7 +96,7 @@ Use one of the following emoji categories for your recipe:
 - `🥩` - Meat Dishes
 - `🐟` - Fish & Seafood
 - `🥦` - Vegetable Dishes
-- `🥣` - Sweet Breakfast (Porridge, etc.)
+- `🥣` - Breakfast (Porridge, etc.)
 
 ## GitHub Pages Deployment
 
