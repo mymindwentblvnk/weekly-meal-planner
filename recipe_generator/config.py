@@ -27,6 +27,9 @@ TEXTS = {
         "filter_sweet": "Frühstück",
         "filter_fast": "Schnell (≤30 min)",
         "view_stats": "📊 Statistiken",
+        "menu_language": "Sprache",
+        "menu_dark_mode": "Dunkelmodus",
+        "menu_light_mode": "Hellmodus",
 
         # Stats page
         "stats_title": "Rezept-Statistiken",
@@ -62,6 +65,9 @@ TEXTS = {
         "filter_sweet": "Breakfast",
         "filter_fast": "Fast (≤30 min)",
         "view_stats": "📊 Statistics",
+        "menu_language": "Language",
+        "menu_dark_mode": "Dark Mode",
+        "menu_light_mode": "Light Mode",
 
         # Stats page
         "stats_title": "Recipe Statistics",
@@ -128,47 +134,81 @@ body {
     transition: background-color 0.3s, color 0.3s;
 }
 
-.language-toggle {
+/* Burger Menu */
+.burger-menu {
     position: fixed;
     top: 20px;
     right: 20px;
+    z-index: 1001;
+}
+
+.burger-icon {
     background-color: var(--primary-color);
     color: white;
     border: none;
-    padding: 10px 20px;
-    border-radius: 20px;
+    padding: 12px;
+    border-radius: 8px;
     cursor: pointer;
-    font-weight: 500;
-    font-size: 0.9em;
+    font-size: 1.5em;
+    line-height: 1;
     box-shadow: 0 2px 8px var(--shadow);
     transition: background-color 0.2s;
-    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
 }
 
-.language-toggle:hover {
+.burger-icon:hover {
     background-color: var(--primary-hover);
 }
 
-.dark-mode-toggle {
-    position: fixed;
-    top: 70px;
-    right: 20px;
-    background-color: var(--primary-color);
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 20px;
-    cursor: pointer;
-    font-weight: 500;
-    font-size: 0.9em;
-    box-shadow: 0 2px 8px var(--shadow);
-    transition: background-color 0.2s;
-    z-index: 1000;
+.burger-dropdown {
+    position: absolute;
+    top: 60px;
+    right: 0;
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    box-shadow: 0 4px 12px var(--shadow);
+    min-width: 220px;
+    display: none;
+    overflow: hidden;
 }
 
-.dark-mode-toggle:hover {
-    background-color: var(--primary-hover);
+.burger-dropdown.open {
+    display: block;
 }
+
+.burger-item {
+    padding: 12px 16px;
+    cursor: pointer;
+    color: var(--text-color);
+    border-bottom: 1px solid var(--border-color);
+    transition: background-color 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.burger-item:last-child {
+    border-bottom: none;
+}
+
+.burger-item:hover {
+    background-color: var(--bg-secondary);
+}
+
+.burger-item a {
+    color: var(--text-color);
+    text-decoration: none;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
 
 .lang-de, .lang-en {
     display: none;

@@ -100,14 +100,21 @@ def generate_recipe_detail_html(recipe: dict[str, Any]) -> str:
     </style>
 </head>
 <body>
-    <button class="language-toggle" onclick="toggleLanguage()">
-        <span class="lang-de">🇬🇧 English</span>
-        <span class="lang-en">🇩🇪 Deutsch</span>
-    </button>
-    <button class="dark-mode-toggle" onclick="toggleDarkMode()">
-        <span class="light-mode-indicator">🌙</span>
-        <span class="dark-mode-indicator">☀️</span>
-    </button>
+    <div class="burger-menu">
+        <button class="burger-icon" onclick="toggleBurgerMenu()" aria-label="Menu">☰</button>
+        <div class="burger-dropdown" id="burgerDropdown">
+            <div class="burger-item" onclick="toggleLanguage()">
+                <span>🌐</span>
+                <span>{bilingual_text('menu_language')}: <span class="lang-de">English</span><span class="lang-en">Deutsch</span></span>
+            </div>
+            <div class="burger-item" onclick="toggleDarkMode()">
+                <span class="light-mode-indicator">🌙</span>
+                <span class="dark-mode-indicator">☀️</span>
+                <span class="light-mode-text">{bilingual_text('menu_dark_mode')}</span>
+                <span class="dark-mode-text">{bilingual_text('menu_light_mode')}</span>
+            </div>
+        </div>
+    </div>
     <a href="index.html" class="back-button">{bilingual_text('back_to_recipes')}</a>
     <div itemscope itemtype="https://schema.org/Recipe">
         <h1 itemprop="name">{category} {escape(recipe['name'])}</h1>
@@ -184,6 +191,21 @@ def generate_recipe_detail_html(recipe: dict[str, Any]) -> str:
             }}
         }})();
 
+        // Burger menu functionality
+        function toggleBurgerMenu() {{
+            const dropdown = document.getElementById('burgerDropdown');
+            dropdown.classList.toggle('open');
+        }}
+
+        // Close menu when clicking outside
+        document.addEventListener('click', function(event) {{
+            const menu = document.querySelector('.burger-menu');
+            const dropdown = document.getElementById('burgerDropdown');
+            if (!menu.contains(event.target) && dropdown.classList.contains('open')) {{
+                dropdown.classList.remove('open');
+            }}
+        }});
+
         // Language toggle functionality
         function toggleLanguage() {{
             const currentLang = localStorage.getItem('language') || 'de';
@@ -209,15 +231,18 @@ def generate_recipe_detail_html(recipe: dict[str, Any]) -> str:
         }}
 
         function updateDarkModeButton(isDark) {{
-            const lightIndicator = document.querySelector('.light-mode-indicator');
-            const darkIndicator = document.querySelector('.dark-mode-indicator');
-            if (isDark) {{
-                lightIndicator.style.display = 'none';
-                darkIndicator.style.display = 'inline';
-            }} else {{
-                lightIndicator.style.display = 'inline';
-                darkIndicator.style.display = 'none';
-            }}
+            document.querySelectorAll('.light-mode-indicator').forEach(el => {{
+                el.style.display = isDark ? 'none' : 'inline';
+            }});
+            document.querySelectorAll('.dark-mode-indicator').forEach(el => {{
+                el.style.display = isDark ? 'inline' : 'none';
+            }});
+            document.querySelectorAll('.light-mode-text').forEach(el => {{
+                el.style.display = isDark ? 'none' : 'inline';
+            }});
+            document.querySelectorAll('.dark-mode-text').forEach(el => {{
+                el.style.display = isDark ? 'inline' : 'none';
+            }});
         }}
 
         // Apply saved preferences on page load
@@ -308,18 +333,25 @@ def generate_overview_html(
     </style>
 </head>
 <body>
-    <button class="language-toggle" onclick="toggleLanguage()">
-        <span class="lang-de">🇬🇧 English</span>
-        <span class="lang-en">🇩🇪 Deutsch</span>
-    </button>
-    <button class="dark-mode-toggle" onclick="toggleDarkMode()">
-        <span class="light-mode-indicator">🌙</span>
-        <span class="dark-mode-indicator">☀️</span>
-    </button>
+    <div class="burger-menu">
+        <button class="burger-icon" onclick="toggleBurgerMenu()" aria-label="Menu">☰</button>
+        <div class="burger-dropdown" id="burgerDropdown">
+            <div class="burger-item">
+                <a href="stats.html">{bilingual_text('view_stats')}</a>
+            </div>
+            <div class="burger-item" onclick="toggleLanguage()">
+                <span>🌐</span>
+                <span>{bilingual_text('menu_language')}: <span class="lang-de">English</span><span class="lang-en">Deutsch</span></span>
+            </div>
+            <div class="burger-item" onclick="toggleDarkMode()">
+                <span class="light-mode-indicator">🌙</span>
+                <span class="dark-mode-indicator">☀️</span>
+                <span class="light-mode-text">{bilingual_text('menu_dark_mode')}</span>
+                <span class="dark-mode-text">{bilingual_text('menu_light_mode')}</span>
+            </div>
+        </div>
+    </div>
     <h1>{bilingual_text('overview_title')}</h1>
-    <p style="text-align: center; margin-bottom: 20px;">
-        <a href="stats.html" style="color: var(--primary-color); text-decoration: none; font-weight: 500;">{bilingual_text('view_stats')}</a>
-    </p>
 
     <div class="filter-buttons">
         <button class="filter-btn active" data-filter="all" data-filter-type="category">{bilingual_text('filter_all')}</button>
@@ -337,6 +369,21 @@ def generate_overview_html(
 {footer_html}
 
     <script>
+        // Burger menu functionality
+        function toggleBurgerMenu() {{
+            const dropdown = document.getElementById('burgerDropdown');
+            dropdown.classList.toggle('open');
+        }}
+
+        // Close menu when clicking outside
+        document.addEventListener('click', function(event) {{
+            const menu = document.querySelector('.burger-menu');
+            const dropdown = document.getElementById('burgerDropdown');
+            if (!menu.contains(event.target) && dropdown.classList.contains('open')) {{
+                dropdown.classList.remove('open');
+            }}
+        }});
+
         // Filter functionality
         const filterButtons = document.querySelectorAll('.filter-btn');
         const recipeCards = document.querySelectorAll('.recipe-card');
@@ -421,15 +468,18 @@ def generate_overview_html(
         }}
 
         function updateDarkModeButton(isDark) {{
-            const lightIndicator = document.querySelector('.light-mode-indicator');
-            const darkIndicator = document.querySelector('.dark-mode-indicator');
-            if (isDark) {{
-                lightIndicator.style.display = 'none';
-                darkIndicator.style.display = 'inline';
-            }} else {{
-                lightIndicator.style.display = 'inline';
-                darkIndicator.style.display = 'none';
-            }}
+            document.querySelectorAll('.light-mode-indicator').forEach(el => {{
+                el.style.display = isDark ? 'none' : 'inline';
+            }});
+            document.querySelectorAll('.dark-mode-indicator').forEach(el => {{
+                el.style.display = isDark ? 'inline' : 'none';
+            }});
+            document.querySelectorAll('.light-mode-text').forEach(el => {{
+                el.style.display = isDark ? 'none' : 'inline';
+            }});
+            document.querySelectorAll('.dark-mode-text').forEach(el => {{
+                el.style.display = isDark ? 'inline' : 'none';
+            }});
         }}
 
         // Apply saved preferences on page load
@@ -559,14 +609,21 @@ def generate_stats_html(recipes_data: list[tuple[str, dict[str, Any]]]) -> str:
     </style>
 </head>
 <body>
-    <button class="language-toggle" onclick="toggleLanguage()">
-        <span class="lang-de">🇬🇧 English</span>
-        <span class="lang-en">🇩🇪 Deutsch</span>
-    </button>
-    <button class="dark-mode-toggle" onclick="toggleDarkMode()">
-        <span class="light-mode-indicator">🌙</span>
-        <span class="dark-mode-indicator">☀️</span>
-    </button>
+    <div class="burger-menu">
+        <button class="burger-icon" onclick="toggleBurgerMenu()" aria-label="Menu">☰</button>
+        <div class="burger-dropdown" id="burgerDropdown">
+            <div class="burger-item" onclick="toggleLanguage()">
+                <span>🌐</span>
+                <span>{bilingual_text('menu_language')}: <span class="lang-de">English</span><span class="lang-en">Deutsch</span></span>
+            </div>
+            <div class="burger-item" onclick="toggleDarkMode()">
+                <span class="light-mode-indicator">🌙</span>
+                <span class="dark-mode-indicator">☀️</span>
+                <span class="light-mode-text">{bilingual_text('menu_dark_mode')}</span>
+                <span class="dark-mode-text">{bilingual_text('menu_light_mode')}</span>
+            </div>
+        </div>
+    </div>
     <a href="index.html" class="back-button">{bilingual_text('back_to_recipes')}</a>
     <h1>{bilingual_text('stats_title')}</h1>
     <p style="color: var(--text-secondary); margin-bottom: 15px;">{bilingual_text('stats_subtitle')}</p>
@@ -577,6 +634,21 @@ def generate_stats_html(recipes_data: list[tuple[str, dict[str, Any]]]) -> str:
     </div>
 
     <script>
+        // Burger menu functionality
+        function toggleBurgerMenu() {{
+            const dropdown = document.getElementById('burgerDropdown');
+            dropdown.classList.toggle('open');
+        }}
+
+        // Close menu when clicking outside
+        document.addEventListener('click', function(event) {{
+            const menu = document.querySelector('.burger-menu');
+            const dropdown = document.getElementById('burgerDropdown');
+            if (!menu.contains(event.target) && dropdown.classList.contains('open')) {{
+                dropdown.classList.remove('open');
+            }}
+        }});
+
         const recipeNames = {recipe_names_json};
         const recipeData = {{{','.join(f'"{recipe["name"]}": {{"filename": "{filename}", "category": "{recipe.get("category", "")}"}}' for filename, recipe in recipes_data)}}};
 
@@ -662,15 +734,18 @@ def generate_stats_html(recipes_data: list[tuple[str, dict[str, Any]]]) -> str:
         }}
 
         function updateDarkModeButton(isDark) {{
-            const lightIndicator = document.querySelector('.light-mode-indicator');
-            const darkIndicator = document.querySelector('.dark-mode-indicator');
-            if (isDark) {{
-                lightIndicator.style.display = 'none';
-                darkIndicator.style.display = 'inline';
-            }} else {{
-                lightIndicator.style.display = 'inline';
-                darkIndicator.style.display = 'none';
-            }}
+            document.querySelectorAll('.light-mode-indicator').forEach(el => {{
+                el.style.display = isDark ? 'none' : 'inline';
+            }});
+            document.querySelectorAll('.dark-mode-indicator').forEach(el => {{
+                el.style.display = isDark ? 'inline' : 'none';
+            }});
+            document.querySelectorAll('.light-mode-text').forEach(el => {{
+                el.style.display = isDark ? 'none' : 'inline';
+            }});
+            document.querySelectorAll('.dark-mode-text').forEach(el => {{
+                el.style.display = isDark ? 'inline' : 'none';
+            }});
         }}
 
         // Apply saved preferences on page load
