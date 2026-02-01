@@ -100,36 +100,27 @@ def generate_recipe_detail_html(recipe: dict[str, Any]) -> str:
     </style>
 </head>
 <body>
-    <div class="burger-menu">
-        <button class="burger-icon" onclick="toggleBurgerMenu()" aria-label="Menu">☰</button>
-        <div class="burger-dropdown" id="burgerDropdown">
-            <div class="burger-item">
-                <a href="stats.html">{bilingual_text('view_stats')}</a>
-            </div>
-            <div class="burger-item">
-                <label class="toggle-item-label">
-                    <input type="checkbox" id="languageToggle" onchange="toggleLanguage()">
-                    <span class="toggle-text">{bilingual_text('menu_language')}</span>
-                    <span class="language-toggle-switch">
-                        <span class="language-slider">
-                            <span class="flag flag-de">🇩🇪</span>
-                            <span class="flag flag-en">🇬🇧</span>
-                        </span>
-                    </span>
-                </label>
-            </div>
-            <div class="burger-item">
-                <label class="toggle-item-label">
-                    <input type="checkbox" id="darkModeToggle" onchange="toggleDarkMode()">
-                    <span class="toggle-text light-mode-text">{bilingual_text('menu_dark_mode')}</span>
-                    <span class="toggle-text dark-mode-text">{bilingual_text('menu_light_mode')}</span>
-                    <span class="toggle-switch">
-                        <span class="toggle-slider">
-                            <span class="icon icon-light">☀️</span>
-                            <span class="icon icon-dark">🌙</span>
-                        </span>
-                    </span>
-                </label>
+    <div class="top-nav">
+        <label class="nav-toggle-button language-toggle-switch">
+            <input type="checkbox" id="languageToggle" onchange="toggleLanguage()">
+            <span class="language-slider">
+                <span class="flag flag-de">🇩🇪</span>
+                <span class="flag flag-en">🇬🇧</span>
+            </span>
+        </label>
+        <label class="nav-toggle-button toggle-switch">
+            <input type="checkbox" id="darkModeToggle" onchange="toggleDarkMode()">
+            <span class="toggle-slider">
+                <span class="icon icon-light">☀️</span>
+                <span class="icon icon-dark">🌙</span>
+            </span>
+        </label>
+        <div class="burger-menu">
+            <button class="burger-icon" onclick="toggleBurgerMenu()" aria-label="Menu">☰</button>
+            <div class="burger-dropdown" id="burgerDropdown">
+                <div class="burger-item">
+                    <a href="stats.html">{bilingual_text('view_stats')}</a>
+                </div>
             </div>
         </div>
     </div>
@@ -400,36 +391,27 @@ def generate_overview_html(
     </style>
 </head>
 <body>
-    <div class="burger-menu">
-        <button class="burger-icon" onclick="toggleBurgerMenu()" aria-label="Menu">☰</button>
-        <div class="burger-dropdown" id="burgerDropdown">
-            <div class="burger-item">
-                <a href="stats.html">{bilingual_text('view_stats')}</a>
-            </div>
-            <div class="burger-item">
-                <label class="toggle-item-label">
-                    <input type="checkbox" id="languageToggle" onchange="toggleLanguage()">
-                    <span class="toggle-text">{bilingual_text('menu_language')}</span>
-                    <span class="language-toggle-switch">
-                        <span class="language-slider">
-                            <span class="flag flag-de">🇩🇪</span>
-                            <span class="flag flag-en">🇬🇧</span>
-                        </span>
-                    </span>
-                </label>
-            </div>
-            <div class="burger-item">
-                <label class="toggle-item-label">
-                    <input type="checkbox" id="darkModeToggle" onchange="toggleDarkMode()">
-                    <span class="toggle-text light-mode-text">{bilingual_text('menu_dark_mode')}</span>
-                    <span class="toggle-text dark-mode-text">{bilingual_text('menu_light_mode')}</span>
-                    <span class="toggle-switch">
-                        <span class="toggle-slider">
-                            <span class="icon icon-light">☀️</span>
-                            <span class="icon icon-dark">🌙</span>
-                        </span>
-                    </span>
-                </label>
+    <div class="top-nav">
+        <label class="nav-toggle-button language-toggle-switch">
+            <input type="checkbox" id="languageToggle" onchange="toggleLanguage()">
+            <span class="language-slider">
+                <span class="flag flag-de">🇩🇪</span>
+                <span class="flag flag-en">🇬🇧</span>
+            </span>
+        </label>
+        <label class="nav-toggle-button toggle-switch">
+            <input type="checkbox" id="darkModeToggle" onchange="toggleDarkMode()">
+            <span class="toggle-slider">
+                <span class="icon icon-light">☀️</span>
+                <span class="icon icon-dark">🌙</span>
+            </span>
+        </label>
+        <div class="burger-menu">
+            <button class="burger-icon" onclick="toggleBurgerMenu()" aria-label="Menu">☰</button>
+            <div class="burger-dropdown" id="burgerDropdown">
+                <div class="burger-item">
+                    <a href="stats.html">{bilingual_text('view_stats')}</a>
+                </div>
             </div>
         </div>
     </div>
@@ -740,36 +722,27 @@ def generate_stats_html(recipes_data: list[tuple[str, dict[str, Any]]]) -> str:
     </style>
 </head>
 <body>
-    <div class="burger-menu">
-        <button class="burger-icon" onclick="toggleBurgerMenu()" aria-label="Menu">☰</button>
-        <div class="burger-dropdown" id="burgerDropdown">
-            <div class="burger-item">
-                <a href="stats.html">{bilingual_text('view_stats')}</a>
-            </div>
-            <div class="burger-item">
-                <label class="toggle-item-label">
-                    <input type="checkbox" id="languageToggle" onchange="toggleLanguage()">
-                    <span class="toggle-text">{bilingual_text('menu_language')}</span>
-                    <span class="language-toggle-switch">
-                        <span class="language-slider">
-                            <span class="flag flag-de">🇩🇪</span>
-                            <span class="flag flag-en">🇬🇧</span>
-                        </span>
-                    </span>
-                </label>
-            </div>
-            <div class="burger-item">
-                <label class="toggle-item-label">
-                    <input type="checkbox" id="darkModeToggle" onchange="toggleDarkMode()">
-                    <span class="toggle-text light-mode-text">{bilingual_text('menu_dark_mode')}</span>
-                    <span class="toggle-text dark-mode-text">{bilingual_text('menu_light_mode')}</span>
-                    <span class="toggle-switch">
-                        <span class="toggle-slider">
-                            <span class="icon icon-light">☀️</span>
-                            <span class="icon icon-dark">🌙</span>
-                        </span>
-                    </span>
-                </label>
+    <div class="top-nav">
+        <label class="nav-toggle-button language-toggle-switch">
+            <input type="checkbox" id="languageToggle" onchange="toggleLanguage()">
+            <span class="language-slider">
+                <span class="flag flag-de">🇩🇪</span>
+                <span class="flag flag-en">🇬🇧</span>
+            </span>
+        </label>
+        <label class="nav-toggle-button toggle-switch">
+            <input type="checkbox" id="darkModeToggle" onchange="toggleDarkMode()">
+            <span class="toggle-slider">
+                <span class="icon icon-light">☀️</span>
+                <span class="icon icon-dark">🌙</span>
+            </span>
+        </label>
+        <div class="burger-menu">
+            <button class="burger-icon" onclick="toggleBurgerMenu()" aria-label="Menu">☰</button>
+            <div class="burger-dropdown" id="burgerDropdown">
+                <div class="burger-item">
+                    <a href="stats.html">{bilingual_text('view_stats')}</a>
+                </div>
             </div>
         </div>
     </div>

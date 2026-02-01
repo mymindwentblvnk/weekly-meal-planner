@@ -134,12 +134,20 @@ body {
     transition: background-color 0.3s, color 0.3s;
 }
 
-/* Burger Menu */
-.burger-menu {
+/* Top Navigation */
+.top-nav {
     position: fixed;
     top: 20px;
     right: 20px;
     z-index: 1001;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+/* Burger Menu */
+.burger-menu {
+    position: relative;
 }
 
 .burger-icon {
@@ -233,12 +241,24 @@ body {
     flex: 1;
 }
 
+/* Standalone toggle buttons in top nav */
+.nav-toggle-button {
+    background-color: var(--primary-color);
+    border: none;
+    padding: 8px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px var(--shadow);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
 /* iOS-style toggle switches */
 .toggle-switch {
     position: relative;
     width: 64px;
     height: 32px;
-    margin-left: auto;
     flex-shrink: 0;
 }
 
@@ -303,7 +323,6 @@ input:checked + .toggle-slider:before {
     position: relative;
     width: 64px;
     height: 32px;
-    margin-left: auto;
     flex-shrink: 0;
 }
 
