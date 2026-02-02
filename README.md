@@ -14,9 +14,15 @@
 
 - **YAML-based recipes**: Define recipes in simple YAML files
 - **Bring! integration**: One-click ingredient import to your Bring! shopping list
+- **Weekly meal planner**: Plan your meals for the week with local storage sync
+- **Recipe statistics**: Track and view your most-viewed recipes
+- **Category filtering**: Filter recipes by type (meat, fish, vegetarian, bread, breakfast)
+- **Quick recipes filter**: Find recipes that take 30 minutes or less
+- **Dark mode**: Toggle between light and dark themes with automatic detection
 - **Schema.org markup**: Properly structured recipe data for SEO and compatibility
 - **Static site generation**: Generates clean HTML pages that can be hosted anywhere
-- **Automatic deployment**: GitHub Actions workflow deploys to GitHub Pages
+- **Automatic deployment**: GitHub Actions workflow with tests deploys to GitHub Pages
+- **German interface**: All UI text in German
 
 ## Local Development
 
@@ -109,8 +115,9 @@ Use one of the following emoji categories for your recipe:
 ## GitHub Pages Deployment
 
 The project includes a GitHub Actions workflow that automatically:
-1. Generates HTML files from your YAML recipes
-2. Deploys them to GitHub Pages
+1. Runs unit tests with pytest
+2. Generates HTML files from your YAML recipes (only if tests pass)
+3. Deploys them to GitHub Pages
 
 ### Setup GitHub Pages
 
@@ -119,105 +126,16 @@ The project includes a GitHub Actions workflow that automatically:
 3. Push changes to the `main` branch
 4. Your recipes will be available at: `https://YOUR_USERNAME.github.io/REPO_NAME/`
 
-The workflow runs automatically on every push to `main`, or can be triggered manually from the Actions tab.
+The workflow runs automatically on every push to `main`, or can be triggered manually from the Actions tab. Deployment will only occur if all tests pass.
 
-## Google Drive Sync for Weekly Meal Plan
+## Weekly Meal Plan
 
-The weekly meal plan feature includes optional Google Drive synchronization, allowing you to sync your meal plans across multiple devices using your personal Google account.
+The weekly meal plan feature allows you to organize recipes for the upcoming week:
 
-### Features
-
-- **Cross-device sync**: Access your weekly plan from any device
-- **Automatic syncing**: Changes sync automatically in the background
-- **Offline support**: Works offline, syncs when back online
-- **Private storage**: Data stored in your Google Drive's private app data folder
-- **No backend required**: All sync happens client-side using Google Drive API
-
-### Setup Google Drive Sync (One-time)
-
-To enable Google Drive sync for your deployment, you need to create OAuth credentials:
-
-#### 1. Create Google Cloud Project
-
-1. Go to [Google Cloud Console](https://console.cloud.google.com)
-2. Create a new project or select an existing one
-3. Enable the **Google Drive API**:
-   - Go to **APIs & Services** → **Library**
-   - Search for "Google Drive API"
-   - Click **Enable**
-
-#### 2. Create OAuth Credentials
-
-1. Go to **APIs & Services** → **Credentials**
-2. Click **Create Credentials** → **OAuth client ID**
-3. If prompted, configure the OAuth consent screen:
-   - User Type: **External**
-   - App name: Your recipe collection name
-   - User support email: Your email
-   - Developer contact: Your email
-   - Scopes: No additional scopes needed (only `drive.appdata` is used)
-   - Test users: Add your Google account email
-4. Create OAuth client ID:
-   - Application type: **Web application**
-   - Name: "Recipe Collection - Web"
-   - Authorized JavaScript origins:
-     - `http://localhost:8000` (for local testing)
-     - `https://YOUR_USERNAME.github.io` (for production)
-   - Authorized redirect URIs: Leave empty (popup flow doesn't need this)
-5. Click **Create** and copy the **Client ID**
-
-#### 3. Configure Client ID in Code
-
-Open `recipe_generator/config.py` and replace the placeholder with your Client ID:
-
-```python
-GOOGLE_DRIVE_CLIENT_ID = "YOUR_ACTUAL_CLIENT_ID.apps.googleusercontent.com"
-```
-
-#### 4. Deploy
-
-Commit and push your changes:
-
-```bash
-git add recipe_generator/config.py
-git commit -m "Add Google Drive OAuth Client ID"
-git push
-```
-
-The GitHub Actions workflow will deploy the updated site with Google Drive sync enabled.
-
-### Using Google Drive Sync
-
-1. Visit your weekly plan page (`weekly.html`)
-2. Click the **🔒** button in the top navigation
-3. Sign in with your Google account
-4. Grant permission to access app data
-5. Your weekly plan will automatically sync across all devices where you sign in
-
-### Data Privacy
-
-- Your recipe data is stored in Google Drive's **app data folder** (hidden from your regular Drive files)
-- The app can only access its own data, not your other Drive files
-- Data is automatically deleted if you revoke app access
-- All data transmission is encrypted (HTTPS)
-- No data is sent to any third-party servers
-
-### Troubleshooting
-
-**"Sign in" button doesn't appear:**
-- Check that `GOOGLE_DRIVE_CLIENT_ID` is set correctly in `config.py`
-- Verify the site is deployed and accessible
-- Check browser console for errors
-
-**Sync not working:**
-- Ensure you're signed in (email shown in top navigation)
-- Check your internet connection
-- Try signing out and back in
-- Check that the authorized JavaScript origins in Google Cloud Console match your site URL
-
-**"Access blocked" error when signing in:**
-- Your app is in testing mode - add your Google account as a test user in the OAuth consent screen
-- Or publish your app (requires verification for production use)
+- **Add recipes**: Click "📅 Diese Woche kochen" on any recipe detail page
+- **Mark as cooked**: Track which meals you've already prepared
+- **Local storage**: All data is stored in your browser's local storage
+- **No sync**: Weekly plans are device-specific and not synced across browsers
 
 ## Project Structure
 
