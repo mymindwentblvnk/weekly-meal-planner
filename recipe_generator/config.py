@@ -400,18 +400,18 @@ DETAIL_PAGE_CSS = """
 }
 h1 {
     color: var(--primary-color);
-    font-size: 2em;
+    font-size: 1.75em;
     margin-bottom: 15px;
     padding-bottom: 15px;
     border-bottom: 2px solid var(--primary-color);
 }
 h2 {
     color: var(--primary-color);
-    font-size: 1.5em;
+    font-size: 1.3em;
     margin-top: 40px;
     margin-bottom: 20px;
     padding-left: 15px;
-    border-left: 4px solid var(--primary-color);
+    border-left: 3px solid var(--primary-color);
     background: linear-gradient(to right, var(--bg-secondary) 0%, transparent 100%);
     padding: 12px 15px;
     border-radius: 4px;
