@@ -10,6 +10,11 @@ OUTPUT_DIR = Path("output")
 # Language configuration - set to "de" for German or "en" for English
 LANGUAGE = "de"
 
+# Google Drive OAuth Client ID
+# Replace this with your actual Client ID from Google Cloud Console
+# See README for setup instructions
+GOOGLE_DRIVE_CLIENT_ID = "883581539227-bau7upbt2mipplrnvrjp45st6dkoqpbi.apps.googleusercontent.com"
+
 # Text strings for internationalization
 TEXTS = {
     "de": {
@@ -65,6 +70,21 @@ TEXTS = {
         "cooked": "✓ Gekocht",
         "not_cooked": "Nicht gekocht",
         "added_on": "Hinzugefügt:",
+
+        # Google Drive sync
+        "sync_sign_in": "Mit Google anmelden",
+        "sync_syncing": "Synchronisiere...",
+        "sync_last_synced": "Zuletzt synchronisiert:",
+        "sync_offline": "Offline - Änderungen lokal gespeichert",
+        "sync_error": "Sync-Fehler - ",
+        "sync_retry": "erneut versuchen?",
+        "sync_just_now": "gerade eben",
+        "sync_minutes_ago": "Minuten her",
+        "sync_minute_ago": "Minute her",
+        "sync_hours_ago": "Stunden her",
+        "sync_hour_ago": "Stunde her",
+        "sync_days_ago": "Tagen her",
+        "sync_day_ago": "Tag her",
     },
     "en": {
         # Overview page
@@ -119,6 +139,21 @@ TEXTS = {
         "cooked": "✓ Cooked",
         "not_cooked": "Not cooked",
         "added_on": "Added:",
+
+        # Google Drive sync
+        "sync_sign_in": "Sign in with Google",
+        "sync_syncing": "Syncing...",
+        "sync_last_synced": "Last synced:",
+        "sync_offline": "Offline - changes saved locally",
+        "sync_error": "Sync error - ",
+        "sync_retry": "retry?",
+        "sync_just_now": "just now",
+        "sync_minutes_ago": "minutes ago",
+        "sync_minute_ago": "minute ago",
+        "sync_hours_ago": "hours ago",
+        "sync_hour_ago": "hour ago",
+        "sync_days_ago": "days ago",
+        "sync_day_ago": "day ago",
     },
 }
 
@@ -798,5 +833,58 @@ h1 {
 }
 .no-recipes p {
     font-size: 1.1em;
+}
+.sync-status {
+    text-align: center;
+    padding: 8px 16px;
+    margin: 10px 0;
+    border-radius: 6px;
+    font-size: 0.9em;
+}
+.sync-status.syncing {
+    background-color: var(--bg-secondary);
+    color: var(--text-secondary);
+}
+.sync-status.synced {
+    background-color: #d4edda;
+    color: #155724;
+}
+body.dark-mode .sync-status.synced {
+    background-color: #1e4620;
+    color: #a3cfbb;
+}
+.sync-status.error {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+body.dark-mode .sync-status.error {
+    background-color: #5a1a1a;
+    color: #f5c6cb;
+}
+.sync-status.offline {
+    background-color: #fff3cd;
+    color: #856404;
+}
+body.dark-mode .sync-status.offline {
+    background-color: #4a3f0a;
+    color: #ffeaa7;
+}
+.sync-status.syncing::before {
+    content: '';
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    margin-right: 8px;
+    border: 2px solid var(--text-secondary);
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+.google-sign-in-button {
+    font-size: 0.9em;
+    white-space: nowrap;
 }
 """

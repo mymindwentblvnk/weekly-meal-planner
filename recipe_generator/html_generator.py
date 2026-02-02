@@ -4,7 +4,7 @@ from typing import Any
 from html import escape
 from datetime import datetime
 
-from .config import COMMON_CSS, DETAIL_PAGE_CSS, OVERVIEW_PAGE_CSS, WEEKLY_PAGE_CSS, get_text, TEXTS
+from .config import COMMON_CSS, DETAIL_PAGE_CSS, OVERVIEW_PAGE_CSS, WEEKLY_PAGE_CSS, get_text, TEXTS, GOOGLE_DRIVE_CLIENT_ID
 
 
 def bilingual_text(key: str) -> str:
@@ -228,10 +228,17 @@ def generate_recipe_detail_html(recipe: dict[str, Any], slug: str) -> str:
                 cooked: false
             }});
 
+            // Update lastModified timestamp
+            plan.lastModified = Date.now();
+
             // Save back to localStorage
             try {{
                 localStorage.setItem(planKey, JSON.stringify(plan));
                 updateWeeklyPlanButton();
+
+                // Trigger sync if available (weekly.html loads this on same device)
+                // This will only work if user navigates to weekly page
+                // Cross-device sync happens when opening weekly page on other device
             }} catch (e) {{
                 console.error('Error saving weekly plan:', e);
             }}
@@ -882,6 +889,8 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]]) -> str:
     <title>{get_text('weekly_plan_title')}</title>
     <link rel="icon" type="image/x-icon" href="favicon.ico">
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <script src="https://accounts.google.com/gsi/client"></script>
+    <script src="https://apis.google.com/js/api.js"></script>
     <style>
         {COMMON_CSS}
         {WEEKLY_PAGE_CSS}
@@ -893,6 +902,12 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]]) -> str:
         <div style="display: flex; gap: 10px; align-items: center;">
             <a href="weekly.html" class="nav-link" aria-label="Weekly Plan">🗓️</a>
             <a href="stats.html" class="nav-link" aria-label="Statistics">📊</a>
+            <button id="googleSignInButton" class="nav-toggle-button google-sign-in-button" onclick="handleSignIn()" style="display: none;">
+                <span>🔒</span>
+            </button>
+            <button id="googleSignOutButton" class="nav-toggle-button google-sign-in-button" onclick="handleSignOut()" style="display: none;">
+                <span id="userEmail"></span>
+            </button>
             <button class="nav-toggle-button" id="languageToggle" onclick="toggleLanguage()" aria-label="Toggle language">
                 <span class="emoji lang-de">🇩🇪</span>
                 <span class="emoji lang-en">🇬🇧</span>
@@ -904,6 +919,7 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]]) -> str:
         </div>
     </div>
     <h1>{bilingual_text('weekly_plan_title')}</h1>
+    <div id="syncStatus" class="sync-status" style="display: none;"></div>
 
     <button id="clearAllButton" class="clear-all-button" onclick="clearAllRecipes()">
         <span class="lang-de">Alle löschen</span>
@@ -914,6 +930,411 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]]) -> str:
 
     <script>
         const recipeData = {recipe_lookup_json};
+        const GOOGLE_CLIENT_ID = '{GOOGLE_DRIVE_CLIENT_ID}';
+        const SCOPES = 'https://www.googleapis.com/auth/drive.appdata';
+        const SYNC_FILENAME = 'bring-wochenplan-sync.json';
+
+        // Google Drive API state
+        let gapiInitialized = false;
+        let tokenClient;
+        let accessToken = null;
+        let userEmail = null;
+
+        // ============ Google Drive API Functions ============
+
+        // Initialize Google API
+        function initGoogleDrive() {{
+            gapi.load('client', initClient);
+        }}
+
+        // Initialize OAuth client with new Google Identity Services
+        async function initClient() {{
+            try {{
+                await gapi.client.init({{
+                    discoveryDocs: ['https://www.googleapis.com/discovery/v1/apis/drive/v3/rest']
+                }});
+
+                gapiInitialized = true;
+
+                // Initialize the token client
+                tokenClient = google.accounts.oauth2.initTokenClient({{
+                    client_id: GOOGLE_CLIENT_ID,
+                    scope: SCOPES,
+                    callback: (response) => {{
+                        if (response.error !== undefined) {{
+                            console.error('Token response error:', response);
+                            showSignedOutUI();
+                            return;
+                        }}
+                        accessToken = response.access_token;
+                        gapi.client.setToken({{ access_token: accessToken }});
+
+                        // Get user info
+                        getUserInfo();
+                    }}
+                }});
+
+                // Check if we have a saved token
+                const savedToken = localStorage.getItem('googleAccessToken');
+                const savedEmail = localStorage.getItem('googleUserEmail');
+                if (savedToken && savedEmail) {{
+                    accessToken = savedToken;
+                    userEmail = savedEmail;
+                    gapi.client.setToken({{ access_token: accessToken }});
+                    showSignedInUI(userEmail);
+                    performSync();
+                }} else {{
+                    showSignedOutUI();
+                }}
+            }} catch (error) {{
+                console.error('Error initializing Google API:', error);
+                showSignedOutUI();
+            }}
+        }}
+
+        // Get user info from Google
+        async function getUserInfo() {{
+            try {{
+                const response = await fetch('https://www.googleapis.com/oauth2/v2/userinfo', {{
+                    headers: {{
+                        'Authorization': `Bearer ${{accessToken}}`
+                    }}
+                }});
+                const data = await response.json();
+                userEmail = data.email;
+
+                // Save token and email
+                localStorage.setItem('googleAccessToken', accessToken);
+                localStorage.setItem('googleUserEmail', userEmail);
+
+                showSignedInUI(userEmail);
+                performSync();
+            }} catch (error) {{
+                console.error('Error getting user info:', error);
+                showSignedOutUI();
+            }}
+        }}
+
+        // Sign in
+        function handleSignIn() {{
+            if (!gapiInitialized || !tokenClient) {{
+                console.error('Google API not initialized');
+                return;
+            }}
+
+            // Request an access token
+            tokenClient.requestAccessToken({{ prompt: 'consent' }});
+        }}
+
+        // Sign out
+        function handleSignOut() {{
+            if (accessToken) {{
+                google.accounts.oauth2.revoke(accessToken, () => {{
+                    console.log('Token revoked');
+                }});
+            }}
+
+            accessToken = null;
+            userEmail = null;
+            gapi.client.setToken(null);
+            localStorage.removeItem('googleAccessToken');
+            localStorage.removeItem('googleUserEmail');
+
+            showSignedOutUI();
+        }}
+
+        // Show signed-in UI
+        function showSignedInUI(email) {{
+            const signInButton = document.getElementById('googleSignInButton');
+            const signOutButton = document.getElementById('googleSignOutButton');
+            const userEmailSpan = document.getElementById('userEmail');
+
+            if (signInButton) signInButton.style.display = 'none';
+            if (signOutButton) {{
+                signOutButton.style.display = 'flex';
+                const shortEmail = email.length > 20 ? email.substring(0, 17) + '...' : email;
+                userEmailSpan.textContent = '✓ ' + shortEmail;
+            }}
+        }}
+
+        // Show signed-out UI
+        function showSignedOutUI() {{
+            const signInButton = document.getElementById('googleSignInButton');
+            const signOutButton = document.getElementById('googleSignOutButton');
+            const syncStatus = document.getElementById('syncStatus');
+
+            if (signInButton) signInButton.style.display = 'flex';
+            if (signOutButton) signOutButton.style.display = 'none';
+            if (syncStatus) syncStatus.style.display = 'none';
+        }}
+
+        // Find the sync file in Drive
+        async function findSyncFile() {{
+            try {{
+                const response = await gapi.client.drive.files.list({{
+                    spaces: 'appDataFolder',
+                    fields: 'files(id, name, modifiedTime)',
+                    q: `name='${{SYNC_FILENAME}}'`
+                }});
+
+                return response.result.files.length > 0 ? response.result.files[0] : null;
+            }} catch (error) {{
+                console.error('Error finding sync file:', error);
+                throw error;
+            }}
+        }}
+
+        // Download data from Drive
+        async function downloadFromDrive(fileId) {{
+            try {{
+                const response = await gapi.client.drive.files.get({{
+                    fileId: fileId,
+                    alt: 'media'
+                }});
+
+                return JSON.parse(response.body);
+            }} catch (error) {{
+                console.error('Error downloading from Drive:', error);
+                throw error;
+            }}
+        }}
+
+        // Upload data to Drive (create or update)
+        async function uploadToDrive(data) {{
+            try {{
+                const file = await findSyncFile();
+                const content = JSON.stringify(data);
+                const boundary = '-------314159265358979323846';
+                const delimiter = "\\r\\n--" + boundary + "\\r\\n";
+                const close_delim = "\\r\\n--" + boundary + "--";
+
+                const metadata = {{
+                    name: SYNC_FILENAME,
+                    mimeType: 'application/json'
+                }};
+
+                if (file) {{
+                    // Update existing file
+                    const multipartRequestBody =
+                        delimiter +
+                        'Content-Type: application/json\\r\\n\\r\\n' +
+                        JSON.stringify(metadata) +
+                        delimiter +
+                        'Content-Type: application/json\\r\\n\\r\\n' +
+                        content +
+                        close_delim;
+
+                    await gapi.client.request({{
+                        path: `/upload/drive/v3/files/${{file.id}}`,
+                        method: 'PATCH',
+                        params: {{ uploadType: 'multipart' }},
+                        headers: {{
+                            'Content-Type': 'multipart/related; boundary="' + boundary + '"'
+                        }},
+                        body: multipartRequestBody
+                    }});
+                }} else {{
+                    // Create new file in appDataFolder
+                    metadata.parents = ['appDataFolder'];
+
+                    const multipartRequestBody =
+                        delimiter +
+                        'Content-Type: application/json\\r\\n\\r\\n' +
+                        JSON.stringify(metadata) +
+                        delimiter +
+                        'Content-Type: application/json\\r\\n\\r\\n' +
+                        content +
+                        close_delim;
+
+                    await gapi.client.request({{
+                        path: '/upload/drive/v3/files',
+                        method: 'POST',
+                        params: {{ uploadType: 'multipart' }},
+                        headers: {{
+                            'Content-Type': 'multipart/related; boundary="' + boundary + '"'
+                        }},
+                        body: multipartRequestBody
+                    }});
+                }}
+            }} catch (error) {{
+                console.error('Error uploading to Drive:', error);
+                throw error;
+            }}
+        }}
+
+        // Main sync function
+        async function performSync() {{
+            if (!isSignedInToGoogle()) {{
+                return;
+            }}
+
+            try {{
+                setSyncStatus('syncing');
+
+                const localData = getLocalWeeklyPlan();
+                const driveFile = await findSyncFile();
+
+                if (!driveFile) {{
+                    // No Drive data - upload local data if any
+                    if (localData.recipes && localData.recipes.length > 0) {{
+                        await uploadToDrive(addSyncMetadata(localData));
+                    }} else {{
+                        // Initialize empty plan in Drive
+                        await uploadToDrive(addSyncMetadata({{ recipes: [] }}));
+                    }}
+                }} else {{
+                    const driveData = await downloadFromDrive(driveFile.id);
+
+                    // Compare timestamps
+                    const localTime = localData.lastModified || 0;
+                    const driveTime = driveData.lastModified || 0;
+
+                    if (driveTime > localTime) {{
+                        // Drive is newer - download
+                        saveLocalWeeklyPlan(driveData);
+                        loadWeeklyPlan(); // Refresh UI
+                    }} else if (localTime > driveTime) {{
+                        // Local is newer - upload
+                        await uploadToDrive(addSyncMetadata(localData));
+                    }}
+                    // Else: equal timestamps - no action needed
+                }}
+
+                setSyncStatus('synced');
+                localStorage.setItem('lastSyncTime', Date.now().toString());
+            }} catch (error) {{
+                console.error('Sync error:', error);
+                setSyncStatus('error');
+            }}
+        }}
+
+        // Add sync metadata to plan data
+        function addSyncMetadata(planData) {{
+            return {{
+                ...planData,
+                lastModified: Date.now(),
+                deviceId: getDeviceId()
+            }};
+        }}
+
+        // Get or create device ID
+        function getDeviceId() {{
+            let deviceId = localStorage.getItem('deviceId');
+            if (!deviceId) {{
+                deviceId = 'device-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9);
+                localStorage.setItem('deviceId', deviceId);
+            }}
+            return deviceId;
+        }}
+
+        // Set sync status UI
+        function setSyncStatus(status) {{
+            const indicator = document.getElementById('syncStatus');
+            if (!indicator) return;
+
+            indicator.style.display = 'block';
+            const lastSync = localStorage.getItem('lastSyncTime');
+
+            switch (status) {{
+                case 'syncing':
+                    indicator.innerHTML = '<span class="lang-de">⟳ Synchronisiere...</span><span class="lang-en">⟳ Syncing...</span>';
+                    indicator.className = 'sync-status syncing';
+                    break;
+                case 'synced':
+                    const timeAgo = lastSync ? getTimeAgo(parseInt(lastSync)) : '<span class="lang-de">gerade eben</span><span class="lang-en">just now</span>';
+                    indicator.innerHTML = `<span class="lang-de">✓ Zuletzt synchronisiert: ${{timeAgo}}</span><span class="lang-en">✓ Last synced: ${{timeAgo}}</span>`;
+                    indicator.className = 'sync-status synced';
+                    break;
+                case 'error':
+                    indicator.innerHTML = '<span class="lang-de">⚠ Sync-Fehler - <a href="#" onclick="performSync(); return false;">erneut versuchen?</a></span><span class="lang-en">⚠ Sync error - <a href="#" onclick="performSync(); return false;">retry?</a></span>';
+                    indicator.className = 'sync-status error';
+                    break;
+                case 'offline':
+                    indicator.innerHTML = '<span class="lang-de">📡 Offline - Änderungen lokal gespeichert</span><span class="lang-en">📡 Offline - changes saved locally</span>';
+                    indicator.className = 'sync-status offline';
+                    break;
+            }}
+
+            // Apply current language to new content
+            const savedLang = localStorage.getItem('language') || 'de';
+            applyLanguage(savedLang);
+        }}
+
+        // Calculate time ago
+        function getTimeAgo(timestamp) {{
+            const currentLang = localStorage.getItem('language') || 'de';
+            const seconds = Math.floor((Date.now() - timestamp) / 1000);
+
+            if (seconds < 60) {{
+                return currentLang === 'de' ? 'gerade eben' : 'just now';
+            }}
+
+            const minutes = Math.floor(seconds / 60);
+            if (minutes < 60) {{
+                if (currentLang === 'de') {{
+                    return minutes === 1 ? '1 Minute her' : `${{minutes}} Minuten her`;
+                }} else {{
+                    return minutes === 1 ? '1 minute ago' : `${{minutes}} minutes ago`;
+                }}
+            }}
+
+            const hours = Math.floor(minutes / 60);
+            if (hours < 24) {{
+                if (currentLang === 'de') {{
+                    return hours === 1 ? '1 Stunde her' : `${{hours}} Stunden her`;
+                }} else {{
+                    return hours === 1 ? '1 hour ago' : `${{hours}} hours ago`;
+                }}
+            }}
+
+            const days = Math.floor(hours / 24);
+            if (currentLang === 'de') {{
+                return days === 1 ? '1 Tag her' : `${{days}} Tagen her`;
+            }} else {{
+                return days === 1 ? '1 day ago' : `${{days}} days ago`;
+            }}
+        }}
+
+        // Get local weekly plan with metadata
+        function getLocalWeeklyPlan() {{
+            const planKey = 'weeklyMealPlan';
+            let plan = {{ recipes: [] }};
+
+            try {{
+                const stored = localStorage.getItem(planKey);
+                if (stored) {{
+                    plan = JSON.parse(stored);
+                }}
+            }} catch (e) {{
+                console.error('Error reading local plan:', e);
+            }}
+
+            return plan;
+        }}
+
+        // Save weekly plan locally
+        function saveLocalWeeklyPlan(planData) {{
+            const planKey = 'weeklyMealPlan';
+            try {{
+                localStorage.setItem(planKey, JSON.stringify(planData));
+            }} catch (e) {{
+                console.error('Error saving local plan:', e);
+            }}
+        }}
+
+        // Check if user is signed in to Google
+        function isSignedInToGoogle() {{
+            return gapiInitialized && accessToken !== null;
+        }}
+
+        // Trigger sync after data changes
+        function syncIfSignedIn() {{
+            if (isSignedInToGoogle()) {{
+                performSync();
+            }}
+        }}
+
+        // ============ Weekly Plan Functions ============
 
         function formatDate(timestamp) {{
             const date = new Date(timestamp);
@@ -924,17 +1345,7 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]]) -> str:
         }}
 
         function loadWeeklyPlan() {{
-            const planKey = 'weeklyMealPlan';
-            let plan = {{ recipes: [] }};
-
-            try {{
-                const stored = localStorage.getItem(planKey);
-                if (stored) {{
-                    plan = JSON.parse(stored);
-                }}
-            }} catch (e) {{
-                console.error('Error reading weekly plan:', e);
-            }}
+            let plan = getLocalWeeklyPlan();
 
             const container = document.getElementById('weeklyPlanContainer');
             const clearButton = document.getElementById('clearAllButton');
@@ -1009,18 +1420,7 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]]) -> str:
         }}
 
         function toggleCooked(recipeId) {{
-            const planKey = 'weeklyMealPlan';
-            let plan = {{ recipes: [] }};
-
-            try {{
-                const stored = localStorage.getItem(planKey);
-                if (stored) {{
-                    plan = JSON.parse(stored);
-                }}
-            }} catch (e) {{
-                console.error('Error reading weekly plan:', e);
-                return;
-            }}
+            let plan = getLocalWeeklyPlan();
 
             // Find recipe by ID (or fallback to slug+addedAt for backwards compatibility)
             const recipe = plan.recipes.find(r => {{
@@ -1030,29 +1430,16 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]]) -> str:
 
             if (recipe) {{
                 recipe.cooked = !recipe.cooked;
+                plan.lastModified = Date.now();
 
-                try {{
-                    localStorage.setItem(planKey, JSON.stringify(plan));
-                    loadWeeklyPlan();
-                }} catch (e) {{
-                    console.error('Error saving weekly plan:', e);
-                }}
+                saveLocalWeeklyPlan(plan);
+                loadWeeklyPlan();
+                syncIfSignedIn();
             }}
         }}
 
         function removeRecipe(recipeId) {{
-            const planKey = 'weeklyMealPlan';
-            let plan = {{ recipes: [] }};
-
-            try {{
-                const stored = localStorage.getItem(planKey);
-                if (stored) {{
-                    plan = JSON.parse(stored);
-                }}
-            }} catch (e) {{
-                console.error('Error reading weekly plan:', e);
-                return;
-            }}
+            let plan = getLocalWeeklyPlan();
 
             // Find and remove recipe by ID (or fallback to slug+addedAt for backwards compatibility)
             const index = plan.recipes.findIndex(r => {{
@@ -1062,13 +1449,11 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]]) -> str:
 
             if (index >= 0) {{
                 plan.recipes.splice(index, 1);
+                plan.lastModified = Date.now();
 
-                try {{
-                    localStorage.setItem(planKey, JSON.stringify(plan));
-                    loadWeeklyPlan();
-                }} catch (e) {{
-                    console.error('Error saving weekly plan:', e);
-                }}
+                saveLocalWeeklyPlan(plan);
+                loadWeeklyPlan();
+                syncIfSignedIn();
             }}
         }}
 
@@ -1082,15 +1467,14 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]]) -> str:
                 return;
             }}
 
-            const planKey = 'weeklyMealPlan';
-            const emptyPlan = {{ recipes: [] }};
+            const emptyPlan = {{
+                recipes: [],
+                lastModified: Date.now()
+            }};
 
-            try {{
-                localStorage.setItem(planKey, JSON.stringify(emptyPlan));
-                loadWeeklyPlan();
-            }} catch (e) {{
-                console.error('Error clearing weekly plan:', e);
-            }}
+            saveLocalWeeklyPlan(emptyPlan);
+            loadWeeklyPlan();
+            syncIfSignedIn();
         }}
 
         // Language toggle functionality
@@ -1160,6 +1544,16 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]]) -> str:
                 document.body.classList.add('dark-mode');
             }}
             updateDarkModeButton(isDark);
+
+            // Initialize Google Drive API
+            initGoogleDrive();
+
+            // Set up periodic sync (every 60 seconds when page is visible)
+            setInterval(function() {{
+                if (!document.hidden && isSignedInToGoogle()) {{
+                    performSync();
+                }}
+            }}, 60000);
         }});
     </script>
 </body>
