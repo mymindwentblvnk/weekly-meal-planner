@@ -125,6 +125,14 @@ def generate_recipe_detail_html(recipe: dict[str, Any], slug: str) -> str:
             <meta itemprop="name" content="{escape(recipe.get('author', 'Unknown'))}">
         </div>
 
+        <div style="display: flex; gap: 15px; align-items: center; margin: 20px 0; flex-wrap: wrap;">
+            {generate_bring_widget()}
+            <button id="weeklyPlanButton" class="weekly-plan-button" onclick="toggleWeeklyPlan()">
+                <span class="lang-de">📅 Diese Woche kochen</span>
+                <span class="lang-en">📅 Cook This Week</span>
+            </button>
+        </div>
+
         <table class="recipe-info-table">
             <tr>
                 <td><time itemprop="prepTime" datetime="{format_time(recipe['prep_time'])}">{bilingual_text('prep_time')}</time></td>
@@ -140,14 +148,7 @@ def generate_recipe_detail_html(recipe: dict[str, Any], slug: str) -> str:
             </tr>
         </table>
 
-        <button id="weeklyPlanButton" class="weekly-plan-button" onclick="toggleWeeklyPlan()">
-            <span class="lang-de">📅 Diese Woche kochen</span>
-            <span class="lang-en">📅 Cook This Week</span>
-        </button>
-
         <h2>{bilingual_text('ingredients_heading')}</h2>
-
-        {generate_bring_widget()}
 
         <table class="ingredients-table">
             <thead>

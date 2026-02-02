@@ -515,7 +515,7 @@ ol li span {
 .weekly-plan-button {
     display: inline-block;
     padding: 12px 24px;
-    margin: 20px 0;
+    margin: 0;
     background-color: var(--primary-color);
     color: white;
     border: 2px solid var(--primary-color);
@@ -525,6 +525,7 @@ ol li span {
     cursor: pointer;
     transition: all 0.2s;
     text-align: center;
+    white-space: nowrap;
 }
 .weekly-plan-button:hover {
     background-color: var(--primary-hover);
