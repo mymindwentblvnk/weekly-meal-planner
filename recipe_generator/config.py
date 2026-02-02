@@ -514,14 +514,14 @@ ol li span {
 }
 .weekly-plan-button {
     display: inline-block;
-    padding: 12px 24px;
+    padding: 8px 16px;
     margin: 0;
     background-color: var(--primary-color);
     color: white;
     border: 2px solid var(--primary-color);
     border-radius: 6px;
-    font-size: 1em;
-    font-weight: 600;
+    font-size: 0.95em;
+    font-weight: 500;
     cursor: pointer;
     transition: all 0.2s;
     text-align: center;
