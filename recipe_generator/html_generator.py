@@ -7,6 +7,112 @@ from datetime import datetime
 from .config import COMMON_CSS, DETAIL_PAGE_CSS, OVERVIEW_PAGE_CSS, WEEKLY_PAGE_CSS, get_text
 
 
+def generate_dark_mode_script() -> str:
+    """Generate dark mode toggle JavaScript.
+
+    Returns:
+        JavaScript code for dark mode functionality
+    """
+    return '''
+        // Dark mode toggle functionality
+        function toggleDarkMode() {
+            const isDark = document.body.classList.toggle('dark-mode');
+            localStorage.setItem('darkMode', isDark ? 'enabled' : 'disabled');
+            updateDarkModeButton(isDark);
+        }
+
+        function updateDarkModeButton(isDark) {
+            document.querySelectorAll('.light-mode-text').forEach(el => {
+                el.style.display = isDark ? 'none' : 'inline';
+            });
+            document.querySelectorAll('.dark-mode-text').forEach(el => {
+                el.style.display = isDark ? 'inline' : 'none';
+            });
+
+            // Update dark mode toggle icon
+            document.querySelectorAll('.light-mode-icon').forEach(el => {
+                if (isDark) {
+                    el.classList.remove('active');
+                } else {
+                    el.classList.add('active');
+                }
+            });
+            document.querySelectorAll('.dark-mode-icon').forEach(el => {
+                if (isDark) {
+                    el.classList.add('active');
+                } else {
+                    el.classList.remove('active');
+                }
+            });
+        }
+
+        // Apply dark mode on page load
+        function initializeDarkMode() {
+            const darkMode = localStorage.getItem('darkMode');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const isDark = darkMode === 'enabled' || (darkMode === null && prefersDark);
+
+            if (isDark) {
+                document.body.classList.add('dark-mode');
+            }
+            updateDarkModeButton(isDark);
+        }'''
+
+
+def generate_navigation(show_back_button: bool = False) -> str:
+    """Generate top navigation HTML.
+
+    Args:
+        show_back_button: Whether to show the back to recipes button
+
+    Returns:
+        HTML for top navigation bar
+    """
+    back_button = f'<a href="index.html" class="back-button">{get_text("back_to_recipes")}</a>' if show_back_button else ''
+
+    return f'''<div class="top-nav">
+        {back_button}
+        <div style="display: flex; gap: 10px; align-items: center;">
+            <a href="weekly.html" class="nav-link" aria-label="Weekly Plan">🗓️</a>
+            <a href="stats.html" class="nav-link" aria-label="Statistics">📊</a>
+            <button class="nav-toggle-button" id="darkModeToggle" onclick="toggleDarkMode()" aria-label="Toggle dark mode">
+                <span class="emoji light-mode-icon">☀️</span>
+                <span class="emoji dark-mode-icon">🌙</span>
+            </button>
+        </div>
+    </div>'''
+
+
+def generate_page_header(title: str, css: str, additional_css: str = "") -> str:
+    """Generate common HTML page header.
+
+    Args:
+        title: Page title
+        css: CSS styles to include
+        additional_css: Optional additional CSS for page-specific styles
+
+    Returns:
+        HTML header with DOCTYPE, head, and style tags
+    """
+    all_css = f"{COMMON_CSS}\n        {css}"
+    if additional_css:
+        all_css += f"\n        {additional_css}"
+
+    return f'''<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{escape(title)}</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <style>
+        {all_css}
+    </style>
+</head>
+<body>'''
+
+
 def format_time(minutes: int) -> str:
     """Convert minutes to ISO 8601 duration format (PT{minutes}M)."""
     return f"PT{minutes}M"
@@ -73,31 +179,9 @@ def generate_recipe_detail_html(recipe: dict[str, Any], slug: str) -> str:
     # Get category emoji if available
     category = recipe.get('category', '')
 
-    html = f'''<!DOCTYPE html>
-<html lang="de">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{escape(recipe['name'])} {get_text('recipe_title_suffix')}</title>
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
-    <link rel="apple-touch-icon" href="apple-touch-icon.png">
-    <style>
-        {COMMON_CSS}
-        {DETAIL_PAGE_CSS}
-    </style>
-</head>
-<body>
-    <div class="top-nav">
-        <a href="index.html" class="back-button">{get_text('back_to_recipes')}</a>
-        <div style="display: flex; gap: 10px; align-items: center;">
-            <a href="weekly.html" class="nav-link" aria-label="Weekly Plan">🗓️</a>
-            <a href="stats.html" class="nav-link" aria-label="Statistics">📊</a>
-            <button class="nav-toggle-button" id="darkModeToggle" onclick="toggleDarkMode()" aria-label="Toggle dark mode">
-                <span class="emoji light-mode-icon">☀️</span>
-                <span class="emoji dark-mode-icon">🌙</span>
-            </button>
-        </div>
-    </div>
+    title = f"{recipe['name']} {get_text('recipe_title_suffix')}"
+    html = f'''{generate_page_header(title, DETAIL_PAGE_CSS)}
+    {generate_navigation(show_back_button=True)}
     <div itemscope itemtype="https://schema.org/Recipe">
         <h1 itemprop="name">{escape(recipe['name'])}</h1>
 
@@ -253,49 +337,11 @@ def generate_recipe_detail_html(recipe: dict[str, Any], slug: str) -> str:
             }}
         }}
 
-        // Dark mode toggle functionality
-        function toggleDarkMode() {{
-            const isDark = document.body.classList.toggle('dark-mode');
-            localStorage.setItem('darkMode', isDark ? 'enabled' : 'disabled');
-            updateDarkModeButton(isDark);
-        }}
-
-        function updateDarkModeButton(isDark) {{
-            document.querySelectorAll('.light-mode-text').forEach(el => {{
-                el.style.display = isDark ? 'none' : 'inline';
-            }});
-            document.querySelectorAll('.dark-mode-text').forEach(el => {{
-                el.style.display = isDark ? 'inline' : 'none';
-            }});
-
-            // Update dark mode toggle icon
-            document.querySelectorAll('.light-mode-icon').forEach(el => {{
-                if (isDark) {{
-                    el.classList.remove('active');
-                }} else {{
-                    el.classList.add('active');
-                }}
-            }});
-            document.querySelectorAll('.dark-mode-icon').forEach(el => {{
-                if (isDark) {{
-                    el.classList.add('active');
-                }} else {{
-                    el.classList.remove('active');
-                }}
-            }});
-        }}
+        {generate_dark_mode_script()}
 
         // Apply saved preferences on page load
         document.addEventListener('DOMContentLoaded', function() {{
-            // Apply dark mode
-            const darkMode = localStorage.getItem('darkMode');
-            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-            const isDark = darkMode === 'enabled' || (darkMode === null && prefersDark);
-
-            if (isDark) {{
-                document.body.classList.add('dark-mode');
-            }}
-            updateDarkModeButton(isDark);
+            initializeDarkMode();
 
             // Update weekly plan button state
             updateWeeklyPlanButton();
@@ -358,30 +404,10 @@ def generate_overview_html(
         <p>{get_text('last_updated')} {formatted_time}</p>
     </footer>'''
 
-    html = f'''<!DOCTYPE html>
-<html lang="de">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{get_text('overview_title')}</title>
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
-    <link rel="apple-touch-icon" href="apple-touch-icon.png">
-    <style>
-        {COMMON_CSS}
-        {OVERVIEW_PAGE_CSS}
-    </style>
-</head>
-<body>
+    html = f'''{generate_page_header(get_text('overview_title'), OVERVIEW_PAGE_CSS)}
     <div class="page-header">
         <h1>{get_text('overview_title')}</h1>
-        <div class="top-nav">
-            <a href="weekly.html" class="nav-link" aria-label="Weekly Plan">🗓️</a>
-            <a href="stats.html" class="nav-link" aria-label="Statistics">📊</a>
-            <button class="nav-toggle-button" id="darkModeToggle" onclick="toggleDarkMode()" aria-label="Toggle dark mode">
-                <span class="emoji light-mode-icon">☀️</span>
-                <span class="emoji dark-mode-icon">🌙</span>
-            </button>
-        </div>
+        {generate_navigation(show_back_button=False)}
     </div>
 
     <div class="filter-buttons">
@@ -459,49 +485,11 @@ def generate_overview_html(
             }});
         }});
 
-        // Dark mode toggle functionality
-        function toggleDarkMode() {{
-            const isDark = document.body.classList.toggle('dark-mode');
-            localStorage.setItem('darkMode', isDark ? 'enabled' : 'disabled');
-            updateDarkModeButton(isDark);
-        }}
-
-        function updateDarkModeButton(isDark) {{
-            document.querySelectorAll('.light-mode-text').forEach(el => {{
-                el.style.display = isDark ? 'none' : 'inline';
-            }});
-            document.querySelectorAll('.dark-mode-text').forEach(el => {{
-                el.style.display = isDark ? 'inline' : 'none';
-            }});
-
-            // Update dark mode toggle icon
-            document.querySelectorAll('.light-mode-icon').forEach(el => {{
-                if (isDark) {{
-                    el.classList.remove('active');
-                }} else {{
-                    el.classList.add('active');
-                }}
-            }});
-            document.querySelectorAll('.dark-mode-icon').forEach(el => {{
-                if (isDark) {{
-                    el.classList.add('active');
-                }} else {{
-                    el.classList.remove('active');
-                }}
-            }});
-        }}
+        {generate_dark_mode_script()}
 
         // Apply saved preferences on page load
         document.addEventListener('DOMContentLoaded', function() {{
-            // Apply dark mode
-            const darkMode = localStorage.getItem('darkMode');
-            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-            const isDark = darkMode === 'enabled' || (darkMode === null && prefersDark);
-
-            if (isDark) {{
-                document.body.classList.add('dark-mode');
-            }}
-            updateDarkModeButton(isDark);
+            initializeDarkMode();
 
             // Apply saved filters
             categoryFilter = localStorage.getItem('recipeCategoryFilter') || 'all';
@@ -531,18 +519,8 @@ def generate_stats_html(recipes_data: list[tuple[str, dict[str, Any]]]) -> str:
     recipe_names = [recipe['name'] for _, recipe in recipes_data]
     recipe_names_json = str(recipe_names).replace("'", '"')
 
-    html = f'''<!DOCTYPE html>
-<html lang="de">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{get_text('stats_title')}</title>
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
-    <link rel="apple-touch-icon" href="apple-touch-icon.png">
-    <style>
-        {COMMON_CSS}
-        {OVERVIEW_PAGE_CSS}
-        .stats-list {{
+    # Stats-specific CSS
+    stats_css = '''.stats-list {{
             list-style: none;
             padding: 0;
             margin: 20px 0;
@@ -610,21 +588,10 @@ def generate_stats_html(recipes_data: list[tuple[str, dict[str, Any]]]) -> str:
         .back-button:hover {{
             background-color: var(--bg-secondary);
             text-decoration: none;
-        }}
-    </style>
-</head>
-<body>
-    <div class="top-nav">
-        <a href="index.html" class="back-button">{get_text('back_to_recipes')}</a>
-        <div style="display: flex; gap: 10px; align-items: center;">
-            <a href="weekly.html" class="nav-link" aria-label="Weekly Plan">🗓️</a>
-            <a href="stats.html" class="nav-link" aria-label="Statistics">📊</a>
-            <button class="nav-toggle-button" id="darkModeToggle" onclick="toggleDarkMode()" aria-label="Toggle dark mode">
-                <span class="emoji light-mode-icon">☀️</span>
-                <span class="emoji dark-mode-icon">🌙</span>
-            </button>
-        </div>
-    </div>
+        }}'''
+
+    html = f'''{generate_page_header(get_text('stats_title'), OVERVIEW_PAGE_CSS, stats_css)}
+    {generate_navigation(show_back_button=True)}
     <h1>{get_text('stats_title')}</h1>
     <p style="color: var(--text-secondary); margin-bottom: 15px;">{get_text('stats_subtitle')}</p>
     <p style="color: var(--text-tertiary); font-size: 0.9em; font-style: italic; margin-bottom: 30px; padding: 10px; background-color: var(--bg-secondary); border-radius: 4px; border-left: 3px solid var(--primary-color);">{get_text('stats_disclaimer')}</p>
@@ -690,52 +657,14 @@ def generate_stats_html(recipes_data: list[tuple[str, dict[str, Any]]]) -> str:
             container.innerHTML = html;
         }}
 
-        // Dark mode toggle functionality
-        function toggleDarkMode() {{
-            const isDark = document.body.classList.toggle('dark-mode');
-            localStorage.setItem('darkMode', isDark ? 'enabled' : 'disabled');
-            updateDarkModeButton(isDark);
-        }}
-
-        function updateDarkModeButton(isDark) {{
-            document.querySelectorAll('.light-mode-text').forEach(el => {{
-                el.style.display = isDark ? 'none' : 'inline';
-            }});
-            document.querySelectorAll('.dark-mode-text').forEach(el => {{
-                el.style.display = isDark ? 'inline' : 'none';
-            }});
-
-            // Update dark mode toggle icon
-            document.querySelectorAll('.light-mode-icon').forEach(el => {{
-                if (isDark) {{
-                    el.classList.remove('active');
-                }} else {{
-                    el.classList.add('active');
-                }}
-            }});
-            document.querySelectorAll('.dark-mode-icon').forEach(el => {{
-                if (isDark) {{
-                    el.classList.add('active');
-                }} else {{
-                    el.classList.remove('active');
-                }}
-            }});
-        }}
+        {generate_dark_mode_script()}
 
         // Apply saved preferences on page load
         document.addEventListener('DOMContentLoaded', function() {{
             // Display stats
             displayStats();
 
-            // Apply dark mode
-            const darkMode = localStorage.getItem('darkMode');
-            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-            const isDark = darkMode === 'enabled' || (darkMode === null && prefersDark);
-
-            if (isDark) {{
-                document.body.classList.add('dark-mode');
-            }}
-            updateDarkModeButton(isDark);
+            initializeDarkMode();
         }});
     </script>
 </body>
@@ -766,31 +695,8 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]]) -> str:
     # Generate recipe lookup as JSON for JavaScript
     recipe_lookup_json = str(recipe_lookup).replace("'", '"')
 
-    html = f'''<!DOCTYPE html>
-<html lang="de">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{get_text('weekly_plan_title')}</title>
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
-    <link rel="apple-touch-icon" href="apple-touch-icon.png">
-    <style>
-        {COMMON_CSS}
-        {WEEKLY_PAGE_CSS}
-    </style>
-</head>
-<body>
-    <div class="top-nav">
-        <a href="index.html" class="back-button">{get_text('back_to_recipes')}</a>
-        <div style="display: flex; gap: 10px; align-items: center;">
-            <a href="weekly.html" class="nav-link" aria-label="Weekly Plan">🗓️</a>
-            <a href="stats.html" class="nav-link" aria-label="Statistics">📊</a>
-            <button class="nav-toggle-button" id="darkModeToggle" onclick="toggleDarkMode()" aria-label="Toggle dark mode">
-                <span class="emoji light-mode-icon">☀️</span>
-                <span class="emoji dark-mode-icon">🌙</span>
-            </button>
-        </div>
-    </div>
+    html = f'''{generate_page_header(get_text('weekly_plan_title'), WEEKLY_PAGE_CSS)}
+    {generate_navigation(show_back_button=True)}
     <h1>{get_text('weekly_plan_title')}</h1>
 
     <button id="clearAllButton" class="clear-all-button" onclick="clearAllRecipes()">Alle löschen</button>
@@ -943,52 +849,14 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]]) -> str:
             loadWeeklyPlan();
         }}
 
-        // Dark mode toggle functionality
-        function toggleDarkMode() {{
-            const isDark = document.body.classList.toggle('dark-mode');
-            localStorage.setItem('darkMode', isDark ? 'enabled' : 'disabled');
-            updateDarkModeButton(isDark);
-        }}
-
-        function updateDarkModeButton(isDark) {{
-            document.querySelectorAll('.light-mode-text').forEach(el => {{
-                el.style.display = isDark ? 'none' : 'inline';
-            }});
-            document.querySelectorAll('.dark-mode-text').forEach(el => {{
-                el.style.display = isDark ? 'inline' : 'none';
-            }});
-
-            // Update dark mode toggle icon
-            document.querySelectorAll('.light-mode-icon').forEach(el => {{
-                if (isDark) {{
-                    el.classList.remove('active');
-                }} else {{
-                    el.classList.add('active');
-                }}
-            }});
-            document.querySelectorAll('.dark-mode-icon').forEach(el => {{
-                if (isDark) {{
-                    el.classList.add('active');
-                }} else {{
-                    el.classList.remove('active');
-                }}
-            }});
-        }}
+        {generate_dark_mode_script()}
 
         // Apply saved preferences on page load
         document.addEventListener('DOMContentLoaded', function() {{
             // Load weekly plan
             loadWeeklyPlan();
 
-            // Apply dark mode
-            const darkMode = localStorage.getItem('darkMode');
-            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-            const isDark = darkMode === 'enabled' || (darkMode === null && prefersDark);
-
-            if (isDark) {{
-                document.body.classList.add('dark-mode');
-            }}
-            updateDarkModeButton(isDark);
+            initializeDarkMode();
 
             // Listen for storage changes from other tabs (e.g., recipe pages adding items)
             window.addEventListener('storage', function(e) {{
