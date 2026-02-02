@@ -520,12 +520,12 @@ def generate_stats_html(recipes_data: list[tuple[str, dict[str, Any]]]) -> str:
     recipe_names_json = str(recipe_names).replace("'", '"')
 
     # Stats-specific CSS
-    stats_css = '''.stats-list {{
+    stats_css = '''.stats-list {
             list-style: none;
             padding: 0;
             margin: 20px 0;
-        }}
-        .stats-item {{
+        }
+        .stats-item {
             background-color: var(--card-bg);
             border: 1px solid var(--border-color);
             border-radius: 8px;
@@ -534,47 +534,47 @@ def generate_stats_html(recipes_data: list[tuple[str, dict[str, Any]]]) -> str:
             display: flex;
             align-items: center;
             transition: box-shadow 0.2s;
-        }}
-        .stats-item:hover {{
+        }
+        .stats-item:hover {
             box-shadow: 0 4px 6px var(--shadow);
-        }}
-        .rank {{
+        }
+        .rank {
             font-size: 2em;
             font-weight: bold;
             color: var(--primary-color);
             min-width: 60px;
             text-align: center;
-        }}
-        .recipe-info {{
+        }
+        .recipe-info {
             flex: 1;
             margin-left: 20px;
-        }}
-        .recipe-info h3 {{
+        }
+        .recipe-info h3 {
             margin: 0 0 5px 0;
             color: var(--text-color);
-        }}
-        .recipe-info a {{
+        }
+        .recipe-info a {
             color: var(--primary-color);
             text-decoration: none;
             font-size: 1.2em;
-        }}
-        .recipe-info a:hover {{
+        }
+        .recipe-info a:hover {
             text-decoration: underline;
-        }}
-        .view-count {{
+        }
+        .view-count {
             font-size: 1.5em;
             font-weight: bold;
             color: var(--primary-color);
             min-width: 100px;
             text-align: right;
-        }}
-        .no-data {{
+        }
+        .no-data {
             text-align: center;
             padding: 40px;
             color: var(--text-secondary);
             font-style: italic;
-        }}
-        .back-button {{
+        }
+        .back-button {
             display: inline-block;
             padding: 8px 16px;
             margin-bottom: 20px;
@@ -584,34 +584,34 @@ def generate_stats_html(recipes_data: list[tuple[str, dict[str, Any]]]) -> str:
             border-radius: 4px;
             font-weight: 500;
             transition: background-color 0.2s;
-        }}
-        .back-button:hover {{
+        }
+        .back-button:hover {
             background-color: var(--bg-secondary);
             text-decoration: none;
-        }}
+        }
 
         /* Mobile optimizations */
-        @media (max-width: 600px) {{
-            .stats-item {{
+        @media (max-width: 600px) {
+            .stats-item {
                 padding: 15px 10px;
                 gap: 10px;
-            }}
-            .rank {{
+            }
+            .rank {
                 font-size: 1.3em;
                 min-width: 40px;
-            }}
-            .recipe-info {{
+            }
+            .recipe-info {
                 margin-left: 10px;
-            }}
-            .recipe-info a {{
+            }
+            .recipe-info a {
                 font-size: 1em;
                 line-height: 1.3;
-            }}
-            .view-count {{
+            }
+            .view-count {
                 font-size: 1em;
                 min-width: 60px;
-            }}
-        }}'''
+            }
+        }'''
 
     html = f'''{generate_page_header(get_text('stats_title'), OVERVIEW_PAGE_CSS, stats_css)}
     {generate_navigation(show_back_button=True)}
