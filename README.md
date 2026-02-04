@@ -14,10 +14,12 @@
 
 - **YAML-based recipes**: Define recipes in simple YAML files organized by author
 - **Bring! integration**: One-click ingredient import to your Bring! shopping list
+- **Unified search**: Search by recipe name, tags, authors, or categories with autocomplete
+- **Hierarchical tagging**: Smart tag system with both generic (fish, nuts) and specific (salmon, walnuts) tags
 - **Weekly meal planner**: Plan your meals for the week with local storage sync
 - **Recipe statistics**: Track and view your most-viewed recipes
-- **Advanced filtering**: Multi-select dropdown filters for categories and authors
-- **Auto-detection**: Categories and authors are automatically detected from recipe files
+- **Advanced filtering**: Multi-select search with support for tags, categories, authors, and recipe names
+- **Auto-detection**: Categories, authors, and tags are automatically detected from recipe files
 - **Quick recipes filter**: Find recipes that take 30 minutes or less
 - **Dark mode**: Toggle between light and dark themes with automatic detection
 - **Schema.org markup**: Properly structured recipe data for SEO and compatibility
@@ -75,6 +77,22 @@ The test suite includes:
 
 Tests are automatically run on every push via GitHub Actions.
 
+### Development Commands
+
+The project includes Claude Code commands for managing recipe metadata:
+
+- **`/fill-metadata`**: Comprehensive metadata validation and improvement
+  - Fills missing descriptions
+  - Adds missing tags
+  - Validates hierarchical tag completeness
+  - Ensures all required fields are present
+  - Auto-regenerates HTML and commits changes
+
+- **`/fill-descriptions`**: Generate descriptions for recipes without them
+- **`/fill-tags`**: Add tags to recipes that don't have them
+
+Use these commands to maintain high-quality recipe metadata across all files.
+
 ## Recipe Format
 
 Recipes are organized by author in subdirectories under `recipes/`. For example:
@@ -98,6 +116,9 @@ category: 🍞  # See allowed categories below
 servings: 4
 prep_time: 15  # minutes
 cook_time: 0   # minutes
+tags:
+  - eier
+  - mehl
 
 ingredients:
   - name: flour
@@ -126,6 +147,46 @@ Categories are automatically detected from your recipe files. Use emoji icons to
 
 You can use any emoji as a category - it will automatically appear in the filter dropdown. Known categories will display with German labels, while new categories will show just the emoji.
 
+### Tags
+
+Tags enable powerful ingredient-based search and filtering. The system uses a **hierarchical tagging structure** with both generic and specific tags:
+
+**Tag Format:**
+- Lowercase German words
+- Sorted alphabetically
+- Include BOTH generic category AND specific ingredient
+
+**Hierarchical Tag Examples:**
+```yaml
+tags:
+  - fisch           # Generic: fish
+  - lachs           # Specific: salmon
+  - käse            # Generic: cheese
+  - feta            # Specific: feta
+  - nüsse           # Generic: nuts
+  - walnüsse        # Specific: walnuts
+  - kerne           # Generic: seeds
+  - chiasamen       # Specific: chia seeds
+```
+
+**Tag Hierarchies:**
+- **Fish**: `fisch` + (`lachs` | `thunfisch` | `seelachs` | `garnelen`)
+- **Meat**: `fleisch` + (`rind` | `pute` | `schinken` | `hackfleisch`)
+- **Cheese**: `käse` + (`feta` | `schafskäse` | `parmesan` | `bergkäse` | `frischkäse`)
+- **Nuts**: `nüsse` + (`walnüsse` | `haselnüsse` | `mandeln`)
+- **Berries**: `beeren` + (`himbeeren` | `erdbeeren`)
+- **Fruit**: `obst` + (`apfel` | `kiwi` | `weintrauben`)
+- **Seeds**: `kerne` + (`chiasamen` | `leinsamen` | `sesam`)
+- **Cabbage**: `kohl` + (`blumenkohl` | `brokkoli`)
+
+**Important Rules:**
+- ✓ Use both levels: "Wildlachsfilet" → `fisch` + `lachs`
+- ✗ Don't go deeper: "Wildlachsfilet" → NOT `wildlachs`
+- ✓ Always sort tags alphabetically
+- ✓ Use singular German forms: "Äpfel" → `apfel`
+
+This allows users to search broadly (all fish recipes) or specifically (only salmon recipes).
+
 ## GitHub Pages Deployment
 
 The project includes a GitHub Actions workflow that automatically:
@@ -142,17 +203,23 @@ The project includes a GitHub Actions workflow that automatically:
 
 The workflow runs automatically on every push to `main`, or can be triggered manually from the Actions tab. Deployment will only occur if all tests pass.
 
-## Recipe Filtering
+## Search & Filtering
 
-The overview page provides advanced filtering options:
+The overview page provides a powerful unified search with autocomplete:
 
-- **Category filter**: Multi-select dropdown to filter by recipe categories (meat, fish, vegetarian, bread, breakfast, etc.)
-- **Author filter**: Multi-select dropdown to filter by recipe authors (VitaMoment, HelloFresh, Chefkoch, etc.)
-- **Fast recipes**: Checkbox filter to show only recipes that take 30 minutes or less
-- **Clear filters**: Reset button to clear all active filters
+### Unified Search
+- **Recipe names** (🍽️): Search for specific recipes like "Fischpfanne" or "Gulasch"
+- **Tags** (🏷️): Search by ingredients like "lachs", "käse", or "nüsse"
+- **Authors** (👤): Filter by recipe creators (VitaMoment, HelloFresh, Chefkoch, etc.)
+- **Categories** (📁): Filter by meal type (Brot, Fisch, Fleisch, Frühstück, etc.)
+
+### Additional Filters
+- **Fast recipes**: Checkbox to show only recipes that take 30 minutes or less
+- **Multi-select**: Combine multiple search criteria (e.g., "lachs" + "frühstück" + VitaMoment)
 - **Persistent state**: Filter selections are saved in local storage and restored on page reload
 
-Categories and authors are automatically detected from your recipe files - no configuration needed!
+### How It Works
+Start typing in the search box to see autocomplete suggestions. All searchable items are automatically detected from your recipe files - no configuration needed! Select any combination of recipe names, tags, authors, or categories to filter the recipe list.
 
 ## Weekly Meal Plan
 
@@ -185,6 +252,11 @@ bring-recipes-adder/
 │   └── Chefkoch/
 │       └── *.yaml
 ├── output/                      # Generated HTML (gitignored)
+├── .claude/                     # Claude Code commands
+│   └── commands/
+│       ├── fill-metadata.md    # Comprehensive metadata validation
+│       ├── fill-descriptions.md # Generate descriptions
+│       └── fill-tags.md        # Hierarchical tagging rules
 ├── .github/workflows/
 │   ├── deploy.yml              # Deploy to GitHub Pages
 │   └── test.yml                # Run tests on push
