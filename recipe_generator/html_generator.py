@@ -584,6 +584,9 @@ def generate_overview_html(
 
             Array.from(suggestions).forEach((s, i) => {{
                 s.classList.toggle('active', i === currentFocus);
+                if (i === currentFocus) {{
+                    s.scrollIntoView({{ block: 'nearest', behavior: 'smooth' }});
+                }}
             }});
         }}
 
