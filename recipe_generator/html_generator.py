@@ -496,6 +496,7 @@ def generate_overview_html(
                 <input type="checkbox" id="fastFilter">
                 <span>⚡ {get_text('filter_fast')}</span>
             </label>
+            <button id="resetSearch" class="reset-button">🔄 Suche zurücksetzen</button>
         </div>
     </div>
 
@@ -694,8 +695,17 @@ def generate_overview_html(
             }}
         }}
 
+        // Reset search functionality
+        function resetSearch() {{
+            selectedItems = [];
+            fastFilter.checked = false;
+            renderSelectedItems();
+            applyFilters();
+        }}
+
         // Add event listeners
         fastFilter.addEventListener('change', applyFilters);
+        document.getElementById('resetSearch').addEventListener('click', resetSearch);
 
         {generate_dark_mode_script()}
 
