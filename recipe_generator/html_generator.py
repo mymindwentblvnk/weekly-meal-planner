@@ -538,8 +538,8 @@ def generate_overview_html(
                     div.className = 'search-suggestion';
 
                     // Add type indicator
-                    const typeLabel = item.type === 'tag' ? '🏷️' : item.type === 'author' ? '👤' : item.type === 'recipe' ? '🍽️' : '📁';
-                    div.innerHTML = `${{typeLabel}} ${{item.label}}`;
+                    const typeLabel = item.type === 'tag' ? '🏷️ ' : item.type === 'author' ? '👤 ' : item.type === 'recipe' ? '🍽️ ' : '';
+                    div.innerHTML = `${{typeLabel}}${{item.label}}`;
 
                     div.addEventListener('click', () => addItem(item));
                     autocomplete.appendChild(div);
@@ -614,9 +614,9 @@ def generate_overview_html(
                 itemEl.className = 'selected-item';
 
                 // Add type indicator
-                const typeLabel = item.type === 'tag' ? '🏷️' : item.type === 'author' ? '👤' : item.type === 'recipe' ? '🍽️' : '📁';
+                const typeLabel = item.type === 'tag' ? '🏷️ ' : item.type === 'author' ? '👤 ' : item.type === 'recipe' ? '🍽️ ' : '';
                 itemEl.innerHTML = `
-                    <span>${{typeLabel}} ${{item.label}}</span>
+                    <span>${{typeLabel}}${{item.label}}</span>
                     <span class="selected-item-remove" onclick='removeItem(${{JSON.stringify(item)}})'>&times;</span>
                 `;
                 selectedItemsContainer.appendChild(itemEl);
