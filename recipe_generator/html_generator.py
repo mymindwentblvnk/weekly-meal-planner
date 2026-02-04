@@ -482,17 +482,17 @@ def generate_overview_html(
         <input type="text" id="search" class="search-input" placeholder="z.B. fisch, HelloFresh, Vegetarisch..." autocomplete="off">
         <div id="autocomplete" class="autocomplete"></div>
         <div id="selectedItems" class="selected-items"></div>
-    </div>
 
-    <div class="filters-container">
-        <label class="filter-checkbox">
-            <input type="checkbox" id="fastFilter">
-            <span>⚡ {get_text('filter_fast')}</span>
-        </label>
+        <div class="filter-row">
+            <label class="filter-checkbox">
+                <input type="checkbox" id="fastFilter">
+                <span>⚡ {get_text('filter_fast')}</span>
+            </label>
 
-        <button class="clear-filters-btn" onclick="clearAllFilters()">
-            ✕ Zurücksetzen
-        </button>
+            <button class="clear-filters-btn" onclick="clearAllFilters()">
+                ✕ Zurücksetzen
+            </button>
+        </div>
     </div>
 
     <div class="recipe-grid">

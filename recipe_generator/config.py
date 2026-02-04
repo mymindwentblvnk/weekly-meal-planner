@@ -350,11 +350,21 @@ h1 {
     color: var(--primary-color);
 }
 .search-container {
-    margin-bottom: 20px;
+    margin-bottom: 30px;
     padding: 20px;
     background-color: var(--bg-secondary);
     border-radius: 8px;
     border: 1px solid var(--border-color);
+}
+.filter-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid var(--border-color);
+    flex-wrap: wrap;
 }
 .search-label {
     display: block;
@@ -429,17 +439,6 @@ h1 {
 .selected-item-remove:hover {
     opacity: 0.7;
 }
-.filters-container {
-    display: flex;
-    gap: 15px;
-    margin-bottom: 30px;
-    flex-wrap: wrap;
-    align-items: center;
-    padding: 15px;
-    background-color: var(--bg-secondary);
-    border-radius: 8px;
-    border: 1px solid var(--border-color);
-}
 .filter-checkbox {
     display: flex;
     align-items: center;
@@ -448,7 +447,6 @@ h1 {
     font-size: 0.95em;
     color: var(--text-color);
     user-select: none;
-    padding: 8px 0;
 }
 .filter-checkbox input[type="checkbox"] {
     cursor: pointer;
@@ -469,7 +467,6 @@ h1 {
     cursor: pointer;
     transition: all 0.2s;
     white-space: nowrap;
-    margin-left: auto;
 }
 .clear-filters-btn:hover {
     background-color: var(--bg-secondary);
