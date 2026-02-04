@@ -475,6 +475,7 @@ h1 {
     cursor: pointer;
     transition: all 0.2s;
     white-space: nowrap;
+    margin-left: auto;
 }
 .clear-filters-btn:hover {
     background-color: var(--bg-secondary);
