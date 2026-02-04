@@ -386,12 +386,25 @@ def generate_overview_html(
         label = category_labels.get(cat, cat)
         categories.append((cat, label))
 
-    # Collect all unique tags from all recipes
+    # Collect all unique tags, authors, and categories for unified search
     all_tags = set()
+    all_search_items = []
+
     for _, recipe in recipes_data:
         if 'tags' in recipe and recipe['tags']:
             all_tags.update(recipe['tags'])
-    sorted_tags = sorted(all_tags)
+
+    # Add tags with type indicator
+    for tag in sorted(all_tags):
+        all_search_items.append({'label': tag, 'type': 'tag'})
+
+    # Add authors with type indicator
+    for author in authors:
+        all_search_items.append({'label': author, 'type': 'author'})
+
+    # Add categories with type indicator
+    for cat_emoji, cat_name in categories:
+        all_search_items.append({'label': f'{cat_emoji} {cat_name}', 'value': cat_emoji, 'type': 'category'})
 
     # Sort recipes by category (known categories first, then unknown)
     category_order = {'🥩': 0, '🐟': 1, '🥦': 2, '🍞': 3, '🥣': 4}
@@ -454,9 +467,9 @@ def generate_overview_html(
                     <span>{escape(author)}</span>
                 </label>''')
 
-    # Prepare tags as JSON for JavaScript
+    # Prepare search items as JSON for JavaScript
     import json
-    tags_json = json.dumps(sorted_tags)
+    search_items_json = json.dumps(all_search_items)
 
     html = f'''{generate_page_header(get_text('overview_title'), OVERVIEW_PAGE_CSS)}
     <div class="page-header">
@@ -464,48 +477,18 @@ def generate_overview_html(
         {generate_navigation(show_back_button=False)}
     </div>
 
-    <div class="tag-search-container">
-        <label for="tagSearch" class="search-label">🔍 Zutaten suchen</label>
-        <input type="text" id="tagSearch" class="tag-search-input" placeholder="z.B. fisch, kartoffeln, tomate..." autocomplete="off">
-        <div id="tagAutocomplete" class="tag-autocomplete"></div>
-        <div id="selectedTags" class="selected-tags"></div>
+    <div class="search-container">
+        <label for="search" class="search-label">🔍 Suchen</label>
+        <input type="text" id="search" class="search-input" placeholder="z.B. fisch, HelloFresh, Vegetarisch..." autocomplete="off">
+        <div id="autocomplete" class="autocomplete"></div>
+        <div id="selectedItems" class="selected-items"></div>
     </div>
 
     <div class="filters-container">
-        <div class="filter-group">
-            <label class="filter-label">
-                Kategorie <span id="categoryCount" class="filter-count"></span>
-            </label>
-            <div class="filter-dropdown">
-                <button type="button" class="filter-dropdown-button" id="categoryDropdownBtn">
-                    <span id="categoryDropdownText">Alle Kategorien</span>
-                    <span class="filter-dropdown-arrow">▼</span>
-                </button>
-                <div class="filter-dropdown-panel" id="categoryDropdownPanel">{''.join(category_checkboxes)}
-                </div>
-            </div>
-        </div>
-
-        <div class="filter-group">
-            <label class="filter-label">
-                Autor <span id="authorCount" class="filter-count"></span>
-            </label>
-            <div class="filter-dropdown">
-                <button type="button" class="filter-dropdown-button" id="authorDropdownBtn">
-                    <span id="authorDropdownText">Alle Autoren</span>
-                    <span class="filter-dropdown-arrow">▼</span>
-                </button>
-                <div class="filter-dropdown-panel" id="authorDropdownPanel">{''.join(author_checkboxes)}
-                </div>
-            </div>
-        </div>
-
-        <div class="filter-group">
-            <label class="filter-checkbox">
-                <input type="checkbox" id="fastFilter">
-                <span>⚡ {get_text('filter_fast')}</span>
-            </label>
-        </div>
+        <label class="filter-checkbox">
+            <input type="checkbox" id="fastFilter">
+            <span>⚡ {get_text('filter_fast')}</span>
+        </label>
 
         <button class="clear-filters-btn" onclick="clearAllFilters()">
             ✕ Zurücksetzen
@@ -518,47 +501,53 @@ def generate_overview_html(
 {footer_html}
 
     <script>
-        // Tag search autocomplete functionality
-        const allTags = {tags_json};
-        const tagSearchInput = document.getElementById('tagSearch');
-        const tagAutocomplete = document.getElementById('tagAutocomplete');
-        const selectedTagsContainer = document.getElementById('selectedTags');
-        let selectedTags = [];
+        // Unified search functionality
+        const allSearchItems = {search_items_json};
+        const searchInput = document.getElementById('search');
+        const autocomplete = document.getElementById('autocomplete');
+        const selectedItemsContainer = document.getElementById('selectedItems');
+        let selectedItems = [];
         let currentFocus = -1;
 
-        // Tag search autocomplete
-        tagSearchInput.addEventListener('input', function() {{
+        // Search autocomplete
+        searchInput.addEventListener('input', function() {{
             const value = this.value.toLowerCase().trim();
-            tagAutocomplete.innerHTML = '';
+            autocomplete.innerHTML = '';
             currentFocus = -1;
 
             if (!value) {{
-                tagAutocomplete.classList.remove('show');
+                autocomplete.classList.remove('show');
                 return;
             }}
 
-            // Filter tags based on input
-            const matches = allTags.filter(tag =>
-                tag.toLowerCase().includes(value) && !selectedTags.includes(tag)
-            );
+            // Filter search items based on input
+            const matches = allSearchItems.filter(item => {{
+                const label = item.label.toLowerCase();
+                const isSelected = selectedItems.some(s => s.label === item.label && s.type === item.type);
+                return label.includes(value) && !isSelected;
+            }});
 
             if (matches.length > 0) {{
-                matches.forEach(tag => {{
+                matches.forEach(item => {{
                     const div = document.createElement('div');
-                    div.className = 'tag-suggestion';
-                    div.textContent = tag;
-                    div.addEventListener('click', () => addTag(tag));
-                    tagAutocomplete.appendChild(div);
+                    div.className = 'search-suggestion';
+
+                    // Add type indicator
+                    const typeLabel = item.type === 'tag' ? '🏷️' : item.type === 'author' ? '👤' : '📁';
+                    div.innerHTML = `${{typeLabel}} ${{item.label}}`;
+
+                    div.addEventListener('click', () => addItem(item));
+                    autocomplete.appendChild(div);
                 }});
-                tagAutocomplete.classList.add('show');
+                autocomplete.classList.add('show');
             }} else {{
-                tagAutocomplete.classList.remove('show');
+                autocomplete.classList.remove('show');
             }}
         }});
 
         // Keyboard navigation
-        tagSearchInput.addEventListener('keydown', function(e) {{
-            const suggestions = tagAutocomplete.getElementsByClassName('tag-suggestion');
+        searchInput.addEventListener('keydown', function(e) {{
+            const suggestions = autocomplete.getElementsByClassName('search-suggestion');
             if (e.key === 'ArrowDown') {{
                 e.preventDefault();
                 currentFocus++;
@@ -570,7 +559,15 @@ def generate_overview_html(
             }} else if (e.key === 'Enter') {{
                 e.preventDefault();
                 if (currentFocus > -1 && suggestions[currentFocus]) {{
-                    addTag(suggestions[currentFocus].textContent);
+                    const index = currentFocus;
+                    const matches = allSearchItems.filter(item => {{
+                        const label = item.label.toLowerCase();
+                        const isSelected = selectedItems.some(s => s.label === item.label && s.type === item.type);
+                        return label.includes(searchInput.value.toLowerCase().trim()) && !isSelected;
+                    }});
+                    if (matches[index]) {{
+                        addItem(matches[index]);
+                    }}
                 }}
             }}
         }});
@@ -585,124 +582,56 @@ def generate_overview_html(
             }});
         }}
 
-        function addTag(tag) {{
-            if (!selectedTags.includes(tag)) {{
-                selectedTags.push(tag);
-                renderSelectedTags();
-                tagSearchInput.value = '';
-                tagAutocomplete.innerHTML = '';
-                tagAutocomplete.classList.remove('show');
+        function addItem(item) {{
+            if (!selectedItems.some(s => s.label === item.label && s.type === item.type)) {{
+                selectedItems.push(item);
+                renderSelectedItems();
+                searchInput.value = '';
+                autocomplete.innerHTML = '';
+                autocomplete.classList.remove('show');
                 applyFilters();
             }}
         }}
 
-        function removeTag(tag) {{
-            selectedTags = selectedTags.filter(t => t !== tag);
-            renderSelectedTags();
+        function removeItem(item) {{
+            selectedItems = selectedItems.filter(i => !(i.label === item.label && i.type === item.type));
+            renderSelectedItems();
             applyFilters();
         }}
 
-        function renderSelectedTags() {{
-            selectedTagsContainer.innerHTML = '';
-            selectedTags.forEach(tag => {{
-                const tagEl = document.createElement('div');
-                tagEl.className = 'selected-tag';
-                tagEl.innerHTML = `
-                    <span>${{tag}}</span>
-                    <span class="selected-tag-remove" onclick="removeTag('${{tag}}')">&times;</span>
+        function renderSelectedItems() {{
+            selectedItemsContainer.innerHTML = '';
+            selectedItems.forEach(item => {{
+                const itemEl = document.createElement('div');
+                itemEl.className = 'selected-item';
+
+                // Add type indicator
+                const typeLabel = item.type === 'tag' ? '🏷️' : item.type === 'author' ? '👤' : '📁';
+                itemEl.innerHTML = `
+                    <span>${{typeLabel}} ${{item.label}}</span>
+                    <span class="selected-item-remove" onclick='removeItem(${{JSON.stringify(item)}})'>&times;</span>
                 `;
-                selectedTagsContainer.appendChild(tagEl);
+                selectedItemsContainer.appendChild(itemEl);
             }});
         }}
 
         // Close autocomplete when clicking outside
         document.addEventListener('click', function(e) {{
-            if (!e.target.closest('.tag-search-container')) {{
-                tagAutocomplete.classList.remove('show');
+            if (!e.target.closest('.search-container')) {{
+                autocomplete.classList.remove('show');
             }}
         }});
 
         // Filter functionality
         const recipeCards = document.querySelectorAll('.recipe-card');
-        const categoryCheckboxes = document.querySelectorAll('.category-checkbox');
-        const authorCheckboxes = document.querySelectorAll('.author-checkbox');
         const fastFilter = document.getElementById('fastFilter');
-        const categoryCount = document.getElementById('categoryCount');
-        const authorCount = document.getElementById('authorCount');
-        const categoryDropdownBtn = document.getElementById('categoryDropdownBtn');
-        const categoryDropdownPanel = document.getElementById('categoryDropdownPanel');
-        const authorDropdownBtn = document.getElementById('authorDropdownBtn');
-        const authorDropdownPanel = document.getElementById('authorDropdownPanel');
-        const categoryDropdownText = document.getElementById('categoryDropdownText');
-        const authorDropdownText = document.getElementById('authorDropdownText');
-
-        // Toggle dropdown panels
-        function toggleDropdown(button, panel) {{
-            const isOpen = panel.classList.contains('open');
-
-            // Close all dropdowns
-            document.querySelectorAll('.filter-dropdown-panel').forEach(p => p.classList.remove('open'));
-            document.querySelectorAll('.filter-dropdown-button').forEach(b => b.classList.remove('open'));
-
-            // Toggle current dropdown
-            if (!isOpen) {{
-                panel.classList.add('open');
-                button.classList.add('open');
-            }}
-        }}
-
-        categoryDropdownBtn.addEventListener('click', (e) => {{
-            e.stopPropagation();
-            toggleDropdown(categoryDropdownBtn, categoryDropdownPanel);
-        }});
-
-        authorDropdownBtn.addEventListener('click', (e) => {{
-            e.stopPropagation();
-            toggleDropdown(authorDropdownBtn, authorDropdownPanel);
-        }});
-
-        // Close dropdowns when clicking outside
-        document.addEventListener('click', (e) => {{
-            if (!e.target.closest('.filter-dropdown')) {{
-                document.querySelectorAll('.filter-dropdown-panel').forEach(p => p.classList.remove('open'));
-                document.querySelectorAll('.filter-dropdown-button').forEach(b => b.classList.remove('open'));
-            }}
-        }});
-
-        // Prevent dropdown close when clicking inside panel
-        categoryDropdownPanel.addEventListener('click', (e) => e.stopPropagation());
-        authorDropdownPanel.addEventListener('click', (e) => e.stopPropagation());
 
         function applyFilters() {{
-            // Get selected filters from checkboxes
-            const selectedCategories = Array.from(categoryCheckboxes)
-                .filter(cb => cb.checked)
-                .map(cb => cb.value);
-            const selectedAuthors = Array.from(authorCheckboxes)
-                .filter(cb => cb.checked)
-                .map(cb => cb.value);
+            // Separate selected items by type
+            const selectedTags = selectedItems.filter(i => i.type === 'tag').map(i => i.label);
+            const selectedAuthors = selectedItems.filter(i => i.type === 'author').map(i => i.label);
+            const selectedCategories = selectedItems.filter(i => i.type === 'category').map(i => i.value);
             const fastOnly = fastFilter.checked;
-
-            // Update count badges and button text
-            if (selectedCategories.length > 0) {{
-                categoryCount.textContent = `(${{selectedCategories.length}})`;
-                categoryDropdownText.textContent = selectedCategories.length === 1
-                    ? selectedCategories[0]
-                    : `${{selectedCategories.length}} ausgewählt`;
-            }} else {{
-                categoryCount.textContent = '';
-                categoryDropdownText.textContent = 'Alle Kategorien';
-            }}
-
-            if (selectedAuthors.length > 0) {{
-                authorCount.textContent = `(${{selectedAuthors.length}})`;
-                authorDropdownText.textContent = selectedAuthors.length === 1
-                    ? selectedAuthors[0]
-                    : `${{selectedAuthors.length}} ausgewählt`;
-            }} else {{
-                authorCount.textContent = '';
-                authorDropdownText.textContent = 'Alle Autoren';
-            }}
 
             // Filter recipe cards
             recipeCards.forEach(card => {{
@@ -736,33 +665,17 @@ def generate_overview_html(
         }}
 
         function saveFilters() {{
-            const selectedCategories = Array.from(categoryCheckboxes)
-                .filter(cb => cb.checked)
-                .map(cb => cb.value);
-            const selectedAuthors = Array.from(authorCheckboxes)
-                .filter(cb => cb.checked)
-                .map(cb => cb.value);
-
-            localStorage.setItem('recipeCategoryFilter', JSON.stringify(selectedCategories));
-            localStorage.setItem('recipeAuthorFilter', JSON.stringify(selectedAuthors));
+            localStorage.setItem('recipeSelectedItems', JSON.stringify(selectedItems));
             localStorage.setItem('recipeFastFilter', fastFilter.checked ? 'true' : 'false');
         }}
 
         function loadFilters() {{
             try {{
-                const savedCategories = JSON.parse(localStorage.getItem('recipeCategoryFilter') || '[]');
-                const savedAuthors = JSON.parse(localStorage.getItem('recipeAuthorFilter') || '[]');
+                const savedItems = JSON.parse(localStorage.getItem('recipeSelectedItems') || '[]');
                 const savedFast = localStorage.getItem('recipeFastFilter');
 
-                // Select saved categories
-                categoryCheckboxes.forEach(cb => {{
-                    cb.checked = savedCategories.includes(cb.value);
-                }});
-
-                // Select saved authors
-                authorCheckboxes.forEach(cb => {{
-                    cb.checked = savedAuthors.includes(cb.value);
-                }});
+                selectedItems = savedItems;
+                renderSelectedItems();
 
                 if (savedFast !== null) {{
                     fastFilter.checked = savedFast === 'true';
@@ -772,18 +685,14 @@ def generate_overview_html(
             }}
         }}
 
-        // Add event listeners to checkboxes
-        categoryCheckboxes.forEach(cb => cb.addEventListener('change', applyFilters));
-        authorCheckboxes.forEach(cb => cb.addEventListener('change', applyFilters));
+        // Add event listeners
         fastFilter.addEventListener('change', applyFilters);
 
         // Clear all filters
         function clearAllFilters() {{
-            categoryCheckboxes.forEach(cb => cb.checked = false);
-            authorCheckboxes.forEach(cb => cb.checked = false);
             fastFilter.checked = false;
-            selectedTags = [];
-            renderSelectedTags();
+            selectedItems = [];
+            renderSelectedItems();
             applyFilters();
         }}
 

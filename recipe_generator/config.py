@@ -349,7 +349,7 @@ OVERVIEW_PAGE_CSS = """
 h1 {
     color: var(--primary-color);
 }
-.tag-search-container {
+.search-container {
     margin-bottom: 20px;
     padding: 20px;
     background-color: var(--bg-secondary);
@@ -363,8 +363,9 @@ h1 {
     margin-bottom: 10px;
     font-size: 1em;
 }
-.tag-search-input {
+.search-input {
     width: 100%;
+    box-sizing: border-box;
     padding: 12px 15px;
     border: 2px solid var(--border-color);
     background-color: var(--bg-color);
@@ -373,11 +374,11 @@ h1 {
     font-size: 1em;
     transition: border-color 0.2s;
 }
-.tag-search-input:focus {
+.search-input:focus {
     outline: none;
     border-color: var(--primary-color);
 }
-.tag-autocomplete {
+.autocomplete {
     position: relative;
     margin-top: 5px;
     background-color: var(--bg-color);
@@ -388,26 +389,26 @@ h1 {
     display: none;
     box-shadow: 0 4px 6px rgba(0,0,0,0.1);
 }
-.tag-autocomplete.show {
+.autocomplete.show {
     display: block;
 }
-.tag-suggestion {
+.search-suggestion {
     padding: 10px 15px;
     cursor: pointer;
     transition: background-color 0.15s;
     color: var(--text-color);
 }
-.tag-suggestion:hover, .tag-suggestion.active {
+.search-suggestion:hover, .search-suggestion.active {
     background-color: var(--primary-color);
     color: white;
 }
-.selected-tags {
+.selected-items {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
     margin-top: 12px;
 }
-.selected-tag {
+.selected-item {
     display: inline-flex;
     align-items: center;
     gap: 6px;
@@ -418,14 +419,14 @@ h1 {
     font-size: 0.9em;
     font-weight: 500;
 }
-.selected-tag-remove {
+.selected-item-remove {
     cursor: pointer;
     font-weight: bold;
     font-size: 1.1em;
     line-height: 1;
     transition: opacity 0.2s;
 }
-.selected-tag-remove:hover {
+.selected-item-remove:hover {
     opacity: 0.7;
 }
 .filters-container {
@@ -433,97 +434,11 @@ h1 {
     gap: 15px;
     margin-bottom: 30px;
     flex-wrap: wrap;
-    align-items: flex-end;
+    align-items: center;
     padding: 15px;
     background-color: var(--bg-secondary);
     border-radius: 8px;
     border: 1px solid var(--border-color);
-}
-.filter-group {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-}
-.filter-label {
-    font-weight: 600;
-    color: var(--text-color);
-    font-size: 0.85em;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-}
-.filter-count {
-    font-weight: 700;
-    color: var(--primary-color);
-    font-size: 0.9em;
-}
-.filter-dropdown {
-    position: relative;
-}
-.filter-dropdown-button {
-    padding: 8px 12px;
-    border: 2px solid var(--border-color);
-    background-color: var(--bg-color);
-    color: var(--text-color);
-    border-radius: 6px;
-    font-size: 0.95em;
-    cursor: pointer;
-    transition: border-color 0.2s;
-    min-width: 180px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 10px;
-}
-.filter-dropdown-button:hover {
-    border-color: var(--primary-color);
-}
-.filter-dropdown-button.open {
-    border-color: var(--primary-color);
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
-}
-.filter-dropdown-arrow {
-    font-size: 0.7em;
-    transition: transform 0.2s;
-}
-.filter-dropdown-button.open .filter-dropdown-arrow {
-    transform: rotate(180deg);
-}
-.filter-dropdown-panel {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    background-color: var(--bg-color);
-    border: 2px solid var(--primary-color);
-    border-top: none;
-    border-radius: 0 0 6px 6px;
-    max-height: 250px;
-    overflow-y: auto;
-    z-index: 1000;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-}
-.filter-dropdown-panel.open {
-    display: block;
-}
-.filter-dropdown-option {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 8px 12px;
-    cursor: pointer;
-    user-select: none;
-    transition: background-color 0.15s;
-}
-.filter-dropdown-option:hover {
-    background-color: var(--bg-secondary);
-}
-.filter-dropdown-option input[type="checkbox"] {
-    cursor: pointer;
-    width: 16px;
-    height: 16px;
 }
 .filter-checkbox {
     display: flex;
