@@ -334,7 +334,7 @@ class TestGenerateOverviewHtml:
         assert '&lt;script&gt;alert(&quot;xss&quot;)&lt;/script&gt;' in html
         assert '&amp;' in html
         # Make sure we still have our legitimate filter script
-        assert 'categoryCheckboxes' in html
+        assert 'allSearchItems' in html
 
     def test_html_without_descriptions(self, sample_recipes_data):
         """Test HTML generation when recipes lack descriptions."""
@@ -394,19 +394,15 @@ class TestGenerateOverviewHtml:
         html = generate_overview_html(sample_recipes_data, deployment_time)
         assert 'class="deployment-info"' in html
 
-    def test_filter_dropdowns_included(self, sample_recipes_data):
-        """Test that filter dropdowns are included."""
+    def test_unified_search_included(self, sample_recipes_data):
+        """Test that unified search is included."""
         html = generate_overview_html(sample_recipes_data)
-        assert 'filters-container' in html
-        assert 'categoryDropdownBtn' in html
-        assert 'authorDropdownBtn' in html
+        assert 'search-container' in html
         assert 'fastFilter' in html
-        assert 'filter-dropdown-button' in html
-        assert 'filter-dropdown-panel' in html
-        assert 'category-checkbox' in html
-        assert 'author-checkbox' in html
-        assert 'Alle Kategorien' in html
-        assert 'Alle Autoren' in html
+        assert 'search-input' in html
+        assert 'autocomplete' in html
+        assert 'selected-items' in html
+        assert 'allSearchItems' in html
 
     def test_recipe_cards_have_category_data_attribute(self, sample_recipes_data):
         """Test that recipe cards have category data attribute."""
@@ -418,15 +414,14 @@ class TestGenerateOverviewHtml:
         """Test that filter JavaScript is included."""
         html = generate_overview_html(sample_recipes_data)
         assert '<script>' in html
-        assert 'categoryCheckboxes' in html
-        assert 'authorCheckboxes' in html
-        assert 'categoryDropdownBtn' in html
-        assert 'authorDropdownBtn' in html
+        assert 'allSearchItems' in html
+        assert 'searchInput' in html
+        assert 'selectedItems' in html
         assert 'recipeCards' in html
         assert 'addEventListener' in html
         assert 'applyFilters' in html
-        assert 'clearAllFilters' in html
-        assert 'toggleDropdown' in html
+        assert 'addItem' in html
+        assert 'removeItem' in html
 
     def test_recipes_sorted_by_category(self):
         """Test that recipes are sorted by category."""
