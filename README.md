@@ -12,11 +12,12 @@
 
 ## Features
 
-- **YAML-based recipes**: Define recipes in simple YAML files
+- **YAML-based recipes**: Define recipes in simple YAML files organized by author
 - **Bring! integration**: One-click ingredient import to your Bring! shopping list
 - **Weekly meal planner**: Plan your meals for the week with local storage sync
 - **Recipe statistics**: Track and view your most-viewed recipes
-- **Category filtering**: Filter recipes by type (meat, fish, vegetarian, bread, breakfast)
+- **Advanced filtering**: Multi-select dropdown filters for categories and authors
+- **Auto-detection**: Categories and authors are automatically detected from recipe files
 - **Quick recipes filter**: Find recipes that take 30 minutes or less
 - **Dark mode**: Toggle between light and dark themes with automatic detection
 - **Schema.org markup**: Properly structured recipe data for SEO and compatibility
@@ -44,7 +45,7 @@
    uv sync
    ```
 
-3. Add your recipes to the `recipes/` folder (see recipe format below)
+3. Add your recipes to the `recipes/` folder organized by author (e.g., `recipes/YourName/recipe.yaml`)
 
 4. Generate HTML files:
    ```bash
@@ -76,7 +77,18 @@ Tests are automatically run on every push via GitHub Actions.
 
 ## Recipe Format
 
-Create YAML files in the `recipes/` directory with the following structure:
+Recipes are organized by author in subdirectories under `recipes/`. For example:
+```
+recipes/
+├── VitaMoment/
+│   └── recipe1.yaml
+├── HelloFresh/
+│   └── recipe2.yaml
+└── YourName/
+    └── recipe3.yaml
+```
+
+Create YAML files with the following structure:
 
 ```yaml
 name: Simple Pasta Dough
@@ -102,15 +114,17 @@ instructions:
   - Rest for 30 minutes before rolling out.
 ```
 
-### Allowed Categories
+### Categories
 
-Use one of the following emoji categories for your recipe:
+Categories are automatically detected from your recipe files. Use emoji icons to categorize your recipes. Common categories include:
 
-- `🍞` - Bread & Baked Goods
-- `🥩` - Meat Dishes
-- `🐟` - Fish & Seafood
-- `🥦` - Vegetable Dishes
-- `🥣` - Breakfast (Porridge, etc.)
+- `🍞` - Bread & Baked Goods (Brot)
+- `🥩` - Meat Dishes (Fleisch)
+- `🐟` - Fish & Seafood (Fisch)
+- `🥦` - Vegetable Dishes (Vegetarisch)
+- `🥣` - Breakfast (Frühstück)
+
+You can use any emoji as a category - it will automatically appear in the filter dropdown. Known categories will display with German labels, while new categories will show just the emoji.
 
 ## GitHub Pages Deployment
 
@@ -127,6 +141,18 @@ The project includes a GitHub Actions workflow that automatically:
 4. Your recipes will be available at: `https://YOUR_USERNAME.github.io/REPO_NAME/`
 
 The workflow runs automatically on every push to `main`, or can be triggered manually from the Actions tab. Deployment will only occur if all tests pass.
+
+## Recipe Filtering
+
+The overview page provides advanced filtering options:
+
+- **Category filter**: Multi-select dropdown to filter by recipe categories (meat, fish, vegetarian, bread, breakfast, etc.)
+- **Author filter**: Multi-select dropdown to filter by recipe authors (VitaMoment, HelloFresh, Chefkoch, etc.)
+- **Fast recipes**: Checkbox filter to show only recipes that take 30 minutes or less
+- **Clear filters**: Reset button to clear all active filters
+- **Persistent state**: Filter selections are saved in local storage and restored on page reload
+
+Categories and authors are automatically detected from your recipe files - no configuration needed!
 
 ## Weekly Meal Plan
 
@@ -151,8 +177,13 @@ bring-recipes-adder/
 │   ├── test_config.py
 │   ├── test_html_generator.py
 │   └── test_validators.py
-├── recipes/                     # YAML recipe files
-│   └── *.yaml
+├── recipes/                     # YAML recipe files organized by author
+│   ├── VitaMoment/
+│   │   └── *.yaml
+│   ├── HelloFresh/
+│   │   └── *.yaml
+│   └── Chefkoch/
+│       └── *.yaml
 ├── output/                      # Generated HTML (gitignored)
 ├── .github/workflows/
 │   ├── deploy.yml              # Deploy to GitHub Pages
