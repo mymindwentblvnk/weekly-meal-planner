@@ -18,12 +18,12 @@ This skill performs comprehensive validation of all recipes and automatically fi
 
 ## Using recipe-utils.py
 
-**IMPORTANT:** Use the utility functions from `.claude/agents/recipe-utils.py` for validation:
+**IMPORTANT:** Use the utility functions from `.claude/utils/recipe-utils.py` for validation:
 
 ```python
 import sys
 from pathlib import Path
-sys.path.insert(0, str(Path('.claude/agents').absolute()))
+sys.path.insert(0, str(Path('.claude/utils').absolute()))
 from recipe_utils import (
     validate_all_recipes,
     check_hierarchical_tags,
@@ -277,8 +277,8 @@ import sys
 import yaml
 from pathlib import Path
 
-# Add agents directory to path
-sys.path.insert(0, str(Path('.claude/agents').absolute()))
+# Add utils directory to path
+sys.path.insert(0, str(Path('.claude/utils').absolute()))
 from recipe_utils import validate_all_recipes, check_hierarchical_tags, sort_recipe_tags
 
 # Step 1: Validate
