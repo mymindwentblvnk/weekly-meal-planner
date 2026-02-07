@@ -28,9 +28,9 @@ TEXTS = {
 
     # Stats page
     "stats_title": "Rezept-Statistiken",
-    "stats_subtitle": "Top 10 beliebteste Rezepte",
-    "stats_views": "Aufrufe",
-    "stats_no_data": "Noch keine Daten verfügbar. Öffne einige Rezepte, um Statistiken zu sehen!",
+    "stats_subtitle": "Top 10 am häufigsten zum Kochen eingeplant",
+    "stats_count": "× eingeplant",
+    "stats_no_data": "Noch keine Daten verfügbar. Füge Rezepte zum Wochenplan hinzu, um Statistiken zu sehen!",
     "stats_disclaimer": "💡 Diese Statistiken werden lokal in deinem Browser gespeichert und gehen verloren, wenn du die Browser-Daten löschst.",
 
     # Detail page

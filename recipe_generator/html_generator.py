@@ -819,12 +819,13 @@ def generate_stats_html(recipes_data: list[tuple[str, dict[str, Any]]]) -> str:
     Returns:
         Complete HTML page as a string
     """
-    # Create recipe lookup by name
-    recipe_lookup = {recipe['name']: (filename, recipe) for filename, recipe in recipes_data}
+    # Create recipe lookup by slug and by name
+    recipe_lookup_by_name = {recipe['name']: (filename, recipe) for filename, recipe in recipes_data}
+    recipe_lookup_by_slug = {filename.replace('.html', ''): recipe['name'] for filename, recipe in recipes_data}
 
-    # Generate recipe list as JSON for JavaScript
-    recipe_names = [recipe['name'] for _, recipe in recipes_data]
-    recipe_names_json = str(recipe_names).replace("'", '"')
+    # Generate recipe lookups as JSON for JavaScript
+    import json
+    recipe_lookup_json = json.dumps(recipe_lookup_by_slug)
 
     # Stats-specific CSS
     stats_css = '''.stats-list {
@@ -928,32 +929,34 @@ def generate_stats_html(recipes_data: list[tuple[str, dict[str, Any]]]) -> str:
     </div>
 
     <script>
-        const recipeNames = {recipe_names_json};
+        const recipeSlugToName = {recipe_lookup_json};
         const recipeData = {{{','.join(f'"{recipe["name"]}": {{"filename": "{filename}", "category": "{recipe.get("category", "")}"}}' for filename, recipe in recipes_data)}}};
 
         function displayStats() {{
-            const viewsKey = 'recipeViews';
-            let views = {{}};
+            const planKey = 'weeklyMealPlan';
+            let plan = {{ recipes: [] }};
 
             try {{
-                const stored = localStorage.getItem(viewsKey);
+                const stored = localStorage.getItem(planKey);
                 if (stored) {{
-                    views = JSON.parse(stored);
+                    plan = JSON.parse(stored);
                 }}
             }} catch (e) {{
-                console.error('Error reading view counts:', e);
+                console.error('Error reading weekly plan:', e);
             }}
 
-            // Filter to only include recipes that exist
-            const validViews = {{}};
-            for (const [name, count] of Object.entries(views)) {{
-                if (recipeNames.includes(name)) {{
-                    validViews[name] = count;
+            // Count how many times each recipe slug appears in the plan
+            const recipeCounts = {{}};
+            plan.recipes.forEach(recipe => {{
+                const slug = recipe.slug;
+                if (recipeSlugToName[slug]) {{
+                    const name = recipeSlugToName[slug];
+                    recipeCounts[name] = (recipeCounts[name] || 0) + 1;
                 }}
-            }}
+            }});
 
-            // Sort by view count and take top 10
-            const sortedRecipes = Object.entries(validViews)
+            // Sort by count and take top 10
+            const sortedRecipes = Object.entries(recipeCounts)
                 .sort((a, b) => b[1] - a[1])
                 .slice(0, 10);
 
@@ -974,7 +977,7 @@ def generate_stats_html(recipes_data: list[tuple[str, dict[str, Any]]]) -> str:
                         <div class="rank">${{rankEmoji || (index + 1)}}</div>
                         <div class="recipe-info">
                             <h3><a href="${{data.filename}}">${{name}}</a></h3>
-                            <div class="view-count">${{count}} Aufrufe</div>
+                            <div class="view-count">${{count}} {get_text("stats_count")}</div>
                         </div>
                     </li>
                 `;
