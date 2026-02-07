@@ -218,6 +218,26 @@ escape(str(ingredient['amount']))
 
 ## Development Workflow
 
+### Running Tests
+
+The project uses pytest for testing. Always run tests after making changes to ensure nothing breaks.
+
+**Command**:
+```bash
+source .venv/bin/activate && pytest tests/ -v
+```
+
+**Important Notes**:
+- Must activate virtual environment first (`.venv`)
+- Tests located in `tests/` directory
+- Use `-v` flag for verbose output showing all test names
+- All tests should pass before committing
+
+**Test Coverage**:
+- `test_config.py`: Configuration validation
+- `test_html_generator.py`: HTML generation, formatting, escaping
+- `test_validators.py`: Recipe YAML validation
+
 ### Pre-Commit Rules
 
 **ALWAYS run `/fill-descriptions` before committing**
