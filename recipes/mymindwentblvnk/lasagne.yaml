@@ -1,0 +1,63 @@
+name: Lasagne
+description: Klassische Lasagne mit würzigem Ragú Bolognese, cremiger Béchamelsauce und geschichteten Vollkornreisnudeln, überbacken mit Käse.
+author: mymindwentblvnk
+category: 🥩
+servings: 4
+prep_time: 30  # minutes
+cook_time: 20  # minutes
+tags:
+  - Butter
+  - Fleisch
+  - Hackfleisch
+  - Karotte
+  - Käse
+  - Knoblauch
+  - Kräuter
+  - Mehl
+  - Milch
+  - Pasta
+  - Sellerie
+  - Tomate
+  - Zwiebel
+
+ingredients:
+  - name: Hackfleisch (gemischt)
+    amount: 500g
+  - name: Tomatenmark
+    amount: 1 EL
+  - name: Zwiebeln
+    amount: 1
+  - name: Knoblauch
+    amount: 3 Zehen
+  - name: Petersilie
+    amount: 1 Bund
+  - name: Tomaten (geschält)
+    amount: 800 g
+  - name: Rotwein
+    amount: etwas
+  - name: Zimt
+    amount: etwas
+  - name: Karotten
+    amount: 2
+  - name: Stangensellerie
+    amount: 1
+  - name: Milch
+    amount: 0,5 L
+  - name: Butter
+    amount: 30 g
+  - name: Buchweizenmehl
+    amount: 40 g
+  - name: Zitrone
+    amount: 1
+  - name: Muskat
+    amount: 1 Prise
+  - name: Lasagne-Platten (Vollkornreisnudeln)
+    amount: 300 g
+  - name: Käse (gerieben)
+    amount: 1 Packung
+
+instructions:
+  - "[Ragú Bolognese] In einem Topf das Olivenöl erhitzen, das Hackfleisch darin rundherum anbraten und die gehackten Zwiebeln, das Gemüse und die gehackte Petersilie dazugeben. Knoblauch in feinen Scheiben und Tomatenmark dazu rühren und mitbraten. Mit den Dosentomaten aufgießen, salzen und pfeffern und mit Zimt verfeinern. Rotwein nach Belieben beifügen. Das Ragú mindestens eine halbe Stunde lang bei geöffnetem Topf einkochen lassen."
+  - "[Béchamelsauce] Butter in einem kleinen Topf schmelzen und das Mehl mit dem Schneebesen unterrühren und hellgelb anschwitzen. Die Milch dazugießen und die Sauce glatt rühren. Wer zu langsam gerührt hat und Klümpchen in der Sauce findet, kann die Sauce durch ein feines Haarsieb passieren und dann weiterkochen lassen. Die Sauce sollte fast eine halbe Stunde lang auf kleiner Flamme köcheln, damit sie den Mehlgeschmack verliert. Mit Salz, Pfeffer und Zitronensaft sowie etwas Muskatnuss abschmecken."
+  - "[Lasagne] In einer gebutterten, feuerfesten Form etwas Ragú Bolognese verteilen, eine Schicht Lasagneplatten darauf legen, die Nudelschicht wieder mit Ragú und dann mit einer Schicht Béchamel bedecken.  Anschließend wieder eine Schicht Nudeln, Ragú und Béchamel. So Schicht für Schicht die Form füllen.  Die letzte Schicht sollte die Béchamelsauce bilden. Dick mit geriebenem Käse bestreuen und Butterflöckchen darauf setzen."
+  - "Die Lasagne im heißen Backofen bei 180 °C Umluft ca. 30 - 40 Minuten backen, bis die Kruste goldbraun ist."
