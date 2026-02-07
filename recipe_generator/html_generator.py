@@ -480,7 +480,7 @@ def generate_overview_html(
     # Generate footer with deployment time
     footer_html = ""
     if deployment_time:
-        formatted_time = deployment_time.strftime("%d. %B %Y um %H:%M UTC")
+        formatted_time = deployment_time.strftime("%d. %B %Y um %H:%M %Z")
         footer_html = f'''
     <footer class="deployment-info">
         <p>{get_text('last_updated')} {formatted_time}</p>

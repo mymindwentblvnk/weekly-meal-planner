@@ -1,7 +1,8 @@
 """Main script to generate HTML recipe pages from YAML files."""
 
 import yaml
-from datetime import datetime, timezone
+from datetime import datetime
+from zoneinfo import ZoneInfo
 
 from recipe_generator import (
     RECIPES_DIR,
@@ -64,7 +65,7 @@ def main():
     # Generate overview page if we have at least one valid recipe
     if recipes_data:
         print("Generating overview page...")
-        deployment_time = datetime.now(timezone.utc)
+        deployment_time = datetime.now(ZoneInfo("Europe/Berlin"))
         overview_html = generate_overview_html(recipes_data, deployment_time)
         overview_file = OUTPUT_DIR / "index.html"
         with open(overview_file, 'w', encoding='utf-8') as f:
