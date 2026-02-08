@@ -473,7 +473,7 @@ def generate_overview_html(
         </p>
         <div style="display: flex; gap: 10px; margin-top: 15px;">
             <a href="{escape(filename)}" class="view-recipe-btn">{get_text('view_recipe')}</a>
-            <button class="weekly-plan-button-card" data-slug="{slug}" data-name="{escape(recipe['name'])}" data-category="{category}" onclick="toggleWeeklyPlanFromCard(this)">📅 Diese Woche kochen</button>
+            <button class="weekly-plan-button-card" data-slug="{slug}" data-name="{escape(recipe['name'])}" data-category="{category}" data-servings="{servings}" onclick="toggleWeeklyPlanFromCard(this)">📅 Diese Woche kochen</button>
         </div>
     </div>'''
         recipe_entries.append(recipe_entry)
@@ -534,6 +534,46 @@ def generate_overview_html(
 {chr(10).join(recipe_entries)}
     </div>
 {footer_html}
+
+    <!-- Add to Plan Modal -->
+    <div id="addToPlanModal" class="add-plan-modal" style="display: none;" onclick="closeModalOnBackdrop(event)">
+        <div class="add-plan-modal-content" onclick="event.stopPropagation()">
+            <div class="add-plan-modal-header">
+                <h3 class="add-plan-modal-title">{get_text('add_to_plan_title')}</h3>
+                <button class="close-modal-btn" onclick="closeAddToPlanModal()">×</button>
+            </div>
+            <div class="add-plan-modal-body">
+                <div class="recipe-preview" id="recipePreview"></div>
+
+                <div class="form-group">
+                    <label for="daySelect">{get_text('select_day')}</label>
+                    <select id="daySelect" class="plan-select">
+                        <option value="montag">{get_text('monday')}</option>
+                        <option value="dienstag">{get_text('tuesday')}</option>
+                        <option value="mittwoch">{get_text('wednesday')}</option>
+                        <option value="donnerstag">{get_text('thursday')}</option>
+                        <option value="freitag">{get_text('friday')}</option>
+                        <option value="samstag">{get_text('saturday')}</option>
+                        <option value="sonntag">{get_text('sunday')}</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="mealSelect">{get_text('select_meal')}</label>
+                    <select id="mealSelect" class="plan-select">
+                        <option value="breakfast">{get_text('breakfast')}</option>
+                        <option value="lunch">{get_text('lunch')}</option>
+                        <option value="dinner">{get_text('dinner')}</option>
+                    </select>
+                </div>
+
+                <div class="modal-actions">
+                    <button class="cancel-btn" onclick="closeAddToPlanModal()">{get_text('cancel')}</button>
+                    <button class="add-btn" onclick="confirmAddToPlan()">{get_text('add_to_plan')}</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script>
         // Unified search functionality
@@ -769,80 +809,128 @@ def generate_overview_html(
         }}
 
         // Weekly plan functionality for overview page
+        // Modal state
+        let currentRecipeForPlan = null;
+
         function toggleWeeklyPlanFromCard(button) {{
             const slug = button.dataset.slug;
             const name = button.dataset.name;
             const category = button.dataset.category;
-            const planKey = 'weeklyMealPlan';
-            let plan = {{ recipes: [] }};
+            const servings = parseInt(button.dataset.servings) || 2;
 
-            try {{
-                const stored = localStorage.getItem(planKey);
-                if (stored) {{
-                    plan = JSON.parse(stored);
-                }}
-            }} catch (e) {{
-                console.error('Error reading weekly plan:', e);
+            // Store current recipe info
+            currentRecipeForPlan = {{ slug, name, category, servings }};
+
+            // Show recipe preview in modal
+            document.getElementById('recipePreview').innerHTML = `
+                <div style="display: flex; align-items: center; gap: 10px; padding: 10px; background-color: var(--bg-secondary); border-radius: 6px; margin-bottom: 20px;">
+                    <span style="font-size: 2em;">${{category}}</span>
+                    <span style="font-weight: 600; font-size: 1.1em;">${{name}}</span>
+                </div>
+            `;
+
+            // Set default to current day
+            const today = new Date().getDay();
+            const dayMap = ['sonntag', 'montag', 'dienstag', 'mittwoch', 'donnerstag', 'freitag', 'samstag'];
+            document.getElementById('daySelect').value = dayMap[today];
+
+            // Show modal
+            document.getElementById('addToPlanModal').style.display = 'flex';
+        }}
+
+        function closeAddToPlanModal() {{
+            document.getElementById('addToPlanModal').style.display = 'none';
+            currentRecipeForPlan = null;
+        }}
+
+        function closeModalOnBackdrop(event) {{
+            if (event.target === event.currentTarget) {{
+                closeAddToPlanModal();
             }}
+        }}
 
-            // Always add to plan (allow duplicates)
-            plan.recipes.push({{
-                id: String(Date.now() + Math.random()),
-                name: name,
-                slug: slug,
-                category: category,
-                addedAt: Date.now(),
-                cooked: false
-            }});
+        function getISOWeek(date) {{
+            const d = new Date(date);
+            d.setHours(0, 0, 0, 0);
+            d.setDate(d.getDate() + 4 - (d.getDay() || 7));
+            const yearStart = new Date(d.getFullYear(), 0, 1);
+            const weekNo = Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
+            return d.getFullYear() + '-W' + String(weekNo).padStart(2, '0');
+        }}
 
-            // Update lastModified timestamp
-            plan.lastModified = Date.now();
+        function confirmAddToPlan() {{
+            if (!currentRecipeForPlan) return;
 
-            // Increment add-to-plan counter
-            incrementAddToPlanCounter(name);
+            const day = document.getElementById('daySelect').value;
+            const meal = document.getElementById('mealSelect').value;
+            const currentWeek = getISOWeek(new Date());
 
-            // Save back to localStorage
             try {{
-                localStorage.setItem(planKey, JSON.stringify(plan));
-                updateAllWeeklyPlanButtons();
+                // Get meal plans
+                const stored = localStorage.getItem('mealPlansV2');
+                const mealPlans = stored ? JSON.parse(stored) : {{}};
 
-                // Trigger sync by posting message to any open weekly plan tabs
-                try {{
-                    localStorage.setItem('weeklyPlanNeedsSync', Date.now().toString());
-                }} catch (e) {{
-                    // Ignore if localStorage is full
-                }}
+                // Initialize structure
+                if (!mealPlans[currentWeek]) mealPlans[currentWeek] = {{}};
+                if (!mealPlans[currentWeek][day]) mealPlans[currentWeek][day] = {{}};
+
+                // Add to plan with recipe's default servings
+                mealPlans[currentWeek][day][meal] = {{
+                    slug: currentRecipeForPlan.slug,
+                    servings: currentRecipeForPlan.servings
+                }};
+
+                // Save back
+                localStorage.setItem('mealPlansV2', JSON.stringify(mealPlans));
+
+                // Increment counter
+                incrementAddToPlanCounter(currentRecipeForPlan.name);
+
+                // Close modal
+                closeAddToPlanModal();
+
+                // Update button states
+                updateAllWeeklyPlanButtons();
             }} catch (e) {{
-                console.error('Error saving weekly plan:', e);
+                console.error('Error adding to plan:', e);
+                alert('Fehler beim Hinzufügen zum Wochenplan');
             }}
         }}
 
         function updateAllWeeklyPlanButtons() {{
-            const planKey = 'weeklyMealPlan';
-            let plan = {{ recipes: [] }};
+            const currentWeek = getISOWeek(new Date());
 
             try {{
-                const stored = localStorage.getItem(planKey);
-                if (stored) {{
-                    plan = JSON.parse(stored);
-                }}
+                const stored = localStorage.getItem('mealPlansV2');
+                const mealPlans = stored ? JSON.parse(stored) : {{}};
+                const weekData = mealPlans[currentWeek] || {{}};
+
+                // Count recipes in current week
+                const recipeCounts = {{}};
+                Object.values(weekData).forEach(dayMeals => {{
+                    Object.entries(dayMeals).forEach(([mealType, mealData]) => {{
+                        if (mealType === 'todo' || !mealData) return;
+                        const slug = typeof mealData === 'string' ? mealData : mealData.slug;
+                        recipeCounts[slug] = (recipeCounts[slug] || 0) + 1;
+                    }});
+                }});
+
+                document.querySelectorAll('.weekly-plan-button-card').forEach(button => {{
+                    const slug = button.dataset.slug;
+                    const count = recipeCounts[slug] || 0;
+
+                    if (count > 0) {{
+                        button.classList.add('in-plan');
+                        const countText = count > 1 ? ` (${{count}}×)` : '';
+                        button.textContent = `✓ In Wochenplan${{countText}}`;
+                    }} else {{
+                        button.classList.remove('in-plan');
+                        button.textContent = '📅 Diese Woche kochen';
+                    }}
+                }});
             }} catch (e) {{
                 console.error('Error reading weekly plan:', e);
             }}
-
-            document.querySelectorAll('.weekly-plan-button-card').forEach(button => {{
-                const slug = button.dataset.slug;
-                const count = plan.recipes.filter(r => r.slug === slug).length;
-
-                if (count > 0) {{
-                    button.classList.add('in-plan');
-                    const countText = count > 1 ? ` (${{count}}×)` : '';
-                    button.textContent = `✓ In Wochenplan${{countText}}`;
-                }} else {{
-                    button.classList.remove('in-plan');
-                    button.textContent = '📅 Diese Woche kochen';
-                }}
-            }});
         }}
 
         {generate_dark_mode_script()}

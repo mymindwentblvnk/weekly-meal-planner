@@ -70,6 +70,11 @@ TEXTS = {
     "todos": "Notizen & Todos",
     "todos_placeholder": "z.B. TODO: Bake Chiasamenbrot for tomorrow",
     "servings": "Portionen",
+    "add_to_plan_title": "Zum Wochenplan hinzufügen",
+    "select_day": "Tag auswählen",
+    "select_meal": "Mahlzeit auswählen",
+    "add_to_plan": "Hinzufügen",
+    "cancel": "Abbrechen",
 
     # Shopping list page
     "view_shopping_list": "🛒 Einkaufsliste",
@@ -624,6 +629,119 @@ h1 {
 }
 .deployment-info p {
     margin: 0;
+}
+
+/* Add to Plan Modal */
+.add-plan-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 20px;
+}
+.add-plan-modal-content {
+    background-color: var(--bg-color);
+    border-radius: 8px;
+    padding: 24px;
+    max-width: 500px;
+    width: 100%;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+}
+.add-plan-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+.add-plan-modal-title {
+    font-size: 1.3em;
+    font-weight: 600;
+    color: var(--primary-color);
+    margin: 0;
+}
+.close-modal-btn {
+    background: none;
+    border: none;
+    font-size: 2em;
+    color: var(--text-secondary);
+    cursor: pointer;
+    padding: 0;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    transition: all 0.2s;
+}
+.close-modal-btn:hover {
+    background-color: var(--bg-secondary);
+    color: var(--text-color);
+}
+.add-plan-modal-body {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.form-group label {
+    font-weight: 600;
+    color: var(--text-color);
+    font-size: 0.95em;
+}
+.plan-select {
+    padding: 10px 12px;
+    border: 2px solid var(--border-color);
+    border-radius: 6px;
+    font-size: 1em;
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    cursor: pointer;
+    transition: border-color 0.2s;
+}
+.plan-select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+}
+.modal-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+.cancel-btn, .add-btn {
+    flex: 1;
+    padding: 10px 16px;
+    border: none;
+    border-radius: 6px;
+    font-size: 1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.cancel-btn {
+    background-color: var(--bg-secondary);
+    color: var(--text-color);
+    border: 2px solid var(--border-color);
+}
+.cancel-btn:hover {
+    background-color: var(--border-color);
+}
+.add-btn {
+    background-color: var(--primary-color);
+    color: white;
+}
+.add-btn:hover {
+    background-color: var(--primary-hover);
 }
 """
 
