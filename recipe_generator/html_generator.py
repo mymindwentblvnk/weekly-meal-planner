@@ -87,7 +87,8 @@ def generate_footer(deployment_time: datetime | None = None) -> str:
     Returns:
         HTML for page footer
     """
-    footer_html = '<footer class="page-footer">'
+    footer_class = "deployment-info" if deployment_time else "page-footer"
+    footer_html = f'<footer class="{footer_class}">'
 
     if deployment_time:
         formatted_time = deployment_time.strftime("%d. %B %Y um %H:%M %Z")

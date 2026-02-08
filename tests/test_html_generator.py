@@ -278,9 +278,9 @@ class TestGenerateOverviewHtml:
     def test_html_includes_title(self, sample_recipes_data):
         """Test that HTML includes title."""
         html = generate_overview_html(sample_recipes_data)
-        assert '<title>Rezeptsammlung</title>' in html
+        assert '<title>Rezeptkatalog</title>' in html
         # Check that h1 contains German text
-        assert 'Rezeptsammlung' in html
+        assert 'Rezeptkatalog' in html
 
     def test_html_includes_all_recipes(self, sample_recipes_data):
         """Test that HTML includes all recipes."""
