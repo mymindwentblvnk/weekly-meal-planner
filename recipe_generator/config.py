@@ -70,6 +70,10 @@ TEXTS = {
     "view_recipes": "📖 Rezepte",
     "recipes_catalog_title": "Rezeptkatalog",
 
+    # Footer
+    "last_updated": "Zuletzt aktualisiert",
+    "data_stored_locally": "💾 Alle Daten (Wochenplan, Einkaufsliste, Einstellungen) werden lokal in deinem Browser gespeichert und gehen verloren, wenn du die Browser-Daten löschst.",
+
     # Shopping list page
     "view_shopping_list": "🛒 Einkaufsliste",
     "shopping_list_title": "Einkaufsliste",
@@ -200,6 +204,29 @@ body {
 
 .light-mode-icon.active, .dark-mode-icon.active {
     display: none;
+}
+
+/* Footer */
+.page-footer {
+    margin-top: 60px;
+    padding: 30px 20px 20px;
+    border-top: 1px solid var(--border-color);
+    text-align: center;
+}
+
+.footer-updated {
+    color: var(--text-tertiary);
+    font-size: 0.85em;
+    margin-bottom: 15px;
+}
+
+.footer-disclaimer {
+    color: var(--text-tertiary);
+    font-size: 0.85em;
+    font-style: italic;
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.5;
 }
 
 """

@@ -83,6 +83,27 @@ def generate_navigation(show_back_button: bool = False) -> str:
     </div>'''
 
 
+def generate_footer(deployment_time: datetime | None = None) -> str:
+    """Generate footer HTML with last updated info and data storage disclaimer.
+
+    Args:
+        deployment_time: Optional datetime for when the page was last updated
+
+    Returns:
+        HTML for page footer
+    """
+    footer_html = '<footer class="page-footer">'
+
+    if deployment_time:
+        formatted_time = deployment_time.strftime("%d. %B %Y um %H:%M %Z")
+        footer_html += f'<p class="footer-updated">{get_text("last_updated")}: {formatted_time}</p>'
+
+    footer_html += f'<p class="footer-disclaimer">{get_text("data_stored_locally")}</p>'
+    footer_html += '</footer>'
+
+    return footer_html
+
+
 def generate_page_header(title: str, css: str, additional_css: str = "") -> str:
     """Generate common HTML page header.
 
@@ -230,6 +251,9 @@ def generate_recipe_detail_html(recipe: dict[str, Any], slug: str) -> str:
             </ol>
         </div>
     </div>
+
+    {generate_footer()}
+
     <script>
         // Recipe data for weekly plan
         const recipeData = {{
@@ -450,15 +474,6 @@ def generate_overview_html(
     </div>'''
         recipe_entries.append(recipe_entry)
 
-    # Generate footer with deployment time
-    footer_html = ""
-    if deployment_time:
-        formatted_time = deployment_time.strftime("%d. %B %Y um %H:%M %Z")
-        footer_html = f'''
-    <footer class="deployment-info">
-        <p>{get_text('last_updated')} {formatted_time}</p>
-    </footer>'''
-
     # Generate category checkboxes
     category_checkboxes = []
     for cat_emoji, cat_name in categories:
@@ -505,7 +520,8 @@ def generate_overview_html(
     <div class="recipe-grid">
 {chr(10).join(recipe_entries)}
     </div>
-{footer_html}
+
+    {generate_footer(deployment_time)}
 
     <!-- Add to Plan Modal -->
     <div id="addToPlanModal" class="add-plan-modal" style="display: none;" onclick="closeModalOnBackdrop(event)">
@@ -898,11 +914,12 @@ def generate_overview_html(
     return html
 
 
-def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]]) -> str:
+def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]], deployment_time: datetime | None = None) -> str:
     """Generate week-based meal planner page.
 
     Args:
         recipes_data: List of tuples containing (filename, recipe_dict)
+        deployment_time: Optional datetime for when the page was deployed
 
     Returns:
         Complete HTML page as a string
@@ -949,6 +966,8 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]]) -> str:
             <div id="searchResults" class="search-results"></div>
         </div>
     </div>
+
+    {generate_footer(deployment_time)}
 
     <script>
         const recipeData = {recipe_lookup_json};
@@ -1239,11 +1258,12 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]]) -> str:
     return html
 
 
-def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]]) -> str:
+def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]], deployment_time: datetime | None = None) -> str:
     """Generate shopping list page based on weekly meal plan.
 
     Args:
         recipes_data: List of tuples containing (filename, recipe_dict)
+        deployment_time: Optional datetime for when the page was deployed
 
     Returns:
         Complete HTML page as a string
@@ -1271,6 +1291,8 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]]) 
     <p style="color: var(--text-tertiary); font-size: 0.9em; font-style: italic; margin-bottom: 30px; padding: 10px; background-color: var(--bg-secondary); border-radius: 4px; border-left: 3px solid var(--primary-color);">{get_text('shopping_list_disclaimer')}</p>
 
     <div id="shoppingListContainer"></div>
+
+    {generate_footer(deployment_time)}
 
     <script>
         const recipeData = {recipe_lookup_json};

@@ -64,9 +64,12 @@ def main():
 
     # Generate pages if we have at least one valid recipe
     if recipes_data:
+        # Get deployment time for all pages
+        deployment_time = datetime.now(ZoneInfo("Europe/Berlin"))
+
         # Generate weekly plan page as the main index
         print("Generating weekly plan page (index)...")
-        weekly_html = generate_weekly_html(recipes_data)
+        weekly_html = generate_weekly_html(recipes_data, deployment_time)
         index_file = OUTPUT_DIR / "index.html"
         with open(index_file, 'w', encoding='utf-8') as f:
             f.write(weekly_html)
@@ -74,7 +77,6 @@ def main():
 
         # Generate recipe catalog page
         print("Generating recipe catalog page...")
-        deployment_time = datetime.now(ZoneInfo("Europe/Berlin"))
         catalog_html = generate_overview_html(recipes_data, deployment_time)
         catalog_file = OUTPUT_DIR / "recipes.html"
         with open(catalog_file, 'w', encoding='utf-8') as f:
@@ -83,7 +85,7 @@ def main():
 
         # Generate shopping list page
         print("Generating shopping list page...")
-        shopping_html = generate_shopping_list_html(recipes_data)
+        shopping_html = generate_shopping_list_html(recipes_data, deployment_time)
         shopping_file = OUTPUT_DIR / "shopping.html"
         with open(shopping_file, 'w', encoding='utf-8') as f:
             f.write(shopping_html)
