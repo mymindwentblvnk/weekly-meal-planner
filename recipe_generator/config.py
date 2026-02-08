@@ -229,6 +229,23 @@ body {
 """
 
 DETAIL_PAGE_CSS = """
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.page-header h1 {
+    flex: 1;
+    min-width: 200px;
+    margin: 0;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
 h1 {
     color: var(--primary-color);
     font-size: 1.75em;
@@ -749,6 +766,23 @@ h1 {
 """
 
 WEEKLY_PAGE_CSS = """
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.page-header h1 {
+    flex: 1;
+    min-width: 200px;
+    margin: 0;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
 h1 {
     color: var(--primary-color);
     margin-bottom: 10px;
@@ -1118,6 +1152,23 @@ h1 {
 """
 
 SHOPPING_LIST_PAGE_CSS = """
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.page-header h1 {
+    flex: 1;
+    min-width: 200px;
+    margin: 0;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
 h1 {
     color: var(--primary-color);
 }
