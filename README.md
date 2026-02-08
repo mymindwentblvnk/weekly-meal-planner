@@ -1,25 +1,43 @@
-# bring-recipes-adder
+# weekly-meal-planner
 
-🛒 This is a HTML website generator that lets you add your favourite recipes with one click to Bring! app.
+🗓️ A static HTML website generator for weekly meal planning with integrated shopping lists. Plan your meals for the week and generate ingredient lists automatically.
 
-**[🚀 Try the live app](https://mymindwentblvnk.github.io/bring-recipes-adder/)** - Feel free to play around with all features! Search, filter, add recipes to your weekly plan, and explore the interface. All changes are stored locally in your browser.
+**[🚀 Try the live app](https://mymindwentblvnk.github.io/weekly-meal-planner/)** - Feel free to play around with all features! Search, filter, plan your weekly meals, and explore the interface. All changes are stored locally in your browser.
 
 ## Features
 
+### Meal Planning
+- **Weekly meal planner**: Plan breakfast, lunch, and dinner for each day of the week
+- **Week navigation**: Browse and plan meals for current, past, and future weeks
+- **Servings control**: Adjust servings for each meal individually
+- **Daily notes**: Add TODO notes and reminders for each day
+- **Local storage**: All meal plans are saved in your browser automatically
+- **Smart cleanup**: Automatically removes meal plans older than 2 weeks to save space
+
+### Shopping List
+- **Automatic generation**: Shopping list is generated from your weekly meal plan
+- **Two views**: Toggle between "Nach Rezept" (by recipe) and "Alphabetisch" (alphabetical)
+- **Checkboxes**: Mark ingredients as purchased, synced across both views
+- **Individual instances**: Recipes added multiple times appear separately with their own servings
+- **Week-specific**: Each week has its own shopping list
+
+### Recipe Management
 - **YAML-based recipes**: Define recipes in simple YAML files organized by author
-- **Bring! integration**: One-click ingredient import to your Bring! shopping list
 - **Unified search**: Search by recipe name, tags, authors, or categories with autocomplete
 - **Hierarchical tagging**: Smart tag system with both generic (fish, nuts) and specific (salmon, walnuts) tags
-- **Weekly meal planner**: Plan your meals for the week with local storage sync
-- **Recipe statistics**: Track and view your most-viewed recipes
-- **Advanced filtering**: Multi-select search with support for tags, categories, authors, and recipe names
-- **Auto-detection**: Categories, authors, and tags are automatically detected from recipe files
+- **Recipe catalog**: Browse all available recipes with advanced filtering
 - **Quick recipes filter**: Find recipes that take 30 minutes or less
-- **Dark mode**: Toggle between light and dark themes with automatic detection
 - **Schema.org markup**: Properly structured recipe data for SEO and compatibility
-- **Static site generation**: Generates clean HTML pages that can be hosted anywhere
-- **Automatic deployment**: GitHub Actions workflow with tests deploys to GitHub Pages
+
+### User Interface
+- **Dark mode**: Toggle between light and dark themes with automatic detection
 - **German interface**: All UI text in German
+- **Responsive design**: Works on desktop and mobile devices
+- **Static site generation**: Generates clean HTML pages that can be hosted anywhere
+
+### Deployment
+- **Automatic deployment**: GitHub Actions workflow with tests deploys to GitHub Pages
+- **100% test coverage**: Comprehensive test suite ensures reliability
 
 ## Local Development
 
@@ -32,8 +50,8 @@
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/YOUR_USERNAME/bring-recipes-adder.git
-   cd bring-recipes-adder
+   git clone https://github.com/YOUR_USERNAME/weekly-meal-planner.git
+   cd weekly-meal-planner
    ```
 
 2. Install dependencies:
@@ -48,7 +66,7 @@
    uv run python main.py
    ```
 
-5. Open `output/index.html` in your browser to view the recipe collection
+5. Open `output/index.html` in your browser to view the meal planner
 
 ### Running Tests
 
@@ -181,6 +199,32 @@ tags:
 
 This allows users to search broadly (all fish recipes) or specifically (only salmon recipes).
 
+## How to Use
+
+### Planning Your Week
+
+1. Open the **Wochenplan** (weekly plan) page
+2. Navigate to the desired week using the week navigation buttons
+3. For each day and meal slot, click **Rezept zuweisen** to search and select a recipe
+4. Adjust servings for each meal using the +/- buttons
+5. Add notes or reminders in the **Notizen & TODOs** section for each day
+
+### Creating Shopping Lists
+
+1. Your shopping list is automatically generated from your weekly meal plan
+2. Open the **Einkaufsliste** (shopping list) page
+3. Switch between weeks using the week navigation
+4. Toggle between **Nach Rezept** (grouped by recipe) and **Alphabetisch** (sorted alphabetically)
+5. Check off ingredients as you shop - checkmarks are synced across both views
+6. Adjust servings for individual recipe instances if needed
+
+### Browsing Recipes
+
+1. Open the **Rezeptkatalog** (recipe catalog) page
+2. Use the search box to find recipes by name, ingredient, author, or category
+3. Filter by quick recipes (≤30 minutes) using the checkbox
+4. Click on any recipe to view details and add it to your weekly plan
+
 ## GitHub Pages Deployment
 
 The project includes a GitHub Actions workflow that automatically:
@@ -193,41 +237,25 @@ The project includes a GitHub Actions workflow that automatically:
 1. Go to your repository **Settings** → **Pages**
 2. Under **Source**, select **GitHub Actions**
 3. Push changes to the `main` branch
-4. Your recipes will be available at: `https://YOUR_USERNAME.github.io/REPO_NAME/`
+4. Your meal planner will be available at: `https://YOUR_USERNAME.github.io/weekly-meal-planner/`
 
 The workflow runs automatically on every push to `main`, or can be triggered manually from the Actions tab. Deployment will only occur if all tests pass.
 
-## Search & Filtering
+## Data Storage
 
-The overview page provides a powerful unified search with autocomplete:
+All meal plans, shopping list checkmarks, and preferences are stored locally in your browser using localStorage:
 
-### Unified Search
-- **Recipe names** (🍽️): Search for specific recipes like "Fischpfanne" or "Gulasch"
-- **Tags** (🏷️): Search by ingredients like "Lachs", "Käse", or "Nüsse"
-- **Authors** (👤): Filter by recipe creators (VitaMoment, HelloFresh, Chefkoch, etc.)
-- **Categories** (📁): Filter by meal type (Brot, Fisch, Fleisch, Frühstück, etc.)
+- **Meal plans**: Stored for current week ± 2 weeks (5 weeks total)
+- **Shopping list checkmarks**: Tracked per ingredient instance
+- **Dark mode preference**: Remembered across sessions
+- **Old data cleanup**: Automatically removes data older than 2 weeks
 
-### Additional Filters
-- **Fast recipes**: Checkbox to show only recipes that take 30 minutes or less
-- **Multi-select**: Combine multiple search criteria (e.g., "Lachs" + "Frühstück" + VitaMoment)
-- **Persistent state**: Filter selections are saved in local storage and restored on page reload
-
-### How It Works
-Start typing in the search box to see autocomplete suggestions. All searchable items are automatically detected from your recipe files - no configuration needed! Select any combination of recipe names, tags, authors, or categories to filter the recipe list.
-
-## Weekly Meal Plan
-
-The weekly meal plan feature allows you to organize recipes for the upcoming week:
-
-- **Add recipes**: Click "📅 Diese Woche kochen" on any recipe detail page
-- **Mark as cooked**: Track which meals you've already prepared
-- **Local storage**: All data is stored in your browser's local storage
-- **No sync**: Weekly plans are device-specific and not synced across browsers
+**Note**: Data is device-specific and not synced across browsers or devices.
 
 ## Project Structure
 
 ```
-bring-recipes-adder/
+weekly-meal-planner/
 ├── main.py                      # Entry point
 ├── recipe_generator/            # Core package
 │   ├── __init__.py             # Package exports

@@ -1,7 +1,7 @@
 [project]
-name = "bring-recipes-adder"
+name = "weekly-meal-planner"
 version = "0.1.0"
-description = "Add your description here"
+description = "A static HTML website generator for weekly meal planning with integrated shopping lists"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
