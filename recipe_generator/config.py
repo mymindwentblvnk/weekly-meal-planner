@@ -1119,6 +1119,7 @@ h1 {
     background-color: var(--bg-color);
     resize: vertical;
     transition: border-color 0.2s;
+    box-sizing: border-box;
 }
 .todos-textarea:focus {
     outline: none;
