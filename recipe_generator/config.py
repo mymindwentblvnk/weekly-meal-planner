@@ -844,17 +844,38 @@ h1 {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 10px;
 }
 .ingredient-item:last-child {
     border-bottom: none;
 }
+.ingredient-checkbox {
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+.ingredient-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex: 1;
+}
 .ingredient-name {
     font-weight: 500;
     color: var(--text-color);
+    transition: all 0.2s;
 }
 .ingredient-amount {
     color: var(--text-secondary);
     font-size: 0.95em;
+    transition: all 0.2s;
+}
+.ingredient-item.checked .ingredient-name,
+.ingredient-item.checked .ingredient-amount {
+    text-decoration: line-through;
+    color: var(--text-tertiary);
+    opacity: 0.6;
 }
 .no-shopping-items {
     text-align: center;

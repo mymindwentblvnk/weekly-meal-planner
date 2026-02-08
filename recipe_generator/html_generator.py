@@ -1322,6 +1322,52 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]]) 
             return plan;
         }}
 
+        // Get checked items from localStorage
+        function getCheckedItems() {{
+            const checkedKey = 'shoppingListChecked';
+            let checked = {{}};
+
+            try {{
+                const stored = localStorage.getItem(checkedKey);
+                if (stored) {{
+                    checked = JSON.parse(stored);
+                }}
+            }} catch (e) {{
+                console.error('Error reading checked items:', e);
+            }}
+
+            return checked;
+        }}
+
+        // Save checked items to localStorage
+        function saveCheckedItems(checked) {{
+            const checkedKey = 'shoppingListChecked';
+            try {{
+                localStorage.setItem(checkedKey, JSON.stringify(checked));
+            }} catch (e) {{
+                console.error('Error saving checked items:', e);
+            }}
+        }}
+
+        // Toggle checkbox state
+        function toggleIngredientCheck(itemId) {{
+            const checkbox = document.getElementById(`check-${{itemId}}`);
+            const listItem = checkbox.closest('.ingredient-item');
+            const isChecked = checkbox.checked;
+
+            // Update visual state
+            if (isChecked) {{
+                listItem.classList.add('checked');
+            }} else {{
+                listItem.classList.remove('checked');
+            }}
+
+            // Update localStorage
+            let checked = getCheckedItems();
+            checked[itemId] = isChecked;
+            saveCheckedItems(checked);
+        }}
+
         // Scale ingredient amount from original servings to target servings (2)
         function scaleAmount(amount, originalServings, targetServings) {{
             if (!amount) return amount;
@@ -1365,8 +1411,14 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]]) 
                         <p>{get_text('no_shopping_list_message')}</p>
                     </div>
                 `;
+                // Clear all checked items when no recipes
+                saveCheckedItems({{}});
                 return;
             }}
+
+            // Load checked state
+            let checked = getCheckedItems();
+            let currentItemIds = new Set();
 
             let html = '<div class="shopping-list-container">';
 
@@ -1385,12 +1437,27 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]]) 
                 `;
 
                 if (recipeInfo.ingredients && recipeInfo.ingredients.length > 0) {{
-                    recipeInfo.ingredients.forEach((ingredient) => {{
+                    recipeInfo.ingredients.forEach((ingredient, index) => {{
                         const scaledAmount = scaleAmount(ingredient.amount, originalServings, targetServings);
+                        const itemId = `${{recipe.slug}}-${{index}}`;
+                        currentItemIds.add(itemId);
+                        const isChecked = checked[itemId] || false;
+                        const checkedClass = isChecked ? 'checked' : '';
+                        const checkedAttr = isChecked ? 'checked' : '';
+
                         html += `
-                            <li class="ingredient-item">
-                                <span class="ingredient-name">${{ingredient.name}}</span>
-                                <span class="ingredient-amount">${{scaledAmount}}</span>
+                            <li class="ingredient-item ${{checkedClass}}">
+                                <input
+                                    type="checkbox"
+                                    id="check-${{itemId}}"
+                                    class="ingredient-checkbox"
+                                    ${{checkedAttr}}
+                                    onchange="toggleIngredientCheck('${{itemId}}')"
+                                >
+                                <div class="ingredient-info">
+                                    <span class="ingredient-name">${{ingredient.name}}</span>
+                                    <span class="ingredient-amount">${{scaledAmount}}</span>
+                                </div>
                             </li>
                         `;
                     }});
@@ -1406,6 +1473,15 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]]) 
 
             html += '</div>';
             container.innerHTML = html;
+
+            // Clean up checked items that are no longer in the list
+            let cleanedChecked = {{}};
+            for (let itemId of currentItemIds) {{
+                if (checked[itemId]) {{
+                    cleanedChecked[itemId] = true;
+                }}
+            }}
+            saveCheckedItems(cleanedChecked);
         }}
 
         // Load shopping list on page load
