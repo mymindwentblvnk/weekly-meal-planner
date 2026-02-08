@@ -1041,6 +1041,7 @@ h1 {
     background-color: var(--bg-color);
     color: var(--text-color);
     margin-bottom: 16px;
+    box-sizing: border-box;
 }
 .search-input:focus {
     outline: none;
