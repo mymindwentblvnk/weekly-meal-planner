@@ -75,6 +75,8 @@ TEXTS = {
     "select_meal": "Mahlzeit auswählen",
     "add_to_plan": "Hinzufügen",
     "cancel": "Abbrechen",
+    "view_recipes": "📖 Rezepte",
+    "recipes_catalog_title": "Rezeptkatalog",
 
     # Shopping list page
     "view_shopping_list": "🛒 Einkaufsliste",

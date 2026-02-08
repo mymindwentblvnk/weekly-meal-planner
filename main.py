@@ -63,15 +63,24 @@ def main():
             print(f"  ✗ {error_msg}")
             errors.append(error_msg)
 
-    # Generate overview page if we have at least one valid recipe
+    # Generate pages if we have at least one valid recipe
     if recipes_data:
-        print("Generating overview page...")
+        # Generate weekly plan page as the main index
+        print("Generating weekly plan page (index)...")
+        weekly_html = generate_weekly_html(recipes_data)
+        index_file = OUTPUT_DIR / "index.html"
+        with open(index_file, 'w', encoding='utf-8') as f:
+            f.write(weekly_html)
+        print(f"  → Generated {index_file}")
+
+        # Generate recipe catalog page
+        print("Generating recipe catalog page...")
         deployment_time = datetime.now(ZoneInfo("Europe/Berlin"))
-        overview_html = generate_overview_html(recipes_data, deployment_time)
-        overview_file = OUTPUT_DIR / "index.html"
-        with open(overview_file, 'w', encoding='utf-8') as f:
-            f.write(overview_html)
-        print(f"  → Generated {overview_file}")
+        catalog_html = generate_overview_html(recipes_data, deployment_time)
+        catalog_file = OUTPUT_DIR / "recipes.html"
+        with open(catalog_file, 'w', encoding='utf-8') as f:
+            f.write(catalog_html)
+        print(f"  → Generated {catalog_file}")
 
         # Generate stats page
         print("Generating stats page...")
@@ -80,14 +89,6 @@ def main():
         with open(stats_file, 'w', encoding='utf-8') as f:
             f.write(stats_html)
         print(f"  → Generated {stats_file}")
-
-        # Generate weekly plan page
-        print("Generating weekly plan page...")
-        weekly_html = generate_weekly_html(recipes_data)
-        weekly_file = OUTPUT_DIR / "weekly.html"
-        with open(weekly_file, 'w', encoding='utf-8') as f:
-            f.write(weekly_html)
-        print(f"  → Generated {weekly_file}")
 
         # Generate shopping list page
         print("Generating shopping list page...")

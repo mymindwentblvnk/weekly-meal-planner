@@ -63,7 +63,7 @@ def generate_navigation(show_back_button: bool = False) -> str:
     """Generate top navigation HTML.
 
     Args:
-        show_back_button: Whether to show the back to recipes button
+        show_back_button: Whether to show the back to home button
 
     Returns:
         HTML for top navigation bar
@@ -73,7 +73,7 @@ def generate_navigation(show_back_button: bool = False) -> str:
     return f'''<div class="top-nav">
         {back_button}
         <div style="display: flex; gap: 10px; align-items: center;">
-            <a href="weekly.html" class="nav-link" aria-label="Weekly Plan">🗓️</a>
+            <a href="recipes.html" class="nav-link" aria-label="Recipes Catalog">📖</a>
             <a href="shopping.html" class="nav-link" aria-label="Shopping List">🛒</a>
             <a href="stats.html" class="nav-link" aria-label="Statistics">📊</a>
             <button class="nav-toggle-button" id="darkModeToggle" onclick="toggleDarkMode()" aria-label="Toggle dark mode">
@@ -509,9 +509,9 @@ def generate_overview_html(
     import json
     search_items_json = json.dumps(all_search_items)
 
-    html = f'''{generate_page_header(get_text('overview_title'), OVERVIEW_PAGE_CSS)}
+    html = f'''{generate_page_header(get_text('recipes_catalog_title'), OVERVIEW_PAGE_CSS)}
     <div class="page-header">
-        <h1>{get_text('overview_title')}</h1>
+        <h1>{get_text('recipes_catalog_title')}</h1>
         {generate_navigation(show_back_button=False)}
     </div>
 
@@ -1164,7 +1164,7 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]]) -> str:
     recipe_lookup_json = json.dumps(recipe_lookup, ensure_ascii=False)
 
     html = f'''{generate_page_header(get_text('weekly_plan_title'), WEEKLY_PAGE_CSS)}
-    {generate_navigation(show_back_button=True)}
+    {generate_navigation(show_back_button=False)}
     <h1>{get_text('weekly_plan_title')}</h1>
     <p style="color: var(--text-tertiary); font-size: 0.9em; font-style: italic; margin-bottom: 30px; padding: 10px; background-color: var(--bg-secondary); border-radius: 4px; border-left: 3px solid var(--primary-color);">{get_text('weekly_plan_disclaimer')}</p>
 
