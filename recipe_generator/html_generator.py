@@ -1413,18 +1413,18 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]], 
                     const mealPlans = JSON.parse(stored);
                     const weekData = mealPlans[week] || {{}};
 
-                    // Aggregate all meals from the week with servings
+                    // Aggregate all meals from the week with servings and day/meal info
                     const meals = [];
-                    Object.values(weekData).forEach(dayMeals => {{
+                    Object.entries(weekData).forEach(([day, dayMeals]) => {{
                         Object.entries(dayMeals).forEach(([mealType, mealData]) => {{
                             // Skip 'todo' entries
                             if (mealType === 'todo' || !mealData) return;
 
                             // Support both old format (string) and new format (object)
                             if (typeof mealData === 'string') {{
-                                meals.push({{ slug: mealData, servings: 2 }});
+                                meals.push({{ slug: mealData, servings: 2, day: day, meal: mealType }});
                             }} else if (mealData.slug) {{
-                                meals.push({{ slug: mealData.slug, servings: mealData.servings || 2 }});
+                                meals.push({{ slug: mealData.slug, servings: mealData.servings || 2, day: day, meal: mealType }});
                             }}
                         }});
                     }});
@@ -1521,6 +1521,40 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]], 
         function decrementServings(recipeSlug, currentServings) {{
             if (currentServings > 1) {{
                 updateServings(recipeSlug, currentServings - 1);
+            }}
+        }}
+
+        // Update servings for a specific recipe instance (by instance index in plan.recipes)
+        function updateServingsInstance(instanceIndex, newServings) {{
+            newServings = Math.max(1, Math.min(20, parseInt(newServings) || 2));
+
+            const plan = getLocalWeeklyPlan(currentWeek);
+            if (instanceIndex >= 0 && instanceIndex < plan.recipes.length) {{
+                const instance = plan.recipes[instanceIndex];
+                const mealPlans = getMealPlans();
+
+                if (!mealPlans[currentWeek]) mealPlans[currentWeek] = {{}};
+                if (!mealPlans[currentWeek][instance.day]) mealPlans[currentWeek][instance.day] = {{}};
+
+                mealPlans[currentWeek][instance.day][instance.meal] = {{
+                    slug: instance.slug,
+                    servings: newServings
+                }};
+
+                saveMealPlans(mealPlans);
+                loadShoppingList();
+            }}
+        }}
+
+        function incrementServingsInstance(instanceIndex, currentServings) {{
+            if (currentServings < 20) {{
+                updateServingsInstance(instanceIndex, currentServings + 1);
+            }}
+        }}
+
+        function decrementServingsInstance(instanceIndex, currentServings) {{
+            if (currentServings > 1) {{
+                updateServingsInstance(instanceIndex, currentServings - 1);
             }}
         }}
 
@@ -1649,52 +1683,43 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]], 
             // Track valid item IDs in current shopping list
             const validItemIds = new Set();
 
-            // Aggregate servings for duplicate recipes
-            const recipeServingsMap = {{}};
-            plan.recipes.forEach((recipe) => {{
-                if (recipeServingsMap[recipe.slug]) {{
-                    recipeServingsMap[recipe.slug] += recipe.servings || 2;
-                }} else {{
-                    recipeServingsMap[recipe.slug] = recipe.servings || 2;
-                }}
-            }});
-
             let html = '<div class="shopping-list-container">';
 
-            Object.entries(recipeServingsMap).forEach(([slug, weeklyServings]) => {{
+            // Show each recipe instance separately (no aggregation)
+            plan.recipes.forEach((recipeInstance, instanceIndex) => {{
+                const slug = recipeInstance.slug;
                 const recipeInfo = recipeData[slug];
                 if (!recipeInfo) return; // Skip if recipe not found
 
                 const originalServings = recipeInfo.servings || 2;
-                // Always use servings from weekly plan
-                const targetServings = weeklyServings;
+                const targetServings = recipeInstance.servings || 2;
 
                 html += `
                     <div class="recipe-shopping-section">
                         <div class="recipe-header">
                             <h2 class="recipe-title">${{recipeInfo.category}} ${{recipeInfo.name}}</h2>
                             <div class="servings-control">
-                                <label for="servings-${{slug}}">{get_text('servings_label_short')}</label>
+                                <label for="servings-${{slug}}-${{instanceIndex}}">{get_text('servings_label_short')}</label>
                                 <div class="servings-buttons">
                                     <button
                                         class="servings-btn"
-                                        onclick="decrementServings('${{slug}}', ${{targetServings}})"
+                                        onclick="decrementServingsInstance(${{instanceIndex}}, ${{targetServings}})"
                                         aria-label="Portionen verringern"
                                         ${{targetServings <= 1 ? 'disabled' : ''}}
                                     >−</button>
                                     <input
                                         type="number"
-                                        id="servings-${{slug}}"
+                                        id="servings-${{slug}}-${{instanceIndex}}"
                                         class="servings-input"
                                         min="1"
                                         max="20"
                                         value="${{targetServings}}"
-                                        onchange="updateServings('${{slug}}', this.value)"
+                                        onchange="updateServingsInstance(${{instanceIndex}}, this.value)"
                                         aria-label="Anzahl Portionen"
                                     >
                                     <button
                                         class="servings-btn"
-                                        onclick="incrementServings('${{slug}}', ${{targetServings}})"
+                                        onclick="incrementServingsInstance(${{instanceIndex}}, ${{targetServings}})"
                                         aria-label="Portionen erhöhen"
                                         ${{targetServings >= 20 ? 'disabled' : ''}}
                                     >+</button>
@@ -1708,7 +1733,7 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]], 
                 if (recipeInfo.ingredients && recipeInfo.ingredients.length > 0) {{
                     recipeInfo.ingredients.forEach((ingredient, index) => {{
                         const scaledAmount = scaleAmount(ingredient.amount, originalServings, targetServings);
-                        const itemId = `${{slug}}-${{index}}`;
+                        const itemId = `${{slug}}-${{instanceIndex}}-${{index}}`;
                         validItemIds.add(itemId);
                         const isChecked = checked[itemId] || false;
                         const checkedClass = isChecked ? 'checked' : '';
@@ -1775,28 +1800,19 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]], 
             // Track valid item IDs in current shopping list
             const validItemIds = new Set();
 
-            // Aggregate servings for duplicate recipes
-            const recipeServingsMap = {{}};
-            plan.recipes.forEach((recipe) => {{
-                if (recipeServingsMap[recipe.slug]) {{
-                    recipeServingsMap[recipe.slug] += recipe.servings || 2;
-                }} else {{
-                    recipeServingsMap[recipe.slug] = recipe.servings || 2;
-                }}
-            }});
-
-            // Collect all ingredients from all recipes (with their itemIds)
+            // Collect all ingredients from all recipe instances (no aggregation)
             const allIngredients = [];
-            Object.entries(recipeServingsMap).forEach(([slug, weeklyServings]) => {{
+            plan.recipes.forEach((recipeInstance, instanceIndex) => {{
+                const slug = recipeInstance.slug;
                 const recipeInfo = recipeData[slug];
                 if (!recipeInfo || !recipeInfo.ingredients) return;
 
                 const originalServings = recipeInfo.servings || 2;
-                const targetServings = weeklyServings;
+                const targetServings = recipeInstance.servings || 2;
 
                 recipeInfo.ingredients.forEach((ingredient, index) => {{
                     const scaledAmount = scaleAmount(ingredient.amount, originalServings, targetServings);
-                    const itemId = `${{slug}}-${{index}}`;
+                    const itemId = `${{slug}}-${{instanceIndex}}-${{index}}`;
                     validItemIds.add(itemId);
                     allIngredients.push({{
                         itemId: itemId,
