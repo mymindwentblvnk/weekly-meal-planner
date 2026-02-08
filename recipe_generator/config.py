@@ -22,16 +22,8 @@ TEXTS = {
     "filter_bread": "Brot",
     "filter_sweet": "Frühstück",
     "filter_fast": "Schnell (≤30 min)",
-    "view_stats": "📊 Statistiken",
     "menu_dark_mode": "Dunkelmodus",
     "menu_light_mode": "Hellmodus",
-
-    # Stats page
-    "stats_title": "Rezept-Statistiken",
-    "stats_subtitle": "Top 10 am häufigsten zum Kochen eingeplant",
-    "stats_count": "× eingeplant",
-    "stats_no_data": "Noch keine Daten verfügbar. Füge Rezepte zum Wochenplan hinzu, um Statistiken zu sehen!",
-    "stats_disclaimer": "💡 Diese Statistiken werden lokal in deinem Browser gespeichert und gehen verloren, wenn du die Browser-Daten löschst.",
 
     # Detail page
     "recipe_title_suffix": "Rezept",

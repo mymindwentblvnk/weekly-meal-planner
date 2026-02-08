@@ -10,7 +10,6 @@ from recipe_generator import (
     validate_recipe,
     generate_recipe_detail_html,
     generate_overview_html,
-    generate_stats_html,
     generate_weekly_html,
     generate_shopping_list_html,
 )
@@ -81,14 +80,6 @@ def main():
         with open(catalog_file, 'w', encoding='utf-8') as f:
             f.write(catalog_html)
         print(f"  → Generated {catalog_file}")
-
-        # Generate stats page
-        print("Generating stats page...")
-        stats_html = generate_stats_html(recipes_data)
-        stats_file = OUTPUT_DIR / "stats.html"
-        with open(stats_file, 'w', encoding='utf-8') as f:
-            f.write(stats_html)
-        print(f"  → Generated {stats_file}")
 
         # Generate shopping list page
         print("Generating shopping list page...")
