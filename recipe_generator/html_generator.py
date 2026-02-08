@@ -1232,7 +1232,6 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]], deploym
                             <div class="todos-header">{get_text('todos')}</div>
                             <textarea
                                 class="todos-textarea"
-                                placeholder="{get_text('todos_placeholder')}"
                                 oninput="saveTodoForDay('${{currentWeek}}', '${{dayKey}}', this.value)"
                             >${{todo}}</textarea>
                         </div>
