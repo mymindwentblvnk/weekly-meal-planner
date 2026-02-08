@@ -1504,6 +1504,93 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]]) 
             }}
         }}
 
+        // Update servings and sync back to weekly plan
+        function updateServings(recipeSlug, newServings) {{
+            newServings = Math.max(1, Math.min(20, parseInt(newServings) || 2));
+
+            // Get current week's meal plan
+            function getISOWeek(date) {{
+                const d = new Date(date);
+                d.setHours(0, 0, 0, 0);
+                d.setDate(d.getDate() + 4 - (d.getDay() || 7));
+                const yearStart = new Date(d.getFullYear(), 0, 1);
+                const weekNo = Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
+                return d.getFullYear() + '-W' + String(weekNo).padStart(2, '0');
+            }}
+
+            const currentWeek = getISOWeek(new Date());
+            const mealPlans = getMealPlans();
+            const weekData = mealPlans[currentWeek] || {{}};
+
+            // Find all instances of this recipe in the current week
+            const instances = [];
+            let totalCurrentServings = 0;
+
+            Object.entries(weekData).forEach(([day, dayMeals]) => {{
+                Object.entries(dayMeals).forEach(([mealType, mealData]) => {{
+                    if (mealType === 'todo' || !mealData) return;
+
+                    const slug = typeof mealData === 'string' ? mealData : mealData.slug;
+                    if (slug === recipeSlug) {{
+                        const servings = typeof mealData === 'string' ? 2 : (mealData.servings || 2);
+                        instances.push({{ day, mealType, servings }});
+                        totalCurrentServings += servings;
+                    }}
+                }});
+            }});
+
+            // Distribute new servings proportionally across all instances
+            if (instances.length > 0) {{
+                const scaleFactor = newServings / totalCurrentServings;
+
+                instances.forEach(instance => {{
+                    const newInstanceServings = Math.max(1, Math.round(instance.servings * scaleFactor));
+
+                    if (!mealPlans[currentWeek]) mealPlans[currentWeek] = {{}};
+                    if (!mealPlans[currentWeek][instance.day]) mealPlans[currentWeek][instance.day] = {{}};
+
+                    mealPlans[currentWeek][instance.day][instance.mealType] = {{
+                        slug: recipeSlug,
+                        servings: newInstanceServings
+                    }};
+                }});
+
+                saveMealPlans(mealPlans);
+            }}
+
+            loadShoppingList();
+        }}
+
+        function incrementServings(recipeSlug, currentServings) {{
+            if (currentServings < 20) {{
+                updateServings(recipeSlug, currentServings + 1);
+            }}
+        }}
+
+        function decrementServings(recipeSlug, currentServings) {{
+            if (currentServings > 1) {{
+                updateServings(recipeSlug, currentServings - 1);
+            }}
+        }}
+
+        function getMealPlans() {{
+            try {{
+                const stored = localStorage.getItem('mealPlansV2');
+                return stored ? JSON.parse(stored) : {{}};
+            }} catch (e) {{
+                console.error('Error loading meal plans:', e);
+                return {{}};
+            }}
+        }}
+
+        function saveMealPlans(plans) {{
+            try {{
+                localStorage.setItem('mealPlansV2', JSON.stringify(plans));
+            }} catch (e) {{
+                console.error('Error saving meal plans:', e);
+            }}
+        }}
+
         // Toggle checkbox state
         function toggleIngredientCheck(itemId) {{
             const checkbox = document.getElementById(`check-${{itemId}}`);
@@ -1599,10 +1686,35 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]]) 
                     <div class="recipe-shopping-section">
                         <div class="recipe-header">
                             <h2 class="recipe-title">${{recipeInfo.category}} ${{recipeInfo.name}}</h2>
-                            <div class="servings-display">
-                                <span class="servings-text">${{targetServings}} {get_text('servings_label_short')}</span>
+                            <div class="servings-control">
+                                <label for="servings-${{slug}}">{get_text('servings_label_short')}</label>
+                                <div class="servings-buttons">
+                                    <button
+                                        class="servings-btn"
+                                        onclick="decrementServings('${{slug}}', ${{targetServings}})"
+                                        aria-label="Portionen verringern"
+                                        ${{targetServings <= 1 ? 'disabled' : ''}}
+                                    >−</button>
+                                    <input
+                                        type="number"
+                                        id="servings-${{slug}}"
+                                        class="servings-input"
+                                        min="1"
+                                        max="20"
+                                        value="${{targetServings}}"
+                                        onchange="updateServings('${{slug}}', this.value)"
+                                        aria-label="Anzahl Portionen"
+                                    >
+                                    <button
+                                        class="servings-btn"
+                                        onclick="incrementServings('${{slug}}', ${{targetServings}})"
+                                        aria-label="Portionen erhöhen"
+                                        ${{targetServings >= 20 ? 'disabled' : ''}}
+                                    >+</button>
+                                </div>
                             </div>
                         </div>
+                        <p class="recipe-meta">Original: ${{originalServings}} Portionen → Aktuell: ${{targetServings}} Portionen</p>
                         <ul class="ingredients-list">
                 `;
 
