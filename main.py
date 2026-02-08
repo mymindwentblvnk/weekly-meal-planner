@@ -12,6 +12,7 @@ from recipe_generator import (
     generate_overview_html,
     generate_stats_html,
     generate_weekly_html,
+    generate_shopping_list_html,
 )
 
 
@@ -87,6 +88,14 @@ def main():
         with open(weekly_file, 'w', encoding='utf-8') as f:
             f.write(weekly_html)
         print(f"  → Generated {weekly_file}")
+
+        # Generate shopping list page
+        print("Generating shopping list page...")
+        shopping_html = generate_shopping_list_html(recipes_data)
+        shopping_file = OUTPUT_DIR / "shopping.html"
+        with open(shopping_file, 'w', encoding='utf-8') as f:
+            f.write(shopping_html)
+        print(f"  → Generated {shopping_file}")
 
     # Print summary
     print(f"\nDone! Generated {len(recipes_data)} recipe(s) in the 'output' directory.")

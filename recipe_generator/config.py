@@ -61,6 +61,14 @@ TEXTS = {
     "cooked": "✓ Gekocht",
     "not_cooked": "Nicht gekocht",
     "added_on": "Hinzugefügt:",
+
+    # Shopping list page
+    "view_shopping_list": "🛒 Einkaufsliste",
+    "shopping_list_title": "Einkaufsliste",
+    "shopping_list_subtitle": "Automatisch generiert aus dem Wochenplan (normalisiert auf 2 Portionen)",
+    "shopping_list_disclaimer": "💡 Die Einkaufsliste wird automatisch aus deinem Wochenplan generiert. Mengen sind auf 2 Portionen skaliert.",
+    "no_shopping_list": "Keine Zutaten",
+    "no_shopping_list_message": "Füge Rezepte zum Wochenplan hinzu, um eine Einkaufsliste zu generieren!",
 }
 
 def get_text(key: str) -> str:
@@ -777,6 +785,91 @@ h1 {
     margin-bottom: 10px;
 }
 .no-recipes p {
+    font-size: 1.1em;
+}
+"""
+
+SHOPPING_LIST_PAGE_CSS = """
+h1 {
+    color: var(--primary-color);
+}
+.back-button {
+    display: inline-block;
+    padding: 8px 16px;
+    margin-bottom: 20px;
+    background-color: var(--border-color);
+    color: var(--text-color);
+    text-decoration: none;
+    border-radius: 4px;
+    font-weight: 500;
+    transition: background-color 0.2s;
+}
+.back-button:hover {
+    background-color: var(--bg-secondary);
+    text-decoration: none;
+}
+.shopping-list-container {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    margin: 20px 0;
+}
+.recipe-shopping-section {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 20px;
+}
+.recipe-shopping-section h2 {
+    color: var(--primary-color);
+    margin: 0 0 15px 0;
+    font-size: 1.3em;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.recipe-meta {
+    color: var(--text-tertiary);
+    font-size: 0.9em;
+    margin-bottom: 15px;
+}
+.ingredients-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.ingredient-item {
+    padding: 10px;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.ingredient-item:last-child {
+    border-bottom: none;
+}
+.ingredient-name {
+    font-weight: 500;
+    color: var(--text-color);
+}
+.ingredient-amount {
+    color: var(--text-secondary);
+    font-size: 0.95em;
+}
+.no-shopping-items {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--text-secondary);
+    background-color: var(--bg-secondary);
+    border: 2px dashed var(--border-color);
+    border-radius: 8px;
+    margin: 20px 0;
+}
+.no-shopping-items h2 {
+    color: var(--text-secondary);
+    margin-bottom: 10px;
+}
+.no-shopping-items p {
     font-size: 1.1em;
 }
 """

@@ -4,7 +4,7 @@ from typing import Any
 from html import escape
 from datetime import datetime
 
-from .config import COMMON_CSS, DETAIL_PAGE_CSS, OVERVIEW_PAGE_CSS, WEEKLY_PAGE_CSS, get_text
+from .config import COMMON_CSS, DETAIL_PAGE_CSS, OVERVIEW_PAGE_CSS, WEEKLY_PAGE_CSS, SHOPPING_LIST_PAGE_CSS, get_text
 
 
 def generate_dark_mode_script() -> str:
@@ -74,6 +74,7 @@ def generate_navigation(show_back_button: bool = False) -> str:
         {back_button}
         <div style="display: flex; gap: 10px; align-items: center;">
             <a href="weekly.html" class="nav-link" aria-label="Weekly Plan">🗓️</a>
+            <a href="shopping.html" class="nav-link" aria-label="Shopping List">🛒</a>
             <a href="stats.html" class="nav-link" aria-label="Statistics">📊</a>
             <button class="nav-toggle-button" id="darkModeToggle" onclick="toggleDarkMode()" aria-label="Toggle dark mode">
                 <span class="emoji light-mode-icon">☀️</span>
@@ -1256,6 +1257,166 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]]) -> str:
                 if (e.key === 'weeklyPlanNeedsSync') {{
                     // Another tab/window modified the weekly plan
                     loadWeeklyPlan(); // Refresh UI
+                }}
+            }});
+        }});
+    </script>
+</body>
+</html>'''
+
+    return html
+
+
+def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]]) -> str:
+    """Generate shopping list page based on weekly meal plan.
+
+    Args:
+        recipes_data: List of tuples containing (filename, recipe_dict)
+
+    Returns:
+        Complete HTML page as a string
+    """
+    # Create recipe lookup by slug with full recipe data including ingredients
+    recipe_lookup = {}
+    for filename, recipe in recipes_data:
+        slug = filename.replace('.html', '')
+        recipe_lookup[slug] = {
+            'name': recipe['name'],
+            'filename': filename,
+            'category': recipe.get('category', ''),
+            'servings': recipe.get('servings', 2),
+            'ingredients': recipe.get('ingredients', [])
+        }
+
+    # Generate recipe lookup as JSON for JavaScript
+    import json
+    recipe_lookup_json = json.dumps(recipe_lookup, ensure_ascii=False)
+
+    html = f'''{generate_page_header(get_text('shopping_list_title'), SHOPPING_LIST_PAGE_CSS)}
+    {generate_navigation(show_back_button=True)}
+    <h1>{get_text('shopping_list_title')}</h1>
+    <p style="color: var(--text-tertiary); font-size: 0.9em; margin-bottom: 10px;">{get_text('shopping_list_subtitle')}</p>
+    <p style="color: var(--text-tertiary); font-size: 0.9em; font-style: italic; margin-bottom: 30px; padding: 10px; background-color: var(--bg-secondary); border-radius: 4px; border-left: 3px solid var(--primary-color);">{get_text('shopping_list_disclaimer')}</p>
+
+    <div id="shoppingListContainer"></div>
+
+    <script>
+        const recipeData = {recipe_lookup_json};
+
+        // ============ Shopping List Functions ============
+
+        // Get local weekly plan
+        function getLocalWeeklyPlan() {{
+            const planKey = 'weeklyMealPlan';
+            let plan = {{ recipes: [] }};
+
+            try {{
+                const stored = localStorage.getItem(planKey);
+                if (stored) {{
+                    plan = JSON.parse(stored);
+                }}
+            }} catch (e) {{
+                console.error('Error reading local plan:', e);
+            }}
+
+            return plan;
+        }}
+
+        // Scale ingredient amount from original servings to target servings (2)
+        function scaleAmount(amount, originalServings, targetServings) {{
+            if (!amount) return amount;
+
+            const amountStr = String(amount);
+
+            // Try to extract number from the beginning of the string
+            const match = amountStr.match(/^([0-9]+(?:[.,][0-9]+)?)/);
+
+            if (match) {{
+                const number = parseFloat(match[1].replace(',', '.'));
+                const scaledNumber = (number * targetServings) / originalServings;
+
+                // Round to reasonable precision
+                const rounded = Math.round(scaledNumber * 100) / 100;
+
+                // Replace the original number with the scaled number
+                return amountStr.replace(match[1], formatNumber(rounded));
+            }}
+
+            // If no number found, return original (e.g., "nach Geschmack", "1 Prise")
+            return amountStr;
+        }}
+
+        // Format number for display (avoid unnecessary decimals)
+        function formatNumber(num) {{
+            if (num === Math.floor(num)) {{
+                return String(Math.floor(num));
+            }}
+            return String(num).replace('.', ',');
+        }}
+
+        function loadShoppingList() {{
+            let plan = getLocalWeeklyPlan();
+            const container = document.getElementById('shoppingListContainer');
+
+            if (plan.recipes.length === 0) {{
+                container.innerHTML = `
+                    <div class="no-shopping-items">
+                        <h2>{get_text('no_shopping_list')}</h2>
+                        <p>{get_text('no_shopping_list_message')}</p>
+                    </div>
+                `;
+                return;
+            }}
+
+            let html = '<div class="shopping-list-container">';
+
+            plan.recipes.forEach((recipe) => {{
+                const recipeInfo = recipeData[recipe.slug];
+                if (!recipeInfo) return; // Skip if recipe not found
+
+                const originalServings = recipeInfo.servings || 2;
+                const targetServings = 2;
+
+                html += `
+                    <div class="recipe-shopping-section">
+                        <h2>${{recipe.category}} ${{recipeInfo.name}}</h2>
+                        <p class="recipe-meta">Original: ${{originalServings}} Portionen → Skaliert auf: ${{targetServings}} Portionen</p>
+                        <ul class="ingredients-list">
+                `;
+
+                if (recipeInfo.ingredients && recipeInfo.ingredients.length > 0) {{
+                    recipeInfo.ingredients.forEach((ingredient) => {{
+                        const scaledAmount = scaleAmount(ingredient.amount, originalServings, targetServings);
+                        html += `
+                            <li class="ingredient-item">
+                                <span class="ingredient-name">${{ingredient.name}}</span>
+                                <span class="ingredient-amount">${{scaledAmount}}</span>
+                            </li>
+                        `;
+                    }});
+                }} else {{
+                    html += `<li class="ingredient-item"><span class="ingredient-name">Keine Zutaten verfügbar</span></li>`;
+                }}
+
+                html += `
+                        </ul>
+                    </div>
+                `;
+            }});
+
+            html += '</div>';
+            container.innerHTML = html;
+        }}
+
+        // Load shopping list on page load
+        document.addEventListener('DOMContentLoaded', function() {{
+            loadShoppingList();
+            initializeDarkMode();
+
+            // Listen for storage changes from other tabs (when weekly plan is modified)
+            window.addEventListener('storage', function(e) {{
+                if (e.key === 'weeklyMealPlan' || e.key === 'weeklyPlanNeedsSync') {{
+                    loadShoppingList(); // Refresh shopping list
                 }}
             }});
         }});
