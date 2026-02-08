@@ -1351,6 +1351,41 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]]) 
             }}
         }}
 
+        // Get custom serving sizes from localStorage
+        function getCustomServings() {{
+            const servingsKey = 'shoppingListServings';
+            let servings = {{}};
+
+            try {{
+                const stored = localStorage.getItem(servingsKey);
+                if (stored) {{
+                    servings = JSON.parse(stored);
+                }}
+            }} catch (e) {{
+                console.error('Error reading custom servings:', e);
+            }}
+
+            return servings;
+        }}
+
+        // Save custom serving sizes to localStorage
+        function saveCustomServings(servings) {{
+            const servingsKey = 'shoppingListServings';
+            try {{
+                localStorage.setItem(servingsKey, JSON.stringify(servings));
+            }} catch (e) {{
+                console.error('Error saving custom servings:', e);
+            }}
+        }}
+
+        // Update serving size for a recipe
+        function updateServings(recipeSlug, newServings) {{
+            let customServings = getCustomServings();
+            customServings[recipeSlug] = parseInt(newServings) || 2;
+            saveCustomServings(customServings);
+            loadShoppingList(); // Refresh the list
+        }}
+
         // Toggle checkbox state
         function toggleIngredientCheck(itemId) {{
             const checkbox = document.getElementById(`check-${{itemId}}`);
@@ -1413,13 +1448,15 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]]) 
                         <p>{get_text('no_shopping_list_message')}</p>
                     </div>
                 `;
-                // Clear all checked items when no recipes
+                // Clear all checked items and custom servings when no recipes
                 saveCheckedItems({{}});
+                saveCustomServings({{}});
                 return;
             }}
 
-            // Load checked state
+            // Load checked state and custom servings
             let checked = getCheckedItems();
+            let customServings = getCustomServings();
             let currentItemIds = new Set();
 
             let html = '<div class="shopping-list-container">';
@@ -1429,11 +1466,25 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]]) 
                 if (!recipeInfo) return; // Skip if recipe not found
 
                 const originalServings = recipeInfo.servings || 2;
-                const targetServings = 2;
+                const targetServings = customServings[recipe.slug] || 2;
 
                 html += `
                     <div class="recipe-shopping-section">
-                        <h2>${{recipe.category}} ${{recipeInfo.name}}</h2>
+                        <div class="recipe-header">
+                            <h2 class="recipe-title">${{recipe.category}} ${{recipeInfo.name}}</h2>
+                            <div class="servings-control">
+                                <label for="servings-${{recipe.slug}}">{get_text('servings_label_short')}</label>
+                                <input
+                                    type="number"
+                                    id="servings-${{recipe.slug}}"
+                                    class="servings-input"
+                                    min="1"
+                                    max="20"
+                                    value="${{targetServings}}"
+                                    onchange="updateServings('${{recipe.slug}}', this.value)"
+                                >
+                            </div>
+                        </div>
                         <p class="recipe-meta">Original: ${{originalServings}} Portionen → Skaliert auf: ${{targetServings}} Portionen</p>
                         <ul class="ingredients-list">
                 `;
@@ -1484,6 +1535,16 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]]) 
                 }}
             }}
             saveCheckedItems(cleanedChecked);
+
+            // Clean up custom servings for recipes no longer in the plan
+            let currentSlugs = new Set(plan.recipes.map(r => r.slug));
+            let cleanedServings = {{}};
+            for (let slug in customServings) {{
+                if (currentSlugs.has(slug)) {{
+                    cleanedServings[slug] = customServings[slug];
+                }}
+            }}
+            saveCustomServings(cleanedServings);
         }}
 
         // Load shopping list on page load

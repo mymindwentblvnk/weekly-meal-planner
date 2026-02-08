@@ -65,10 +65,11 @@ TEXTS = {
     # Shopping list page
     "view_shopping_list": "🛒 Einkaufsliste",
     "shopping_list_title": "Einkaufsliste",
-    "shopping_list_subtitle": "Automatisch generiert aus dem Wochenplan (normalisiert auf 2 Portionen)",
-    "shopping_list_disclaimer": "💡 Die Einkaufsliste wird automatisch aus deinem Wochenplan generiert. Mengen sind auf 2 Portionen skaliert.",
+    "shopping_list_subtitle": "Automatisch generiert aus dem Wochenplan",
+    "shopping_list_disclaimer": "💡 Die Einkaufsliste wird automatisch aus deinem Wochenplan generiert. Passe die Portionen für jedes Rezept individuell an.",
     "no_shopping_list": "Keine Zutaten",
     "no_shopping_list_message": "Füge Rezepte zum Wochenplan hinzu, um eine Einkaufsliste zu generieren!",
+    "servings_label_short": "Portionen:",
 }
 
 def get_text(key: str) -> str:
@@ -824,9 +825,40 @@ h1 {
     color: var(--primary-color);
     margin: 0 0 15px 0;
     font-size: 1.3em;
+}
+.recipe-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+.recipe-title {
+    font-size: 1.3em;
+    color: var(--primary-color);
+    margin: 0;
+}
+.servings-control {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
+    font-size: 0.9em;
+    color: var(--text-secondary);
+}
+.servings-input {
+    width: 60px;
+    padding: 6px 8px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-size: 0.95em;
+    text-align: center;
+}
+.servings-input:focus {
+    outline: none;
+    border-color: var(--primary-color);
 }
 .recipe-meta {
     color: var(--text-tertiary);
