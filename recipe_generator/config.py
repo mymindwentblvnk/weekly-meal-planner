@@ -1216,32 +1216,36 @@ h1 {
     font-weight: 500;
 }
 .view-toggle {
-    display: flex;
-    gap: 10px;
+    display: inline-flex;
+    background-color: var(--bg-secondary);
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    padding: 4px;
     margin: 20px 0;
-    justify-content: center;
+    gap: 0;
 }
 .view-toggle-btn {
-    padding: 10px 20px;
-    background-color: var(--bg-secondary);
-    color: var(--text-color);
-    border: 2px solid var(--border-color);
+    padding: 8px 24px;
+    background-color: transparent;
+    color: var(--text-secondary);
+    border: none;
     border-radius: 6px;
     cursor: pointer;
-    font-size: 0.95em;
-    font-weight: 500;
+    font-size: 0.9em;
+    font-weight: 600;
     transition: all 0.2s;
+    white-space: nowrap;
 }
-.view-toggle-btn:hover {
-    background-color: var(--border-color);
+.view-toggle-btn:hover:not(.active) {
+    color: var(--text-color);
 }
 .view-toggle-btn.active {
-    background-color: var(--primary-color);
-    color: white;
-    border-color: var(--primary-color);
+    background-color: var(--bg-color);
+    color: var(--primary-color);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 .view-toggle-btn.active:hover {
-    background-color: #5a35a1;
+    background-color: var(--bg-color);
 }
 .shopping-list-container {
     display: flex;

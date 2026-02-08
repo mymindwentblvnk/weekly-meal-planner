@@ -1297,9 +1297,11 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]], 
         <div class="week-info" id="weekInfo"></div>
     </div>
 
-    <div class="view-toggle">
-        <button class="view-toggle-btn active" id="viewByRecipeBtn" onclick="switchView('recipe')">{get_text('view_by_recipe')}</button>
-        <button class="view-toggle-btn" id="viewAlphabeticallyBtn" onclick="switchView('alphabetical')">{get_text('view_alphabetically')}</button>
+    <div style="display: flex; justify-content: center;">
+        <div class="view-toggle">
+            <button class="view-toggle-btn active" id="viewByRecipeBtn" onclick="switchView('recipe')">{get_text('view_by_recipe')}</button>
+            <button class="view-toggle-btn" id="viewAlphabeticallyBtn" onclick="switchView('alphabetical')">{get_text('view_alphabetically')}</button>
+        </div>
     </div>
 
     <div id="shoppingListContainer"></div>
