@@ -27,7 +27,6 @@ TEXTS = {
 
     # Detail page
     "recipe_title_suffix": "Rezept",
-    "back_to_recipes": "← Zurück zur Übersicht",
     "prep_time": "Vorbereitungszeit",
     "cook_time": "Kochzeit",
     "minutes": "Minuten",
@@ -230,21 +229,6 @@ body {
 """
 
 DETAIL_PAGE_CSS = """
-.back-button {
-    display: inline-block;
-    padding: 8px 16px;
-    margin-bottom: 20px;
-    background-color: var(--border-color);
-    color: var(--text-color);
-    text-decoration: none;
-    border-radius: 4px;
-    font-weight: 500;
-    transition: background-color 0.2s;
-}
-.back-button:hover {
-    background-color: var(--bg-secondary);
-    text-decoration: none;
-}
 h1 {
     color: var(--primary-color);
     font-size: 1.75em;
@@ -769,21 +753,6 @@ h1 {
     color: var(--primary-color);
     margin-bottom: 10px;
 }
-.back-button {
-    display: inline-block;
-    padding: 8px 16px;
-    margin-bottom: 20px;
-    background-color: var(--border-color);
-    color: var(--text-color);
-    text-decoration: none;
-    border-radius: 4px;
-    font-weight: 500;
-    transition: background-color 0.2s;
-}
-.back-button:hover {
-    background-color: var(--bg-secondary);
-    text-decoration: none;
-}
 .week-navigation {
     display: flex;
     justify-content: space-between;
@@ -1151,21 +1120,6 @@ h1 {
 SHOPPING_LIST_PAGE_CSS = """
 h1 {
     color: var(--primary-color);
-}
-.back-button {
-    display: inline-block;
-    padding: 8px 16px;
-    margin-bottom: 20px;
-    background-color: var(--border-color);
-    color: var(--text-color);
-    text-decoration: none;
-    border-radius: 4px;
-    font-weight: 500;
-    transition: background-color 0.2s;
-}
-.back-button:hover {
-    background-color: var(--bg-secondary);
-    text-decoration: none;
 }
 .shopping-list-container {
     display: flex;
