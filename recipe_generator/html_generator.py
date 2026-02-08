@@ -1600,11 +1600,16 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]], 
                         <p>{get_text('no_shopping_list_message')}</p>
                     </div>
                 `;
+                // Clear all checked items when no recipes
+                saveCheckedItems({{}});
                 return;
             }}
 
             // Load checked state (by item ID)
             let checked = getCheckedItems();
+
+            // Track valid item IDs in current shopping list
+            const validItemIds = new Set();
 
             // Aggregate servings for duplicate recipes
             const recipeServingsMap = {{}};
@@ -1666,6 +1671,7 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]], 
                     recipeInfo.ingredients.forEach((ingredient, index) => {{
                         const scaledAmount = scaleAmount(ingredient.amount, originalServings, targetServings);
                         const itemId = `${{slug}}-${{index}}`;
+                        validItemIds.add(itemId);
                         const isChecked = checked[itemId] || false;
                         const checkedClass = isChecked ? 'checked' : '';
                         const checkedAttr = isChecked ? 'checked' : '';
@@ -1698,6 +1704,15 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]], 
 
             html += '</div>';
             container.innerHTML = html;
+
+            // Clean up checked items that are no longer in the shopping list
+            const cleanedChecked = {{}};
+            for (const itemId of validItemIds) {{
+                if (checked[itemId]) {{
+                    cleanedChecked[itemId] = true;
+                }}
+            }}
+            saveCheckedItems(cleanedChecked);
         }}
 
         function loadShoppingListAlphabetical() {{
@@ -1711,11 +1726,16 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]], 
                         <p>{get_text('no_shopping_list_message')}</p>
                     </div>
                 `;
+                // Clear all checked items when no recipes
+                saveCheckedItems({{}});
                 return;
             }}
 
             // Load checked state (by item ID)
             let checked = getCheckedItems();
+
+            // Track valid item IDs in current shopping list
+            const validItemIds = new Set();
 
             // Aggregate servings for duplicate recipes
             const recipeServingsMap = {{}};
@@ -1739,6 +1759,7 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]], 
                 recipeInfo.ingredients.forEach((ingredient, index) => {{
                     const scaledAmount = scaleAmount(ingredient.amount, originalServings, targetServings);
                     const itemId = `${{slug}}-${{index}}`;
+                    validItemIds.add(itemId);
                     allIngredients.push({{
                         itemId: itemId,
                         name: ingredient.name,
@@ -1786,6 +1807,15 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]], 
             html += '</div>';
             html += '</div>';
             container.innerHTML = html;
+
+            // Clean up checked items that are no longer in the shopping list
+            const cleanedChecked = {{}};
+            for (const itemId of validItemIds) {{
+                if (checked[itemId]) {{
+                    cleanedChecked[itemId] = true;
+                }}
+            }}
+            saveCheckedItems(cleanedChecked);
         }}
 
         // Load shopping list on page load
