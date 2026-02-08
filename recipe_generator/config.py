@@ -49,18 +49,24 @@ TEXTS = {
     "view_weekly_plan": "🗓️ Wochenplan",
     "weekly_plan_title": "Wochenplan",
     "weekly_plan_disclaimer": "💡 Dein Wochenplan wird lokal in deinem Browser gespeichert und geht verloren, wenn du die Browser-Daten löschst.",
-    "add_to_weekly": "📅 Diese Woche kochen",
-    "in_weekly_plan": "✓ In Wochenplan",
-    "mark_cooked": "Als gekocht markieren",
-    "mark_uncooked": "Als ungekocht markieren",
-    "remove_from_plan": "Entfernen",
-    "clear_all": "Alle löschen",
-    "clear_all_confirm": "Möchtest du wirklich alle Rezepte aus dem Wochenplan entfernen?",
-    "no_recipes_planned": "Noch keine Rezepte geplant",
-    "no_recipes_message": "Füge Rezepte aus den Detail-Seiten hinzu, um deinen Wochenplan zu erstellen!",
-    "cooked": "✓ Gekocht",
-    "not_cooked": "Nicht gekocht",
-    "added_on": "Hinzugefügt:",
+    "current_week": "Aktuelle Woche",
+    "previous_week": "← Vorherige Woche",
+    "next_week": "Nächste Woche →",
+    "week_of": "Woche vom",
+    "monday": "Montag",
+    "tuesday": "Dienstag",
+    "wednesday": "Mittwoch",
+    "thursday": "Donnerstag",
+    "friday": "Freitag",
+    "saturday": "Samstag",
+    "sunday": "Sonntag",
+    "breakfast": "Frühstück",
+    "lunch": "Mittagessen",
+    "dinner": "Abendessen",
+    "search_recipe": "Rezept suchen...",
+    "no_meal_assigned": "Noch kein Rezept zugewiesen",
+    "assign_meal": "Rezept zuweisen",
+    "remove_meal": "Entfernen",
 
     # Shopping list page
     "view_shopping_list": "🛒 Einkaufsliste",
@@ -621,6 +627,7 @@ h1 {
 WEEKLY_PAGE_CSS = """
 h1 {
     color: var(--primary-color);
+    margin-bottom: 10px;
 }
 .back-button {
     display: inline-block;
@@ -637,156 +644,283 @@ h1 {
     background-color: var(--bg-secondary);
     text-decoration: none;
 }
-.weekly-plan-list {
+.week-navigation {
     display: flex;
-    flex-direction: column;
-    gap: 15px;
-    margin: 20px 0;
-}
-.weekly-recipe-card {
-    background-color: var(--card-bg);
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
-    padding: 20px;
-    display: flex;
+    justify-content: space-between;
     align-items: center;
-    gap: 15px;
-    transition: box-shadow 0.2s, opacity 0.2s;
-}
-.weekly-recipe-card:hover {
-    box-shadow: 0 4px 6px var(--shadow);
-}
-.weekly-recipe-card.cooked {
-    opacity: 0.6;
-}
-.recipe-category {
-    font-size: 2em;
-    min-width: 50px;
-    text-align: center;
-}
-.recipe-details {
-    flex: 1;
-}
-.recipe-details h3 {
-    margin: 0 0 5px 0;
-    color: var(--text-color);
-}
-.recipe-details a {
-    color: var(--primary-color);
-    text-decoration: none;
-    font-size: 1.2em;
-}
-.recipe-details a:hover {
-    text-decoration: underline;
-}
-.recipe-status {
-    color: var(--text-secondary);
-    font-size: 0.9em;
-    margin-top: 5px;
-}
-.recipe-actions {
-    display: flex;
+    margin: 20px 0;
     gap: 10px;
     flex-wrap: wrap;
 }
-.action-button {
-    padding: 8px 16px;
+.week-nav-buttons {
+    display: flex;
+    gap: 10px;
+}
+.week-nav-btn {
+    padding: 10px 16px;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.95em;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+.week-nav-btn:hover {
+    background-color: #5a35a1;
+}
+.current-week-btn {
+    background-color: var(--bg-secondary);
+    color: var(--text-color);
+    border: 2px solid var(--primary-color);
+}
+.current-week-btn:hover {
+    background-color: var(--border-color);
+}
+.week-info {
+    font-size: 1.1em;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+.days-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin: 20px 0;
+}
+.day-card {
+    background-color: var(--card-bg);
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    padding: 20px;
+    transition: box-shadow 0.2s;
+}
+.day-card:hover {
+    box-shadow: 0 4px 8px var(--shadow);
+}
+.day-header {
+    font-size: 1.4em;
+    font-weight: 600;
+    color: var(--primary-color);
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--border-color);
+}
+.meals-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 15px;
+}
+.meal-slot {
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 12px;
+    min-height: 100px;
+}
+.meal-type {
+    font-weight: 600;
+    font-size: 0.9em;
+    color: var(--text-secondary);
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.meal-content.empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 60px;
+    color: var(--text-tertiary);
+    font-size: 0.9em;
+}
+.meal-content.assigned {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.assigned-recipe {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.recipe-emoji {
+    font-size: 1.5em;
+}
+.recipe-name {
+    flex: 1;
+    font-weight: 500;
+    color: var(--text-color);
+}
+.recipe-link {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-size: 0.95em;
+}
+.recipe-link:hover {
+    text-decoration: underline;
+}
+.meal-actions {
+    display: flex;
+    gap: 6px;
+    margin-top: 8px;
+}
+.assign-btn, .remove-meal-btn, .change-btn {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 4px;
+    font-size: 0.85em;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.assign-btn, .change-btn {
+    background-color: var(--primary-color);
+    color: white;
+}
+.assign-btn:hover, .change-btn:hover {
+    background-color: #5a35a1;
+}
+.remove-meal-btn {
+    background-color: #e53e3e;
+    color: white;
+}
+.remove-meal-btn:hover {
+    background-color: #c53030;
+}
+.search-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 20px;
+}
+.search-modal-content {
+    background-color: var(--bg-color);
+    border-radius: 8px;
+    padding: 24px;
+    max-width: 600px;
+    width: 100%;
+    max-height: 80vh;
+    overflow-y: auto;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+}
+.search-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+.search-modal-title {
+    font-size: 1.3em;
+    font-weight: 600;
+    color: var(--primary-color);
+    margin: 0;
+}
+.close-modal-btn {
+    background: none;
+    border: none;
+    font-size: 1.5em;
+    cursor: pointer;
+    color: var(--text-secondary);
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.close-modal-btn:hover {
+    color: var(--text-color);
+}
+.search-input {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid var(--border-color);
+    border-radius: 6px;
+    font-size: 1em;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    margin-bottom: 16px;
+}
+.search-input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+}
+.search-results {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.search-result-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px;
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    transition: all 0.2s;
+}
+.search-result-item:hover {
+    border-color: var(--primary-color);
+    background-color: var(--card-bg);
+}
+.search-result-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: 1;
+}
+.search-result-emoji {
+    font-size: 1.3em;
+}
+.search-result-name {
+    font-weight: 500;
+    color: var(--text-color);
+}
+.select-recipe-btn {
+    padding: 6px 14px;
+    background-color: var(--primary-color);
+    color: white;
     border: none;
     border-radius: 4px;
     font-size: 0.9em;
     font-weight: 500;
     cursor: pointer;
     transition: all 0.2s;
-    white-space: nowrap;
 }
-.cook-button {
-    background-color: var(--primary-color);
-    color: white;
-}
-.cook-button:hover {
-    background-color: var(--primary-hover);
-}
-.uncook-button {
-    background-color: var(--border-color);
-    color: var(--text-color);
-}
-.uncook-button:hover {
-    background-color: var(--bg-secondary);
-}
-.remove-button {
-    background-color: #e53e3e;
-    color: white;
-}
-.remove-button:hover {
-    background-color: #c53030;
+.select-recipe-btn:hover {
+    background-color: #5a35a1;
 }
 
 /* Mobile optimizations */
-@media (max-width: 600px) {
-    .weekly-recipe-card {
+@media (max-width: 768px) {
+    .week-navigation {
         flex-direction: column;
-        align-items: flex-start;
-        padding: 15px;
+        align-items: stretch;
     }
-    .recipe-category {
-        font-size: 1.5em;
-        min-width: auto;
-    }
-    .recipe-details {
-        width: 100%;
-    }
-    .recipe-details a {
-        font-size: 1.1em;
-    }
-    .recipe-actions {
-        width: 100%;
-        gap: 8px;
-    }
-    .action-button {
-        white-space: normal;
+    .week-info {
         text-align: center;
-        font-size: 0.85em;
-        padding: 8px 12px;
-        flex: 1;
-        min-width: 0;
     }
-}
-.clear-all-button {
-    display: inline-block;
-    padding: 10px 20px;
-    margin-bottom: 20px;
-    background-color: #e53e3e;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    font-size: 1em;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background-color 0.2s;
-}
-.clear-all-button:hover {
-    background-color: #c53030;
-}
-.clear-all-button:disabled {
-    background-color: var(--border-color);
-    color: var(--text-tertiary);
-    cursor: not-allowed;
-}
-.no-recipes {
-    text-align: center;
-    padding: 60px 20px;
-    color: var(--text-secondary);
-    background-color: var(--bg-secondary);
-    border: 2px dashed var(--border-color);
-    border-radius: 8px;
-    margin: 20px 0;
-}
-.no-recipes h2 {
-    color: var(--text-secondary);
-    margin-bottom: 10px;
-}
-.no-recipes p {
-    font-size: 1.1em;
+    .week-nav-buttons {
+        justify-content: center;
+    }
+    .meals-grid {
+        grid-template-columns: 1fr;
+    }
+    .search-modal-content {
+        max-height: 90vh;
+        padding: 16px;
+    }
 }
 """
 

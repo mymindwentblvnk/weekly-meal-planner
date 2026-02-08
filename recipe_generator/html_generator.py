@@ -1051,7 +1051,7 @@ def generate_stats_html(recipes_data: list[tuple[str, dict[str, Any]]]) -> str:
 
 
 def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]]) -> str:
-    """Generate weekly meal plan page.
+    """Generate week-based meal planner page.
 
     Args:
         recipes_data: List of tuples containing (filename, recipe_dict)
@@ -1059,206 +1059,269 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]]) -> str:
     Returns:
         Complete HTML page as a string
     """
-    # Create recipe lookup by slug
+    # Create recipe lookup by slug with tags
     recipe_lookup = {}
     for filename, recipe in recipes_data:
         slug = filename.replace('.html', '')
         recipe_lookup[slug] = {
             'name': recipe['name'],
             'filename': filename,
-            'category': recipe.get('category', '')
+            'category': recipe.get('category', ''),
+            'tags': recipe.get('tags', [])
         }
 
     # Generate recipe lookup as JSON for JavaScript
-    recipe_lookup_json = str(recipe_lookup).replace("'", '"')
+    import json
+    recipe_lookup_json = json.dumps(recipe_lookup, ensure_ascii=False)
 
     html = f'''{generate_page_header(get_text('weekly_plan_title'), WEEKLY_PAGE_CSS)}
     {generate_navigation(show_back_button=True)}
     <h1>{get_text('weekly_plan_title')}</h1>
     <p style="color: var(--text-tertiary); font-size: 0.9em; font-style: italic; margin-bottom: 30px; padding: 10px; background-color: var(--bg-secondary); border-radius: 4px; border-left: 3px solid var(--primary-color);">{get_text('weekly_plan_disclaimer')}</p>
 
-    <button id="clearAllButton" class="clear-all-button" onclick="clearAllRecipes()">Alle löschen</button>
+    <div class="week-navigation">
+        <div class="week-nav-buttons">
+            <button class="week-nav-btn" onclick="previousWeek()">{get_text('previous_week')}</button>
+            <button class="week-nav-btn current-week-btn" onclick="goToCurrentWeek()">{get_text('current_week')}</button>
+            <button class="week-nav-btn" onclick="nextWeek()">{get_text('next_week')}</button>
+        </div>
+        <div class="week-info" id="weekInfo"></div>
+    </div>
 
-    <div id="weeklyPlanContainer"></div>
+    <div id="daysContainer" class="days-container"></div>
+
+    <div id="searchModal" class="search-modal" style="display: none;" onclick="closeModalOnBackdrop(event)">
+        <div class="search-modal-content" onclick="event.stopPropagation()">
+            <div class="search-modal-header">
+                <h3 class="search-modal-title">Rezept auswählen</h3>
+                <button class="close-modal-btn" onclick="closeSearchModal()">×</button>
+            </div>
+            <input type="text" id="searchInput" class="search-input" placeholder="{get_text('search_recipe')}" oninput="filterRecipes()">
+            <div id="searchResults" class="search-results"></div>
+        </div>
+    </div>
 
     <script>
         const recipeData = {recipe_lookup_json};
-
-        // ============ Weekly Plan Functions ============
-
-        // Get local weekly plan with metadata
-        function getLocalWeeklyPlan() {{
-            const planKey = 'weeklyMealPlan';
-            let plan = {{ recipes: [] }};
-
-            try {{
-                const stored = localStorage.getItem(planKey);
-                if (stored) {{
-                    plan = JSON.parse(stored);
-                }}
-            }} catch (e) {{
-                console.error('Error reading local plan:', e);
-            }}
-
-            return plan;
-        }}
-
-        // Save weekly plan locally
-        function saveLocalWeeklyPlan(planData) {{
-            const planKey = 'weeklyMealPlan';
-            try {{
-                localStorage.setItem(planKey, JSON.stringify(planData));
-            }} catch (e) {{
-                console.error('Error saving local plan:', e);
-            }}
-        }}
-
-        function formatDate(timestamp) {{
-            const date = new Date(timestamp);
-            const day = String(date.getDate()).padStart(2, '0');
-            const month = String(date.getMonth() + 1).padStart(2, '0');
-            const year = date.getFullYear();
-            return `${{day}}.${{month}}.${{year}}`;
-        }}
-
-        function loadWeeklyPlan() {{
-            let plan = getLocalWeeklyPlan();
-
-            const container = document.getElementById('weeklyPlanContainer');
-            const clearButton = document.getElementById('clearAllButton');
-
-            if (plan.recipes.length === 0) {{
-                container.innerHTML = `
-                    <div class="no-recipes">
-                        <h2>Noch keine Rezepte geplant</h2>
-                        <p>Füge Rezepte aus den Detail-Seiten hinzu, um deinen Wochenplan zu erstellen!</p>
-                    </div>
-                `;
-                clearButton.disabled = true;
-                return;
-            }}
-
-            clearButton.disabled = false;
-
-            // Sort recipes: breakfast (🥣) first, then others
-            const sortedRecipes = [...plan.recipes].sort((a, b) => {{
-                const categoryA = a.category || '';
-                const categoryB = b.category || '';
-
-                // Breakfast emoji first
-                const isBreakfastA = categoryA === '🥣';
-                const isBreakfastB = categoryB === '🥣';
-
-                if (isBreakfastA && !isBreakfastB) return -1;
-                if (!isBreakfastA && isBreakfastB) return 1;
-
-                // Within same category, keep original order (by addedAt)
-                return 0;
-            }});
-
-            let html = '<div class="weekly-plan-list">';
-            sortedRecipes.forEach((recipe) => {{
-                const recipeInfo = recipeData[recipe.slug];
-                if (!recipeInfo) return; // Skip if recipe not found
-
-                // Use recipe.id or fall back to slug+addedAt for backwards compatibility
-                const recipeId = String(recipe.id || `${{recipe.slug}}-${{recipe.addedAt}}`);
-
-                const cookedClass = recipe.cooked ? 'cooked' : '';
-                const statusText = recipe.cooked ? '✓ Gekocht' : 'Nicht gekocht';
-                const dateAdded = formatDate(recipe.addedAt);
-
-                const actionButton = recipe.cooked
-                    ? `<button class="action-button uncook-button" onclick="toggleCooked('${{recipeId}}')">Als ungekocht markieren</button>`
-                    : `<button class="action-button cook-button" onclick="toggleCooked('${{recipeId}}')">Als gekocht markieren</button>`;
-
-                html += `
-                    <div class="weekly-recipe-card ${{cookedClass}}">
-                        <div class="recipe-category">${{recipe.category}}</div>
-                        <div class="recipe-details">
-                            <h3><a href="${{recipeInfo.filename}}">${{recipeInfo.name}}</a></h3>
-                            <div class="recipe-status">
-                                ${{statusText}} • Hinzugefügt: ${{dateAdded}}
-                            </div>
-                        </div>
-                        <div class="recipe-actions">
-                            ${{actionButton}}
-                            <button class="action-button remove-button" onclick="removeRecipe('${{recipeId}}')">Entfernen</button>
-                        </div>
-                    </div>
-                `;
-            }});
-            html += '</div>';
-
-            container.innerHTML = html;
-        }}
-
-        function toggleCooked(recipeId) {{
-            let plan = getLocalWeeklyPlan();
-
-            // Find recipe by ID (or fallback to slug+addedAt for backwards compatibility)
-            const recipe = plan.recipes.find(r => {{
-                const id = String(r.id || `${{r.slug}}-${{r.addedAt}}`);
-                return id === String(recipeId);
-            }});
-
-            if (recipe) {{
-                recipe.cooked = !recipe.cooked;
-                plan.lastModified = Date.now();
-
-                saveLocalWeeklyPlan(plan);
-                loadWeeklyPlan();
-            }}
-        }}
-
-        function removeRecipe(recipeId) {{
-            let plan = getLocalWeeklyPlan();
-
-            // Find and remove recipe by ID (or fallback to slug+addedAt for backwards compatibility)
-            const index = plan.recipes.findIndex(r => {{
-                const id = String(r.id || `${{r.slug}}-${{r.addedAt}}`);
-                return id === String(recipeId);
-            }});
-
-            if (index >= 0) {{
-                plan.recipes.splice(index, 1);
-                plan.lastModified = Date.now();
-
-                saveLocalWeeklyPlan(plan);
-                loadWeeklyPlan();
-            }}
-        }}
-
-        function clearAllRecipes() {{
-            if (!confirm('Möchtest du wirklich alle Rezepte aus dem Wochenplan entfernen?')) {{
-                return;
-            }}
-
-            const emptyPlan = {{
-                recipes: [],
-                lastModified: Date.now()
-            }};
-
-            saveLocalWeeklyPlan(emptyPlan);
-            loadWeeklyPlan();
-        }}
+        let currentWeek = null;
+        let currentDay = null;
+        let currentMeal = null;
 
         {generate_dark_mode_script()}
 
-        // Apply saved preferences on page load
-        document.addEventListener('DOMContentLoaded', function() {{
-            // Load weekly plan
-            loadWeeklyPlan();
+        // ISO Week calculation
+        function getISOWeek(date) {{
+            const d = new Date(date);
+            d.setHours(0, 0, 0, 0);
+            d.setDate(d.getDate() + 4 - (d.getDay() || 7));
+            const yearStart = new Date(d.getFullYear(), 0, 1);
+            const weekNo = Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
+            return d.getFullYear() + '-W' + String(weekNo).padStart(2, '0');
+        }}
 
-            initializeDarkMode();
+        function getWeekDates(weekString) {{
+            const [year, week] = weekString.split('-W');
+            const jan4 = new Date(year, 0, 4);
+            const monday = new Date(jan4);
+            const dayOffset = (week - 1) * 7 - (jan4.getDay() || 7) + 1;
+            monday.setDate(jan4.getDate() + dayOffset);
 
-            // Listen for storage changes from other tabs (e.g., recipe pages adding items)
-            window.addEventListener('storage', function(e) {{
-                if (e.key === 'weeklyPlanNeedsSync') {{
-                    // Another tab/window modified the weekly plan
-                    loadWeeklyPlan(); // Refresh UI
-                }}
+            const dates = [];
+            for (let i = 0; i < 7; i++) {{
+                const date = new Date(monday);
+                date.setDate(monday.getDate() + i);
+                dates.push(date);
+            }}
+            return dates;
+        }}
+
+        function formatDate(date) {{
+            const day = String(date.getDate()).padStart(2, '0');
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            return `${{day}}.${{month}}.`;
+        }}
+
+        // Meal plan storage
+        function getMealPlans() {{
+            try {{
+                const stored = localStorage.getItem('mealPlansV2');
+                return stored ? JSON.parse(stored) : {{}};
+            }} catch (e) {{
+                console.error('Error loading meal plans:', e);
+                return {{}};
+            }}
+        }}
+
+        function saveMealPlans(plans) {{
+            try {{
+                localStorage.setItem('mealPlansV2', JSON.stringify(plans));
+            }} catch (e) {{
+                console.error('Error saving meal plans:', e);
+            }}
+        }}
+
+        function getMealForSlot(week, day, meal) {{
+            const plans = getMealPlans();
+            return plans[week]?.[day]?.[meal] || null;
+        }}
+
+        function setMealForSlot(week, day, meal, recipeSlug) {{
+            const plans = getMealPlans();
+            if (!plans[week]) plans[week] = {{}};
+            if (!plans[week][day]) plans[week][day] = {{}};
+            plans[week][day][meal] = recipeSlug;
+            saveMealPlans(plans);
+        }}
+
+        function removeMealFromSlot(week, day, meal) {{
+            const plans = getMealPlans();
+            if (plans[week]?.[day]?.[meal]) {{
+                delete plans[week][day][meal];
+                saveMealPlans(plans);
+            }}
+        }}
+
+        // Week navigation
+        function previousWeek() {{
+            const dates = getWeekDates(currentWeek);
+            const prevMonday = new Date(dates[0]);
+            prevMonday.setDate(prevMonday.getDate() - 7);
+            currentWeek = getISOWeek(prevMonday);
+            renderWeek();
+        }}
+
+        function nextWeek() {{
+            const dates = getWeekDates(currentWeek);
+            const nextMonday = new Date(dates[0]);
+            nextMonday.setDate(nextMonday.getDate() + 7);
+            currentWeek = getISOWeek(nextMonday);
+            renderWeek();
+        }}
+
+        function goToCurrentWeek() {{
+            currentWeek = getISOWeek(new Date());
+            renderWeek();
+        }}
+
+        // Recipe search and assignment
+        function openSearchModal(day, meal) {{
+            currentDay = day;
+            currentMeal = meal;
+            document.getElementById('searchInput').value = '';
+            filterRecipes();
+            document.getElementById('searchModal').style.display = 'flex';
+        }}
+
+        function closeSearchModal() {{
+            document.getElementById('searchModal').style.display = 'none';
+        }}
+
+        function closeModalOnBackdrop(event) {{
+            if (event.target === event.currentTarget) {{
+                closeSearchModal();
+            }}
+        }}
+
+        function filterRecipes() {{
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const results = Object.entries(recipeData).filter(([slug, recipe]) => {{
+                const nameMatch = recipe.name.toLowerCase().includes(query);
+                const tagMatch = recipe.tags?.some(tag => tag.toLowerCase().includes(query));
+                return nameMatch || tagMatch;
             }});
+
+            const resultsHtml = results.map(([slug, recipe]) => `
+                <div class="search-result-item">
+                    <div class="search-result-info">
+                        <span class="search-result-emoji">${{recipe.category}}</span>
+                        <span class="search-result-name">${{recipe.name}}</span>
+                    </div>
+                    <button class="select-recipe-btn" onclick="selectRecipe('${{slug}}')">Auswählen</button>
+                </div>
+            `).join('');
+
+            document.getElementById('searchResults').innerHTML = resultsHtml || '<p style="color: var(--text-tertiary); padding: 20px; text-align: center;">Keine Rezepte gefunden</p>';
+        }}
+
+        function selectRecipe(slug) {{
+            setMealForSlot(currentWeek, currentDay, currentMeal, slug);
+            closeSearchModal();
+            renderWeek();
+        }}
+
+        function removeMeal(day, meal) {{
+            removeMealFromSlot(currentWeek, day, meal);
+            renderWeek();
+        }}
+
+        // Render week view
+        function renderWeek() {{
+            const dates = getWeekDates(currentWeek);
+            const dayNames = ['{get_text('monday')}', '{get_text('tuesday')}', '{get_text('wednesday')}', '{get_text('thursday')}', '{get_text('friday')}', '{get_text('saturday')}', '{get_text('sunday')}'];
+            const mealTypes = ['breakfast', 'lunch', 'dinner'];
+            const mealLabels = ['{get_text('breakfast')}', '{get_text('lunch')}', '{get_text('dinner')}'];
+
+            document.getElementById('weekInfo').textContent = `{get_text('week_of')} ${{formatDate(dates[0])}} - ${{formatDate(dates[6])}}`;
+
+            let html = '';
+            dates.forEach((date, dayIndex) => {{
+                const dayName = dayNames[dayIndex];
+                const dayKey = dayName.toLowerCase();
+
+                html += `
+                    <div class="day-card">
+                        <div class="day-header">${{dayName}}, ${{formatDate(date)}}</div>
+                        <div class="meals-grid">
+                `;
+
+                mealTypes.forEach((mealType, mealIndex) => {{
+                    const mealLabel = mealLabels[mealIndex];
+                    const recipeSlug = getMealForSlot(currentWeek, dayKey, mealType);
+                    const recipe = recipeSlug ? recipeData[recipeSlug] : null;
+
+                    if (recipe) {{
+                        html += `
+                            <div class="meal-slot">
+                                <div class="meal-type">${{mealLabel}}</div>
+                                <div class="meal-content assigned">
+                                    <div class="assigned-recipe">
+                                        <span class="recipe-emoji">${{recipe.category}}</span>
+                                        <a href="${{recipe.filename}}" class="recipe-link">${{recipe.name}}</a>
+                                    </div>
+                                    <div class="meal-actions">
+                                        <button class="change-btn" onclick="openSearchModal('${{dayKey}}', '${{mealType}}')">Ändern</button>
+                                        <button class="remove-meal-btn" onclick="removeMeal('${{dayKey}}', '${{mealType}}')">Entfernen</button>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    }} else {{
+                        html += `
+                            <div class="meal-slot">
+                                <div class="meal-type">${{mealLabel}}</div>
+                                <div class="meal-content empty">
+                                    <p>{get_text('no_meal_assigned')}</p>
+                                    <button class="assign-btn" onclick="openSearchModal('${{dayKey}}', '${{mealType}}')">{get_text('assign_meal')}</button>
+                                </div>
+                            </div>
+                        `;
+                    }}
+                }});
+
+                html += `
+                        </div>
+                    </div>
+                `;
+            }});
+
+            document.getElementById('daysContainer').innerHTML = html;
+        }}
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {{
+            currentWeek = getISOWeek(new Date());
+            renderWeek();
+            initializeDarkMode();
         }});
     </script>
 </body>
@@ -1307,15 +1370,37 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]]) 
 
         // ============ Shopping List Functions ============
 
-        // Get local weekly plan
+        // Get current week's meal plan (aggregated from mealPlansV2)
         function getLocalWeeklyPlan() {{
-            const planKey = 'weeklyMealPlan';
+            // Get current week
+            function getISOWeek(date) {{
+                const d = new Date(date);
+                d.setHours(0, 0, 0, 0);
+                d.setDate(d.getDate() + 4 - (d.getDay() || 7));
+                const yearStart = new Date(d.getFullYear(), 0, 1);
+                const weekNo = Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
+                return d.getFullYear() + '-W' + String(weekNo).padStart(2, '0');
+            }}
+
+            const currentWeek = getISOWeek(new Date());
             let plan = {{ recipes: [] }};
 
             try {{
-                const stored = localStorage.getItem(planKey);
+                const stored = localStorage.getItem('mealPlansV2');
                 if (stored) {{
-                    plan = JSON.parse(stored);
+                    const mealPlans = JSON.parse(stored);
+                    const weekData = mealPlans[currentWeek] || {{}};
+
+                    // Aggregate all meals from the week
+                    const recipeSet = new Set();
+                    Object.values(weekData).forEach(dayMeals => {{
+                        Object.values(dayMeals).forEach(recipeSlug => {{
+                            if (recipeSlug) recipeSet.add(recipeSlug);
+                        }});
+                    }});
+
+                    // Convert to old format for compatibility
+                    plan.recipes = Array.from(recipeSet).map(slug => ({{ slug }}));
                 }}
             }} catch (e) {{
                 console.error('Error reading local plan:', e);
