@@ -1398,9 +1398,9 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]], 
             return plan;
         }}
 
-        // Get checked items from localStorage
-        function getCheckedItems(view = currentView) {{
-            const checkedKey = view === 'alphabetical' ? 'shoppingListCheckedAlpha' : 'shoppingListChecked';
+        // Get checked items from localStorage (by ingredient name)
+        function getCheckedItems() {{
+            const checkedKey = 'shoppingListCheckedByName';
             let checked = {{}};
 
             try {{
@@ -1415,9 +1415,9 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]], 
             return checked;
         }}
 
-        // Save checked items to localStorage
-        function saveCheckedItems(checked, view = currentView) {{
-            const checkedKey = view === 'alphabetical' ? 'shoppingListCheckedAlpha' : 'shoppingListChecked';
+        // Save checked items to localStorage (by ingredient name)
+        function saveCheckedItems(checked) {{
+            const checkedKey = 'shoppingListCheckedByName';
             try {{
                 localStorage.setItem(checkedKey, JSON.stringify(checked));
             }} catch (e) {{
@@ -1503,7 +1503,7 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]], 
         }}
 
         // Toggle checkbox state
-        function toggleIngredientCheck(itemId) {{
+        function toggleIngredientCheck(itemId, ingredientName) {{
             const checkbox = document.getElementById(`check-${{itemId}}`);
             const listItem = checkbox.closest('.ingredient-item');
             const isChecked = checkbox.checked;
@@ -1515,9 +1515,13 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]], 
                 listItem.classList.remove('checked');
             }}
 
-            // Update localStorage
+            // Update localStorage (by ingredient name)
             let checked = getCheckedItems();
-            checked[itemId] = isChecked;
+            if (isChecked) {{
+                checked[ingredientName] = true;
+            }} else {{
+                delete checked[ingredientName];
+            }}
             saveCheckedItems(checked);
         }}
 
@@ -1594,14 +1598,11 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]], 
                         <p>{get_text('no_shopping_list_message')}</p>
                     </div>
                 `;
-                // Clear all checked items when no recipes
-                saveCheckedItems({{}});
                 return;
             }}
 
-            // Load checked state
+            // Load checked state (by ingredient name)
             let checked = getCheckedItems();
-            let currentItemIds = new Set();
 
             // Aggregate servings for duplicate recipes
             const recipeServingsMap = {{}};
@@ -1663,8 +1664,8 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]], 
                     recipeInfo.ingredients.forEach((ingredient, index) => {{
                         const scaledAmount = scaleAmount(ingredient.amount, originalServings, targetServings);
                         const itemId = `${{slug}}-${{index}}`;
-                        currentItemIds.add(itemId);
-                        const isChecked = checked[itemId] || false;
+                        const ingredientName = ingredient.name;
+                        const isChecked = checked[ingredientName] || false;
                         const checkedClass = isChecked ? 'checked' : '';
                         const checkedAttr = isChecked ? 'checked' : '';
 
@@ -1675,7 +1676,7 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]], 
                                     id="check-${{itemId}}"
                                     class="ingredient-checkbox"
                                     ${{checkedAttr}}
-                                    onchange="toggleIngredientCheck('${{itemId}}')"
+                                    onchange="toggleIngredientCheck('${{itemId}}', '${{ingredientName.replace(/'/g, "\\\\'")}}')
                                 >
                                 <div class="ingredient-info">
                                     <span class="ingredient-name">${{ingredient.name}}</span>
@@ -1696,15 +1697,6 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]], 
 
             html += '</div>';
             container.innerHTML = html;
-
-            // Clean up checked items that are no longer in the list
-            let cleanedChecked = {{}};
-            for (let itemId of currentItemIds) {{
-                if (checked[itemId]) {{
-                    cleanedChecked[itemId] = true;
-                }}
-            }}
-            saveCheckedItems(cleanedChecked);
         }}
 
         function loadShoppingListAlphabetical() {{
@@ -1718,14 +1710,11 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]], 
                         <p>{get_text('no_shopping_list_message')}</p>
                     </div>
                 `;
-                // Clear all checked items when no recipes
-                saveCheckedItems({{}}, 'alphabetical');
                 return;
             }}
 
-            // Load checked state
-            let checked = getCheckedItems('alphabetical');
-            let currentItemIds = new Set();
+            // Load checked state (by ingredient name)
+            let checked = getCheckedItems();
 
             // Aggregate servings for duplicate recipes
             const recipeServingsMap = {{}};
@@ -1789,8 +1778,8 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]], 
                     : ingredient.amounts.join(' + ');
 
                 const itemId = `alpha-${{index}}`;
-                currentItemIds.add(itemId);
-                const isChecked = checked[itemId] || false;
+                const ingredientName = ingredient.name;
+                const isChecked = checked[ingredientName] || false;
                 const checkedClass = isChecked ? 'checked' : '';
                 const checkedAttr = isChecked ? 'checked' : '';
 
@@ -1801,7 +1790,7 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]], 
                             id="check-${{itemId}}"
                             class="ingredient-checkbox"
                             ${{checkedAttr}}
-                            onchange="toggleIngredientCheck('${{itemId}}')"
+                            onchange="toggleIngredientCheck('${{itemId}}', '${{ingredientName.replace(/'/g, "\\\\'")}}')
                         >
                         <div class="ingredient-info">
                             <span class="ingredient-name">${{ingredient.name}}</span>
@@ -1815,15 +1804,6 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]], 
             html += '</div>';
             html += '</div>';
             container.innerHTML = html;
-
-            // Clean up checked items that are no longer in the list
-            let cleanedChecked = {{}};
-            for (let itemId of currentItemIds) {{
-                if (checked[itemId]) {{
-                    cleanedChecked[itemId] = true;
-                }}
-            }}
-            saveCheckedItems(cleanedChecked, 'alphabetical');
         }}
 
         // Load shopping list on page load
