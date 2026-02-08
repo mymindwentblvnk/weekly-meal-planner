@@ -58,7 +58,7 @@ TEXTS = {
     "assign_meal": "Rezept zuweisen",
     "remove_meal": "Entfernen",
     "todos": "Notizen & Todos",
-    "todos_placeholder": "z.B. TODO: Bake Chiasamenbrot for tomorrow",
+    "todos_placeholder": "Notizen für diesen Tag...",
     "servings": "Portionen",
     "add_to_plan_title": "Zum Wochenplan hinzufügen",
     "select_day": "Tag auswählen",
