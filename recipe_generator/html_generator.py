@@ -1287,7 +1287,6 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]], 
         <h1>{get_text('shopping_list_title')}</h1>
         {generate_navigation()}
     </div>
-    <p style="color: var(--text-tertiary); font-size: 0.9em; margin-bottom: 10px;">{get_text('shopping_list_subtitle')}</p>
 
     <div class="week-navigation">
         <div class="week-nav-buttons">
