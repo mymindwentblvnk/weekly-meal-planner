@@ -1287,7 +1287,16 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]], 
         <h1>{get_text('shopping_list_title')}</h1>
         {generate_navigation()}
     </div>
-    <p style="color: var(--text-tertiary); font-size: 0.9em; margin-bottom: 30px;">{get_text('shopping_list_subtitle')}</p>
+    <p style="color: var(--text-tertiary); font-size: 0.9em; margin-bottom: 10px;">{get_text('shopping_list_subtitle')}</p>
+
+    <div class="week-navigation">
+        <div class="week-nav-buttons">
+            <button class="week-nav-btn" onclick="previousWeek()">{get_text('previous_week')}</button>
+            <button class="week-nav-btn current-week-btn" onclick="goToCurrentWeek()">{get_text('current_week')}</button>
+            <button class="week-nav-btn" onclick="nextWeek()">{get_text('next_week')}</button>
+        </div>
+        <div class="week-info" id="weekInfo"></div>
+    </div>
 
     <div id="shoppingListContainer"></div>
 
@@ -1295,31 +1304,53 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]], 
 
     <script>
         const recipeData = {recipe_lookup_json};
+        let currentWeek = null;
 
         {generate_dark_mode_script()}
 
         // ============ Shopping List Functions ============
 
-        // Get current week's meal plan (aggregated from mealPlansV2)
-        function getLocalWeeklyPlan() {{
-            // Get current week
-            function getISOWeek(date) {{
-                const d = new Date(date);
-                d.setHours(0, 0, 0, 0);
-                d.setDate(d.getDate() + 4 - (d.getDay() || 7));
-                const yearStart = new Date(d.getFullYear(), 0, 1);
-                const weekNo = Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
-                return d.getFullYear() + '-W' + String(weekNo).padStart(2, '0');
-            }}
+        // ISO Week calculation
+        function getISOWeek(date) {{
+            const d = new Date(date);
+            d.setHours(0, 0, 0, 0);
+            d.setDate(d.getDate() + 4 - (d.getDay() || 7));
+            const yearStart = new Date(d.getFullYear(), 0, 1);
+            const weekNo = Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
+            return d.getFullYear() + '-W' + String(weekNo).padStart(2, '0');
+        }}
 
-            const currentWeek = getISOWeek(new Date());
+        function getWeekDates(weekString) {{
+            const [year, week] = weekString.split('-W');
+            const jan4 = new Date(year, 0, 4);
+            const monday = new Date(jan4);
+            const dayOffset = (week - 1) * 7 - (jan4.getDay() || 7) + 1;
+            monday.setDate(jan4.getDate() + dayOffset);
+
+            const dates = [];
+            for (let i = 0; i < 7; i++) {{
+                const date = new Date(monday);
+                date.setDate(monday.getDate() + i);
+                dates.push(date);
+            }}
+            return dates;
+        }}
+
+        function formatDate(date) {{
+            const day = String(date.getDate()).padStart(2, '0');
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            return `${{day}}.${{month}}.`;
+        }}
+
+        // Get meal plan for specific week
+        function getLocalWeeklyPlan(week) {{
             let plan = {{ recipes: [] }};
 
             try {{
                 const stored = localStorage.getItem('mealPlansV2');
                 if (stored) {{
                     const mealPlans = JSON.parse(stored);
-                    const weekData = mealPlans[currentWeek] || {{}};
+                    const weekData = mealPlans[week] || {{}};
 
                     // Aggregate all meals from the week with servings
                     const meals = [];
@@ -1378,16 +1409,6 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]], 
             newServings = Math.max(1, Math.min(20, parseInt(newServings) || 2));
 
             // Get current week's meal plan
-            function getISOWeek(date) {{
-                const d = new Date(date);
-                d.setHours(0, 0, 0, 0);
-                d.setDate(d.getDate() + 4 - (d.getDay() || 7));
-                const yearStart = new Date(d.getFullYear(), 0, 1);
-                const weekNo = Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
-                return d.getFullYear() + '-W' + String(weekNo).padStart(2, '0');
-            }}
-
-            const currentWeek = getISOWeek(new Date());
             const mealPlans = getMealPlans();
             const weekData = mealPlans[currentWeek] || {{}};
 
@@ -1511,8 +1532,38 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]], 
             return String(num).replace('.', ',');
         }}
 
+        // Week navigation functions
+        function updateWeekInfo() {{
+            const dates = getWeekDates(currentWeek);
+            document.getElementById('weekInfo').textContent = `{get_text('week_of')} ${{formatDate(dates[0])}} - ${{formatDate(dates[6])}}`;
+        }}
+
+        function previousWeek() {{
+            const dates = getWeekDates(currentWeek);
+            const prevMonday = new Date(dates[0]);
+            prevMonday.setDate(prevMonday.getDate() - 7);
+            currentWeek = getISOWeek(prevMonday);
+            updateWeekInfo();
+            loadShoppingList();
+        }}
+
+        function nextWeek() {{
+            const dates = getWeekDates(currentWeek);
+            const nextMonday = new Date(dates[0]);
+            nextMonday.setDate(nextMonday.getDate() + 7);
+            currentWeek = getISOWeek(nextMonday);
+            updateWeekInfo();
+            loadShoppingList();
+        }}
+
+        function goToCurrentWeek() {{
+            currentWeek = getISOWeek(new Date());
+            updateWeekInfo();
+            loadShoppingList();
+        }}
+
         function loadShoppingList() {{
-            let plan = getLocalWeeklyPlan();
+            let plan = getLocalWeeklyPlan(currentWeek);
             const container = document.getElementById('shoppingListContainer');
 
             if (plan.recipes.length === 0) {{
@@ -1637,12 +1688,14 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]], 
 
         // Load shopping list on page load
         document.addEventListener('DOMContentLoaded', function() {{
+            currentWeek = getISOWeek(new Date());
+            updateWeekInfo();
             loadShoppingList();
             initializeDarkMode();
 
             // Listen for storage changes from other tabs (when weekly plan is modified)
             window.addEventListener('storage', function(e) {{
-                if (e.key === 'weeklyMealPlan' || e.key === 'weeklyPlanNeedsSync') {{
+                if (e.key === 'mealPlansV2' || e.key === 'weeklyPlanNeedsSync') {{
                     loadShoppingList(); // Refresh shopping list
                 }}
             }});

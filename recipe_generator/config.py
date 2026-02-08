@@ -1172,6 +1172,45 @@ SHOPPING_LIST_PAGE_CSS = """
 h1 {
     color: var(--primary-color);
 }
+.week-navigation {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 20px 0;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+.week-nav-buttons {
+    display: flex;
+    gap: 10px;
+}
+.week-nav-btn {
+    padding: 10px 16px;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.95em;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+.week-nav-btn:hover {
+    background-color: #5a35a1;
+}
+.current-week-btn {
+    background-color: var(--bg-secondary);
+    color: var(--text-color);
+    border: 2px solid var(--primary-color);
+}
+.current-week-btn:hover {
+    background-color: var(--border-color);
+}
+.week-info {
+    font-size: 1.1em;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
 .shopping-list-container {
     display: flex;
     flex-direction: column;
