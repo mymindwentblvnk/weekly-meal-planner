@@ -1400,9 +1400,9 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]], 
             return plan;
         }}
 
-        // Get checked items from localStorage (by ingredient name)
+        // Get checked items from localStorage (by item ID)
         function getCheckedItems() {{
-            const checkedKey = 'shoppingListCheckedByName';
+            const checkedKey = 'shoppingListChecked';
             let checked = {{}};
 
             try {{
@@ -1417,9 +1417,9 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]], 
             return checked;
         }}
 
-        // Save checked items to localStorage (by ingredient name)
+        // Save checked items to localStorage (by item ID)
         function saveCheckedItems(checked) {{
-            const checkedKey = 'shoppingListCheckedByName';
+            const checkedKey = 'shoppingListChecked';
             try {{
                 localStorage.setItem(checkedKey, JSON.stringify(checked));
             }} catch (e) {{
@@ -1505,7 +1505,7 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]], 
         }}
 
         // Toggle checkbox state
-        function toggleIngredientCheck(itemId, ingredientName) {{
+        function toggleIngredientCheck(itemId) {{
             const checkbox = document.getElementById(`check-${{itemId}}`);
             const listItem = checkbox.closest('.ingredient-item');
             const isChecked = checkbox.checked;
@@ -1517,12 +1517,12 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]], 
                 listItem.classList.remove('checked');
             }}
 
-            // Update localStorage (by ingredient name)
+            // Update localStorage (by item ID)
             let checked = getCheckedItems();
             if (isChecked) {{
-                checked[ingredientName] = true;
+                checked[itemId] = true;
             }} else {{
-                delete checked[ingredientName];
+                delete checked[itemId];
             }}
             saveCheckedItems(checked);
         }}
@@ -1603,7 +1603,7 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]], 
                 return;
             }}
 
-            // Load checked state (by ingredient name)
+            // Load checked state (by item ID)
             let checked = getCheckedItems();
 
             // Aggregate servings for duplicate recipes
@@ -1666,11 +1666,9 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]], 
                     recipeInfo.ingredients.forEach((ingredient, index) => {{
                         const scaledAmount = scaleAmount(ingredient.amount, originalServings, targetServings);
                         const itemId = `${{slug}}-${{index}}`;
-                        const ingredientName = ingredient.name;
-                        const isChecked = checked[ingredientName] || false;
+                        const isChecked = checked[itemId] || false;
                         const checkedClass = isChecked ? 'checked' : '';
                         const checkedAttr = isChecked ? 'checked' : '';
-                        const escapedName = ingredientName.replace(/'/g, "\\\\'");
 
                         html += `
                             <li class="ingredient-item ${{checkedClass}}">
@@ -1679,7 +1677,7 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]], 
                                     id="check-${{itemId}}"
                                     class="ingredient-checkbox"
                                     ${{checkedAttr}}
-                                    onchange="toggleIngredientCheck('${{itemId}}', '${{escapedName}}')"
+                                    onchange="toggleIngredientCheck('${{itemId}}')"
                                 >
                                 <div class="ingredient-info">
                                     <span class="ingredient-name">${{ingredient.name}}</span>
@@ -1716,7 +1714,7 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]], 
                 return;
             }}
 
-            // Load checked state (by ingredient name)
+            // Load checked state (by item ID)
             let checked = getCheckedItems();
 
             // Aggregate servings for duplicate recipes
@@ -1729,7 +1727,7 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]], 
                 }}
             }});
 
-            // Collect all ingredients from all recipes
+            // Collect all ingredients from all recipes (with their itemIds)
             const allIngredients = [];
             Object.entries(recipeServingsMap).forEach(([slug, weeklyServings]) => {{
                 const recipeInfo = recipeData[slug];
@@ -1738,33 +1736,20 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]], 
                 const originalServings = recipeInfo.servings || 2;
                 const targetServings = weeklyServings;
 
-                recipeInfo.ingredients.forEach((ingredient) => {{
+                recipeInfo.ingredients.forEach((ingredient, index) => {{
                     const scaledAmount = scaleAmount(ingredient.amount, originalServings, targetServings);
+                    const itemId = `${{slug}}-${{index}}`;
                     allIngredients.push({{
+                        itemId: itemId,
                         name: ingredient.name,
                         amount: scaledAmount,
-                        originalAmount: ingredient.amount,
-                        originalServings: originalServings,
-                        targetServings: targetServings
+                        recipeName: recipeInfo.name
                     }});
                 }});
             }});
 
-            // Group ingredients by name and combine amounts
-            const ingredientMap = {{}};
-            allIngredients.forEach(ingredient => {{
-                const name = ingredient.name;
-                if (!ingredientMap[name]) {{
-                    ingredientMap[name] = {{
-                        name: name,
-                        amounts: []
-                    }};
-                }}
-                ingredientMap[name].amounts.push(ingredient.amount);
-            }});
-
-            // Sort alphabetically
-            const sortedIngredients = Object.values(ingredientMap).sort((a, b) =>
+            // Sort alphabetically by ingredient name
+            const sortedIngredients = allIngredients.sort((a, b) =>
                 a.name.localeCompare(b.name, 'de')
             );
 
@@ -1774,18 +1759,11 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]], 
             html += '<h2 class="recipe-title">Alle Zutaten alphabetisch</h2>';
             html += '<ul class="ingredients-list">';
 
-            sortedIngredients.forEach((ingredient, index) => {{
-                // Combine amounts (join with " + " if multiple)
-                const combinedAmount = ingredient.amounts.length === 1
-                    ? ingredient.amounts[0]
-                    : ingredient.amounts.join(' + ');
-
-                const itemId = `alpha-${{index}}`;
-                const ingredientName = ingredient.name;
-                const isChecked = checked[ingredientName] || false;
+            sortedIngredients.forEach((ingredient) => {{
+                const itemId = ingredient.itemId;
+                const isChecked = checked[itemId] || false;
                 const checkedClass = isChecked ? 'checked' : '';
                 const checkedAttr = isChecked ? 'checked' : '';
-                const escapedName = ingredientName.replace(/'/g, "\\\\'");
 
                 html += `
                     <li class="ingredient-item ${{checkedClass}}">
@@ -1794,11 +1772,11 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]], 
                             id="check-${{itemId}}"
                             class="ingredient-checkbox"
                             ${{checkedAttr}}
-                            onchange="toggleIngredientCheck('${{itemId}}', '${{escapedName}}')"
+                            onchange="toggleIngredientCheck('${{itemId}}')"
                         >
                         <div class="ingredient-info">
                             <span class="ingredient-name">${{ingredient.name}}</span>
-                            <span class="ingredient-amount">${{combinedAmount}}</span>
+                            <span class="ingredient-amount">${{ingredient.amount}}</span>
                         </div>
                     </li>
                 `;
