@@ -1386,6 +1386,24 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]]) 
             loadShoppingList(); // Refresh the list
         }}
 
+        // Increment serving size
+        function incrementServings(recipeSlug) {{
+            let customServings = getCustomServings();
+            let current = customServings[recipeSlug] || 2;
+            if (current < 20) {{
+                updateServings(recipeSlug, current + 1);
+            }}
+        }}
+
+        // Decrement serving size
+        function decrementServings(recipeSlug) {{
+            let customServings = getCustomServings();
+            let current = customServings[recipeSlug] || 2;
+            if (current > 1) {{
+                updateServings(recipeSlug, current - 1);
+            }}
+        }}
+
         // Toggle checkbox state
         function toggleIngredientCheck(itemId) {{
             const checkbox = document.getElementById(`check-${{itemId}}`);
@@ -1474,15 +1492,30 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]]) 
                             <h2 class="recipe-title">${{recipe.category}} ${{recipeInfo.name}}</h2>
                             <div class="servings-control">
                                 <label for="servings-${{recipe.slug}}">{get_text('servings_label_short')}</label>
-                                <input
-                                    type="number"
-                                    id="servings-${{recipe.slug}}"
-                                    class="servings-input"
-                                    min="1"
-                                    max="20"
-                                    value="${{targetServings}}"
-                                    onchange="updateServings('${{recipe.slug}}', this.value)"
-                                >
+                                <div class="servings-buttons">
+                                    <button
+                                        class="servings-btn"
+                                        onclick="decrementServings('${{recipe.slug}}')"
+                                        aria-label="Portionen verringern"
+                                        ${{targetServings <= 1 ? 'disabled' : ''}}
+                                    >−</button>
+                                    <input
+                                        type="number"
+                                        id="servings-${{recipe.slug}}"
+                                        class="servings-input"
+                                        min="1"
+                                        max="20"
+                                        value="${{targetServings}}"
+                                        onchange="updateServings('${{recipe.slug}}', this.value)"
+                                        aria-label="Anzahl Portionen"
+                                    >
+                                    <button
+                                        class="servings-btn"
+                                        onclick="incrementServings('${{recipe.slug}}')"
+                                        aria-label="Portionen erhöhen"
+                                        ${{targetServings >= 20 ? 'disabled' : ''}}
+                                    >+</button>
+                                </div>
                             </div>
                         </div>
                         <p class="recipe-meta">Original: ${{originalServings}} Portionen → Skaliert auf: ${{targetServings}} Portionen</p>

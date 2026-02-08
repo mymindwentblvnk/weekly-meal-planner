@@ -846,14 +846,50 @@ h1 {
     font-size: 0.9em;
     color: var(--text-secondary);
 }
+.servings-buttons {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.servings-btn {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 1.3em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+}
+.servings-btn:hover {
+    background-color: #5a35a1;
+    transform: scale(1.05);
+}
+.servings-btn:active {
+    transform: scale(0.95);
+}
+.servings-btn:disabled {
+    background-color: var(--border-color);
+    color: var(--text-tertiary);
+    cursor: not-allowed;
+    transform: none;
+}
 .servings-input {
-    width: 60px;
-    padding: 6px 8px;
+    width: 50px;
+    padding: 8px;
     border: 1px solid var(--border-color);
     border-radius: 4px;
     background-color: var(--bg-color);
     color: var(--text-color);
-    font-size: 0.95em;
+    font-size: 1em;
+    font-weight: 600;
     text-align: center;
 }
 .servings-input:focus {
