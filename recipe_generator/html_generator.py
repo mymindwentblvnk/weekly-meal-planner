@@ -1079,6 +1079,43 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]], deploym
             saveMealPlans(plans);
         }}
 
+        // Clean up old weeks from localStorage (keep only current +/- 2 weeks)
+        function cleanupOldWeeks() {{
+            try {{
+                const stored = localStorage.getItem('mealPlansV2');
+                if (!stored) return;
+
+                const mealPlans = JSON.parse(stored);
+                const currentWeekNow = getISOWeek(new Date());
+
+                // Calculate week range to keep (current - 2 to current + 2)
+                const weeksToKeep = new Set();
+                const currentDate = new Date();
+
+                for (let offset = -2; offset <= 2; offset++) {{
+                    const date = new Date(currentDate);
+                    date.setDate(date.getDate() + (offset * 7));
+                    weeksToKeep.add(getISOWeek(date));
+                }}
+
+                // Remove weeks outside the range
+                let hasChanges = false;
+                for (const week in mealPlans) {{
+                    if (!weeksToKeep.has(week)) {{
+                        delete mealPlans[week];
+                        hasChanges = true;
+                    }}
+                }}
+
+                // Save back if we made changes
+                if (hasChanges) {{
+                    localStorage.setItem('mealPlansV2', JSON.stringify(mealPlans));
+                }}
+            }} catch (e) {{
+                console.error('Error cleaning up old weeks:', e);
+            }}
+        }}
+
         // Week navigation
         function previousWeek() {{
             const dates = getWeekDates(currentWeek);
@@ -1246,6 +1283,7 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]], deploym
         // Initialize
         document.addEventListener('DOMContentLoaded', function() {{
             currentWeek = getISOWeek(new Date());
+            cleanupOldWeeks();
             renderWeek();
             initializeDarkMode();
         }});
@@ -1818,10 +1856,48 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]], 
             saveCheckedItems(cleanedChecked);
         }}
 
+        // Clean up old weeks from localStorage (keep only current +/- 2 weeks)
+        function cleanupOldWeeks() {{
+            try {{
+                const stored = localStorage.getItem('mealPlansV2');
+                if (!stored) return;
+
+                const mealPlans = JSON.parse(stored);
+                const currentWeek = getISOWeek(new Date());
+
+                // Calculate week range to keep (current - 2 to current + 2)
+                const weeksToKeep = new Set();
+                const currentDate = new Date();
+
+                for (let offset = -2; offset <= 2; offset++) {{
+                    const date = new Date(currentDate);
+                    date.setDate(date.getDate() + (offset * 7));
+                    weeksToKeep.add(getISOWeek(date));
+                }}
+
+                // Remove weeks outside the range
+                let hasChanges = false;
+                for (const week in mealPlans) {{
+                    if (!weeksToKeep.has(week)) {{
+                        delete mealPlans[week];
+                        hasChanges = true;
+                    }}
+                }}
+
+                // Save back if we made changes
+                if (hasChanges) {{
+                    localStorage.setItem('mealPlansV2', JSON.stringify(mealPlans));
+                }}
+            }} catch (e) {{
+                console.error('Error cleaning up old weeks:', e);
+            }}
+        }}
+
         // Load shopping list on page load
         document.addEventListener('DOMContentLoaded', function() {{
             currentWeek = getISOWeek(new Date());
             updateWeekInfo();
+            cleanupOldWeeks();
             loadShoppingList();
             initializeDarkMode();
 
