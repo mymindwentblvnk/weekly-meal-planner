@@ -1630,41 +1630,52 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]]) 
             let customServings = getCustomServings();
             let currentItemIds = new Set();
 
+            // Aggregate servings for duplicate recipes
+            const recipeServingsMap = {{}};
+            plan.recipes.forEach((recipe) => {{
+                if (recipeServingsMap[recipe.slug]) {{
+                    recipeServingsMap[recipe.slug] += recipe.servings || 2;
+                }} else {{
+                    recipeServingsMap[recipe.slug] = recipe.servings || 2;
+                }}
+            }});
+
             let html = '<div class="shopping-list-container">';
 
-            plan.recipes.forEach((recipe) => {{
-                const recipeInfo = recipeData[recipe.slug];
+            Object.entries(recipeServingsMap).forEach(([slug, weeklyServings]) => {{
+                const recipeInfo = recipeData[slug];
                 if (!recipeInfo) return; // Skip if recipe not found
 
                 const originalServings = recipeInfo.servings || 2;
-                const targetServings = customServings[recipe.slug] || 2;
+                // Use aggregated servings from weekly plan, or fall back to custom servings, or default to 2
+                const targetServings = customServings[slug] !== undefined ? customServings[slug] : weeklyServings;
 
                 html += `
                     <div class="recipe-shopping-section">
                         <div class="recipe-header">
-                            <h2 class="recipe-title">${{recipe.category}} ${{recipeInfo.name}}</h2>
+                            <h2 class="recipe-title">${{recipeInfo.category}} ${{recipeInfo.name}}</h2>
                             <div class="servings-control">
-                                <label for="servings-${{recipe.slug}}">{get_text('servings_label_short')}</label>
+                                <label for="servings-${{slug}}">{get_text('servings_label_short')}</label>
                                 <div class="servings-buttons">
                                     <button
                                         class="servings-btn"
-                                        onclick="decrementServings('${{recipe.slug}}')"
+                                        onclick="decrementServings('${{slug}}')"
                                         aria-label="Portionen verringern"
                                         ${{targetServings <= 1 ? 'disabled' : ''}}
                                     >−</button>
                                     <input
                                         type="number"
-                                        id="servings-${{recipe.slug}}"
+                                        id="servings-${{slug}}"
                                         class="servings-input"
                                         min="1"
                                         max="20"
                                         value="${{targetServings}}"
-                                        onchange="updateServings('${{recipe.slug}}', this.value)"
+                                        onchange="updateServings('${{slug}}', this.value)"
                                         aria-label="Anzahl Portionen"
                                     >
                                     <button
                                         class="servings-btn"
-                                        onclick="incrementServings('${{recipe.slug}}')"
+                                        onclick="incrementServings('${{slug}}')"
                                         aria-label="Portionen erhöhen"
                                         ${{targetServings >= 20 ? 'disabled' : ''}}
                                     >+</button>
@@ -1678,7 +1689,7 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]]) 
                 if (recipeInfo.ingredients && recipeInfo.ingredients.length > 0) {{
                     recipeInfo.ingredients.forEach((ingredient, index) => {{
                         const scaledAmount = scaleAmount(ingredient.amount, originalServings, targetServings);
-                        const itemId = `${{recipe.slug}}-${{index}}`;
+                        const itemId = `${{slug}}-${{index}}`;
                         currentItemIds.add(itemId);
                         const isChecked = checked[itemId] || false;
                         const checkedClass = isChecked ? 'checked' : '';
