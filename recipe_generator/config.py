@@ -1067,6 +1067,19 @@ h1 {
     font-size: 0.9em;
     color: var(--text-secondary);
 }
+.servings-display {
+    display: flex;
+    align-items: center;
+    font-size: 1em;
+    color: var(--text-color);
+    background-color: var(--bg-secondary);
+    padding: 8px 16px;
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+}
+.servings-text {
+    font-weight: 600;
+}
 .servings-buttons {
     display: flex;
     align-items: center;
