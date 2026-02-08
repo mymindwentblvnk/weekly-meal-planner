@@ -68,8 +68,8 @@ def generate_navigation() -> str:
     return f'''<div class="top-nav">
         <div style="display: flex; gap: 10px; align-items: center;">
             <a href="index.html" class="nav-link" aria-label="Weekly Plan">🗓️</a>
-            <a href="recipes.html" class="nav-link" aria-label="Recipes Catalog">📖</a>
             <a href="shopping.html" class="nav-link" aria-label="Shopping List">🛒</a>
+            <a href="recipes.html" class="nav-link" aria-label="Recipes Catalog">📖</a>
             <button class="nav-toggle-button" id="darkModeToggle" onclick="toggleDarkMode()" aria-label="Toggle dark mode">
                 <span class="emoji light-mode-icon">☀️</span>
                 <span class="emoji dark-mode-icon">🌙</span>
