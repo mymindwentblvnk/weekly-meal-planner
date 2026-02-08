@@ -1303,6 +1303,8 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]]) 
     <script>
         const recipeData = {recipe_lookup_json};
 
+        {generate_dark_mode_script()}
+
         // ============ Shopping List Functions ============
 
         // Get local weekly plan
