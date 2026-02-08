@@ -1297,6 +1297,11 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]], 
         <div class="week-info" id="weekInfo"></div>
     </div>
 
+    <div class="view-toggle">
+        <button class="view-toggle-btn active" id="viewByRecipeBtn" onclick="switchView('recipe')">{get_text('view_by_recipe')}</button>
+        <button class="view-toggle-btn" id="viewAlphabeticallyBtn" onclick="switchView('alphabetical')">{get_text('view_alphabetically')}</button>
+    </div>
+
     <div id="shoppingListContainer"></div>
 
     {generate_footer(deployment_time)}
@@ -1304,10 +1309,27 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]], 
     <script>
         const recipeData = {recipe_lookup_json};
         let currentWeek = null;
+        let currentView = 'recipe'; // 'recipe' or 'alphabetical'
 
         {generate_dark_mode_script()}
 
         // ============ Shopping List Functions ============
+
+        // View switching
+        function switchView(view) {{
+            currentView = view;
+
+            // Update button states
+            document.getElementById('viewByRecipeBtn').classList.toggle('active', view === 'recipe');
+            document.getElementById('viewAlphabeticallyBtn').classList.toggle('active', view === 'alphabetical');
+
+            // Reload the shopping list with the new view
+            if (view === 'recipe') {{
+                loadShoppingList();
+            }} else {{
+                loadShoppingListAlphabetical();
+            }}
+        }}
 
         // ISO Week calculation
         function getISOWeek(date) {{
@@ -1377,8 +1399,8 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]], 
         }}
 
         // Get checked items from localStorage
-        function getCheckedItems() {{
-            const checkedKey = 'shoppingListChecked';
+        function getCheckedItems(view = currentView) {{
+            const checkedKey = view === 'alphabetical' ? 'shoppingListCheckedAlpha' : 'shoppingListChecked';
             let checked = {{}};
 
             try {{
@@ -1394,8 +1416,8 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]], 
         }}
 
         // Save checked items to localStorage
-        function saveCheckedItems(checked) {{
-            const checkedKey = 'shoppingListChecked';
+        function saveCheckedItems(checked, view = currentView) {{
+            const checkedKey = view === 'alphabetical' ? 'shoppingListCheckedAlpha' : 'shoppingListChecked';
             try {{
                 localStorage.setItem(checkedKey, JSON.stringify(checked));
             }} catch (e) {{
@@ -1683,6 +1705,125 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]], 
                 }}
             }}
             saveCheckedItems(cleanedChecked);
+        }}
+
+        function loadShoppingListAlphabetical() {{
+            let plan = getLocalWeeklyPlan(currentWeek);
+            const container = document.getElementById('shoppingListContainer');
+
+            if (plan.recipes.length === 0) {{
+                container.innerHTML = `
+                    <div class="no-shopping-items">
+                        <h2>{get_text('no_shopping_list')}</h2>
+                        <p>{get_text('no_shopping_list_message')}</p>
+                    </div>
+                `;
+                // Clear all checked items when no recipes
+                saveCheckedItems({{}}, 'alphabetical');
+                return;
+            }}
+
+            // Load checked state
+            let checked = getCheckedItems('alphabetical');
+            let currentItemIds = new Set();
+
+            // Aggregate servings for duplicate recipes
+            const recipeServingsMap = {{}};
+            plan.recipes.forEach((recipe) => {{
+                if (recipeServingsMap[recipe.slug]) {{
+                    recipeServingsMap[recipe.slug] += recipe.servings || 2;
+                }} else {{
+                    recipeServingsMap[recipe.slug] = recipe.servings || 2;
+                }}
+            }});
+
+            // Collect all ingredients from all recipes
+            const allIngredients = [];
+            Object.entries(recipeServingsMap).forEach(([slug, weeklyServings]) => {{
+                const recipeInfo = recipeData[slug];
+                if (!recipeInfo || !recipeInfo.ingredients) return;
+
+                const originalServings = recipeInfo.servings || 2;
+                const targetServings = weeklyServings;
+
+                recipeInfo.ingredients.forEach((ingredient) => {{
+                    const scaledAmount = scaleAmount(ingredient.amount, originalServings, targetServings);
+                    allIngredients.push({{
+                        name: ingredient.name,
+                        amount: scaledAmount,
+                        originalAmount: ingredient.amount,
+                        originalServings: originalServings,
+                        targetServings: targetServings
+                    }});
+                }});
+            }});
+
+            // Group ingredients by name and combine amounts
+            const ingredientMap = {{}};
+            allIngredients.forEach(ingredient => {{
+                const name = ingredient.name;
+                if (!ingredientMap[name]) {{
+                    ingredientMap[name] = {{
+                        name: name,
+                        amounts: []
+                    }};
+                }}
+                ingredientMap[name].amounts.push(ingredient.amount);
+            }});
+
+            // Sort alphabetically
+            const sortedIngredients = Object.values(ingredientMap).sort((a, b) =>
+                a.name.localeCompare(b.name, 'de')
+            );
+
+            // Render alphabetical list
+            let html = '<div class="shopping-list-container">';
+            html += '<div class="recipe-shopping-section">';
+            html += '<h2 class="recipe-title">Alle Zutaten alphabetisch</h2>';
+            html += '<ul class="ingredients-list">';
+
+            sortedIngredients.forEach((ingredient, index) => {{
+                // Combine amounts (join with " + " if multiple)
+                const combinedAmount = ingredient.amounts.length === 1
+                    ? ingredient.amounts[0]
+                    : ingredient.amounts.join(' + ');
+
+                const itemId = `alpha-${{index}}`;
+                currentItemIds.add(itemId);
+                const isChecked = checked[itemId] || false;
+                const checkedClass = isChecked ? 'checked' : '';
+                const checkedAttr = isChecked ? 'checked' : '';
+
+                html += `
+                    <li class="ingredient-item ${{checkedClass}}">
+                        <input
+                            type="checkbox"
+                            id="check-${{itemId}}"
+                            class="ingredient-checkbox"
+                            ${{checkedAttr}}
+                            onchange="toggleIngredientCheck('${{itemId}}')"
+                        >
+                        <div class="ingredient-info">
+                            <span class="ingredient-name">${{ingredient.name}}</span>
+                            <span class="ingredient-amount">${{combinedAmount}}</span>
+                        </div>
+                    </li>
+                `;
+            }});
+
+            html += '</ul>';
+            html += '</div>';
+            html += '</div>';
+            container.innerHTML = html;
+
+            // Clean up checked items that are no longer in the list
+            let cleanedChecked = {{}};
+            for (let itemId of currentItemIds) {{
+                if (checked[itemId]) {{
+                    cleanedChecked[itemId] = true;
+                }}
+            }}
+            saveCheckedItems(cleanedChecked, 'alphabetical');
         }}
 
         // Load shopping list on page load

@@ -79,6 +79,8 @@ TEXTS = {
     "no_shopping_list": "Keine Zutaten",
     "no_shopping_list_message": "Füge Rezepte zum Wochenplan hinzu, um eine Einkaufsliste zu generieren!",
     "servings_label_short": "Portionen:",
+    "view_by_recipe": "Nach Rezept",
+    "view_alphabetically": "Alphabetisch",
 }
 
 def get_text(key: str) -> str:
@@ -1212,6 +1214,34 @@ h1 {
     font-size: 1.1em;
     color: var(--text-secondary);
     font-weight: 500;
+}
+.view-toggle {
+    display: flex;
+    gap: 10px;
+    margin: 20px 0;
+    justify-content: center;
+}
+.view-toggle-btn {
+    padding: 10px 20px;
+    background-color: var(--bg-secondary);
+    color: var(--text-color);
+    border: 2px solid var(--border-color);
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.95em;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+.view-toggle-btn:hover {
+    background-color: var(--border-color);
+}
+.view-toggle-btn.active {
+    background-color: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+}
+.view-toggle-btn.active:hover {
+    background-color: #5a35a1;
 }
 .shopping-list-container {
     display: flex;
