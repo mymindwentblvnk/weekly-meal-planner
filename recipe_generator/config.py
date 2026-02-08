@@ -40,7 +40,6 @@ TEXTS = {
     # Weekly plan page
     "view_weekly_plan": "🗓️ Wochenplan",
     "weekly_plan_title": "Wochenplan",
-    "weekly_plan_disclaimer": "💡 Dein Wochenplan wird lokal in deinem Browser gespeichert und geht verloren, wenn du die Browser-Daten löschst.",
     "current_week": "Aktuelle Woche",
     "previous_week": "← Vorherige Woche",
     "next_week": "Nächste Woche →",
@@ -78,7 +77,6 @@ TEXTS = {
     "view_shopping_list": "🛒 Einkaufsliste",
     "shopping_list_title": "Einkaufsliste",
     "shopping_list_subtitle": "Automatisch generiert aus dem Wochenplan",
-    "shopping_list_disclaimer": "💡 Die Einkaufsliste wird automatisch aus deinem Wochenplan generiert. Passe die Portionen für jedes Rezept individuell an.",
     "no_shopping_list": "Keine Zutaten",
     "no_shopping_list_message": "Füge Rezepte zum Wochenplan hinzu, um eine Einkaufsliste zu generieren!",
     "servings_label_short": "Portionen:",

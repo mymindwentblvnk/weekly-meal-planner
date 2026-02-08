@@ -943,7 +943,6 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]], deploym
     html = f'''{generate_page_header(get_text('weekly_plan_title'), WEEKLY_PAGE_CSS)}
     {generate_navigation(show_back_button=False)}
     <h1>{get_text('weekly_plan_title')}</h1>
-    <p style="color: var(--text-tertiary); font-size: 0.9em; font-style: italic; margin-bottom: 30px; padding: 10px; background-color: var(--bg-secondary); border-radius: 4px; border-left: 3px solid var(--primary-color);">{get_text('weekly_plan_disclaimer')}</p>
 
     <div class="week-navigation">
         <div class="week-nav-buttons">
@@ -1287,8 +1286,7 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]], 
     html = f'''{generate_page_header(get_text('shopping_list_title'), SHOPPING_LIST_PAGE_CSS)}
     {generate_navigation(show_back_button=True)}
     <h1>{get_text('shopping_list_title')}</h1>
-    <p style="color: var(--text-tertiary); font-size: 0.9em; margin-bottom: 10px;">{get_text('shopping_list_subtitle')}</p>
-    <p style="color: var(--text-tertiary); font-size: 0.9em; font-style: italic; margin-bottom: 30px; padding: 10px; background-color: var(--bg-secondary); border-radius: 4px; border-left: 3px solid var(--primary-color);">{get_text('shopping_list_disclaimer')}</p>
+    <p style="color: var(--text-tertiary); font-size: 0.9em; margin-bottom: 30px;">{get_text('shopping_list_subtitle')}</p>
 
     <div id="shoppingListContainer"></div>
 
