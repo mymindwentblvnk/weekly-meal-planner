@@ -1181,6 +1181,19 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]]) -> str:
             }}
         }}
 
+        function getTodoForDay(week, day) {{
+            const plans = getMealPlans();
+            return plans[week]?.[day]?.todo || '';
+        }}
+
+        function saveTodoForDay(week, day, todo) {{
+            const plans = getMealPlans();
+            if (!plans[week]) plans[week] = {{}};
+            if (!plans[week][day]) plans[week][day] = {{}};
+            plans[week][day].todo = todo;
+            saveMealPlans(plans);
+        }}
+
         // Week navigation
         function previousWeek() {{
             const dates = getWeekDates(currentWeek);
@@ -1308,7 +1321,16 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]]) -> str:
                     }}
                 }});
 
+                const todo = getTodoForDay(currentWeek, dayKey);
                 html += `
+                        </div>
+                        <div class="day-todos">
+                            <div class="todos-header">{get_text('todos')}</div>
+                            <textarea
+                                class="todos-textarea"
+                                placeholder="{get_text('todos_placeholder')}"
+                                oninput="saveTodoForDay('${{currentWeek}}', '${{dayKey}}', this.value)"
+                            >${{todo}}</textarea>
                         </div>
                     </div>
                 `;

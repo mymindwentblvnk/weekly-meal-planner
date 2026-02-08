@@ -67,6 +67,8 @@ TEXTS = {
     "no_meal_assigned": "Noch kein Rezept zugewiesen",
     "assign_meal": "Rezept zuweisen",
     "remove_meal": "Entfernen",
+    "todos": "Notizen & Todos",
+    "todos_placeholder": "z.B. TODO: Bake Chiasamenbrot for tomorrow",
 
     # Shopping list page
     "view_shopping_list": "🛒 Einkaufsliste",
@@ -900,6 +902,42 @@ h1 {
 }
 .select-recipe-btn:hover {
     background-color: #5a35a1;
+}
+
+/* Todo section */
+.day-todos {
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 2px solid var(--border-color);
+}
+.todos-header {
+    font-weight: 600;
+    font-size: 0.9em;
+    color: var(--text-secondary);
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.todos-textarea {
+    width: 100%;
+    min-height: 60px;
+    padding: 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    font-family: inherit;
+    font-size: 0.95em;
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    resize: vertical;
+    transition: border-color 0.2s;
+}
+.todos-textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
+}
+.todos-textarea::placeholder {
+    color: var(--text-tertiary);
+    opacity: 0.7;
 }
 
 /* Mobile optimizations */
