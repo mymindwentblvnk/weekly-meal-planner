@@ -69,6 +69,7 @@ TEXTS = {
     "remove_meal": "Entfernen",
     "todos": "Notizen & Todos",
     "todos_placeholder": "z.B. TODO: Bake Chiasamenbrot for tomorrow",
+    "servings": "Portionen",
 
     # Shopping list page
     "view_shopping_list": "🛒 Einkaufsliste",
@@ -791,6 +792,54 @@ h1 {
 }
 .remove-meal-btn:hover {
     background-color: #c53030;
+}
+.servings-control {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 8px;
+    padding: 6px 0;
+}
+.servings-label {
+    font-size: 0.85em;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+.servings-adjuster {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.servings-btn {
+    width: 32px;
+    height: 32px;
+    border: 2px solid var(--primary-color);
+    background-color: var(--bg-color);
+    color: var(--primary-color);
+    border-radius: 50%;
+    font-size: 1.2em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    line-height: 1;
+}
+.servings-btn:hover {
+    background-color: var(--primary-color);
+    color: white;
+}
+.servings-btn:active {
+    transform: scale(0.95);
+}
+.servings-value {
+    font-size: 1em;
+    font-weight: 600;
+    color: var(--text-color);
+    min-width: 30px;
+    text-align: center;
 }
 .search-modal {
     position: fixed;

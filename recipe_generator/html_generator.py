@@ -1059,7 +1059,7 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]]) -> str:
     Returns:
         Complete HTML page as a string
     """
-    # Create recipe lookup by slug with tags
+    # Create recipe lookup by slug with tags and servings
     recipe_lookup = {}
     for filename, recipe in recipes_data:
         slug = filename.replace('.html', '')
@@ -1067,7 +1067,8 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]]) -> str:
             'name': recipe['name'],
             'filename': filename,
             'category': recipe.get('category', ''),
-            'tags': recipe.get('tags', [])
+            'tags': recipe.get('tags', []),
+            'servings': recipe.get('servings', 2)
         }
 
     # Generate recipe lookup as JSON for JavaScript
@@ -1162,15 +1163,34 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]]) -> str:
 
         function getMealForSlot(week, day, meal) {{
             const plans = getMealPlans();
-            return plans[week]?.[day]?.[meal] || null;
+            const mealData = plans[week]?.[day]?.[meal];
+            // Support both old format (string) and new format (object)
+            if (!mealData) return null;
+            if (typeof mealData === 'string') {{
+                // Old format: just recipe slug
+                const recipe = recipeData[mealData];
+                return {{ slug: mealData, servings: recipe?.servings || 2 }};
+            }}
+            // New format: object with slug and servings
+            return mealData;
         }}
 
-        function setMealForSlot(week, day, meal, recipeSlug) {{
+        function setMealForSlot(week, day, meal, recipeSlug, servings) {{
             const plans = getMealPlans();
             if (!plans[week]) plans[week] = {{}};
             if (!plans[week][day]) plans[week][day] = {{}};
-            plans[week][day][meal] = recipeSlug;
+            plans[week][day][meal] = {{ slug: recipeSlug, servings: servings }};
             saveMealPlans(plans);
+        }}
+
+        function updateServingsForSlot(week, day, meal, servings) {{
+            const plans = getMealPlans();
+            if (plans[week]?.[day]?.[meal]) {{
+                const mealData = plans[week][day][meal];
+                const slug = typeof mealData === 'string' ? mealData : mealData.slug;
+                plans[week][day][meal] = {{ slug: slug, servings: servings }};
+                saveMealPlans(plans);
+            }}
         }}
 
         function removeMealFromSlot(week, day, meal) {{
@@ -1257,7 +1277,9 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]]) -> str:
         }}
 
         function selectRecipe(slug) {{
-            setMealForSlot(currentWeek, currentDay, currentMeal, slug);
+            const recipe = recipeData[slug];
+            const defaultServings = recipe?.servings || 2;
+            setMealForSlot(currentWeek, currentDay, currentMeal, slug, defaultServings);
             closeSearchModal();
             renderWeek();
         }}
@@ -1265,6 +1287,15 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]]) -> str:
         function removeMeal(day, meal) {{
             removeMealFromSlot(currentWeek, day, meal);
             renderWeek();
+        }}
+
+        function adjustServings(day, meal, delta) {{
+            const mealData = getMealForSlot(currentWeek, day, meal);
+            if (mealData) {{
+                const newServings = Math.max(1, mealData.servings + delta);
+                updateServingsForSlot(currentWeek, day, meal, newServings);
+                renderWeek();
+            }}
         }}
 
         // Render week view
@@ -1289,10 +1320,10 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]]) -> str:
 
                 mealTypes.forEach((mealType, mealIndex) => {{
                     const mealLabel = mealLabels[mealIndex];
-                    const recipeSlug = getMealForSlot(currentWeek, dayKey, mealType);
-                    const recipe = recipeSlug ? recipeData[recipeSlug] : null;
+                    const mealData = getMealForSlot(currentWeek, dayKey, mealType);
+                    const recipe = mealData ? recipeData[mealData.slug] : null;
 
-                    if (recipe) {{
+                    if (recipe && mealData) {{
                         html += `
                             <div class="meal-slot">
                                 <div class="meal-type">${{mealLabel}}</div>
@@ -1300,6 +1331,14 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]]) -> str:
                                     <div class="assigned-recipe">
                                         <span class="recipe-emoji">${{recipe.category}}</span>
                                         <a href="${{recipe.filename}}" class="recipe-link">${{recipe.name}}</a>
+                                    </div>
+                                    <div class="servings-control">
+                                        <span class="servings-label">{get_text('servings')}:</span>
+                                        <div class="servings-adjuster">
+                                            <button class="servings-btn" onclick="adjustServings('${{dayKey}}', '${{mealType}}', -1)">−</button>
+                                            <span class="servings-value">${{mealData.servings}}</span>
+                                            <button class="servings-btn" onclick="adjustServings('${{dayKey}}', '${{mealType}}', 1)">+</button>
+                                        </div>
                                     </div>
                                     <div class="meal-actions">
                                         <button class="change-btn" onclick="openSearchModal('${{dayKey}}', '${{mealType}}')">Ändern</button>
@@ -1413,16 +1452,23 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]]) 
                     const mealPlans = JSON.parse(stored);
                     const weekData = mealPlans[currentWeek] || {{}};
 
-                    // Aggregate all meals from the week
-                    const recipeSet = new Set();
+                    // Aggregate all meals from the week with servings
+                    const meals = [];
                     Object.values(weekData).forEach(dayMeals => {{
-                        Object.values(dayMeals).forEach(recipeSlug => {{
-                            if (recipeSlug) recipeSet.add(recipeSlug);
+                        Object.entries(dayMeals).forEach(([mealType, mealData]) => {{
+                            // Skip 'todo' entries
+                            if (mealType === 'todo' || !mealData) return;
+
+                            // Support both old format (string) and new format (object)
+                            if (typeof mealData === 'string') {{
+                                meals.push({{ slug: mealData, servings: 2 }});
+                            }} else if (mealData.slug) {{
+                                meals.push({{ slug: mealData.slug, servings: mealData.servings || 2 }});
+                            }}
                         }});
                     }});
 
-                    // Convert to old format for compatibility
-                    plan.recipes = Array.from(recipeSet).map(slug => ({{ slug }}));
+                    plan.recipes = meals;
                 }}
             }} catch (e) {{
                 console.error('Error reading local plan:', e);
