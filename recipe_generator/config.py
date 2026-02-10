@@ -1056,10 +1056,11 @@ h1 {
     bottom: 0;
     background-color: rgba(0, 0, 0, 0.7);
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
     z-index: 1000;
-    padding: 20px;
+    padding: 60px 20px 20px;
+    overflow-y: auto;
 }
 .search-modal-content {
     background-color: var(--bg-color);
@@ -1067,8 +1068,9 @@ h1 {
     padding: 24px;
     max-width: 600px;
     width: 100%;
-    max-height: 80vh;
-    overflow-y: auto;
+    max-height: calc(100vh - 80px);
+    display: flex;
+    flex-direction: column;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
 }
 .search-modal-header {
@@ -1076,6 +1078,7 @@ h1 {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
+    flex-shrink: 0;
 }
 .search-modal-title {
     font-size: 1.3em;
@@ -1109,6 +1112,7 @@ h1 {
     color: var(--text-color);
     margin-bottom: 16px;
     box-sizing: border-box;
+    flex-shrink: 0;
 }
 .search-input:focus {
     outline: none;
@@ -1118,6 +1122,9 @@ h1 {
     display: flex;
     flex-direction: column;
     gap: 8px;
+    overflow-y: auto;
+    flex: 1;
+    min-height: 0;
 }
 .search-result-item {
     display: flex;
