@@ -765,6 +765,38 @@ h1 {
 .add-btn:hover {
     background-color: var(--primary-hover);
 }
+.button-group {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+.selection-btn {
+    flex: 1;
+    min-width: 60px;
+    padding: 10px 16px;
+    border: 2px solid var(--border-color);
+    border-radius: 6px;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-size: 1em;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: center;
+}
+.selection-btn:hover {
+    border-color: var(--primary-color);
+    background-color: var(--bg-secondary);
+}
+.selection-btn.selected {
+    background-color: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+}
+.selection-btn.selected:hover {
+    background-color: var(--primary-hover);
+    border-color: var(--primary-hover);
+}
 """
 
 WEEKLY_PAGE_CSS = """

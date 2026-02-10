@@ -532,25 +532,25 @@ def generate_overview_html(
                 <div class="recipe-preview" id="recipePreview"></div>
 
                 <div class="form-group">
-                    <label for="daySelect">{get_text('select_day')}</label>
-                    <select id="daySelect" class="plan-select">
-                        <option value="montag">{get_text('monday')}</option>
-                        <option value="dienstag">{get_text('tuesday')}</option>
-                        <option value="mittwoch">{get_text('wednesday')}</option>
-                        <option value="donnerstag">{get_text('thursday')}</option>
-                        <option value="freitag">{get_text('friday')}</option>
-                        <option value="samstag">{get_text('saturday')}</option>
-                        <option value="sonntag">{get_text('sunday')}</option>
-                    </select>
+                    <label>{get_text('select_day')}</label>
+                    <div class="button-group" id="dayButtons">
+                        <button type="button" class="selection-btn" data-value="montag">Mo</button>
+                        <button type="button" class="selection-btn" data-value="dienstag">Di</button>
+                        <button type="button" class="selection-btn" data-value="mittwoch">Mi</button>
+                        <button type="button" class="selection-btn" data-value="donnerstag">Do</button>
+                        <button type="button" class="selection-btn" data-value="freitag">Fr</button>
+                        <button type="button" class="selection-btn" data-value="samstag">Sa</button>
+                        <button type="button" class="selection-btn" data-value="sonntag">So</button>
+                    </div>
                 </div>
 
                 <div class="form-group">
-                    <label for="mealSelect">{get_text('select_meal')}</label>
-                    <select id="mealSelect" class="plan-select">
-                        <option value="breakfast">{get_text('breakfast')}</option>
-                        <option value="lunch">{get_text('lunch')}</option>
-                        <option value="dinner">{get_text('dinner')}</option>
-                    </select>
+                    <label>{get_text('select_meal')}</label>
+                    <div class="button-group" id="mealButtons">
+                        <button type="button" class="selection-btn" data-value="breakfast">{get_text('breakfast')}</button>
+                        <button type="button" class="selection-btn" data-value="lunch">{get_text('lunch')}</button>
+                        <button type="button" class="selection-btn" data-value="dinner">{get_text('dinner')}</button>
+                    </div>
                 </div>
 
                 <div class="modal-actions">
@@ -794,7 +794,25 @@ def generate_overview_html(
             // Set default to current day
             const today = new Date().getDay();
             const dayMap = ['sonntag', 'montag', 'dienstag', 'mittwoch', 'donnerstag', 'freitag', 'samstag'];
-            document.getElementById('daySelect').value = dayMap[today];
+            const defaultDay = dayMap[today];
+
+            // Select default day button
+            document.querySelectorAll('#dayButtons .selection-btn').forEach(btn => {{
+                if (btn.dataset.value === defaultDay) {{
+                    btn.classList.add('selected');
+                }} else {{
+                    btn.classList.remove('selected');
+                }}
+            }});
+
+            // Select default meal button (breakfast)
+            document.querySelectorAll('#mealButtons .selection-btn').forEach(btn => {{
+                if (btn.dataset.value === 'breakfast') {{
+                    btn.classList.add('selected');
+                }} else {{
+                    btn.classList.remove('selected');
+                }}
+            }});
 
             // Show modal
             document.getElementById('addToPlanModal').style.display = 'flex';
@@ -823,8 +841,17 @@ def generate_overview_html(
         function confirmAddToPlan() {{
             if (!currentRecipeForPlan) return;
 
-            const day = document.getElementById('daySelect').value;
-            const meal = document.getElementById('mealSelect').value;
+            // Get selected day and meal from buttons
+            const selectedDayBtn = document.querySelector('#dayButtons .selection-btn.selected');
+            const selectedMealBtn = document.querySelector('#mealButtons .selection-btn.selected');
+
+            if (!selectedDayBtn || !selectedMealBtn) {{
+                alert('Bitte wählen Sie einen Tag und eine Mahlzeit aus.');
+                return;
+            }}
+
+            const day = selectedDayBtn.dataset.value;
+            const meal = selectedMealBtn.dataset.value;
             const currentWeek = getISOWeek(new Date());
 
             try {{
@@ -904,6 +931,21 @@ def generate_overview_html(
 
             // Update weekly plan button states
             updateAllWeeklyPlanButtons();
+
+            // Add event listeners for day and meal selection buttons
+            document.querySelectorAll('#dayButtons .selection-btn').forEach(btn => {{
+                btn.addEventListener('click', function() {{
+                    document.querySelectorAll('#dayButtons .selection-btn').forEach(b => b.classList.remove('selected'));
+                    this.classList.add('selected');
+                }});
+            }});
+
+            document.querySelectorAll('#mealButtons .selection-btn').forEach(btn => {{
+                btn.addEventListener('click', function() {{
+                    document.querySelectorAll('#mealButtons .selection-btn').forEach(b => b.classList.remove('selected'));
+                    this.classList.add('selected');
+                }});
+            }});
         }});
     </script>
 </body>
