@@ -71,10 +71,6 @@ def generate_navigation() -> str:
             <a href="shopping.html" class="nav-link" aria-label="Shopping List">🛒</a>
             <a href="recipes.html" class="nav-link" aria-label="Recipes Catalog">📖</a>
             <button class="nav-toggle-button" onclick="openSettingsModal()" aria-label="Settings">⚙️</button>
-            <button class="nav-toggle-button" id="darkModeToggle" onclick="toggleDarkMode()" aria-label="Toggle dark mode">
-                <span class="emoji light-mode-icon">☀️</span>
-                <span class="emoji dark-mode-icon">🌙</span>
-            </button>
         </div>
     </div>'''
 
@@ -110,6 +106,15 @@ def generate_settings_modal() -> str:
                         </label>
                     </div>
                     <p class="settings-hint">Wähle aus, welche Mahlzeiten du in deinem Wochenplan sehen möchtest.</p>
+                </div>
+                <div class="form-group">
+                    <label>Darstellung:</label>
+                    <div class="settings-meal-options">
+                        <label class="settings-checkbox">
+                            <input type="checkbox" id="settingDarkMode">
+                            <span>🌙 Dunkelmodus</span>
+                        </label>
+                    </div>
                 </div>
                 <div class="modal-actions">
                     <button class="cancel-btn" onclick="closeSettingsModal()">Abbrechen</button>
@@ -324,9 +329,19 @@ def generate_recipe_detail_html(recipe: dict[str, Any], slug: str) -> str:
                 dinner: document.getElementById('settingDinner').checked
             }};
 
+            const darkModeEnabled = document.getElementById('settingDarkMode').checked;
+
             try {{
                 localStorage.setItem('mealSettings', JSON.stringify(settings));
+                localStorage.setItem('darkMode', darkModeEnabled ? 'enabled' : 'disabled');
                 closeSettingsModal();
+
+                // Apply dark mode immediately
+                if (darkModeEnabled) {{
+                    document.body.classList.add('dark-mode');
+                }} else {{
+                    document.body.classList.remove('dark-mode');
+                }}
             }} catch (e) {{
                 console.error('Error saving settings:', e);
                 alert('Fehler beim Speichern der Einstellungen');
@@ -338,6 +353,11 @@ def generate_recipe_detail_html(recipe: dict[str, Any], slug: str) -> str:
             document.getElementById('settingBreakfast').checked = settings.breakfast;
             document.getElementById('settingLunch').checked = settings.lunch;
             document.getElementById('settingDinner').checked = settings.dinner;
+
+            // Load dark mode setting
+            const darkMode = localStorage.getItem('darkMode');
+            document.getElementById('settingDarkMode').checked = darkMode === 'enabled';
+
             document.getElementById('settingsModal').style.display = 'flex';
         }}
 
@@ -1032,10 +1052,21 @@ def generate_overview_html(
                 dinner: document.getElementById('settingDinner').checked
             }};
 
+            const darkModeEnabled = document.getElementById('settingDarkMode').checked;
+
             try {{
                 localStorage.setItem('mealSettings', JSON.stringify(settings));
+                localStorage.setItem('darkMode', darkModeEnabled ? 'enabled' : 'disabled');
                 closeSettingsModal();
-                // Reload page to apply new settings
+
+                // Apply dark mode immediately
+                if (darkModeEnabled) {{
+                    document.body.classList.add('dark-mode');
+                }} else {{
+                    document.body.classList.remove('dark-mode');
+                }}
+
+                // Reload page to apply new meal settings
                 location.reload();
             }} catch (e) {{
                 console.error('Error saving settings:', e);
@@ -1048,6 +1079,11 @@ def generate_overview_html(
             document.getElementById('settingBreakfast').checked = settings.breakfast;
             document.getElementById('settingLunch').checked = settings.lunch;
             document.getElementById('settingDinner').checked = settings.dinner;
+
+            // Load dark mode setting
+            const darkMode = localStorage.getItem('darkMode');
+            document.getElementById('settingDarkMode').checked = darkMode === 'enabled';
+
             document.getElementById('settingsModal').style.display = 'flex';
         }}
 
@@ -1421,10 +1457,21 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]], deploym
                 dinner: document.getElementById('settingDinner').checked
             }};
 
+            const darkModeEnabled = document.getElementById('settingDarkMode').checked;
+
             try {{
                 localStorage.setItem('mealSettings', JSON.stringify(settings));
+                localStorage.setItem('darkMode', darkModeEnabled ? 'enabled' : 'disabled');
                 closeSettingsModal();
-                // Reload to apply new settings
+
+                // Apply dark mode immediately
+                if (darkModeEnabled) {{
+                    document.body.classList.add('dark-mode');
+                }} else {{
+                    document.body.classList.remove('dark-mode');
+                }}
+
+                // Reload to apply new meal settings
                 renderWeek();
             }} catch (e) {{
                 console.error('Error saving settings:', e);
@@ -1437,6 +1484,11 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]], deploym
             document.getElementById('settingBreakfast').checked = settings.breakfast;
             document.getElementById('settingLunch').checked = settings.lunch;
             document.getElementById('settingDinner').checked = settings.dinner;
+
+            // Load dark mode setting
+            const darkMode = localStorage.getItem('darkMode');
+            document.getElementById('settingDarkMode').checked = darkMode === 'enabled';
+
             document.getElementById('settingsModal').style.display = 'flex';
         }}
 
@@ -1634,9 +1686,20 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]], 
                 dinner: document.getElementById('settingDinner').checked
             }};
 
+            const darkModeEnabled = document.getElementById('settingDarkMode').checked;
+
             try {{
                 localStorage.setItem('mealSettings', JSON.stringify(settings));
+                localStorage.setItem('darkMode', darkModeEnabled ? 'enabled' : 'disabled');
                 closeSettingsModal();
+
+                // Apply dark mode immediately
+                if (darkModeEnabled) {{
+                    document.body.classList.add('dark-mode');
+                }} else {{
+                    document.body.classList.remove('dark-mode');
+                }}
+
                 // Reload shopping list
                 loadShoppingList();
             }} catch (e) {{
@@ -1650,6 +1713,11 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]], 
             document.getElementById('settingBreakfast').checked = settings.breakfast;
             document.getElementById('settingLunch').checked = settings.lunch;
             document.getElementById('settingDinner').checked = settings.dinner;
+
+            // Load dark mode setting
+            const darkMode = localStorage.getItem('darkMode');
+            document.getElementById('settingDarkMode').checked = darkMode === 'enabled';
+
             document.getElementById('settingsModal').style.display = 'flex';
         }}
 
