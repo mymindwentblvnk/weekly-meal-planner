@@ -1440,27 +1440,33 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]], 
         }}
 
         // Get checked items from localStorage (by item ID)
-        function getCheckedItems() {{
+        function getCheckedItems(week) {{
             const checkedKey = 'shoppingListChecked';
-            let checked = {{}};
+            let allChecked = {{}};
 
             try {{
                 const stored = localStorage.getItem(checkedKey);
                 if (stored) {{
-                    checked = JSON.parse(stored);
+                    allChecked = JSON.parse(stored);
                 }}
             }} catch (e) {{
                 console.error('Error reading checked items:', e);
             }}
 
-            return checked;
+            return allChecked[week] || {{}};
         }}
 
-        // Save checked items to localStorage (by item ID)
-        function saveCheckedItems(checked) {{
+        // Save checked items to localStorage (by item ID) for a specific week
+        function saveCheckedItems(week, checked) {{
             const checkedKey = 'shoppingListChecked';
             try {{
-                localStorage.setItem(checkedKey, JSON.stringify(checked));
+                const stored = localStorage.getItem(checkedKey);
+                let allChecked = {{}};
+                if (stored) {{
+                    allChecked = JSON.parse(stored);
+                }}
+                allChecked[week] = checked;
+                localStorage.setItem(checkedKey, JSON.stringify(allChecked));
             }} catch (e) {{
                 console.error('Error saving checked items:', e);
             }}
@@ -1590,14 +1596,14 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]], 
                 listItem.classList.remove('checked');
             }}
 
-            // Update localStorage (by item ID)
-            let checked = getCheckedItems();
+            // Update localStorage (by item ID) for current week
+            let checked = getCheckedItems(currentWeek);
             if (isChecked) {{
                 checked[itemId] = true;
             }} else {{
                 delete checked[itemId];
             }}
-            saveCheckedItems(checked);
+            saveCheckedItems(currentWeek, checked);
         }}
 
         // Scale ingredient amount from original servings to target servings (2)
@@ -1673,13 +1679,13 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]], 
                         <p>{get_text('no_shopping_list_message')}</p>
                     </div>
                 `;
-                // Clear all checked items when no recipes
-                saveCheckedItems({{}});
+                // Clear checked items for current week when no recipes
+                saveCheckedItems(currentWeek, {{}});
                 return;
             }}
 
-            // Load checked state (by item ID)
-            let checked = getCheckedItems();
+            // Load checked state (by item ID) for current week
+            let checked = getCheckedItems(currentWeek);
 
             // Track valid item IDs in current shopping list
             const validItemIds = new Set();
@@ -1768,15 +1774,6 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]], 
 
             html += '</div>';
             container.innerHTML = html;
-
-            // Clean up checked items that are no longer in the shopping list
-            const cleanedChecked = {{}};
-            for (const itemId of validItemIds) {{
-                if (checked[itemId]) {{
-                    cleanedChecked[itemId] = true;
-                }}
-            }}
-            saveCheckedItems(cleanedChecked);
         }}
 
         function loadShoppingListAlphabetical() {{
@@ -1790,13 +1787,13 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]], 
                         <p>{get_text('no_shopping_list_message')}</p>
                     </div>
                 `;
-                // Clear all checked items when no recipes
-                saveCheckedItems({{}});
+                // Clear checked items for current week when no recipes
+                saveCheckedItems(currentWeek, {{}});
                 return;
             }}
 
-            // Load checked state (by item ID)
-            let checked = getCheckedItems();
+            // Load checked state (by item ID) for current week
+            let checked = getCheckedItems(currentWeek);
 
             // Track valid item IDs in current shopping list
             const validItemIds = new Set();
@@ -1862,15 +1859,6 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]], 
             html += '</div>';
             html += '</div>';
             container.innerHTML = html;
-
-            // Clean up checked items that are no longer in the shopping list
-            const cleanedChecked = {{}};
-            for (const itemId of validItemIds) {{
-                if (checked[itemId]) {{
-                    cleanedChecked[itemId] = true;
-                }}
-            }}
-            saveCheckedItems(cleanedChecked);
         }}
 
         // Clean up old weeks from localStorage (keep only current +/- 2 weeks)
@@ -1892,7 +1880,7 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]], 
                     weeksToKeep.add(getISOWeek(date));
                 }}
 
-                // Remove weeks outside the range
+                // Remove weeks outside the range from meal plans
                 let hasChanges = false;
                 for (const week in mealPlans) {{
                     if (!weeksToKeep.has(week)) {{
@@ -1904,6 +1892,22 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]], 
                 // Save back if we made changes
                 if (hasChanges) {{
                     localStorage.setItem('mealPlansV2', JSON.stringify(mealPlans));
+                }}
+
+                // Also clean up checked items for old weeks
+                const checkedStored = localStorage.getItem('shoppingListChecked');
+                if (checkedStored) {{
+                    const allChecked = JSON.parse(checkedStored);
+                    let checkedHasChanges = false;
+                    for (const week in allChecked) {{
+                        if (!weeksToKeep.has(week)) {{
+                            delete allChecked[week];
+                            checkedHasChanges = true;
+                        }}
+                    }}
+                    if (checkedHasChanges) {{
+                        localStorage.setItem('shoppingListChecked', JSON.stringify(allChecked));
+                    }}
                 }}
             }} catch (e) {{
                 console.error('Error cleaning up old weeks:', e);
