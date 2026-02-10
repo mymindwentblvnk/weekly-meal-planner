@@ -1,7 +1,7 @@
 name: Schmorkohl nach Omis Rezept
 description: Herzhafter Schmorkohl mit gemischtem Hackfleisch, Zwiebeln und Kümmel - eine deftige Alternative zu klassischen Kohlrouladen.
 author: Chefkoch
-category: 🍲
+category: 🥩
 servings: 4
 prep_time: 15
 cook_time: 30
@@ -17,12 +17,8 @@ ingredients:
     amount: 1 Kopf
   - name: Zwiebeln
     amount: 3
-  - name: Brühe (gekörnt)
+  - name: Brühe
     amount: 3 TL
-  - name: Korianderpulver
-    amount: 1 EL
-  - name: Zucker
-    amount: 1 EL
   - name: Pfeffer
     amount: 2 TL
   - name: Salz
@@ -32,9 +28,7 @@ ingredients:
   - name: Wasser
     amount: 750 ml
   - name: Hackfleisch (gemischt)
-    amount: 500 g
-  - name: Soßenbinder
-    amount: nach Bedarf
+    amount: 400 g
   - name: Olivenöl
     amount: 6 EL
 

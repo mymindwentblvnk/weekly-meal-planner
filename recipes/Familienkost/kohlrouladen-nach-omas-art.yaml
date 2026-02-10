@@ -1,7 +1,7 @@
 name: Kohlrouladen nach Omas Art
 description: Klassische Kohlrouladen mit Hackfleischfüllung und brauner Soße - zarter Weißkohl gefüllt mit gewürztem Hackfleisch, geschmort in herzhafter Gemüsebrühe.
 author: Familienkost
-category: 🍲
+category: 🥩
 servings: 8
 prep_time: 35
 cook_time: 35
@@ -17,9 +17,7 @@ ingredients:
   - name: Weißkohl
     amount: 1 Kopf
   - name: Hackfleisch
-    amount: 500 g
-  - name: Weizenbrötchen (vom Vortag)
-    amount: 1
+    amount: 400 g
   - name: Zwiebel (klein)
     amount: 1
   - name: Ei
@@ -30,16 +28,12 @@ ingredients:
     amount: nach Geschmack
   - name: Gemüsebrühe
     amount: 800 ml
-  - name: Speisestärke
-    amount: 2 EL
   - name: Kümmel
     amount: 1 TL
   - name: Öl
     amount: zum Braten
-  - name: Schinkenspeck (optional)
-    amount: 50 g
-  - name: Sahne (optional)
-    amount: 100 ml
+  - name: Senf
+    amount: 1 Tl
 
 instructions:
   - Den Weißkohl waschen, den Strunk keilförmig herausschneiden und eine große Gabel in die Mitte stecken. Den Kohlkopf in kochendes Salzwasser legen und 5-10 Minuten ziehen lassen. Herausnehmen und die weichen Blätter ablösen. Falls sich nicht alle Blätter lösen lassen, den Kohl noch einmal ins heiße Wasser zurückgeben.
