@@ -797,6 +797,39 @@ h1 {
     background-color: var(--primary-hover);
     border-color: var(--primary-hover);
 }
+.settings-meal-options {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin: 10px 0;
+}
+.settings-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+}
+.settings-checkbox:hover {
+    background-color: var(--bg-secondary);
+}
+.settings-checkbox input[type="checkbox"] {
+    cursor: pointer;
+    width: 20px;
+    height: 20px;
+}
+.settings-checkbox span {
+    font-size: 1em;
+    color: var(--text-color);
+}
+.settings-hint {
+    font-size: 0.85em;
+    color: var(--text-tertiary);
+    margin-top: 5px;
+    font-style: italic;
+}
 """
 
 WEEKLY_PAGE_CSS = """

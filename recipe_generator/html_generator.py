@@ -70,10 +70,52 @@ def generate_navigation() -> str:
             <a href="index.html" class="nav-link" aria-label="Weekly Plan">🗓️</a>
             <a href="shopping.html" class="nav-link" aria-label="Shopping List">🛒</a>
             <a href="recipes.html" class="nav-link" aria-label="Recipes Catalog">📖</a>
+            <button class="nav-toggle-button" onclick="openSettingsModal()" aria-label="Settings">⚙️</button>
             <button class="nav-toggle-button" id="darkModeToggle" onclick="toggleDarkMode()" aria-label="Toggle dark mode">
                 <span class="emoji light-mode-icon">☀️</span>
                 <span class="emoji dark-mode-icon">🌙</span>
             </button>
+        </div>
+    </div>'''
+
+
+def generate_settings_modal() -> str:
+    """Generate settings modal HTML.
+
+    Returns:
+        HTML for settings modal
+    """
+    return '''<!-- Settings Modal -->
+    <div id="settingsModal" class="add-plan-modal" style="display: none;" onclick="closeSettingsModalOnBackdrop(event)">
+        <div class="add-plan-modal-content" onclick="event.stopPropagation()">
+            <div class="add-plan-modal-header">
+                <h3 class="add-plan-modal-title">Einstellungen</h3>
+                <button class="close-modal-btn" onclick="closeSettingsModal()">×</button>
+            </div>
+            <div class="add-plan-modal-body">
+                <div class="form-group">
+                    <label>Mahlzeiten, die ich plane:</label>
+                    <div class="settings-meal-options">
+                        <label class="settings-checkbox">
+                            <input type="checkbox" id="settingBreakfast" value="breakfast" checked>
+                            <span>Frühstück</span>
+                        </label>
+                        <label class="settings-checkbox">
+                            <input type="checkbox" id="settingLunch" value="lunch" checked>
+                            <span>Mittagessen</span>
+                        </label>
+                        <label class="settings-checkbox">
+                            <input type="checkbox" id="settingDinner" value="dinner" checked>
+                            <span>Abendessen</span>
+                        </label>
+                    </div>
+                    <p class="settings-hint">Wähle aus, welche Mahlzeiten du in deinem Wochenplan sehen möchtest.</p>
+                </div>
+                <div class="modal-actions">
+                    <button class="cancel-btn" onclick="closeSettingsModal()">Abbrechen</button>
+                    <button class="add-btn" onclick="saveSettings()">Speichern</button>
+                </div>
+            </div>
         </div>
     </div>'''
 
@@ -250,6 +292,8 @@ def generate_recipe_detail_html(recipe: dict[str, Any], slug: str) -> str:
         </div>
     </div>
 
+    {generate_settings_modal()}
+
     {generate_footer()}
 
     <script>
@@ -259,6 +303,53 @@ def generate_recipe_detail_html(recipe: dict[str, Any], slug: str) -> str:
             slug: '{escape(slug)}',
             category: '{escape(recipe.get('category', ''))}'
         }};
+
+        // Settings functions
+        function getEnabledMeals() {{
+            try {{
+                const stored = localStorage.getItem('mealSettings');
+                if (stored) {{
+                    return JSON.parse(stored);
+                }}
+            }} catch (e) {{
+                console.error('Error loading meal settings:', e);
+            }}
+            return {{ breakfast: true, lunch: true, dinner: true }};
+        }}
+
+        function saveSettings() {{
+            const settings = {{
+                breakfast: document.getElementById('settingBreakfast').checked,
+                lunch: document.getElementById('settingLunch').checked,
+                dinner: document.getElementById('settingDinner').checked
+            }};
+
+            try {{
+                localStorage.setItem('mealSettings', JSON.stringify(settings));
+                closeSettingsModal();
+            }} catch (e) {{
+                console.error('Error saving settings:', e);
+                alert('Fehler beim Speichern der Einstellungen');
+            }}
+        }}
+
+        function openSettingsModal() {{
+            const settings = getEnabledMeals();
+            document.getElementById('settingBreakfast').checked = settings.breakfast;
+            document.getElementById('settingLunch').checked = settings.lunch;
+            document.getElementById('settingDinner').checked = settings.dinner;
+            document.getElementById('settingsModal').style.display = 'flex';
+        }}
+
+        function closeSettingsModal() {{
+            document.getElementById('settingsModal').style.display = 'none';
+        }}
+
+        function closeSettingsModalOnBackdrop(event) {{
+            if (event.target === event.currentTarget) {{
+                closeSettingsModal();
+            }}
+        }}
 
         // Track page view
         (function trackPageView() {{
@@ -520,6 +611,8 @@ def generate_overview_html(
     </div>
 
     {generate_footer(deployment_time)}
+
+    {generate_settings_modal()}
 
     <!-- Add to Plan Modal -->
     <div id="addToPlanModal" class="add-plan-modal" style="display: none;" onclick="closeModalOnBackdrop(event)">
@@ -919,6 +1012,55 @@ def generate_overview_html(
             }}
         }}
 
+        // Settings functions
+        function getEnabledMeals() {{
+            try {{
+                const stored = localStorage.getItem('mealSettings');
+                if (stored) {{
+                    return JSON.parse(stored);
+                }}
+            }} catch (e) {{
+                console.error('Error loading meal settings:', e);
+            }}
+            return {{ breakfast: true, lunch: true, dinner: true }};
+        }}
+
+        function saveSettings() {{
+            const settings = {{
+                breakfast: document.getElementById('settingBreakfast').checked,
+                lunch: document.getElementById('settingLunch').checked,
+                dinner: document.getElementById('settingDinner').checked
+            }};
+
+            try {{
+                localStorage.setItem('mealSettings', JSON.stringify(settings));
+                closeSettingsModal();
+                // Reload page to apply new settings
+                location.reload();
+            }} catch (e) {{
+                console.error('Error saving settings:', e);
+                alert('Fehler beim Speichern der Einstellungen');
+            }}
+        }}
+
+        function openSettingsModal() {{
+            const settings = getEnabledMeals();
+            document.getElementById('settingBreakfast').checked = settings.breakfast;
+            document.getElementById('settingLunch').checked = settings.lunch;
+            document.getElementById('settingDinner').checked = settings.dinner;
+            document.getElementById('settingsModal').style.display = 'flex';
+        }}
+
+        function closeSettingsModal() {{
+            document.getElementById('settingsModal').style.display = 'none';
+        }}
+
+        function closeSettingsModalOnBackdrop(event) {{
+            if (event.target === event.currentTarget) {{
+                closeSettingsModal();
+            }}
+        }}
+
         {generate_dark_mode_script()}
 
         // Apply saved preferences on page load
@@ -940,12 +1082,26 @@ def generate_overview_html(
                 }});
             }});
 
+            // Filter meal buttons based on settings
+            const enabledMeals = getEnabledMeals();
             document.querySelectorAll('#mealButtons .selection-btn').forEach(btn => {{
-                btn.addEventListener('click', function() {{
-                    document.querySelectorAll('#mealButtons .selection-btn').forEach(b => b.classList.remove('selected'));
-                    this.classList.add('selected');
-                }});
+                const mealType = btn.dataset.value;
+                if (!enabledMeals[mealType]) {{
+                    btn.style.display = 'none';
+                }} else {{
+                    btn.style.display = '';
+                    btn.addEventListener('click', function() {{
+                        document.querySelectorAll('#mealButtons .selection-btn').forEach(b => b.classList.remove('selected'));
+                        this.classList.add('selected');
+                    }});
+                }}
             }});
+
+            // Select first visible meal button by default
+            const firstVisibleMeal = document.querySelector('#mealButtons .selection-btn:not([style*="display: none"])');
+            if (firstVisibleMeal) {{
+                firstVisibleMeal.classList.add('selected');
+            }}
         }});
     </script>
 </body>
@@ -996,6 +1152,8 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]], deploym
     </div>
 
     <div id="daysContainer" class="days-container"></div>
+
+    {generate_settings_modal()}
 
     <div id="searchModal" class="search-modal" style="display: none;" onclick="closeModalOnBackdrop(event)">
         <div class="search-modal-content" onclick="event.stopPropagation()">
@@ -1243,12 +1401,72 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]], deploym
             }}
         }}
 
+        // Settings functions
+        function getEnabledMeals() {{
+            try {{
+                const stored = localStorage.getItem('mealSettings');
+                if (stored) {{
+                    return JSON.parse(stored);
+                }}
+            }} catch (e) {{
+                console.error('Error loading meal settings:', e);
+            }}
+            return {{ breakfast: true, lunch: true, dinner: true }};
+        }}
+
+        function saveSettings() {{
+            const settings = {{
+                breakfast: document.getElementById('settingBreakfast').checked,
+                lunch: document.getElementById('settingLunch').checked,
+                dinner: document.getElementById('settingDinner').checked
+            }};
+
+            try {{
+                localStorage.setItem('mealSettings', JSON.stringify(settings));
+                closeSettingsModal();
+                // Reload to apply new settings
+                renderWeek();
+            }} catch (e) {{
+                console.error('Error saving settings:', e);
+                alert('Fehler beim Speichern der Einstellungen');
+            }}
+        }}
+
+        function openSettingsModal() {{
+            const settings = getEnabledMeals();
+            document.getElementById('settingBreakfast').checked = settings.breakfast;
+            document.getElementById('settingLunch').checked = settings.lunch;
+            document.getElementById('settingDinner').checked = settings.dinner;
+            document.getElementById('settingsModal').style.display = 'flex';
+        }}
+
+        function closeSettingsModal() {{
+            document.getElementById('settingsModal').style.display = 'none';
+        }}
+
+        function closeSettingsModalOnBackdrop(event) {{
+            if (event.target === event.currentTarget) {{
+                closeSettingsModal();
+            }}
+        }}
+
         // Render week view
         function renderWeek() {{
             const dates = getWeekDates(currentWeek);
             const dayNames = ['{get_text('monday')}', '{get_text('tuesday')}', '{get_text('wednesday')}', '{get_text('thursday')}', '{get_text('friday')}', '{get_text('saturday')}', '{get_text('sunday')}'];
-            const mealTypes = ['breakfast', 'lunch', 'dinner'];
-            const mealLabels = ['{get_text('breakfast')}', '{get_text('lunch')}', '{get_text('dinner')}'];
+            const allMealTypes = ['breakfast', 'lunch', 'dinner'];
+            const allMealLabels = ['{get_text('breakfast')}', '{get_text('lunch')}', '{get_text('dinner')}'];
+
+            // Filter meals based on user settings
+            const enabledMeals = getEnabledMeals();
+            const mealTypes = [];
+            const mealLabels = [];
+            allMealTypes.forEach((type, index) => {{
+                if (enabledMeals[type]) {{
+                    mealTypes.push(type);
+                    mealLabels.push(allMealLabels[index]);
+                }}
+            }});
 
             document.getElementById('weekInfo').textContent = `{get_text('week_of')} ${{formatDate(dates[0])}} - ${{formatDate(dates[6])}}`;
 
@@ -1387,12 +1605,63 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]], 
 
     <div id="shoppingListContainer"></div>
 
+    {generate_settings_modal()}
+
     {generate_footer(deployment_time)}
 
     <script>
         const recipeData = {recipe_lookup_json};
         let currentWeek = null;
         let currentView = 'recipe'; // 'recipe' or 'alphabetical'
+
+        // Settings functions
+        function getEnabledMeals() {{
+            try {{
+                const stored = localStorage.getItem('mealSettings');
+                if (stored) {{
+                    return JSON.parse(stored);
+                }}
+            }} catch (e) {{
+                console.error('Error loading meal settings:', e);
+            }}
+            return {{ breakfast: true, lunch: true, dinner: true }};
+        }}
+
+        function saveSettings() {{
+            const settings = {{
+                breakfast: document.getElementById('settingBreakfast').checked,
+                lunch: document.getElementById('settingLunch').checked,
+                dinner: document.getElementById('settingDinner').checked
+            }};
+
+            try {{
+                localStorage.setItem('mealSettings', JSON.stringify(settings));
+                closeSettingsModal();
+                // Reload shopping list
+                loadShoppingList();
+            }} catch (e) {{
+                console.error('Error saving settings:', e);
+                alert('Fehler beim Speichern der Einstellungen');
+            }}
+        }}
+
+        function openSettingsModal() {{
+            const settings = getEnabledMeals();
+            document.getElementById('settingBreakfast').checked = settings.breakfast;
+            document.getElementById('settingLunch').checked = settings.lunch;
+            document.getElementById('settingDinner').checked = settings.dinner;
+            document.getElementById('settingsModal').style.display = 'flex';
+        }}
+
+        function closeSettingsModal() {{
+            document.getElementById('settingsModal').style.display = 'none';
+        }}
+
+        function closeSettingsModalOnBackdrop(event) {{
+            if (event.target === event.currentTarget) {{
+                closeSettingsModal();
+            }}
+        }}
 
         {generate_dark_mode_script()}
 
