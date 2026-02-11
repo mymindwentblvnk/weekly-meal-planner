@@ -1479,17 +1479,9 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]], deploym
             try {{
                 localStorage.setItem('mealSettings', JSON.stringify(settings));
                 localStorage.setItem('darkMode', darkModeEnabled ? 'enabled' : 'disabled');
-                closeSettingsModal();
 
-                // Apply dark mode immediately
-                if (darkModeEnabled) {{
-                    document.body.classList.add('dark-mode');
-                }} else {{
-                    document.body.classList.remove('dark-mode');
-                }}
-
-                // Reload to apply new meal settings
-                renderWeek();
+                // Reload page to apply all settings
+                location.reload();
             }} catch (e) {{
                 console.error('Error saving settings:', e);
                 alert('Fehler beim Speichern der Einstellungen');
@@ -1715,17 +1707,9 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]], 
             try {{
                 localStorage.setItem('mealSettings', JSON.stringify(settings));
                 localStorage.setItem('darkMode', darkModeEnabled ? 'enabled' : 'disabled');
-                closeSettingsModal();
 
-                // Apply dark mode immediately
-                if (darkModeEnabled) {{
-                    document.body.classList.add('dark-mode');
-                }} else {{
-                    document.body.classList.remove('dark-mode');
-                }}
-
-                // Reload shopping list
-                loadShoppingList();
+                // Reload page to apply all settings
+                location.reload();
             }} catch (e) {{
                 console.error('Error saving settings:', e);
                 alert('Fehler beim Speichern der Einstellungen');
