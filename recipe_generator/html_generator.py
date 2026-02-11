@@ -1474,6 +1474,17 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]], deploym
             }});
         }}
 
+        function toggleDay(dayKey) {{
+            const dayCard = document.querySelector(`.day-card[data-day="${{dayKey}}"]`);
+            if (dayCard) {{
+                const isCollapsed = dayCard.classList.toggle('collapsed');
+                const toggle = dayCard.querySelector('.day-toggle');
+                if (toggle) {{
+                    toggle.textContent = isCollapsed ? '▶' : '▼';
+                }}
+            }}
+        }}
+
         // Settings functions
         function getEnabledMeals() {{
             try {{
@@ -1552,13 +1563,23 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]], deploym
             document.getElementById('weekInfo').textContent = `{get_text('week_of')} ${{formatDate(dates[0])}} - ${{formatDate(dates[6])}}`;
 
             let html = '';
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+
             dates.forEach((date, dayIndex) => {{
                 const dayName = dayNames[dayIndex];
                 const dayKey = dayName.toLowerCase();
+                const dayDate = new Date(date);
+                dayDate.setHours(0, 0, 0, 0);
+                const isPast = dayDate < today;
+                const collapsedClass = isPast ? ' collapsed' : '';
 
                 html += `
-                    <div class="day-card">
-                        <div class="day-header">${{dayName}}, ${{formatDate(date)}}</div>
+                    <div class="day-card${{collapsedClass}}" data-day="${{dayKey}}">
+                        <div class="day-header" onclick="toggleDay('${{dayKey}}')">
+                            <span class="day-toggle">${{isPast ? '▶' : '▼'}}</span>
+                            <span>${{dayName}}, ${{formatDate(date)}}</span>
+                        </div>
                         <div class="meals-grid">
                 `;
 

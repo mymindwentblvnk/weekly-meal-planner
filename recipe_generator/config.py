@@ -923,6 +923,26 @@ h1 {
     margin-bottom: 15px;
     padding-bottom: 10px;
     border-bottom: 2px solid var(--border-color);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    user-select: none;
+}
+.day-header:hover {
+    color: var(--primary-hover);
+}
+.day-toggle {
+    font-size: 0.7em;
+    transition: transform 0.2s;
+}
+.day-card.collapsed .meals-grid {
+    display: none;
+}
+.day-card.collapsed .day-header {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
 }
 .meals-grid {
     display: grid;
