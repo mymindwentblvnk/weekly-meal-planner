@@ -228,6 +228,184 @@ body {
     line-height: 1.5;
 }
 
+/* Modal Styles (Settings, Add to Plan, etc.) */
+.add-plan-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 20px;
+}
+.add-plan-modal-content {
+    background-color: var(--bg-color);
+    border-radius: 8px;
+    padding: 24px;
+    max-width: 500px;
+    width: 100%;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+}
+.add-plan-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+.add-plan-modal-title {
+    font-size: 1.3em;
+    font-weight: 600;
+    color: var(--primary-color);
+    margin: 0;
+}
+.close-modal-btn {
+    background: none;
+    border: none;
+    font-size: 2em;
+    color: var(--text-secondary);
+    cursor: pointer;
+    padding: 0;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    transition: all 0.2s;
+}
+.close-modal-btn:hover {
+    background-color: var(--bg-secondary);
+    color: var(--text-color);
+}
+.add-plan-modal-body {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.form-group label {
+    font-weight: 600;
+    color: var(--text-color);
+    font-size: 0.95em;
+}
+.plan-select {
+    padding: 10px 12px;
+    border: 2px solid var(--border-color);
+    border-radius: 6px;
+    font-size: 1em;
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    cursor: pointer;
+    transition: border-color 0.2s;
+}
+.plan-select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+}
+.modal-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+.cancel-btn, .add-btn {
+    flex: 1;
+    padding: 10px 16px;
+    border: none;
+    border-radius: 6px;
+    font-size: 1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.cancel-btn {
+    background-color: var(--bg-secondary);
+    color: var(--text-color);
+    border: 2px solid var(--border-color);
+}
+.cancel-btn:hover {
+    background-color: var(--border-color);
+}
+.add-btn {
+    background-color: var(--primary-color);
+    color: white;
+}
+.add-btn:hover {
+    background-color: var(--primary-hover);
+}
+.button-group {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+.selection-btn {
+    flex: 1;
+    min-width: 60px;
+    padding: 10px 16px;
+    border: 2px solid var(--border-color);
+    border-radius: 6px;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-size: 1em;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: center;
+}
+.selection-btn:hover {
+    border-color: var(--primary-color);
+    background-color: var(--bg-secondary);
+}
+.selection-btn.selected {
+    background-color: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+}
+.selection-btn.selected:hover {
+    background-color: var(--primary-hover);
+    border-color: var(--primary-hover);
+}
+.settings-meal-options {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin: 10px 0;
+}
+.settings-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+}
+.settings-checkbox:hover {
+    background-color: var(--bg-secondary);
+}
+.settings-checkbox input[type="checkbox"] {
+    cursor: pointer;
+    width: 20px;
+    height: 20px;
+}
+.settings-checkbox span {
+    font-size: 1em;
+    color: var(--text-color);
+}
+.settings-hint {
+    font-size: 0.85em;
+    color: var(--text-tertiary);
+    margin-top: 5px;
+    font-style: italic;
+}
+
 """
 
 DETAIL_PAGE_CSS = """
@@ -651,184 +829,6 @@ h1 {
 }
 .deployment-info p {
     margin: 0;
-}
-
-/* Add to Plan Modal */
-.add-plan-modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.7);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
-    padding: 20px;
-}
-.add-plan-modal-content {
-    background-color: var(--bg-color);
-    border-radius: 8px;
-    padding: 24px;
-    max-width: 500px;
-    width: 100%;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-}
-.add-plan-modal-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-}
-.add-plan-modal-title {
-    font-size: 1.3em;
-    font-weight: 600;
-    color: var(--primary-color);
-    margin: 0;
-}
-.close-modal-btn {
-    background: none;
-    border: none;
-    font-size: 2em;
-    color: var(--text-secondary);
-    cursor: pointer;
-    padding: 0;
-    width: 32px;
-    height: 32px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 4px;
-    transition: all 0.2s;
-}
-.close-modal-btn:hover {
-    background-color: var(--bg-secondary);
-    color: var(--text-color);
-}
-.add-plan-modal-body {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-.form-group {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-.form-group label {
-    font-weight: 600;
-    color: var(--text-color);
-    font-size: 0.95em;
-}
-.plan-select {
-    padding: 10px 12px;
-    border: 2px solid var(--border-color);
-    border-radius: 6px;
-    font-size: 1em;
-    color: var(--text-color);
-    background-color: var(--bg-color);
-    cursor: pointer;
-    transition: border-color 0.2s;
-}
-.plan-select:focus {
-    outline: none;
-    border-color: var(--primary-color);
-}
-.modal-actions {
-    display: flex;
-    gap: 10px;
-    margin-top: 10px;
-}
-.cancel-btn, .add-btn {
-    flex: 1;
-    padding: 10px 16px;
-    border: none;
-    border-radius: 6px;
-    font-size: 1em;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s;
-}
-.cancel-btn {
-    background-color: var(--bg-secondary);
-    color: var(--text-color);
-    border: 2px solid var(--border-color);
-}
-.cancel-btn:hover {
-    background-color: var(--border-color);
-}
-.add-btn {
-    background-color: var(--primary-color);
-    color: white;
-}
-.add-btn:hover {
-    background-color: var(--primary-hover);
-}
-.button-group {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-}
-.selection-btn {
-    flex: 1;
-    min-width: 60px;
-    padding: 10px 16px;
-    border: 2px solid var(--border-color);
-    border-radius: 6px;
-    background-color: var(--bg-color);
-    color: var(--text-color);
-    font-size: 1em;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.2s;
-    text-align: center;
-}
-.selection-btn:hover {
-    border-color: var(--primary-color);
-    background-color: var(--bg-secondary);
-}
-.selection-btn.selected {
-    background-color: var(--primary-color);
-    color: white;
-    border-color: var(--primary-color);
-}
-.selection-btn.selected:hover {
-    background-color: var(--primary-hover);
-    border-color: var(--primary-hover);
-}
-.settings-meal-options {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    margin: 10px 0;
-}
-.settings-checkbox {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    cursor: pointer;
-    padding: 8px;
-    border-radius: 4px;
-    transition: background-color 0.2s;
-}
-.settings-checkbox:hover {
-    background-color: var(--bg-secondary);
-}
-.settings-checkbox input[type="checkbox"] {
-    cursor: pointer;
-    width: 20px;
-    height: 20px;
-}
-.settings-checkbox span {
-    font-size: 1em;
-    color: var(--text-color);
-}
-.settings-hint {
-    font-size: 0.85em;
-    color: var(--text-tertiary);
-    margin-top: 5px;
-    font-style: italic;
 }
 """
 
