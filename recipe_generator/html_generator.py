@@ -1577,7 +1577,6 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]], deploym
                                         <a href="${{recipe.filename}}" class="recipe-link">${{recipe.name}}</a>
                                     </div>
                                     <div class="servings-control">
-                                        <span class="servings-label">{get_text('servings')}:</span>
                                         <div class="servings-adjuster">
                                             <button class="servings-btn" onclick="adjustServings('${{dayKey}}', '${{mealType}}', -1)">−</button>
                                             <span class="servings-value">${{mealData.servings}}</span>
