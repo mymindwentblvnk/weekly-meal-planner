@@ -41,7 +41,7 @@ TEXTS = {
     "weekly_plan_title": "Wochenplan",
     "current_week": "Aktuelle Woche",
     "previous_week": "← Vorherige Woche",
-    "next_week": "Nächste Woche →",
+    "next_week": "Nächste Woche",
     "week_of": "Woche vom",
     "monday": "Montag",
     "tuesday": "Dienstag",
@@ -890,8 +890,7 @@ h1 {
     background-color: #5a35a1;
 }
 .week-nav-btn:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
+    cursor: default;
 }
 .week-info {
     font-size: 1.1em;
@@ -1289,8 +1288,7 @@ h1 {
     background-color: #5a35a1;
 }
 .week-nav-btn:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
+    cursor: default;
 }
 .week-info {
     font-size: 1.1em;
