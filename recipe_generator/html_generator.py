@@ -1644,13 +1644,19 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]], deploym
 
             document.getElementById('daysContainer').innerHTML = html;
 
-            // Scroll to today's card
+            // Scroll to today's card after a delay to show header first
             setTimeout(() => {{
                 const todayCard = document.getElementById('today-card');
                 if (todayCard) {{
-                    todayCard.scrollIntoView({{ behavior: 'smooth', block: 'start' }});
+                    // Use smooth scroll with custom timing
+                    const scrollOptions = {{
+                        behavior: 'smooth',
+                        block: 'start',
+                        inline: 'nearest'
+                    }};
+                    todayCard.scrollIntoView(scrollOptions);
                 }}
-            }}, 100);
+            }}, 800);
         }}
 
         // Initialize
