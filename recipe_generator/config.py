@@ -936,7 +936,8 @@ h1 {
     font-size: 0.7em;
     transition: transform 0.2s;
 }
-.day-card.collapsed .meals-grid {
+.day-card.collapsed .meals-grid,
+.day-card.collapsed .day-todos {
     display: none;
 }
 .day-card.collapsed .day-header {
