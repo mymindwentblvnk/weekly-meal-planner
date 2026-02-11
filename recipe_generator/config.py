@@ -1007,6 +1007,20 @@ h1 {
 .remove-meal-btn:hover {
     background-color: #c53030;
 }
+.copy-link-btn {
+    padding: 6px 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    font-size: 1.1em;
+    background-color: var(--bg-secondary);
+    color: var(--text-color);
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.copy-link-btn:hover {
+    background-color: var(--border-color);
+    border-color: var(--primary-color);
+}
 .servings-control {
     display: flex;
     align-items: center;

@@ -1454,6 +1454,26 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]], deploym
             }}
         }}
 
+        function copyRecipeLink(filename, recipeName) {{
+            const fullUrl = window.location.origin + window.location.pathname.replace('index.html', '') + filename;
+
+            navigator.clipboard.writeText(fullUrl).then(() => {{
+                // Show temporary success feedback
+                const btn = event.target;
+                const originalText = btn.textContent;
+                btn.textContent = '✓';
+                btn.style.backgroundColor = 'var(--primary-color)';
+
+                setTimeout(() => {{
+                    btn.textContent = originalText;
+                    btn.style.backgroundColor = '';
+                }}, 1500);
+            }}).catch(err => {{
+                console.error('Failed to copy link:', err);
+                alert('Link konnte nicht kopiert werden');
+            }});
+        }}
+
         // Settings functions
         function getEnabledMeals() {{
             try {{
@@ -1565,6 +1585,7 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]], deploym
                                         </div>
                                     </div>
                                     <div class="meal-actions">
+                                        <button class="copy-link-btn" onclick="copyRecipeLink('${{recipe.filename}}', '${{recipe.name}}')" title="Link kopieren">🔗</button>
                                         <button class="change-btn" onclick="openSearchModal('${{dayKey}}', '${{mealType}}')">Ändern</button>
                                         <button class="remove-meal-btn" onclick="removeMeal('${{dayKey}}', '${{mealType}}')">Entfernen</button>
                                     </div>
