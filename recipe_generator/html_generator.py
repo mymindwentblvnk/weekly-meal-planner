@@ -1572,10 +1572,12 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]], deploym
                 const dayDate = new Date(date);
                 dayDate.setHours(0, 0, 0, 0);
                 const isPast = dayDate < today;
+                const isToday = dayDate.getTime() === today.getTime();
                 const collapsedClass = isPast ? ' collapsed' : '';
+                const todayId = isToday ? ' id="today-card"' : '';
 
                 html += `
-                    <div class="day-card${{collapsedClass}}" data-day="${{dayKey}}">
+                    <div class="day-card${{collapsedClass}}" data-day="${{dayKey}}"${{todayId}}>
                         <div class="day-header" onclick="toggleDay('${{dayKey}}')">
                             <span class="day-toggle">${{isPast ? '▶' : '▼'}}</span>
                             <span>${{dayName}}, ${{formatDate(date)}}</span>
@@ -1641,6 +1643,14 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]], deploym
             }});
 
             document.getElementById('daysContainer').innerHTML = html;
+
+            // Scroll to today's card
+            setTimeout(() => {{
+                const todayCard = document.getElementById('today-card');
+                if (todayCard) {{
+                    todayCard.scrollIntoView({{ behavior: 'smooth', block: 'start' }});
+                }}
+            }}, 100);
         }}
 
         // Initialize
