@@ -885,9 +885,12 @@ h1 {
     background-color: var(--primary-color);
     color: white;
     border-color: var(--primary-color);
+    opacity: 0.5;
+    cursor: default;
 }
 .week-nav-btn.active:hover {
-    background-color: #5a35a1;
+    background-color: var(--primary-color);
+    opacity: 0.5;
 }
 .week-nav-btn:disabled {
     cursor: default;
@@ -1283,9 +1286,12 @@ h1 {
     background-color: var(--primary-color);
     color: white;
     border-color: var(--primary-color);
+    opacity: 0.5;
+    cursor: default;
 }
 .week-nav-btn.active:hover {
-    background-color: #5a35a1;
+    background-color: var(--primary-color);
+    opacity: 0.5;
 }
 .week-nav-btn:disabled {
     cursor: default;
