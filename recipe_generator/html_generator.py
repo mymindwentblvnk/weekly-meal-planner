@@ -1354,12 +1354,18 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]], deploym
 
         // Week navigation
         function goToNextWeek() {{
-            const dates = getWeekDates(currentWeek);
-            const nextMonday = new Date(dates[0]);
-            nextMonday.setDate(nextMonday.getDate() + 7);
-            currentWeek = getISOWeek(nextMonday);
-            updateWeekButtons();
-            renderWeek();
+            const today = new Date();
+            const thisWeek = getISOWeek(today);
+            const nextWeekDate = new Date(today);
+            nextWeekDate.setDate(nextWeekDate.getDate() + 7);
+            const nextWeek = getISOWeek(nextWeekDate);
+
+            // Only allow navigation to next week if currently viewing this week
+            if (currentWeek === thisWeek) {{
+                currentWeek = nextWeek;
+                updateWeekButtons();
+                renderWeek();
+            }}
         }}
 
         function goToCurrentWeek() {{
@@ -1369,18 +1375,21 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]], deploym
         }}
 
         function updateWeekButtons() {{
-            const today = getISOWeek(new Date());
-            const dates = getWeekDates(currentWeek);
-            const nextMonday = new Date(dates[0]);
-            nextMonday.setDate(nextMonday.getDate() + 7);
-            const nextWeek = getISOWeek(nextMonday);
+            const today = new Date();
+            const thisWeek = getISOWeek(today);
+            const nextWeekDate = new Date(today);
+            nextWeekDate.setDate(nextWeekDate.getDate() + 7);
+            const nextWeek = getISOWeek(nextWeekDate);
 
             // Update button states
-            document.getElementById('thisWeekBtn').classList.toggle('active', currentWeek === today);
-            document.getElementById('nextWeekBtn').classList.toggle('active', currentWeek === nextWeek);
+            const isThisWeek = currentWeek === thisWeek;
+            const isNextWeek = currentWeek === nextWeek;
 
-            // Disable next week button if already viewing it
-            document.getElementById('nextWeekBtn').disabled = currentWeek === nextWeek;
+            document.getElementById('thisWeekBtn').classList.toggle('active', isThisWeek);
+            document.getElementById('nextWeekBtn').classList.toggle('active', isNextWeek);
+
+            // Disable next week button if already viewing next week
+            document.getElementById('nextWeekBtn').disabled = isNextWeek;
         }}
 
         // Recipe search and assignment
@@ -1603,7 +1612,14 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]], deploym
 
         // Initialize
         document.addEventListener('DOMContentLoaded', function() {{
-            currentWeek = getISOWeek(new Date());
+            const today = new Date();
+            const thisWeek = getISOWeek(today);
+            const nextWeekDate = new Date(today);
+            nextWeekDate.setDate(nextWeekDate.getDate() + 7);
+            const nextWeek = getISOWeek(nextWeekDate);
+
+            // Always start with current week
+            currentWeek = thisWeek;
             cleanupOldWeeks();
             updateWeekButtons();
             renderWeek();
@@ -2032,13 +2048,19 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]], 
         }}
 
         function goToNextWeek() {{
-            const dates = getWeekDates(currentWeek);
-            const nextMonday = new Date(dates[0]);
-            nextMonday.setDate(nextMonday.getDate() + 7);
-            currentWeek = getISOWeek(nextMonday);
-            updateWeekButtons();
-            updateWeekInfo();
-            loadShoppingList();
+            const today = new Date();
+            const thisWeek = getISOWeek(today);
+            const nextWeekDate = new Date(today);
+            nextWeekDate.setDate(nextWeekDate.getDate() + 7);
+            const nextWeek = getISOWeek(nextWeekDate);
+
+            // Only allow navigation to next week if currently viewing this week
+            if (currentWeek === thisWeek) {{
+                currentWeek = nextWeek;
+                updateWeekButtons();
+                updateWeekInfo();
+                loadShoppingList();
+            }}
         }}
 
         function goToCurrentWeek() {{
@@ -2049,18 +2071,21 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]], 
         }}
 
         function updateWeekButtons() {{
-            const today = getISOWeek(new Date());
-            const dates = getWeekDates(currentWeek);
-            const nextMonday = new Date(dates[0]);
-            nextMonday.setDate(nextMonday.getDate() + 7);
-            const nextWeek = getISOWeek(nextMonday);
+            const today = new Date();
+            const thisWeek = getISOWeek(today);
+            const nextWeekDate = new Date(today);
+            nextWeekDate.setDate(nextWeekDate.getDate() + 7);
+            const nextWeek = getISOWeek(nextWeekDate);
 
             // Update button states
-            document.getElementById('thisWeekBtn').classList.toggle('active', currentWeek === today);
-            document.getElementById('nextWeekBtn').classList.toggle('active', currentWeek === nextWeek);
+            const isThisWeek = currentWeek === thisWeek;
+            const isNextWeek = currentWeek === nextWeek;
 
-            // Disable next week button if already viewing it
-            document.getElementById('nextWeekBtn').disabled = currentWeek === nextWeek;
+            document.getElementById('thisWeekBtn').classList.toggle('active', isThisWeek);
+            document.getElementById('nextWeekBtn').classList.toggle('active', isNextWeek);
+
+            // Disable next week button if already viewing next week
+            document.getElementById('nextWeekBtn').disabled = isNextWeek;
         }}
 
         function loadShoppingList() {{
@@ -2311,7 +2336,14 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]], 
 
         // Load shopping list on page load
         document.addEventListener('DOMContentLoaded', function() {{
-            currentWeek = getISOWeek(new Date());
+            const today = new Date();
+            const thisWeek = getISOWeek(today);
+            const nextWeekDate = new Date(today);
+            nextWeekDate.setDate(nextWeekDate.getDate() + 7);
+            const nextWeek = getISOWeek(nextWeekDate);
+
+            // Always start with current week
+            currentWeek = thisWeek;
             updateWeekInfo();
             cleanupOldWeeks();
             updateWeekButtons();
