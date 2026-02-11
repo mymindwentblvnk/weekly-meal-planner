@@ -957,6 +957,7 @@ h1 {
     display: flex;
     flex-direction: column;
     gap: 8px;
+    align-items: center;
 }
 .assigned-recipe {
     display: flex;
