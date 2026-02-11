@@ -993,6 +993,7 @@ h1 {
     font-weight: 500;
     cursor: pointer;
     transition: all 0.2s;
+    flex: 1;
 }
 .assign-btn, .change-btn {
     background-color: var(--primary-color);
@@ -1009,14 +1010,15 @@ h1 {
     background-color: #c53030;
 }
 .copy-link-btn {
-    padding: 6px 10px;
+    padding: 2px 6px;
     border: 1px solid var(--border-color);
-    border-radius: 4px;
-    font-size: 1.1em;
+    border-radius: 3px;
+    font-size: 0.9em;
     background-color: var(--bg-secondary);
     color: var(--text-color);
     cursor: pointer;
     transition: all 0.2s;
+    margin-left: 6px;
 }
 .copy-link-btn:hover {
     background-color: var(--border-color);

@@ -1575,6 +1575,7 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]], deploym
                                     <div class="assigned-recipe">
                                         <span class="recipe-emoji">${{recipe.category}}</span>
                                         <a href="${{recipe.filename}}" class="recipe-link">${{recipe.name}}</a>
+                                        <button class="copy-link-btn" onclick="copyRecipeLink('${{recipe.filename}}', '${{recipe.name}}')" title="Link kopieren">🔗</button>
                                     </div>
                                     <div class="servings-control">
                                         <div class="servings-adjuster">
@@ -1584,7 +1585,6 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]], deploym
                                         </div>
                                     </div>
                                     <div class="meal-actions">
-                                        <button class="copy-link-btn" onclick="copyRecipeLink('${{recipe.filename}}', '${{recipe.name}}')" title="Link kopieren">🔗</button>
                                         <button class="change-btn" onclick="openSearchModal('${{dayKey}}', '${{mealType}}')">Ändern</button>
                                         <button class="remove-meal-btn" onclick="removeMeal('${{dayKey}}', '${{mealType}}')">Entfernen</button>
                                     </div>
