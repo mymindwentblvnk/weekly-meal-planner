@@ -868,25 +868,30 @@ h1 {
 }
 .week-nav-btn {
     padding: 10px 16px;
-    background-color: var(--primary-color);
-    color: white;
-    border: none;
+    background-color: var(--bg-secondary);
+    color: var(--text-color);
+    border: 2px solid var(--border-color);
     border-radius: 6px;
     cursor: pointer;
     font-size: 0.95em;
     font-weight: 500;
     transition: all 0.2s;
 }
-.week-nav-btn:hover {
+.week-nav-btn:hover:not(:disabled) {
+    background-color: var(--border-color);
+    border-color: var(--primary-color);
+}
+.week-nav-btn.active {
+    background-color: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+}
+.week-nav-btn.active:hover {
     background-color: #5a35a1;
 }
-.current-week-btn {
-    background-color: var(--bg-secondary);
-    color: var(--text-color);
-    border: 2px solid var(--primary-color);
-}
-.current-week-btn:hover {
-    background-color: var(--border-color);
+.week-nav-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
 }
 .week-info {
     font-size: 1.1em;
@@ -1262,25 +1267,30 @@ h1 {
 }
 .week-nav-btn {
     padding: 10px 16px;
-    background-color: var(--primary-color);
-    color: white;
-    border: none;
+    background-color: var(--bg-secondary);
+    color: var(--text-color);
+    border: 2px solid var(--border-color);
     border-radius: 6px;
     cursor: pointer;
     font-size: 0.95em;
     font-weight: 500;
     transition: all 0.2s;
 }
-.week-nav-btn:hover {
+.week-nav-btn:hover:not(:disabled) {
+    background-color: var(--border-color);
+    border-color: var(--primary-color);
+}
+.week-nav-btn.active {
+    background-color: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+}
+.week-nav-btn.active:hover {
     background-color: #5a35a1;
 }
-.current-week-btn {
-    background-color: var(--bg-secondary);
-    color: var(--text-color);
-    border: 2px solid var(--primary-color);
-}
-.current-week-btn:hover {
-    background-color: var(--border-color);
+.week-nav-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
 }
 .week-info {
     font-size: 1.1em;

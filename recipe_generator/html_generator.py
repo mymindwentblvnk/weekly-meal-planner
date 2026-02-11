@@ -1180,9 +1180,8 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]], deploym
 
     <div class="week-navigation">
         <div class="week-nav-buttons">
-            <button class="week-nav-btn" onclick="previousWeek()">{get_text('previous_week')}</button>
-            <button class="week-nav-btn current-week-btn" onclick="goToCurrentWeek()">{get_text('current_week')}</button>
-            <button class="week-nav-btn" onclick="nextWeek()">{get_text('next_week')}</button>
+            <button class="week-nav-btn current-week-btn" id="thisWeekBtn" onclick="goToCurrentWeek()">{get_text('current_week')}</button>
+            <button class="week-nav-btn" id="nextWeekBtn" onclick="goToNextWeek()">{get_text('next_week')}</button>
         </div>
         <div class="week-info" id="weekInfo"></div>
     </div>
@@ -1316,24 +1315,24 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]], deploym
             saveMealPlans(plans);
         }}
 
-        // Clean up old weeks from localStorage (keep only current +/- 2 weeks)
+        // Clean up old weeks from localStorage (keep only current week and next week)
         function cleanupOldWeeks() {{
             try {{
                 const stored = localStorage.getItem('mealPlansV2');
                 if (!stored) return;
 
                 const mealPlans = JSON.parse(stored);
-                const currentWeekNow = getISOWeek(new Date());
-
-                // Calculate week range to keep (current - 2 to current + 2)
-                const weeksToKeep = new Set();
                 const currentDate = new Date();
 
-                for (let offset = -2; offset <= 2; offset++) {{
-                    const date = new Date(currentDate);
-                    date.setDate(date.getDate() + (offset * 7));
-                    weeksToKeep.add(getISOWeek(date));
-                }}
+                // Calculate weeks to keep (current week and next week only)
+                const weeksToKeep = new Set();
+                const thisWeek = getISOWeek(currentDate);
+                const nextWeekDate = new Date(currentDate);
+                nextWeekDate.setDate(nextWeekDate.getDate() + 7);
+                const nextWeek = getISOWeek(nextWeekDate);
+
+                weeksToKeep.add(thisWeek);
+                weeksToKeep.add(nextWeek);
 
                 // Remove weeks outside the range
                 let hasChanges = false;
@@ -1354,25 +1353,34 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]], deploym
         }}
 
         // Week navigation
-        function previousWeek() {{
-            const dates = getWeekDates(currentWeek);
-            const prevMonday = new Date(dates[0]);
-            prevMonday.setDate(prevMonday.getDate() - 7);
-            currentWeek = getISOWeek(prevMonday);
-            renderWeek();
-        }}
-
-        function nextWeek() {{
+        function goToNextWeek() {{
             const dates = getWeekDates(currentWeek);
             const nextMonday = new Date(dates[0]);
             nextMonday.setDate(nextMonday.getDate() + 7);
             currentWeek = getISOWeek(nextMonday);
+            updateWeekButtons();
             renderWeek();
         }}
 
         function goToCurrentWeek() {{
             currentWeek = getISOWeek(new Date());
+            updateWeekButtons();
             renderWeek();
+        }}
+
+        function updateWeekButtons() {{
+            const today = getISOWeek(new Date());
+            const dates = getWeekDates(currentWeek);
+            const nextMonday = new Date(dates[0]);
+            nextMonday.setDate(nextMonday.getDate() + 7);
+            const nextWeek = getISOWeek(nextMonday);
+
+            // Update button states
+            document.getElementById('thisWeekBtn').classList.toggle('active', currentWeek === today);
+            document.getElementById('nextWeekBtn').classList.toggle('active', currentWeek === nextWeek);
+
+            // Disable next week button if already viewing it
+            document.getElementById('nextWeekBtn').disabled = currentWeek === nextWeek;
         }}
 
         // Recipe search and assignment
@@ -1597,6 +1605,7 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]], deploym
         document.addEventListener('DOMContentLoaded', function() {{
             currentWeek = getISOWeek(new Date());
             cleanupOldWeeks();
+            updateWeekButtons();
             renderWeek();
             initializeDarkMode();
         }});
@@ -1641,9 +1650,8 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]], 
 
     <div class="week-navigation">
         <div class="week-nav-buttons">
-            <button class="week-nav-btn" onclick="previousWeek()">{get_text('previous_week')}</button>
-            <button class="week-nav-btn current-week-btn" onclick="goToCurrentWeek()">{get_text('current_week')}</button>
-            <button class="week-nav-btn" onclick="nextWeek()">{get_text('next_week')}</button>
+            <button class="week-nav-btn current-week-btn" id="thisWeekBtn" onclick="goToCurrentWeek()">{get_text('current_week')}</button>
+            <button class="week-nav-btn" id="nextWeekBtn" onclick="goToNextWeek()">{get_text('next_week')}</button>
         </div>
         <div class="week-info" id="weekInfo"></div>
     </div>
@@ -2023,28 +2031,36 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]], 
             document.getElementById('weekInfo').textContent = `{get_text('week_of')} ${{formatDate(dates[0])}} - ${{formatDate(dates[6])}}`;
         }}
 
-        function previousWeek() {{
-            const dates = getWeekDates(currentWeek);
-            const prevMonday = new Date(dates[0]);
-            prevMonday.setDate(prevMonday.getDate() - 7);
-            currentWeek = getISOWeek(prevMonday);
-            updateWeekInfo();
-            loadShoppingList();
-        }}
-
-        function nextWeek() {{
+        function goToNextWeek() {{
             const dates = getWeekDates(currentWeek);
             const nextMonday = new Date(dates[0]);
             nextMonday.setDate(nextMonday.getDate() + 7);
             currentWeek = getISOWeek(nextMonday);
+            updateWeekButtons();
             updateWeekInfo();
             loadShoppingList();
         }}
 
         function goToCurrentWeek() {{
             currentWeek = getISOWeek(new Date());
+            updateWeekButtons();
             updateWeekInfo();
             loadShoppingList();
+        }}
+
+        function updateWeekButtons() {{
+            const today = getISOWeek(new Date());
+            const dates = getWeekDates(currentWeek);
+            const nextMonday = new Date(dates[0]);
+            nextMonday.setDate(nextMonday.getDate() + 7);
+            const nextWeek = getISOWeek(nextMonday);
+
+            // Update button states
+            document.getElementById('thisWeekBtn').classList.toggle('active', currentWeek === today);
+            document.getElementById('nextWeekBtn').classList.toggle('active', currentWeek === nextWeek);
+
+            // Disable next week button if already viewing it
+            document.getElementById('nextWeekBtn').disabled = currentWeek === nextWeek;
         }}
 
         function loadShoppingList() {{
@@ -2240,24 +2256,24 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]], 
             container.innerHTML = html;
         }}
 
-        // Clean up old weeks from localStorage (keep only current +/- 2 weeks)
+        // Clean up old weeks from localStorage (keep only current week and next week)
         function cleanupOldWeeks() {{
             try {{
                 const stored = localStorage.getItem('mealPlansV2');
                 if (!stored) return;
 
                 const mealPlans = JSON.parse(stored);
-                const currentWeek = getISOWeek(new Date());
-
-                // Calculate week range to keep (current - 2 to current + 2)
-                const weeksToKeep = new Set();
                 const currentDate = new Date();
 
-                for (let offset = -2; offset <= 2; offset++) {{
-                    const date = new Date(currentDate);
-                    date.setDate(date.getDate() + (offset * 7));
-                    weeksToKeep.add(getISOWeek(date));
-                }}
+                // Calculate weeks to keep (current week and next week only)
+                const weeksToKeep = new Set();
+                const thisWeek = getISOWeek(currentDate);
+                const nextWeekDate = new Date(currentDate);
+                nextWeekDate.setDate(nextWeekDate.getDate() + 7);
+                const nextWeek = getISOWeek(nextWeekDate);
+
+                weeksToKeep.add(thisWeek);
+                weeksToKeep.add(nextWeek);
 
                 // Remove weeks outside the range from meal plans
                 let hasChanges = false;
@@ -2298,6 +2314,7 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]], 
             currentWeek = getISOWeek(new Date());
             updateWeekInfo();
             cleanupOldWeeks();
+            updateWeekButtons();
             loadShoppingList();
             initializeDarkMode();
 
