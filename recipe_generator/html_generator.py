@@ -1156,7 +1156,7 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]], deploym
     Returns:
         Complete HTML page as a string
     """
-    # Create recipe lookup by slug with tags and servings
+    # Create recipe lookup by slug with tags, servings, author, and category
     recipe_lookup = {}
     for filename, recipe in recipes_data:
         slug = filename.replace('.html', '')
@@ -1164,20 +1164,36 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]], deploym
             'name': recipe['name'],
             'filename': filename,
             'category': recipe.get('category', ''),
+            'author': recipe.get('author', ''),
             'tags': recipe.get('tags', []),
             'servings': recipe.get('servings', 2)
         }
 
-    # Collect all unique tags and recipe names for powerful search
+    # Collect all unique tags, recipe names, authors, and categories for powerful search
     all_tags = set()
     all_recipe_names = []
+    all_authors = set()
+    all_categories = set()
     all_search_items = []
+
+    # Category labels (for known categories)
+    category_labels = {
+        '🥩': get_text('filter_meat'),
+        '🐟': get_text('filter_fish'),
+        '🥦': get_text('filter_vegetarian'),
+        '🍞': get_text('filter_bread'),
+        '🥣': get_text('filter_sweet')
+    }
 
     for filename, recipe in recipes_data:
         if 'tags' in recipe and recipe['tags']:
             all_tags.update(recipe['tags'])
         if 'name' in recipe and recipe['name']:
             all_recipe_names.append({'name': recipe['name'], 'slug': filename.replace('.html', '')})
+        if 'author' in recipe and recipe['author']:
+            all_authors.add(recipe['author'])
+        if 'category' in recipe and recipe['category']:
+            all_categories.add(recipe['category'])
 
     # Add recipe names with type indicator
     for recipe_info in sorted(all_recipe_names, key=lambda x: x['name']):
@@ -1186,6 +1202,16 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]], deploym
     # Add tags with type indicator
     for tag in sorted(all_tags):
         all_search_items.append({'label': tag, 'type': 'tag'})
+
+    # Add authors with type indicator
+    for author in sorted(all_authors):
+        all_search_items.append({'label': author, 'type': 'author'})
+
+    # Add categories with type indicator
+    for cat in sorted(all_categories):
+        # Use label from map if available, otherwise just use the emoji
+        label = category_labels.get(cat, cat)
+        all_search_items.append({'label': f"{cat} {label}", 'value': cat, 'type': 'category'})
 
     # Generate recipe lookup as JSON for JavaScript
     import json
@@ -1474,7 +1500,10 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]], deploym
                 matches.slice(0, 10).forEach(item => {{
                     const suggestionEl = document.createElement('div');
                     suggestionEl.className = 'search-suggestion';
-                    const typeLabel = item.type === 'tag' ? '🏷️ ' : item.type === 'recipe' ? '🍽️ ' : '';
+                    const typeLabel = item.type === 'tag' ? '🏷️ ' :
+                                     item.type === 'recipe' ? '🍽️ ' :
+                                     item.type === 'author' ? '👤 ' :
+                                     item.type === 'category' ? '📁 ' : '';
                     suggestionEl.innerHTML = `${{typeLabel}}${{item.label}}`;
                     suggestionEl.addEventListener('click', () => addItem(item));
                     autocomplete.appendChild(suggestionEl);
@@ -1552,7 +1581,10 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]], deploym
                 itemEl.className = 'selected-item';
 
                 // Add type indicator
-                const typeLabel = item.type === 'tag' ? '🏷️ ' : item.type === 'recipe' ? '🍽️ ' : '';
+                const typeLabel = item.type === 'tag' ? '🏷️ ' :
+                                 item.type === 'recipe' ? '🍽️ ' :
+                                 item.type === 'author' ? '👤 ' :
+                                 item.type === 'category' ? '📁 ' : '';
                 itemEl.innerHTML = `
                     <span>${{typeLabel}}${{item.label}}</span>
                     <span class="selected-item-remove" onclick='removeItem(${{JSON.stringify(item)}})'>&times;</span>
@@ -1584,6 +1616,8 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]], deploym
             // Separate selected items by type
             const selectedTags = selectedItems.filter(i => i.type === 'tag').map(i => i.label);
             const selectedRecipes = selectedItems.filter(i => i.type === 'recipe').map(i => i.value);
+            const selectedAuthors = selectedItems.filter(i => i.type === 'author').map(i => i.label);
+            const selectedCategories = selectedItems.filter(i => i.type === 'category').map(i => i.value);
 
             // Get simple text query from input
             const query = searchInput.value.toLowerCase().trim();
@@ -1595,13 +1629,19 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]], deploym
                 // Check if matches tag filter (recipe must have ALL selected tags)
                 const matchesTags = selectedTags.length === 0 || selectedTags.every(tag => recipe.tags?.includes(tag));
 
+                // Check if matches author filter (empty = show all)
+                const matchesAuthor = selectedAuthors.length === 0 || selectedAuthors.includes(recipe.author);
+
+                // Check if matches category filter (empty = show all)
+                const matchesCategory = selectedCategories.length === 0 || selectedCategories.includes(recipe.category);
+
                 // Check if matches text query (name or tags)
                 const matchesQuery = !query ||
                     recipe.name.toLowerCase().includes(query) ||
                     recipe.tags?.some(tag => tag.toLowerCase().includes(query));
 
                 // Show recipe only if it matches all filters
-                return matchesRecipe && matchesTags && matchesQuery;
+                return matchesRecipe && matchesTags && matchesAuthor && matchesCategory && matchesQuery;
             }});
 
             const resultsHtml = results.map(([slug, recipe]) => `
