@@ -5,35 +5,38 @@ category: 🍞
 servings: 1
 prep_time: 10  # minutes
 cook_time: 50  # minutes
+estimated_cost: 6.96  # EUR - 5/7 ingredients priced
 tags:
-  - Eier
-  - Frühstück
-  - Haferflocken
-  - Kerne
-  - Quark
-  - Salat
-  - Sesam
-  - Tomate
+- Eier
+- Frühstück
+- Haferflocken
+- Kerne
+- Quark
+- Salat
+- Sesam
+- Tomate
 
 ingredients:
-  - name: Rucola
-    amount: 60 g
-  - name: Getrocknete Tomaten (ohne Öl)
-    amount: 20 g
-  - name: Haferflocken
-    amount: 500 g
-  - name: Quark (Fettanteil 20%)
-    amount: 500 g
-  - name: Backpulver
-    amount: 25 g
-  - name: Eier
-    amount: 3
-  - name: Sesam
-    amount: 40 g
+- name: Rucola
+  amount: 60 g
+- name: Getrocknete Tomaten (ohne Öl)
+  amount: 20 g
+- name: Haferflocken
+  amount: 500 g
+- name: Quark (Fettanteil 20%)
+  amount: 500 g
+- name: Backpulver
+  amount: 25 g
+- name: Eier
+  amount: 3
+- name: Sesam
+  amount: 40 g
 
 instructions:
-  - Backofen auf 180 °C Ober-/Unterhitze vorheizen.
-  - Rucola und getrocknete Tomaten klein schneiden.
-  - Haferflocken, Quark, Backpulver, Eier, Rucola, Tomaten, Salz und Pfeffer zu einem Teig vermengen.
-  - Brotlaib formen, mit etwas Wasser bestreichen und Sesam bestreuen.
-  - Brot auf ein mit Backpapier ausgelegtes Backblech legen und für etwa 50 Minuten backen.
+- Backofen auf 180 °C Ober-/Unterhitze vorheizen.
+- Rucola und getrocknete Tomaten klein schneiden.
+- Haferflocken, Quark, Backpulver, Eier, Rucola, Tomaten, Salz und Pfeffer zu einem
+  Teig vermengen.
+- Brotlaib formen, mit etwas Wasser bestreichen und Sesam bestreuen.
+- Brot auf ein mit Backpapier ausgelegtes Backblech legen und für etwa 50 Minuten
+  backen.

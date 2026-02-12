@@ -1,62 +1,67 @@
 name: Mildes Chili con Chicken mit Reis
-description: Zartes Hähnchenfleisch in würziger Tomaten-Mais-Sauce mit Karotten, serviert auf Reis - ein mildes, familienfreundliches Chili mit köstlichem Geschmack.
+description: Zartes Hähnchenfleisch in würziger Tomaten-Mais-Sauce mit Karotten, serviert
+  auf Reis - ein mildes, familienfreundliches Chili mit köstlichem Geschmack.
 author: Choosy
 category: 🥩
 servings: 2
-prep_time: 10
-cook_time: 15
+prep_time: 10  # minutes
+cook_time: 15  # minutes
+estimated_cost: 20.50  # EUR - 5/16 ingredients priced
 tags:
-  - Fleisch
-  - Karotte
-  - Kräuter
-  - Öl
-  - Pute
-  - Reis
-  - Tomate
-  - Zwiebel
+- Fleisch
+- Karotte
+- Kräuter
+- Öl
+- Pute
+- Reis
+- Tomate
+- Zwiebel
 
 ingredients:
-  - name: Hähnchenbrustfilet
-    amount: 320 g
-  - name: Weißer Reis
-    amount: 150 g
-  - name: Mais (aus der Dose)
-    amount: 140 g
-  - name: Karotten
-    amount: 100 g
-  - name: Gehackte Tomaten (aus der Dose)
-    amount: 400 g
-  - name: Zwiebel
-    amount: 1
-  - name: Frische Petersilie
-    amount: 10 g
-  - name: Knoblauch
-    amount: 1 Zehe
-  - name: Gemahlener Kreuzkümmel
-    amount: 1/2 TL
-  - name: Paprikapulver (süß)
-    amount: 1 TL
-  - name: Rapsöl
-    amount: 1,5 EL
-  - name: Salz
-    amount: nach Geschmack
-  - name: Schwarzer Pfeffer
-    amount: nach Geschmack
-  - name: Zucker
-    amount: nach Geschmack
-  - name: Balsamico-Essig
-    amount: 1 EL
-  - name: Wasser
-    amount: 100 ml
+- name: Hähnchenbrustfilet
+  amount: 320 g
+- name: Weißer Reis
+  amount: 150 g
+- name: Mais (aus der Dose)
+  amount: 140 g
+- name: Karotten
+  amount: 100 g
+- name: Gehackte Tomaten (aus der Dose)
+  amount: 400 g
+- name: Zwiebel
+  amount: 1
+- name: Frische Petersilie
+  amount: 10 g
+- name: Knoblauch
+  amount: 1 Zehe
+- name: Gemahlener Kreuzkümmel
+  amount: 1/2 TL
+- name: Paprikapulver (süß)
+  amount: 1 TL
+- name: Rapsöl
+  amount: 1,5 EL
+- name: Salz
+  amount: nach Geschmack
+- name: Schwarzer Pfeffer
+  amount: nach Geschmack
+- name: Zucker
+  amount: nach Geschmack
+- name: Balsamico-Essig
+  amount: 1 EL
+- name: Wasser
+  amount: 100 ml
 
 instructions:
-  - Den Reis nach Packungsanweisung kochen.
-  - Zwiebel und Knoblauch schälen und hacken. Karotten schälen und raspeln.
-  - Das Hähnchenbrustfilet mit Salz würzen. Öl erhitzen und das Hähnchen 1-2 Minuten pro Seite anbraten, dann herausnehmen.
-  - Die Hitze reduzieren und Zwiebeln, Knoblauch und Karotten 2-3 Minuten anbraten. Kreuzkümmel und Paprikapulver hinzufügen und 30 Sekunden anbraten.
-  - Mit gehackten Tomaten, Balsamico-Essig und Wasser ablöschen.
-  - Das Hähnchen und den Mais (mit Flüssigkeit) zurück in den Topf geben. Etwa 10 Minuten köcheln lassen, bis das Hähnchen durchgegart ist.
-  - Die Petersilie hacken.
-  - Das Hähnchen mit zwei Gabeln zerkleinern und zurück in den Topf geben.
-  - Mit Salz, Pfeffer und Zucker abschmecken.
-  - Das Chili über den Reis geben, mit Petersilie garnieren und servieren.
+- Den Reis nach Packungsanweisung kochen.
+- Zwiebel und Knoblauch schälen und hacken. Karotten schälen und raspeln.
+- Das Hähnchenbrustfilet mit Salz würzen. Öl erhitzen und das Hähnchen 1-2 Minuten
+  pro Seite anbraten, dann herausnehmen.
+- Die Hitze reduzieren und Zwiebeln, Knoblauch und Karotten 2-3 Minuten anbraten.
+  Kreuzkümmel und Paprikapulver hinzufügen und 30 Sekunden anbraten.
+- Mit gehackten Tomaten, Balsamico-Essig und Wasser ablöschen.
+- Das Hähnchen und den Mais (mit Flüssigkeit) zurück in den Topf geben. Etwa 10 Minuten
+  köcheln lassen, bis das Hähnchen durchgegart ist.
+- Die Petersilie hacken.
+- Das Hähnchen mit zwei Gabeln zerkleinern und zurück in den Topf geben.
+- Mit Salz, Pfeffer und Zucker abschmecken.
+- Das Chili über den Reis geben, mit Petersilie garnieren und servieren.

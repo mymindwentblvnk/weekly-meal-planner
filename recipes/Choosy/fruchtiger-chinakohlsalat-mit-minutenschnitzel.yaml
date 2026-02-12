@@ -1,41 +1,45 @@
 name: Fruchtiger Chinakohlsalat mit Minutenschnitzel
-description: Knackiger Chinakohlsalat mit Apfel und Mandarinen in cremigem Dressing, serviert mit gebratenen Minutenschnitzeln - eine fruchtig-herzhafte Kombination.
+description: Knackiger Chinakohlsalat mit Apfel und Mandarinen in cremigem Dressing,
+  serviert mit gebratenen Minutenschnitzeln - eine fruchtig-herzhafte Kombination.
 author: Choosy
 category: 🥩
 servings: 2
-prep_time: 15
-cook_time: 10
+prep_time: 15  # minutes
+cook_time: 10  # minutes
+estimated_cost: 11.20  # EUR - 3/9 ingredients priced
 tags:
-  - Apfel
-  - Fleisch
-  - Kohl
-  - Obst
-  - Öl
+- Apfel
+- Fleisch
+- Kohl
+- Obst
+- Öl
 
 ingredients:
-  - name: Chinakohl
-    amount: 1 Kopf
-  - name: Apfel
-    amount: 1
-  - name: Sahne
-    amount: 150 ml
-  - name: Zucker
-    amount: 2 EL
-  - name: Minutenschnitzel (Schwein)
-    amount: 300 g
-  - name: Mandarinen (aus der Dose)
-    amount: 1 Dose
-  - name: Zitrone
-    amount: 1/2
-  - name: Apfelessig
-    amount: 1 EL
-  - name: Öl
-    amount: zum Braten
+- name: Chinakohl
+  amount: 1 Kopf
+- name: Apfel
+  amount: 1
+- name: Sahne
+  amount: 150 ml
+- name: Zucker
+  amount: 2 EL
+- name: Minutenschnitzel (Schwein)
+  amount: 300 g
+- name: Mandarinen (aus der Dose)
+  amount: 1 Dose
+- name: Zitrone
+  amount: 1/2
+- name: Apfelessig
+  amount: 1 EL
+- name: Öl
+  amount: zum Braten
 
 instructions:
-  - Den Chinakohl waschen, den Strunk entfernen und fein schneiden. Den Apfel waschen und würfeln. Die Mandarinen aus der Dose abtropfen lassen. Alles in einer Salatschüssel vermengen.
-  - Öl in einer Pfanne erhitzen und die Minutenschnitzel von beiden Seiten anbraten.
-  - Die Sahne mit Zucker verquirlen, bis sich der Zucker vollständig aufgelöst hat.
-  - Apfelessig und Zitronensaft unterrühren.
-  - Das Dressing in die Salatschüssel geben und gründlich vermengen.
-  - Den Salat mit den Minutenschnitzeln anrichten und servieren.
+- Den Chinakohl waschen, den Strunk entfernen und fein schneiden. Den Apfel waschen
+  und würfeln. Die Mandarinen aus der Dose abtropfen lassen. Alles in einer Salatschüssel
+  vermengen.
+- Öl in einer Pfanne erhitzen und die Minutenschnitzel von beiden Seiten anbraten.
+- Die Sahne mit Zucker verquirlen, bis sich der Zucker vollständig aufgelöst hat.
+- Apfelessig und Zitronensaft unterrühren.
+- Das Dressing in die Salatschüssel geben und gründlich vermengen.
+- Den Salat mit den Minutenschnitzeln anrichten und servieren.

@@ -1,35 +1,40 @@
 name: Rührei wie im Hotel
-description: Unglaublich fluffiges, cremiges und aromatisches Rührei mit Butter – genau wie im gehobenen Hotel. Das Geheimnis liegt in der richtigen Technik und Temperatur.
+description: Unglaublich fluffiges, cremiges und aromatisches Rührei mit Butter –
+  genau wie im gehobenen Hotel. Das Geheimnis liegt in der richtigen Technik und Temperatur.
 author: Chefkoch
 category: 🥣
 servings: 2
 prep_time: 5  # minutes
 cook_time: 5  # minutes
+estimated_cost: 2.24  # EUR - 4/5 ingredients priced
 tags:
-  - Butter
-  - Eier
-  - Kräuter
-  - Öl
+- Butter
+- Eier
+- Kräuter
+- Öl
 
 ingredients:
-  - name: Eier (groß)
-    amount: 4
-  - name: Butter
-    amount: 20 g
-  - name: Schnittlauch
-    amount: 1 Halm
-  - name: Salz
-    amount: 1 Prise
-  - name: Schwarzer Pfeffer
-    amount: nach Geschmack
+- name: Eier (groß)
+  amount: 4
+- name: Butter
+  amount: 20 g
+- name: Schnittlauch
+  amount: 1 Halm
+- name: Salz
+  amount: 1 Prise
+- name: Schwarzer Pfeffer
+  amount: nach Geschmack
 
 instructions:
-  - Pfanne sehr stark erhitzen und mit etwas Olivenöl einreiben (mit Küchenpapier verteilen)
-  - Butter in der Mikrowelle bei 150 Watt schmelzen (nur leicht, nicht bräunen)
-  - Eier in eine Schüssel geben, mit Salz, Pfeffer und fein geschnittenem Schnittlauch würzen
-  - Geschmolzene Butter zu den Eiern geben und kräftig verquirlen
-  - Eiermasse in die sehr heiße Pfanne gießen – sie zischt sofort
-  - Mit Holzspatel die erstarrende Masse in krausen Falten vom Pfannenboden lösen und nach oben ziehen
-  - Nach ca. 5 Sekunden, wenn die Masse noch leicht glänzend ist, sofort aus der Pfanne in eine vorgewärmte Schüssel geben
-  - Das Ei gart in der Schüssel nach und bleibt saftig
-  - Sofort servieren
+- Pfanne sehr stark erhitzen und mit etwas Olivenöl einreiben (mit Küchenpapier verteilen)
+- Butter in der Mikrowelle bei 150 Watt schmelzen (nur leicht, nicht bräunen)
+- Eier in eine Schüssel geben, mit Salz, Pfeffer und fein geschnittenem Schnittlauch
+  würzen
+- Geschmolzene Butter zu den Eiern geben und kräftig verquirlen
+- Eiermasse in die sehr heiße Pfanne gießen – sie zischt sofort
+- Mit Holzspatel die erstarrende Masse in krausen Falten vom Pfannenboden lösen und
+  nach oben ziehen
+- Nach ca. 5 Sekunden, wenn die Masse noch leicht glänzend ist, sofort aus der Pfanne
+  in eine vorgewärmte Schüssel geben
+- Das Ei gart in der Schüssel nach und bleibt saftig
+- Sofort servieren

@@ -1,50 +1,63 @@
 name: Gulasch nach Oma Magda
-description: Herzhaftes Rindergulasch mit Paprika und Zwiebeln in würziger Sauce nach Omas traditionellem Rezept.
+description: Herzhaftes Rindergulasch mit Paprika und Zwiebeln in würziger Sauce nach
+  Omas traditionellem Rezept.
 author: Chefkoch
 category: 🥩
 servings: 6
 prep_time: 30  # minutes
 cook_time: 240  # minutes
+estimated_cost: 35.24  # EUR - 5/13 ingredients priced
 tags:
-  - Butter
-  - Eier
-  - Fleisch
-  - Karotte
-  - Paprika
-  - Rind
-  - Sellerie
-  - Tomate
-  - Zwiebel
+- Butter
+- Eier
+- Fleisch
+- Karotte
+- Paprika
+- Rind
+- Sellerie
+- Tomate
+- Zwiebel
 
 ingredients:
-  - name: Butterschmalz
-    amount: 2 EL
-  - name: Zwiebeln (groß)
-    amount: 4
-  - name: Tomatenmark
-    amount: 2 EL
-  - name: Karotte
-    amount: 1
-  - name: Knollensellerie
-    amount: 50 g
-  - name: Rotwein
-    amount: 0,7 l
-  - name: Rindfleisch
-    amount: 1 kg
-  - name: Rinderbrühe
-    amount: 300 ml
-  - name: Paprikapulver (edelsüß)
-    amount: 1 TL (gehäuft)
-  - name: Paprikapulver (rosenscharf)
-    amount: 1 TL (gehäuft)
-  - name: Lorbeerblätter
-    amount: 2
-  - name: Salz
-    amount: nach Geschmack
-  - name: Pfeffer
-    amount: nach Geschmack
+- name: Butterschmalz
+  amount: 2 EL
+- name: Zwiebeln (groß)
+  amount: 4
+- name: Tomatenmark
+  amount: 2 EL
+- name: Karotte
+  amount: 1
+- name: Knollensellerie
+  amount: 50 g
+- name: Rotwein
+  amount: 0,7 l
+- name: Rindfleisch
+  amount: 1 kg
+- name: Rinderbrühe
+  amount: 300 ml
+- name: Paprikapulver (edelsüß)
+  amount: 1 TL (gehäuft)
+- name: Paprikapulver (rosenscharf)
+  amount: 1 TL (gehäuft)
+- name: Lorbeerblätter
+  amount: 2
+- name: Salz
+  amount: nach Geschmack
+- name: Pfeffer
+  amount: nach Geschmack
 
 instructions:
-  - Die Zwiebeln in 0,5 cm große Würfel schneiden, Karotte und Sellerie würfeln. Alles in 2 EL Butterschmalz kräftig anbraten. Tomatenmark zugeben und andünsten bis sich eine homogene Masse bildet, das Mark darf ruhig ein bisschen ansetzen. Paprikapulver kurz mitrösten (Vorsicht, darf nicht verbrennen!). Mit dem Rotwein und der Brühe ablöschen und zum Kochen bringen. Jetzt erst das gewürfelte Fleisch dazu geben, wieder aufkochen und bei kleiner Hitze mit den Lorbeerblättern ca. 2 Stunden mit aufgelegtem Deckel köcheln lassen.
-  - Durch das Gemüse ist es normalerweise nicht nötig, die Sauce zu binden. Wenn sie allerdings zu flüssig ist, kann man das Gulasch mit 1 EL in kaltem Wasser aufgelöstem Stärkemehl andicken. Dann noch abschmecken mit Salz und Pfeffer. Die Lorbeerblätter fische ich nach Möglichkeit vor dem Servieren raus.
-  - Dies ist ein Grundrezept für Gulasch, man kann es wunderbar abwandeln, indem man z. B. eine halbe Stunde vor Ende der Garzeit noch Sahne, Kartoffeln und/oder Paprikaschoten zugibt. Ich gebe auch immer noch Knoblauch dazu, den mochte aber meine Oma nicht.
+- Die Zwiebeln in 0,5 cm große Würfel schneiden, Karotte und Sellerie würfeln. Alles
+  in 2 EL Butterschmalz kräftig anbraten. Tomatenmark zugeben und andünsten bis sich
+  eine homogene Masse bildet, das Mark darf ruhig ein bisschen ansetzen. Paprikapulver
+  kurz mitrösten (Vorsicht, darf nicht verbrennen!). Mit dem Rotwein und der Brühe
+  ablöschen und zum Kochen bringen. Jetzt erst das gewürfelte Fleisch dazu geben,
+  wieder aufkochen und bei kleiner Hitze mit den Lorbeerblättern ca. 2 Stunden mit
+  aufgelegtem Deckel köcheln lassen.
+- Durch das Gemüse ist es normalerweise nicht nötig, die Sauce zu binden. Wenn sie
+  allerdings zu flüssig ist, kann man das Gulasch mit 1 EL in kaltem Wasser aufgelöstem
+  Stärkemehl andicken. Dann noch abschmecken mit Salz und Pfeffer. Die Lorbeerblätter
+  fische ich nach Möglichkeit vor dem Servieren raus.
+- Dies ist ein Grundrezept für Gulasch, man kann es wunderbar abwandeln, indem man
+  z. B. eine halbe Stunde vor Ende der Garzeit noch Sahne, Kartoffeln und/oder Paprikaschoten
+  zugibt. Ich gebe auch immer noch Knoblauch dazu, den mochte aber meine Oma nicht.

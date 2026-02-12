@@ -1,37 +1,41 @@
 name: Spinatpüree mit Spiegelei
-description: Cremiges Spinatpüree mit Frischkäse und Gewürzen, serviert mit gebratenen Spiegeleiern.
+description: Cremiges Spinatpüree mit Frischkäse und Gewürzen, serviert mit gebratenen
+  Spiegeleiern.
 author: VitaMoment
 category: 🥦
 servings: 1
 prep_time: 5  # minutes
-cook_time: 15   # minutes
+cook_time: 15  # minutes
+estimated_cost: 3.98  # EUR - 4/7 ingredients priced
 tags:
-  - Butter
-  - Eier
-  - Frischkäse
-  - Käse
-  - Spinat
-  - Zwiebel
+- Butter
+- Eier
+- Frischkäse
+- Käse
+- Spinat
+- Zwiebel
 
 ingredients:
-  - name: Zwiebel
-    amount: 1
-  - name: Butter
-    amount: 15 g
-  - name: Blattspinat
-    amount: 300 g
-  - name: Eier
-    amount: 2
-  - name: Frischkäse (Doppelrahmstufe)
-    amount: 30 g
-  - name: Kreuzkümmel
-    amount: 1 Prise
-  - name: Muskat
-    amount: 1 Prise
+- name: Zwiebel
+  amount: 1
+- name: Butter
+  amount: 15 g
+- name: Blattspinat
+  amount: 300 g
+- name: Eier
+  amount: 2
+- name: Frischkäse (Doppelrahmstufe)
+  amount: 30 g
+- name: Kreuzkümmel
+  amount: 1 Prise
+- name: Muskat
+  amount: 1 Prise
 
 instructions:
-  - Zwiebel schälen und in Ringe schneiden.
-  - Hälfte der Butter in einem kleinen Topf zum Schmelzen bringen, Blattspinat und Zwiebeln hinzugeben und für etwa 5-8 Minuten dünsten.
-  - In der Zwischenzeit Eier mit der restlichen Butter in einer Pfanne braten.
-  - Spinat-Zwiebelmischung pürieren, Frischkäse hinzugeben und mit Salz, Pfeffer, Kreuzkümmel und Muskat abschmecken.
-  - Beides auf einem Teller servieren.
+- Zwiebel schälen und in Ringe schneiden.
+- Hälfte der Butter in einem kleinen Topf zum Schmelzen bringen, Blattspinat und Zwiebeln
+  hinzugeben und für etwa 5-8 Minuten dünsten.
+- In der Zwischenzeit Eier mit der restlichen Butter in einer Pfanne braten.
+- Spinat-Zwiebelmischung pürieren, Frischkäse hinzugeben und mit Salz, Pfeffer, Kreuzkümmel
+  und Muskat abschmecken.
+- Beides auf einem Teller servieren.

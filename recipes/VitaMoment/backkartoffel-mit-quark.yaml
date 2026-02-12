@@ -1,38 +1,42 @@
 name: Backkartoffel mit Quark
-description: Ofengebackene Kartoffel gefüllt mit cremigem Magerquark-Joghurt-Dip, verfeinert mit frischen Radieschen, Gurke und Petersilie.
+description: Ofengebackene Kartoffel gefüllt mit cremigem Magerquark-Joghurt-Dip,
+  verfeinert mit frischen Radieschen, Gurke und Petersilie.
 author: VitaMoment
 category: 🥦
 servings: 1
-prep_time: 5   # minutes
+prep_time: 5  # minutes
 cook_time: 60  # minutes
+estimated_cost: 0.20  # EUR - 1/7 ingredients priced
 tags:
-  - Eier
-  - Gurke
-  - Joghurt
-  - Kartoffeln
-  - Kräuter
-  - Quark
-  - Radieschen
+- Eier
+- Gurke
+- Joghurt
+- Kartoffeln
+- Kräuter
+- Quark
+- Radieschen
 
 ingredients:
-  - name: Kartoffel (groß)
-    amount: 1
-  - name: Radieschen
-    amount: 50 g
-  - name: Gurke
-    amount: 150 g
-  - name: Magerquark
-    amount: 100 g
-  - name: Griechischer Joghurt
-    amount: 50 g
-  - name: Leinöl
-    amount: 10 ml
-  - name: Petersilie (gehackt)
-    amount: 1 EL
+- name: Kartoffel (groß)
+  amount: 1
+- name: Radieschen
+  amount: 50 g
+- name: Gurke
+  amount: 150 g
+- name: Magerquark
+  amount: 100 g
+- name: Griechischer Joghurt
+  amount: 50 g
+- name: Leinöl
+  amount: 10 ml
+- name: Petersilie (gehackt)
+  amount: 1 EL
 
 instructions:
-  - Backofen auf 200 °C Ober-/Unterhitze vorheizen.
-  - Kartoffel waschen, salzen und in Alufolie wickeln. Für rund 30-40 Minuten im Ofen backen.
-  - Radieschen und Gurke waschen und grob reiben.
-  - Gemüse, Magerquark, Joghurt und Leinöl mit der Petersilie verrühren und mit Salz und Pfeffer würzen.
-  - Kartoffel mittig einschneiden und mit dem Quark füllen.
+- Backofen auf 200 °C Ober-/Unterhitze vorheizen.
+- Kartoffel waschen, salzen und in Alufolie wickeln. Für rund 30-40 Minuten im Ofen
+  backen.
+- Radieschen und Gurke waschen und grob reiben.
+- Gemüse, Magerquark, Joghurt und Leinöl mit der Petersilie verrühren und mit Salz
+  und Pfeffer würzen.
+- Kartoffel mittig einschneiden und mit dem Quark füllen.

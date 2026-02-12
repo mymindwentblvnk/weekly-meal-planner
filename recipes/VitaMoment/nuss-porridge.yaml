@@ -5,32 +5,35 @@ category: 🥣
 servings: 1
 prep_time: 5  # minutes
 cook_time: 10  # minutes
+estimated_cost: 2.03  # EUR - 5/7 ingredients priced
 tags:
-  - Beeren
-  - Frühstück
-  - Haferflocken
-  - Haselnüsse
-  - Himbeeren
-  - Milch
-  - Nüsse
+- Beeren
+- Frühstück
+- Haferflocken
+- Haselnüsse
+- Himbeeren
+- Milch
+- Nüsse
 
 ingredients:
-  - name: Milch
-    amount: 200 ml
-  - name: Haferflocken
-    amount: 50 g
-  - name: Salz
-    amount: 1 Prise
-  - name: Zimt
-    amount: nach Gefühl
-  - name: Himbeeren
-    amount: 100 g
-  - name: Erdnussmus
-    amount: 15 g
-  - name: Haselnüsse (gehackt)
-    amount: 10 g
+- name: Milch
+  amount: 200 ml
+- name: Haferflocken
+  amount: 50 g
+- name: Salz
+  amount: 1 Prise
+- name: Zimt
+  amount: nach Gefühl
+- name: Himbeeren
+  amount: 100 g
+- name: Erdnussmus
+  amount: 15 g
+- name: Haselnüsse (gehackt)
+  amount: 10 g
 
 instructions:
-  - Milch mit Haferflocken und einer Prise Salz in einen Topf geben, kurz aufkochen und vom Herd nehmen.
-  - Etwa 10 Minuten quellen lassen.
-  - Zimt unterrühren und in eine Schüssel füllen. Mit Himbeeren, Erdnussmus und Haselnüssen garnieren.
+- Milch mit Haferflocken und einer Prise Salz in einen Topf geben, kurz aufkochen
+  und vom Herd nehmen.
+- Etwa 10 Minuten quellen lassen.
+- Zimt unterrühren und in eine Schüssel füllen. Mit Himbeeren, Erdnussmus und Haselnüssen
+  garnieren.

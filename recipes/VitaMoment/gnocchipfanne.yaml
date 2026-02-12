@@ -5,37 +5,39 @@ category: 🥦
 servings: 1
 prep_time: 10  # minutes
 cook_time: 10  # minutes
+estimated_cost: 1.30  # EUR - 2/8 ingredients priced
 tags:
-  - Blumenkohl
-  - Brokkoli
-  - Käse
-  - Kohl
-  - Mandeln
-  - Nüsse
-  - Öl
-  - Pasta
-  - Schafskäse
+- Blumenkohl
+- Brokkoli
+- Käse
+- Kohl
+- Mandeln
+- Nüsse
+- Öl
+- Pasta
+- Schafskäse
 
 ingredients:
-  - name: Blumenkohl
-    amount: 100 g
-  - name: Brokkoli
-    amount: 100 g
-  - name: Kokosöl
-    amount: 10 g
-  - name: Gnocchi (glutenfrei)
-    amount: 125 g
-  - name: Fenchelsaat
-    amount: 1 Prise
-  - name: Thymian
-    amount: 1 Prise
-  - name: Schafskäse (light)
-    amount: 75 g
-  - name: Mandeln (gehobelt)
-    amount: 15 g
+- name: Blumenkohl
+  amount: 100 g
+- name: Brokkoli
+  amount: 100 g
+- name: Kokosöl
+  amount: 10 g
+- name: Gnocchi (glutenfrei)
+  amount: 125 g
+- name: Fenchelsaat
+  amount: 1 Prise
+- name: Thymian
+  amount: 1 Prise
+- name: Schafskäse (light)
+  amount: 75 g
+- name: Mandeln (gehobelt)
+  amount: 15 g
 
 instructions:
-  - Blumenkohl und Brokkoli waschen, Blätter und Strunk entfernen. Kleine Röschen abtrennen.
-  - Kokosöl in einer Pfanne erhitzen, Blumenkohl und Brokkoli darin rundherum 2-3 Minuten scharf anbra-ten. Mit Salz, Pfeffer, Fenchelsaat und Thymian würzen.
-  - Gnocchi in die Pfanne geben und 2-3 Minuten anbraten. Schafskäse unterrühren.
-  - Auf einen tiefen Teller geben und mit gehobelten Mandeln garnieren.
+- Blumenkohl und Brokkoli waschen, Blätter und Strunk entfernen. Kleine Röschen abtrennen.
+- Kokosöl in einer Pfanne erhitzen, Blumenkohl und Brokkoli darin rundherum 2-3 Minuten
+  scharf anbra-ten. Mit Salz, Pfeffer, Fenchelsaat und Thymian würzen.
+- Gnocchi in die Pfanne geben und 2-3 Minuten anbraten. Schafskäse unterrühren.
+- Auf einen tiefen Teller geben und mit gehobelten Mandeln garnieren.

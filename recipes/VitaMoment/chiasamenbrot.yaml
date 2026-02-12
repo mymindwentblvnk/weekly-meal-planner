@@ -5,38 +5,41 @@ category: 🍞
 servings: 1
 prep_time: 10  # minutes
 cook_time: 60  # minutes
+estimated_cost: 5.20  # EUR - 5/8 ingredients priced
 tags:
-  - Chiasamen
-  - Eier
-  - Frühstück
-  - Haferflocken
-  - Kerne
-  - Leinsamen
-  - Mandeln
-  - Nüsse
-  - Quark
+- Chiasamen
+- Eier
+- Frühstück
+- Haferflocken
+- Kerne
+- Leinsamen
+- Mandeln
+- Nüsse
+- Quark
 
 ingredients:
-  - name: Magerquark
-    amount: 300 g
-  - name: Eier
-    amount: 4
-  - name: Chiasamen
-    amount: 100 g
-  - name: Leinsamen (geschrotet)
-    amount: 30 g
-  - name: Mandeln (gemahlen)
-    amount: 70 g
-  - name: Backpulver
-    amount: 12 g
-  - name: Chiliflocken
-    amount: 1 Prise
-  - name: Haferflocken (zum Bestreuen)
-    amount: 20 g
+- name: Magerquark
+  amount: 300 g
+- name: Eier
+  amount: 4
+- name: Chiasamen
+  amount: 100 g
+- name: Leinsamen (geschrotet)
+  amount: 30 g
+- name: Mandeln (gemahlen)
+  amount: 70 g
+- name: Backpulver
+  amount: 12 g
+- name: Chiliflocken
+  amount: 1 Prise
+- name: Haferflocken (zum Bestreuen)
+  amount: 20 g
 
 instructions:
-  - Backofen auf 180 °C Ober-/Unterhitze vorheizen.
-  - Magerquark mit den Eiern in einer großen Schüssel cremig rühren.
-  - Chiasamen, Leinsamen, Mandeln, Backpulver, Salz, Pfeffer und Chiliflocken hinzufügen und gut vermengen.
-  - In eine mit Backpapier ausgekleidete Kastenform füllen, etwas Wasser aufpinseln und nach Belieben mit Haferflocken bestreuen.
-  - Für etwa 60 Minuten im Ofen backen.
+- Backofen auf 180 °C Ober-/Unterhitze vorheizen.
+- Magerquark mit den Eiern in einer großen Schüssel cremig rühren.
+- Chiasamen, Leinsamen, Mandeln, Backpulver, Salz, Pfeffer und Chiliflocken hinzufügen
+  und gut vermengen.
+- In eine mit Backpapier ausgekleidete Kastenform füllen, etwas Wasser aufpinseln
+  und nach Belieben mit Haferflocken bestreuen.
+- Für etwa 60 Minuten im Ofen backen.

@@ -3,30 +3,33 @@ description: Erfrischender Sommersalat mit Minze und Limetten-Dressing
 author: mymindwentblvnk
 category: 🥦
 servings: 4
-prep_time: 15
-cook_time: 0
+prep_time: 15  # minutes
+cook_time: 0  # minutes
+estimated_cost: 5.12  # EUR - 5/6 ingredients priced
 tags:
-  - Feta
-  - Käse
-  - Limette
-  - Minze
-  - Wassermelone
+- Feta
+- Käse
+- Limette
+- Minze
+- Wassermelone
 
 ingredients:
-  - name: Wassermelone (klein)
-    amount: 1
-  - name: Feta
-    amount: 150 g
-  - name: Minze (frisch)
-    amount: 4 Stiele
-  - name: Limette (Saft)
-    amount: 1
-  - name: Ahornsirup
-    amount: 1 TL
-  - name: Salz und Pfeffer
-    amount: nach Geschmack
+- name: Wassermelone (klein)
+  amount: 1
+- name: Feta
+  amount: 150 g
+- name: Minze (frisch)
+  amount: 4 Stiele
+- name: Limette (Saft)
+  amount: 1
+- name: Ahornsirup
+  amount: 1 TL
+- name: Salz und Pfeffer
+  amount: nach Geschmack
 
 instructions:
-  - Für das Dressing Limettensaft auspressen und mit Ahornsirup, Salz und Pfeffer vermischen.
-  - Wassermelone vierteln und das Fruchtfleisch in mundgerechte Stücke schneiden. In eine Schüssel geben und mit dem Dressing vermengen.
-  - Feta zerbröseln und vorsichtig unterheben. Minzblätter von den Stielen zupfen und als Garnitur verwenden.
+- Für das Dressing Limettensaft auspressen und mit Ahornsirup, Salz und Pfeffer vermischen.
+- Wassermelone vierteln und das Fruchtfleisch in mundgerechte Stücke schneiden. In
+  eine Schüssel geben und mit dem Dressing vermengen.
+- Feta zerbröseln und vorsichtig unterheben. Minzblätter von den Stielen zupfen und
+  als Garnitur verwenden.

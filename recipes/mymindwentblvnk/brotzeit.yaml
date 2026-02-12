@@ -1,41 +1,43 @@
 name: Brotzeit
-description: Traditionelle bayerische Brotzeit mit Räucherlachs, Bergkäse, Frischkäse und frischem Gemüse – perfekt für gemütliche Nachmittage.
+description: Traditionelle bayerische Brotzeit mit Räucherlachs, Bergkäse, Frischkäse
+  und frischem Gemüse – perfekt für gemütliche Nachmittage.
 author: mymindwentblvnk
 category: 🥣
 servings: 3
 prep_time: 10  # minutes
 cook_time: 0  # minutes
+estimated_cost: 54.50  # EUR - 6/9 ingredients priced
 tags:
-  - Bergkäse
-  - Butter
-  - Eier
-  - Feta
-  - Fisch
-  - Frischkäse
-  - Gurke
-  - Käse
-  - Lachs
-  - Paprika
+- Bergkäse
+- Butter
+- Eier
+- Feta
+- Fisch
+- Frischkäse
+- Gurke
+- Käse
+- Lachs
+- Paprika
 
 ingredients:
-  - name: Räucherlachs
-    amount: 1
-  - name: Bergkäse
-    amount: 1
-  - name: Frischkäse
-    amount: 1
-  - name: Hummus mit Tahini
-    amount: 1
-  - name: Paprika
-    amount: 2
-  - name: Gurke
-    amount: 1
-  - name: Butter
-    amount: 1
-  - name: Eier
-    amount: 1 Packung
-  - name: Feta
-    amount: 1 Packung
+- name: Räucherlachs
+  amount: 1
+- name: Bergkäse
+  amount: 1
+- name: Frischkäse
+  amount: 1
+- name: Hummus mit Tahini
+  amount: 1
+- name: Paprika
+  amount: 2
+- name: Gurke
+  amount: 1
+- name: Butter
+  amount: 1
+- name: Eier
+  amount: 1 Packung
+- name: Feta
+  amount: 1 Packung
 
 instructions:
-  - Zusammenstellen
+- Zusammenstellen

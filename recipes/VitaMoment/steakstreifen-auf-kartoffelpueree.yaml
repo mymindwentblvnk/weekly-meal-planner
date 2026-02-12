@@ -5,40 +5,44 @@ category: 🥩
 servings: 1
 prep_time: 10  # minutes
 cook_time: 30  # minutes
+estimated_cost: 10.34  # EUR - 6/8 ingredients priced
 tags:
-  - Avocado
-  - Butter
-  - Fleisch
-  - Kartoffeln
-  - Kräuter
-  - Rind
-  - Tomate
-  - Zwiebel
+- Avocado
+- Butter
+- Fleisch
+- Kartoffeln
+- Kräuter
+- Rind
+- Tomate
+- Zwiebel
 
 ingredients:
-  - name: Kartoffeln
-    amount: 200 g
-  - name: Kirschtomaten
-    amount: 60 g
-  - name: Petersilie
-    amount: 1 EL
-  - name: Zwiebel
-    amount: 1/2
-  - name: Rinderfilet
-    amount: 150 g
-  - name: Avocado
-    amount: 65 g
-  - name: Limettensaft
-    amount: 5 ml
-  - name: Butter
-    amount: 10 g
+- name: Kartoffeln
+  amount: 200 g
+- name: Kirschtomaten
+  amount: 60 g
+- name: Petersilie
+  amount: 1 EL
+- name: Zwiebel
+  amount: 1/2
+- name: Rinderfilet
+  amount: 150 g
+- name: Avocado
+  amount: 65 g
+- name: Limettensaft
+  amount: 5 ml
+- name: Butter
+  amount: 10 g
 
 instructions:
-  - Kartoffeln schälen, in kleine Stücke schneiden und in Salzwasser etwa 20-25 Minuten kochen.
-  - Kirschtomaten und Petersilie waschen und zerkleinern. Zwiebel schälen und würfeln.
-  - Rinderfilet in Streifen schneiden.
-  - Avocado in eine Schüssel geben und mit Limettensaft beträufeln.
-  - In einer erhitzten Pfanne etwas Butter zum Schmelzen bringen und Zwiebel und Tomaten darin anbraten. Mit Salz und Pfeffer abschmecken und warm stellen.
-  - Kartoffeln abgießen und in einer Schüssel mit Avocado zerstampfen. Tomaten-Zwiebel-Mischung und Petersilie unterheben. Mit Salz und Pfeffer abschmecken.
-  - Restliche Butter in einer weiteren Pfanne erhitzen und Rinderfilet beidseitig anbraten.
-  - Zusammen servieren.
+- Kartoffeln schälen, in kleine Stücke schneiden und in Salzwasser etwa 20-25 Minuten
+  kochen.
+- Kirschtomaten und Petersilie waschen und zerkleinern. Zwiebel schälen und würfeln.
+- Rinderfilet in Streifen schneiden.
+- Avocado in eine Schüssel geben und mit Limettensaft beträufeln.
+- In einer erhitzten Pfanne etwas Butter zum Schmelzen bringen und Zwiebel und Tomaten
+  darin anbraten. Mit Salz und Pfeffer abschmecken und warm stellen.
+- Kartoffeln abgießen und in einer Schüssel mit Avocado zerstampfen. Tomaten-Zwiebel-Mischung
+  und Petersilie unterheben. Mit Salz und Pfeffer abschmecken.
+- Restliche Butter in einer weiteren Pfanne erhitzen und Rinderfilet beidseitig anbraten.
+- Zusammen servieren.

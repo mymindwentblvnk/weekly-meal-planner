@@ -1,44 +1,57 @@
 name: Japanische Bowl mit glasiertem Seelachs
-description: Glasierter Seelachs auf Sushireis mit eingelegtem Gurken-Karotten-Gemüse, verfeinert mit Sweet Chili Soße und Sesamöl.
+description: Glasierter Seelachs auf Sushireis mit eingelegtem Gurken-Karotten-Gemüse,
+  verfeinert mit Sweet Chili Soße und Sesamöl.
 author: HelloFresh
 category: 🐟
 servings: 2
 prep_time: 10  # minutes
 cook_time: 30  # minutes
+estimated_cost: 7.00  # EUR - 4/9 ingredients priced
 tags:
-  - Fisch
-  - Gurke
-  - Karotte
-  - Kerne
-  - Reis
-  - Seelachs
-  - Sesam
-  - Zwiebel
+- Fisch
+- Gurke
+- Karotte
+- Kerne
+- Reis
+- Seelachs
+- Sesam
+- Zwiebel
 
 ingredients:
-  - name: Risottoreis
-    amount: 150 g
-  - name: Seelachs (ohne Haut)
-    amount: 250 g
-  - name: Salatgurke
-    amount: 1
-  - name: Karotte
-    amount: 1
-  - name: Mayonnaise
-    amount: 25 g
-  - name: Sojasoße
-    amount: 25 ml
-  - name: Sweet Chili Soße
-    amount: 25 g
-  - name: Sesamöl
-    amount: 10 ml
-  - name: Frühlingszwiebel
-    amount: 1
+- name: Risottoreis
+  amount: 150 g
+- name: Seelachs (ohne Haut)
+  amount: 250 g
+- name: Salatgurke
+  amount: 1
+- name: Karotte
+  amount: 1
+- name: Mayonnaise
+  amount: 25 g
+- name: Sojasoße
+  amount: 25 ml
+- name: Sweet Chili Soße
+  amount: 25 g
+- name: Sesamöl
+  amount: 10 ml
+- name: Frühlingszwiebel
+  amount: 1
 
 instructions:
-  - "[Reis kochen] Reis nach Angaben kochen. Nach der Kochzeit durch ein Sieb abgießen. Anschließend zurück in den Topf geben."
-  - "[Beilage vorbereiten] Weißen und grünen Teil der Frühlingszwiebel getrennt voneinander in feine Ringe schneiden. Gurke längs halbieren, mithilfe eines Löffels die Kerne auskratzen, und die Gurke in 5 cm lange und 1 cm breite Stifte schneiden. Karotte grob in eine große Schüssel raspeln. Gurke und weiße Frühlingszwiebelringe dazugeben. Mit Salz, Zucker und Essig mischen und marinieren lassen."
-  - "[Dip vorbereiten] In einer kleinen Schüssel Hälfte Sweet Chili Sauce, Hälfte Sesamöl, Mayonnaise, Zucker, Salz und Essig zu einer homogenen Sauce verrühren."
-  - "[Fisch braten] In einer großen Pfanne Öl über mittlerer Temperatur erhitzen. Fisch darin 2 - 3 Min. je Seite braten, bis er innen nicht mehr glasig ist. Mit der Hälfte Sojasoße, restlicher Sweet Chili Soße, restlichem Sesamöl und 3 EL Wasser ablöschen und 1 Min, köcheln lassen."
-  - "[Reis verfeinern] Reis mit Essig, Salz und Zucker vorsichtig mischen."
-  - "[Anrichten] Sushireis auf tiefe Teller verteilen. Fisch und eingelegtes Gemüse mit der Sauce aus der Schüssel darauf anrichten. Mit grünen Frühlingszwiebelringen garnieren und mit Dip servieren."
+- '[Reis kochen] Reis nach Angaben kochen. Nach der Kochzeit durch ein Sieb abgießen.
+  Anschließend zurück in den Topf geben.'
+- '[Beilage vorbereiten] Weißen und grünen Teil der Frühlingszwiebel getrennt voneinander
+  in feine Ringe schneiden. Gurke längs halbieren, mithilfe eines Löffels die Kerne
+  auskratzen, und die Gurke in 5 cm lange und 1 cm breite Stifte schneiden. Karotte
+  grob in eine große Schüssel raspeln. Gurke und weiße Frühlingszwiebelringe dazugeben.
+  Mit Salz, Zucker und Essig mischen und marinieren lassen.'
+- '[Dip vorbereiten] In einer kleinen Schüssel Hälfte Sweet Chili Sauce, Hälfte Sesamöl,
+  Mayonnaise, Zucker, Salz und Essig zu einer homogenen Sauce verrühren.'
+- '[Fisch braten] In einer großen Pfanne Öl über mittlerer Temperatur erhitzen. Fisch
+  darin 2 - 3 Min. je Seite braten, bis er innen nicht mehr glasig ist. Mit der Hälfte
+  Sojasoße, restlicher Sweet Chili Soße, restlichem Sesamöl und 3 EL Wasser ablöschen
+  und 1 Min, köcheln lassen.'
+- '[Reis verfeinern] Reis mit Essig, Salz und Zucker vorsichtig mischen.'
+- '[Anrichten] Sushireis auf tiefe Teller verteilen. Fisch und eingelegtes Gemüse
+  mit der Sauce aus der Schüssel darauf anrichten. Mit grünen Frühlingszwiebelringen
+  garnieren und mit Dip servieren.'

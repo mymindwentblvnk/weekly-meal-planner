@@ -1,27 +1,29 @@
 name: Griechischer Joghurt mit Honig und Walnüssen
-description: Cremiger griechischer Joghurt verfeinert mit goldgelbem Honig und knackigen Walnüssen.
+description: Cremiger griechischer Joghurt verfeinert mit goldgelbem Honig und knackigen
+  Walnüssen.
 author: Chefkoch
 category: 🥣
 servings: 1
 prep_time: 5  # minutes
-cook_time: 0   # minutes
+cook_time: 0  # minutes
+estimated_cost: 2.00  # EUR - 3/3 ingredients priced
 tags:
-  - Frühstück
-  - Honig
-  - Joghurt
-  - Nüsse
-  - Walnüsse
+- Frühstück
+- Honig
+- Joghurt
+- Nüsse
+- Walnüsse
 
 ingredients:
-  - name: Griechischer Joghurt
-    amount: 200 g
-  - name: Honig
-    amount: 2 EL
-  - name: Walnüsse
-    amount: 30 g
+- name: Griechischer Joghurt
+  amount: 200 g
+- name: Honig
+  amount: 2 EL
+- name: Walnüsse
+  amount: 30 g
 
 instructions:
-  - Griechischen Joghurt in eine Schüssel geben.
-  - Honig über den Joghurt träufeln.
-  - Walnüsse grob hacken und über den Joghurt streuen.
-  - Nach Belieben servieren und genießen.
+- Griechischen Joghurt in eine Schüssel geben.
+- Honig über den Joghurt träufeln.
+- Walnüsse grob hacken und über den Joghurt streuen.
+- Nach Belieben servieren und genießen.

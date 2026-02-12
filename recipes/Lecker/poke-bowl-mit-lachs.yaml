@@ -1,53 +1,61 @@
 name: Poké Bowl mit Lachs
-description: Frische Bowl mit mariniertem Lachs in Sushi-Qualität, buntem Gemüse, Mango und Avocado - gesund, farbenfroh und voller Geschmack.
+description: Frische Bowl mit mariniertem Lachs in Sushi-Qualität, buntem Gemüse,
+  Mango und Avocado - gesund, farbenfroh und voller Geschmack.
 author: Lecker
 category: 🐟
 servings: 4
-prep_time: 20
-cook_time: 25
+prep_time: 20  # minutes
+cook_time: 25  # minutes
+estimated_cost: 25.30  # EUR - 7/14 ingredients priced
 tags:
-  - Avocado
-  - Fisch
-  - Gurke
-  - Karotte
-  - Kerne
-  - Lachs
-  - Obst
-  - Öl
-  - Reis
-  - Sesam
-  - Zwiebel
+- Avocado
+- Fisch
+- Gurke
+- Karotte
+- Kerne
+- Lachs
+- Obst
+- Öl
+- Reis
+- Sesam
+- Zwiebel
 
 ingredients:
-  - name: Basmatireis
-    amount: 250 g
-  - name: Salz
-    amount: nach Geschmack
-  - name: Pfeffer
-    amount: nach Geschmack
-  - name: Mango
-    amount: 1
-  - name: Avocado
-    amount: 1
-  - name: Karotten
-    amount: 2
-  - name: Gurke
-    amount: 1
-  - name: Radieschen
-    amount: 1 Bund
-  - name: Limetten
-    amount: 2
-  - name: Reisessig
-    amount: 2 EL
-  - name: Öl
-    amount: 4 EL
-  - name: Lachsfilet (Sushi-Qualität, ohne Haut)
-    amount: 500 g
-  - name: Lauchzwiebeln
-    amount: 2
-  - name: Schwarzer Sesam
-    amount: 1 EL
+- name: Basmatireis
+  amount: 250 g
+- name: Salz
+  amount: nach Geschmack
+- name: Pfeffer
+  amount: nach Geschmack
+- name: Mango
+  amount: 1
+- name: Avocado
+  amount: 1
+- name: Karotten
+  amount: 2
+- name: Gurke
+  amount: 1
+- name: Radieschen
+  amount: 1 Bund
+- name: Limetten
+  amount: 2
+- name: Reisessig
+  amount: 2 EL
+- name: Öl
+  amount: 4 EL
+- name: Lachsfilet (Sushi-Qualität, ohne Haut)
+  amount: 500 g
+- name: Lauchzwiebeln
+  amount: 2
+- name: Schwarzer Sesam
+  amount: 1 EL
 
 instructions:
-  - Den Basmatireis in gesalzenem kochendem Wasser nach Packungsanweisung garen. Währenddessen die Mango schälen und würfeln. Die Avocado halbieren, entkernen und in Scheiben schneiden. Karotten raspeln, Gurke würfeln und Radieschen in dünne Scheiben schneiden.
-  - Den Reis abgießen und auflockern. Limettensaft, Reisessig, Salz und Pfeffer vermengen, dann das Öl unterrühren, um das Dressing herzustellen. Den Lachs in etwa 1×1 cm große Würfel schneiden. Die vorbereiteten Zutaten in Schalen anrichten, mit der Vinaigrette beträufeln und mit gehackten Lauchzwiebeln und schwarzem Sesam bestreut servieren.
+- Den Basmatireis in gesalzenem kochendem Wasser nach Packungsanweisung garen. Währenddessen
+  die Mango schälen und würfeln. Die Avocado halbieren, entkernen und in Scheiben
+  schneiden. Karotten raspeln, Gurke würfeln und Radieschen in dünne Scheiben schneiden.
+- Den Reis abgießen und auflockern. Limettensaft, Reisessig, Salz und Pfeffer vermengen,
+  dann das Öl unterrühren, um das Dressing herzustellen. Den Lachs in etwa 1×1 cm
+  große Würfel schneiden. Die vorbereiteten Zutaten in Schalen anrichten, mit der
+  Vinaigrette beträufeln und mit gehackten Lauchzwiebeln und schwarzem Sesam bestreut
+  servieren.

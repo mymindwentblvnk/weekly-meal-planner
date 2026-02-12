@@ -1,45 +1,48 @@
 name: Leinsamen-Möhren-Brot
-description: Saftiges Low-Carb-Brot mit Leinsamen, Möhren und Magerquark. Reich an Ballaststoffen durch Kürbiskerne, Walnüsse und Flohsamenschalen.
+description: Saftiges Low-Carb-Brot mit Leinsamen, Möhren und Magerquark. Reich an
+  Ballaststoffen durch Kürbiskerne, Walnüsse und Flohsamenschalen.
 author: VitaMoment
 category: 🍞
 servings: 1
 prep_time: 10  # minutes
 cook_time: 50  # minutes
+estimated_cost: 1.38  # EUR - 4/10 ingredients priced
 tags:
-  - Frühstück
-  - Karotte
-  - Kerne
-  - Leinsamen
-  - Mehl
-  - Nüsse
-  - Quark
-  - Walnüsse
+- Frühstück
+- Karotte
+- Kerne
+- Leinsamen
+- Mehl
+- Nüsse
+- Quark
+- Walnüsse
 
 ingredients:
-  - name: Kürbiskerne
-    amount: 50 g
-  - name: Walnüsse
-    amount: 10 g
-  - name: Leinsamen
-    amount: 100 g
-  - name: Möhren
-    amount: 150 g
-  - name: Magerquark
-    amount: 250 g
-  - name: Wasser
-    amount: 60 ml
-  - name: Buchweizenmehl
-    amount: 50 g
-  - name: Flohsamenschalen (gemahlen)
-    amount: 25 g
-  - name: Backpulver
-    amount: 10 g
-  - name: Salz
-    amount: 1 Prise
+- name: Kürbiskerne
+  amount: 50 g
+- name: Walnüsse
+  amount: 10 g
+- name: Leinsamen
+  amount: 100 g
+- name: Möhren
+  amount: 150 g
+- name: Magerquark
+  amount: 250 g
+- name: Wasser
+  amount: 60 ml
+- name: Buchweizenmehl
+  amount: 50 g
+- name: Flohsamenschalen (gemahlen)
+  amount: 25 g
+- name: Backpulver
+  amount: 10 g
+- name: Salz
+  amount: 1 Prise
 
 instructions:
-  - Backofen auf 180°C Ober-/Unterhitze vorheizen.
-  - Kürbiskerne und Walnüsse fein hacken. Leinsamen mit einem Pürierstab schroten. Möhren schälen, raspeln und das Wasser ausdrücken.
-  - Alle Zutaten in eine Schüssel geben und zu einem Teig kneten.
-  - Ein Brotlaib formen oder Teig in eine mit Backpapier ausgelegte Backform hineingeben.
-  - Für etwa 45 Minuten backen.
+- Backofen auf 180°C Ober-/Unterhitze vorheizen.
+- Kürbiskerne und Walnüsse fein hacken. Leinsamen mit einem Pürierstab schroten. Möhren
+  schälen, raspeln und das Wasser ausdrücken.
+- Alle Zutaten in eine Schüssel geben und zu einem Teig kneten.
+- Ein Brotlaib formen oder Teig in eine mit Backpapier ausgelegte Backform hineingeben.
+- Für etwa 45 Minuten backen.

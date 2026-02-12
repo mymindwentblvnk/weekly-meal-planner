@@ -1,42 +1,47 @@
 name: Kartoffelpuffer mit Apfelkompott
-description: Knusprige Kartoffelpuffer mit Flohsamenschalen und Dinkelmehl, serviert mit hausgemachtem Apfelkompott verfeinert mit Vanille und Zitrone.
+description: Knusprige Kartoffelpuffer mit Flohsamenschalen und Dinkelmehl, serviert
+  mit hausgemachtem Apfelkompott verfeinert mit Vanille und Zitrone.
 author: VitaMoment
 category: 🥦
 servings: 2
 prep_time: 30  # minutes
 cook_time: 30  # minutes
+estimated_cost: 2.64  # EUR - 4/10 ingredients priced
 tags:
-  - Apfel
-  - Butter
-  - Eier
-  - Kartoffeln
-  - Mehl
-  - Obst
+- Apfel
+- Butter
+- Eier
+- Kartoffeln
+- Mehl
+- Obst
 
 ingredients:
-  - name: Flohsamenschalen
-    amount: 50 g
-  - name: Kartoffeln
-    amount: 500 g
-  - name: Ei
-    amount: 1
-  - name: Dinkelmehl
-    amount: 1,5 EL
-  - name: Salz
-    amount: 0,5 TL
-  - name: Butterschmalz
-    amount: 2 EL
-  - name: Äpfel
-    amount: 250 g
-  - name: Wasser
-    amount: 2 EL
-  - name: Zitronensaft
-    amount: 1 EL
-  - name: Vanilleextrakt
-    amount: 1 TL
+- name: Flohsamenschalen
+  amount: 50 g
+- name: Kartoffeln
+  amount: 500 g
+- name: Ei
+  amount: 1
+- name: Dinkelmehl
+  amount: 1,5 EL
+- name: Salz
+  amount: 0,5 TL
+- name: Butterschmalz
+  amount: 2 EL
+- name: Äpfel
+  amount: 250 g
+- name: Wasser
+  amount: 2 EL
+- name: Zitronensaft
+  amount: 1 EL
+- name: Vanilleextrakt
+  amount: 1 TL
 
 instructions:
-  - Kartoffeln schälen und mit einer Küchenreibe raspeln. Ei, Dinkelmehl, Flohsamenschalen und Salz hinzugeben und gut vermengen.
-  - Äpfel schälen, entkernen und klein schneiden. Mit Was-ser, Zitronensaft und Vanilleextrakt zum Kochen bringen. Hitze reduzieren und einkochen lassen.
-  - In einer heißen Pfanne Butterschmalz erhitzen und den Kartoffelteig mit einem Löffel portionieren. Hitze reduzieren und von beiden Seiten goldbraun braten.
-  - Kartoffelpuffer auf einem Teller servieren und mit Apfelkompott belegen.
+- Kartoffeln schälen und mit einer Küchenreibe raspeln. Ei, Dinkelmehl, Flohsamenschalen
+  und Salz hinzugeben und gut vermengen.
+- Äpfel schälen, entkernen und klein schneiden. Mit Was-ser, Zitronensaft und Vanilleextrakt
+  zum Kochen bringen. Hitze reduzieren und einkochen lassen.
+- In einer heißen Pfanne Butterschmalz erhitzen und den Kartoffelteig mit einem Löffel
+  portionieren. Hitze reduzieren und von beiden Seiten goldbraun braten.
+- Kartoffelpuffer auf einem Teller servieren und mit Apfelkompott belegen.

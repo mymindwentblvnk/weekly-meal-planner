@@ -1,52 +1,57 @@
 name: Ofengemüse mit Avocado-Dip
-description: Ofengeröstetes Gemüse mit Zucchini, Aubergine, Süßkartoffel und Paprika mit cremigem Avocado-Limetten-Dip.
+description: Ofengeröstetes Gemüse mit Zucchini, Aubergine, Süßkartoffel und Paprika
+  mit cremigem Avocado-Limetten-Dip.
 author: VitaMoment
 category: 🥦
 servings: 1
 prep_time: 15  # minutes
-cook_time: 25   # minutes
+cook_time: 25  # minutes
+estimated_cost: 3.95  # EUR - 5/11 ingredients priced
 tags:
-  - Aubergine
-  - Avocado
-  - Frischkäse
-  - Kartoffeln
-  - Käse
-  - Knoblauch
-  - Öl
-  - Paprika
-  - Süßkartoffel
-  - Zucchini
-  - Zwiebel
+- Aubergine
+- Avocado
+- Frischkäse
+- Kartoffeln
+- Käse
+- Knoblauch
+- Öl
+- Paprika
+- Süßkartoffel
+- Zucchini
+- Zwiebel
 
 ingredients:
-  - name: Zucchini
-    amount: 100 g
-  - name: Aubergine
-    amount: 100 g
-  - name: Süßkartoffel
-    amount: 150 g
-  - name: Gelbe Paprika
-    amount: 75 g
-  - name: Knoblauchzehe
-    amount: 1
-  - name: Zwiebel
-    amount: 1
-  - name: Kokosöl (flüssig)
-    amount: 10 g
-  - name: Rosmarin
-    amount: 1 EL
-  - name: Limettensaft
-    amount:  10 ml
-  - name: Avocado
-    amount: 65 g
-  - name: Körniger Frischkäse
-    amount: 100 g
+- name: Zucchini
+  amount: 100 g
+- name: Aubergine
+  amount: 100 g
+- name: Süßkartoffel
+  amount: 150 g
+- name: Gelbe Paprika
+  amount: 75 g
+- name: Knoblauchzehe
+  amount: 1
+- name: Zwiebel
+  amount: 1
+- name: Kokosöl (flüssig)
+  amount: 10 g
+- name: Rosmarin
+  amount: 1 EL
+- name: Limettensaft
+  amount: 10 ml
+- name: Avocado
+  amount: 65 g
+- name: Körniger Frischkäse
+  amount: 100 g
 
 instructions:
-  - Backofen auf 220 °C Ober-/Unterhitze vorheizen.
-  - Zucchini, Aubergine, Süßkartoffel und Paprika waschen und in Streifen schneiden.
-  - Knoblauch pressen, Zwiebeln schälen und fein würfeln.
-  - Zusammen mit dem Gemüse, flüssigem Kokosöl, Rosmarin und etwas Salz in einer Schüssel vermengen.
-  - Auf ein mit Backpapier ausgelegtes Backpapier verteilen und für etwa 25 Minuten im Ofen garen.
-  - In der Zwischenzeit den Limettensaft, Avocado, Frischkäse, Salz und Pfeffer zu einem Dip anrühren.
-  - Ofengemüse mit Avocado-Dip servieren.
+- Backofen auf 220 °C Ober-/Unterhitze vorheizen.
+- Zucchini, Aubergine, Süßkartoffel und Paprika waschen und in Streifen schneiden.
+- Knoblauch pressen, Zwiebeln schälen und fein würfeln.
+- Zusammen mit dem Gemüse, flüssigem Kokosöl, Rosmarin und etwas Salz in einer Schüssel
+  vermengen.
+- Auf ein mit Backpapier ausgelegtes Backpapier verteilen und für etwa 25 Minuten
+  im Ofen garen.
+- In der Zwischenzeit den Limettensaft, Avocado, Frischkäse, Salz und Pfeffer zu einem
+  Dip anrühren.
+- Ofengemüse mit Avocado-Dip servieren.

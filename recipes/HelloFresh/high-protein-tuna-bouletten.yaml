@@ -1,50 +1,68 @@
 name: High Protein Tuna-Bouletten
-description: Knusprige Thunfisch-Bouletten mit Butterbohnen auf frischem Romana-Salat, serviert mit cremiger Aioli-Joghurt-Soße und eingelegten Zwiebeln.
+description: Knusprige Thunfisch-Bouletten mit Butterbohnen auf frischem Romana-Salat,
+  serviert mit cremiger Aioli-Joghurt-Soße und eingelegten Zwiebeln.
 author: HelloFresh
 category: 🐟
 servings: 2
 prep_time: 10  # minutes
 cook_time: 35  # minutes
+estimated_cost: 5.90  # EUR - 3/11 ingredients priced
 tags:
-  - Butter
-  - Fisch
-  - Joghurt
-  - Karotte
-  - Kräuter
-  - Mehl
-  - Salat
-  - Sellerie
-  - Thunfisch
-  - Zwiebel
+- Butter
+- Fisch
+- Joghurt
+- Karotte
+- Kräuter
+- Mehl
+- Salat
+- Sellerie
+- Thunfisch
+- Zwiebel
 
 ingredients:
-  - name: Butterbohnen
-    amount: 380 g
-  - name: Thunfisch im eigenen Saft
-    amount: 160 g
-  - name: Stangensellerie
-    amount: 1
-  - name: Karotten
-    amount: 1
-  - name: Pankomehl
-    amount: 50 g
-  - name: Zitrone
-    amount: 1
-  - name: Aioli
-    amount: 40 g
-  - name: Rote Zwiebel
-    amount: 1
-  - name: Naturjoghurt
-    amount: 100 g
-  - name: Petersilie (glatt)
-    amount: 10 g
-  - name: Salatherz (Romana)
-    amount: 150 g
+- name: Butterbohnen
+  amount: 380 g
+- name: Thunfisch im eigenen Saft
+  amount: 160 g
+- name: Stangensellerie
+  amount: 1
+- name: Karotten
+  amount: 1
+- name: Pankomehl
+  amount: 50 g
+- name: Zitrone
+  amount: 1
+- name: Aioli
+  amount: 40 g
+- name: Rote Zwiebel
+  amount: 1
+- name: Naturjoghurt
+  amount: 100 g
+- name: Petersilie (glatt)
+  amount: 10 g
+- name: Salatherz (Romana)
+  amount: 150 g
 
 instructions:
-  - "[Bouletten anfangen] Karotte grob raspeln. Häfte Zwiebel fein würfeln. Restliche Zwiebel in feine Streifen schneiden. Kräuter fein hacken. Butterbohnen durch ein Sieb abgießen. In einer großen Schüssel Hälfte Butterbohnen mit einer Gabel zerdrücken. Karotte, Zwiebelwürfel, Hälfte Kräuter, Hälfte Pankomehl, Hälfte Aioli und Thunfisch zusammen mit dem eigenen Saft, Salz* und Pfeffer* in die Schüssel geben und zu einem Boulettenteig verarbeiten."
-  - "[Bouletten anbraten] Restliches Pankomehl auf einem Teller verteilen. Aus dem Teig 4 ovale Bouletten formen. Bouletten mit Pankomehl panieren. In einer großen Pfanne Öl bei mittlerer Temperatur erhitzen. Bouletten 4 - 5 Min. je Seite goldbraun braten. Aus der Pfanne nehmen, salzen* und auf Küchenpapier abtropfen lassen. Tipp: Würze die Bouletten unmittelbar nach dem Braten mit Salz, damit es haften bleibt."
-  - "[Salat zubereiten] drei Viertel Stangenseilerie längs dritteln und in feine Würfel schneiden. Romanasalat in feine Streifen schneiden. Zitrone in 6 Spalten schneiden."
-  - "[Zwiebeln einlegen] In einer kleinen Schüssel Zwiebelstreifen mit Essig, Zucker, Salz und Pfeffer leicht kneten und bis zum Ende des Rezepts marinieren lassen."
-  - "[Salat vollenden] In einer zweiten kleinen Schüssel restliches Aioli, Joghurt, Saft von 2 Zitronenspalte, Salz und Pfeffer zur Soße verrühren. In einer großen Schüssel Romana Salat mit der Hälfte Soße, Saft von 2 Zitronenspalte, Olivenöl, Salz und Pfeffer vermengen."
-  - "[Anrichten] Salat auf tiefe Teller verteilen. Mit restlichen Bohnen, eingelegter Zwiebel und Sellerie toppen. Tuna-Bouletten darauf anrichten, mit restlicher Petersilie garnieren und mit restlicher Soße genießen."
+- '[Bouletten anfangen] Karotte grob raspeln. Häfte Zwiebel fein würfeln. Restliche
+  Zwiebel in feine Streifen schneiden. Kräuter fein hacken. Butterbohnen durch ein
+  Sieb abgießen. In einer großen Schüssel Hälfte Butterbohnen mit einer Gabel zerdrücken.
+  Karotte, Zwiebelwürfel, Hälfte Kräuter, Hälfte Pankomehl, Hälfte Aioli und Thunfisch
+  zusammen mit dem eigenen Saft, Salz* und Pfeffer* in die Schüssel geben und zu einem
+  Boulettenteig verarbeiten.'
+- '[Bouletten anbraten] Restliches Pankomehl auf einem Teller verteilen. Aus dem Teig
+  4 ovale Bouletten formen. Bouletten mit Pankomehl panieren. In einer großen Pfanne
+  Öl bei mittlerer Temperatur erhitzen. Bouletten 4 - 5 Min. je Seite goldbraun braten.
+  Aus der Pfanne nehmen, salzen* und auf Küchenpapier abtropfen lassen. Tipp: Würze
+  die Bouletten unmittelbar nach dem Braten mit Salz, damit es haften bleibt.'
+- '[Salat zubereiten] drei Viertel Stangenseilerie längs dritteln und in feine Würfel
+  schneiden. Romanasalat in feine Streifen schneiden. Zitrone in 6 Spalten schneiden.'
+- '[Zwiebeln einlegen] In einer kleinen Schüssel Zwiebelstreifen mit Essig, Zucker,
+  Salz und Pfeffer leicht kneten und bis zum Ende des Rezepts marinieren lassen.'
+- '[Salat vollenden] In einer zweiten kleinen Schüssel restliches Aioli, Joghurt,
+  Saft von 2 Zitronenspalte, Salz und Pfeffer zur Soße verrühren. In einer großen
+  Schüssel Romana Salat mit der Hälfte Soße, Saft von 2 Zitronenspalte, Olivenöl,
+  Salz und Pfeffer vermengen.'
+- '[Anrichten] Salat auf tiefe Teller verteilen. Mit restlichen Bohnen, eingelegter
+  Zwiebel und Sellerie toppen. Tuna-Bouletten darauf anrichten, mit restlicher Petersilie
+  garnieren und mit restlicher Soße genießen.'

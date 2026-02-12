@@ -1,45 +1,49 @@
 name: Baba Ghanoush
-description: Orientalische Vorspeise mit Suchtfaktor – cremiges Auberginenpüree mit Sesampaste, Knoblauch und Zitrone.
+description: Orientalische Vorspeise mit Suchtfaktor – cremiges Auberginenpüree mit
+  Sesampaste, Knoblauch und Zitrone.
 author: Chefkoch
 category: 🥣
 servings: 4
 prep_time: 30  # minutes
 cook_time: 30  # minutes
+estimated_cost: 36.85  # EUR - 4/8 ingredients priced
 tags:
-  - Aubergine
-  - Kerne
-  - Knoblauch
-  - Kräuter
-  - Öl
-  - Oliven
-  - Sesam
+- Aubergine
+- Kerne
+- Knoblauch
+- Kräuter
+- Öl
+- Oliven
+- Sesam
 
 ingredients:
-  - name: Auberginen
-    amount: 2
-  - name: Sesampaste (Tahin)
-    amount: 3 EL
-  - name: Zitronensaft
-    amount: 3 EL
-  - name: Olivenöl
-    amount: 2 EL
-  - name: Knoblauch
-    amount: 2 Zehen
-  - name: Salz und Pfeffer
-    amount: nach Geschmack
-  - name: Petersilie
-    amount: 0.5 Bund
-  - name: Schwarze Oliven (ohne Stein)
-    amount: 1 EL
+- name: Auberginen
+  amount: 2
+- name: Sesampaste (Tahin)
+  amount: 3 EL
+- name: Zitronensaft
+  amount: 3 EL
+- name: Olivenöl
+  amount: 2 EL
+- name: Knoblauch
+  amount: 2 Zehen
+- name: Salz und Pfeffer
+  amount: nach Geschmack
+- name: Petersilie
+  amount: 0.5 Bund
+- name: Schwarze Oliven (ohne Stein)
+  amount: 1 EL
 
 instructions:
-  - Backofen auf 220°C vorheizen
-  - Auberginen waschen und mehrmals mit einem spitzen Messer einstechen
-  - Auberginen ca. 30 Minuten backen, bis sie ganz weich sind und die Haut fast schwarz ist
-  - Aus dem Ofen nehmen und etwas abkühlen lassen
-  - Lauwarme Auberginen halbieren und das weiche Fruchtfleisch mit einem Löffel aus der Schale lösen
-  - Fruchtfleisch zusammen mit Sesampaste, Zitronensaft und Olivenöl im Mixer fein pürieren
-  - Knoblauch schälen, durch die Presse drücken und zum Auberginenpüree geben
-  - Mit Salz und Pfeffer abschmecken
-  - Petersilie und Oliven fein hacken
-  - Kurz vor dem Servieren Petersilie und Oliven auf das Baba Ghanoush streuen
+- Backofen auf 220°C vorheizen
+- Auberginen waschen und mehrmals mit einem spitzen Messer einstechen
+- Auberginen ca. 30 Minuten backen, bis sie ganz weich sind und die Haut fast schwarz
+  ist
+- Aus dem Ofen nehmen und etwas abkühlen lassen
+- Lauwarme Auberginen halbieren und das weiche Fruchtfleisch mit einem Löffel aus
+  der Schale lösen
+- Fruchtfleisch zusammen mit Sesampaste, Zitronensaft und Olivenöl im Mixer fein pürieren
+- Knoblauch schälen, durch die Presse drücken und zum Auberginenpüree geben
+- Mit Salz und Pfeffer abschmecken
+- Petersilie und Oliven fein hacken
+- Kurz vor dem Servieren Petersilie und Oliven auf das Baba Ghanoush streuen

@@ -1916,17 +1916,13 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]], 
     Returns:
         Complete HTML page as a string
     """
-    # Load ingredient prices for cost calculation
-    from .cost_calculator import load_prices, calculate_recipe_cost, format_cost
-    prices = load_prices()
-
     # Create recipe lookup by slug with full recipe data including ingredients and costs
     recipe_lookup = {}
     for filename, recipe in recipes_data:
         slug = filename.replace('.html', '')
 
-        # Calculate recipe cost
-        total_cost, priced_count, total_count = calculate_recipe_cost(recipe, prices)
+        # Get estimated cost from YAML (if available)
+        estimated_cost = recipe.get('estimated_cost', 0.0)
 
         recipe_lookup[slug] = {
             'name': recipe['name'],
@@ -1934,15 +1930,12 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]], 
             'category': recipe.get('category', ''),
             'servings': recipe.get('servings', 2),
             'ingredients': recipe.get('ingredients', []),
-            'cost': total_cost,
-            'cost_formatted': format_cost(total_cost),
-            'cost_complete': priced_count == total_count
+            'cost': estimated_cost
         }
 
     # Generate recipe lookup as JSON for JavaScript
     import json
     recipe_lookup_json = json.dumps(recipe_lookup, ensure_ascii=False)
-    prices_json = json.dumps(prices, ensure_ascii=False)
 
     html = f'''{generate_page_header(get_text('shopping_list_title'), SHOPPING_LIST_PAGE_CSS)}
     <div class="page-header">
@@ -1973,7 +1966,6 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]], 
 
     <script>
         const recipeData = {recipe_lookup_json};
-        const ingredientPrices = {prices_json};
         let currentWeek = null;
         let currentView = 'recipe'; // 'recipe' or 'alphabetical'
 

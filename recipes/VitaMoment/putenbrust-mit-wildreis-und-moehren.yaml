@@ -1,41 +1,47 @@
 name: Putenbrust mit Wildreis und Möhren
-description: Zartes Putengeschnetzeltes in cremiger Frischkäsesauce mit Wildreis und butterigen Möhren.
+description: Zartes Putengeschnetzeltes in cremiger Frischkäsesauce mit Wildreis und
+  butterigen Möhren.
 author: VitaMoment
 category: 🥩
 servings: 1
 prep_time: 10  # minutes
 cook_time: 30  # minutes
+estimated_cost: 1.84  # EUR - 4/7 ingredients priced
 tags:
-  - Butter
-  - Fleisch
-  - Frischkäse
-  - Karotte
-  - Käse
-  - Kräuter
-  - Paprika
-  - Pute
-  - Reis
+- Butter
+- Fleisch
+- Frischkäse
+- Karotte
+- Käse
+- Kräuter
+- Paprika
+- Pute
+- Reis
 
 ingredients:
-  - name: Wildreis
-    amount: 60 g
-  - name: Putenbrustfilet
-    amount: 150 g
-  - name: Möhren
-    amount: 200 g
-  - name: Petersilie (gehackt)
-    amount: 1 EL
-  - name: Butter
-    amount: 10 g
-  - name: Paprikapulver (Edelsüß)
-    amount: 1 Prise
-  - name: Frischkäse (Doppelrahmstufe)
-    amount: 50 g
+- name: Wildreis
+  amount: 60 g
+- name: Putenbrustfilet
+  amount: 150 g
+- name: Möhren
+  amount: 200 g
+- name: Petersilie (gehackt)
+  amount: 1 EL
+- name: Butter
+  amount: 10 g
+- name: Paprikapulver (Edelsüß)
+  amount: 1 Prise
+- name: Frischkäse (Doppelrahmstufe)
+  amount: 50 g
 
 instructions:
-  - Wildreis nach Packungsbeilage kochen.
-  - Putenbrustfilet in Streifen schneiden.
-  - Möhren waschen und stifteln. In einem Kochtopf Wasser zum Kochen bringen. Möhren hinzugeben und darin 10-15 Minuten garen.
-  - Aus dem Kochtopf nehmen und mit der Hälfte der Butter vermengen. Gehackte Petersilie unterheben.
-  - Butter in einer heißen Pfanne schmelzen, Putenstrei-fen hineingeben und durchbraten, mit Paprikapulver, Salz und Pfeffer würzen. Frischkäse unterrühren und etwa 2 Minuten köcheln lassen.
-  - Putengeschnetzeltes mit Reis und Möhren servieren.
+- Wildreis nach Packungsbeilage kochen.
+- Putenbrustfilet in Streifen schneiden.
+- Möhren waschen und stifteln. In einem Kochtopf Wasser zum Kochen bringen. Möhren
+  hinzugeben und darin 10-15 Minuten garen.
+- Aus dem Kochtopf nehmen und mit der Hälfte der Butter vermengen. Gehackte Petersilie
+  unterheben.
+- Butter in einer heißen Pfanne schmelzen, Putenstrei-fen hineingeben und durchbraten,
+  mit Paprikapulver, Salz und Pfeffer würzen. Frischkäse unterrühren und etwa 2 Minuten
+  köcheln lassen.
+- Putengeschnetzeltes mit Reis und Möhren servieren.

@@ -1,35 +1,39 @@
 name: Kokos-Chia-Pudding
-description: Cremiger Chia-Quark-Pudding mit warmem Beerenpüree, Kokosraspeln und gepopptem Amaranth.
+description: Cremiger Chia-Quark-Pudding mit warmem Beerenpüree, Kokosraspeln und
+  gepopptem Amaranth.
 author: VitaMoment
 category: 🥣
 servings: 1
 prep_time: 5  # minutes
-cook_time: 15   # minutes
+cook_time: 15  # minutes
+estimated_cost: 1.14  # EUR - 2/6 ingredients priced
 tags:
-  - Beeren
-  - Chiasamen
-  - Frühstück
-  - Himbeeren
-  - Kerne
-  - Milch
-  - Quark
+- Beeren
+- Chiasamen
+- Frühstück
+- Himbeeren
+- Kerne
+- Milch
+- Quark
 
 ingredients:
-  - name: Haferdrink (ungesüßt)
-    amount: 75 ml
-  - name: Chiasamen
-    amount: 20 g
-  - name: Himbeeren
-    amount: 60 g
-  - name: Magerquark
-    amount: 75 g
-  - name: Gepoppter Amaranth
-    amount: 20 g
-  - name: Kokosraspel
-    amount: 15 g
+- name: Haferdrink (ungesüßt)
+  amount: 75 ml
+- name: Chiasamen
+  amount: 20 g
+- name: Himbeeren
+  amount: 60 g
+- name: Magerquark
+  amount: 75 g
+- name: Gepoppter Amaranth
+  amount: 20 g
+- name: Kokosraspel
+  amount: 15 g
 
 instructions:
-  - Kokosdrink erwärmen und mit den Chiasamen verrühren. 5 Minuten quellen lassen.
-  - Währenddessen die Himbeeren und Blaubeeren in einem Kochtopf auf niedriger Flamme erhitzen, sodass ein Püree entsteht.
-  - Gequellte Chiasamen mit dem Magerquark vermengen, in eine Schale geben und mit Amaranth, Beerenpüree und Kokosraspeln toppen.
-  - Nach Bedarf mit etwas Honig verfeinern.
+- Kokosdrink erwärmen und mit den Chiasamen verrühren. 5 Minuten quellen lassen.
+- Währenddessen die Himbeeren und Blaubeeren in einem Kochtopf auf niedriger Flamme
+  erhitzen, sodass ein Püree entsteht.
+- Gequellte Chiasamen mit dem Magerquark vermengen, in eine Schale geben und mit Amaranth,
+  Beerenpüree und Kokosraspeln toppen.
+- Nach Bedarf mit etwas Honig verfeinern.

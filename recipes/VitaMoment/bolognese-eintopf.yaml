@@ -1,56 +1,60 @@
 name: Bolognese-Eintopf
-description: Herzhafter Eintopf mit Rinderhackfleisch, Gemüse und Buchweizenpasta in würziger Tomatensauce.
+description: Herzhafter Eintopf mit Rinderhackfleisch, Gemüse und Buchweizenpasta
+  in würziger Tomatensauce.
 author: VitaMoment
 category: 🥩
 servings: 1
 prep_time: 10  # minutes
 cook_time: 30  # minutes
+estimated_cost: 5.29  # EUR - 6/12 ingredients priced
 tags:
-  - Butter
-  - Fleisch
-  - Hackfleisch
-  - Karotte
-  - Käse
-  - Knoblauch
-  - Kräuter
-  - Parmesan
-  - Pasta
-  - Rind
-  - Sellerie
-  - Tomate
-  - Zwiebel
+- Butter
+- Fleisch
+- Hackfleisch
+- Karotte
+- Käse
+- Knoblauch
+- Kräuter
+- Parmesan
+- Pasta
+- Rind
+- Sellerie
+- Tomate
+- Zwiebel
 
 ingredients:
-  - name: Zwiebel
-    amount: 1
-  - name: Knoblauchzehe
-    amount: 1
-  - name: Möhren
-    amount: 100 g
-  - name: Petersilienwurzel
-    amount: 50 g
-  - name: Butter
-    amount: 10 g
-  - name: Rinderhackfleisch
-    amount: 125 g
-  - name: Tomaten (passiert)
-    amount: 125 g
-  - name: Gemüsebrühe
-    amount: 100 ml
-  - name: Oregano
-    amount: 1 TL
-  - name: Buchweizenpasta
-    amount: 60 g
-  - name: Petersilie (frisch)
-    amount: nach Gefühl
-  - name: Parmesan
-    amount: mehr ist mehr
+- name: Zwiebel
+  amount: 1
+- name: Knoblauchzehe
+  amount: 1
+- name: Möhren
+  amount: 100 g
+- name: Petersilienwurzel
+  amount: 50 g
+- name: Butter
+  amount: 10 g
+- name: Rinderhackfleisch
+  amount: 125 g
+- name: Tomaten (passiert)
+  amount: 125 g
+- name: Gemüsebrühe
+  amount: 100 ml
+- name: Oregano
+  amount: 1 TL
+- name: Buchweizenpasta
+  amount: 60 g
+- name: Petersilie (frisch)
+  amount: nach Gefühl
+- name: Parmesan
+  amount: mehr ist mehr
 
 instructions:
-  - Zwiebel schälen und würfeln. Knoblauch pressen. Möhren und Petersilienwurzel schälen und in kleine Stückchen schneiden.
-  - Butter in einem Topf erhitzen. Zwiebel und Knoblauch hinzugeben und glasig dünsten. Hackfleisch hinzufügen und krümelig braten.
-  - Mit passierten Tomaten und Gemüsebrühe ablöschen Gemüse hinzufügen.
-  - Mit Salz, Pfeffer und Oregano würzen und etwa 3 Minuten köcheln lassen.
-  - Buchweizennudeln in die Bolognese geben und für weitere 7-10 Minuten garen.
-  - Petersilie waschen und fein hacken.
-  - Eintopf mit Parmesan und Petersilie servieren.
+- Zwiebel schälen und würfeln. Knoblauch pressen. Möhren und Petersilienwurzel schälen
+  und in kleine Stückchen schneiden.
+- Butter in einem Topf erhitzen. Zwiebel und Knoblauch hinzugeben und glasig dünsten.
+  Hackfleisch hinzufügen und krümelig braten.
+- Mit passierten Tomaten und Gemüsebrühe ablöschen Gemüse hinzufügen.
+- Mit Salz, Pfeffer und Oregano würzen und etwa 3 Minuten köcheln lassen.
+- Buchweizennudeln in die Bolognese geben und für weitere 7-10 Minuten garen.
+- Petersilie waschen und fein hacken.
+- Eintopf mit Parmesan und Petersilie servieren.

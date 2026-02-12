@@ -1,78 +1,80 @@
 name: Franconian Breakfast
-description: Reichhaltiges fränkisches Frühstücksbuffet mit süßen und herzhaften Leckereien, frischem Obst und Gemüse für gemütliche Sonntagmorgen.
+description: Reichhaltiges fränkisches Frühstücksbuffet mit süßen und herzhaften Leckereien,
+  frischem Obst und Gemüse für gemütliche Sonntagmorgen.
 author: mymindwentblvnk
 category: 🥣
 servings: 8
 prep_time: 20  # minutes
 cook_time: 20  # minutes
+estimated_cost: 69.50  # EUR - 8/22 ingredients priced
 tags:
-  - Apfel
-  - Avocado
-  - Beeren
-  - Bergkäse
-  - Butter
-  - Eier
-  - Erdbeeren
-  - Fisch
-  - Fleisch
-  - Frischkäse
-  - Frühstück
-  - Gurke
-  - Honig
-  - Käse
-  - Kiwi
-  - Lachs
-  - Milch
-  - Obst
-  - Paprika
-  - Schinken
-  - Weintrauben
+- Apfel
+- Avocado
+- Beeren
+- Bergkäse
+- Butter
+- Eier
+- Erdbeeren
+- Fisch
+- Fleisch
+- Frischkäse
+- Frühstück
+- Gurke
+- Honig
+- Käse
+- Kiwi
+- Lachs
+- Milch
+- Obst
+- Paprika
+- Schinken
+- Weintrauben
 
 ingredients:
-  - name: Orangensaft
-    amount: 2 l
-  - name: Schokocreme
-    amount: 1
-  - name: Marmelade
-    amount: 1
-  - name: Honig
-    amount: 1
-  - name: Räucherlachs
-    amount: 2
-  - name: Bergkäse
-    amount: 1
-  - name: Frischkäse
-    amount: 1
-  - name: Kochschinken
-    amount: 1
-  - name: Hummus mit Tahini
-    amount: 1
-  - name: Gemüsecreme
-    amount: 1
-  - name: Avocado
-    amount: 2
-  - name: Paprika
-    amount: 2
-  - name: Gurke
-    amount: 1
-  - name: Apfel
-    amount: 4
-  - name: Weintrauben
-    amount: 1
-  - name: Erdbeeren
-    amount: 1
-  - name: Kiwi
-    amount: 4
-  - name: Butter
-    amount: 1
-  - name: Milch
-    amount: 1
-  - name: Hafermilch
-    amount: 1
-  - name: Kaffee
-    amount: 1
-  - name: Eier
-    amount: 10
+- name: Orangensaft
+  amount: 2 l
+- name: Schokocreme
+  amount: 1
+- name: Marmelade
+  amount: 1
+- name: Honig
+  amount: 1
+- name: Räucherlachs
+  amount: 2
+- name: Bergkäse
+  amount: 1
+- name: Frischkäse
+  amount: 1
+- name: Kochschinken
+  amount: 1
+- name: Hummus mit Tahini
+  amount: 1
+- name: Gemüsecreme
+  amount: 1
+- name: Avocado
+  amount: 2
+- name: Paprika
+  amount: 2
+- name: Gurke
+  amount: 1
+- name: Apfel
+  amount: 4
+- name: Weintrauben
+  amount: 1
+- name: Erdbeeren
+  amount: 1
+- name: Kiwi
+  amount: 4
+- name: Butter
+  amount: 1
+- name: Milch
+  amount: 1
+- name: Hafermilch
+  amount: 1
+- name: Kaffee
+  amount: 1
+- name: Eier
+  amount: 10
 
 instructions:
-  - Zusammenstellen
+- Zusammenstellen
