@@ -1168,9 +1168,29 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]], deploym
             'servings': recipe.get('servings', 2)
         }
 
+    # Collect all unique tags and recipe names for powerful search
+    all_tags = set()
+    all_recipe_names = []
+    all_search_items = []
+
+    for filename, recipe in recipes_data:
+        if 'tags' in recipe and recipe['tags']:
+            all_tags.update(recipe['tags'])
+        if 'name' in recipe and recipe['name']:
+            all_recipe_names.append({'name': recipe['name'], 'slug': filename.replace('.html', '')})
+
+    # Add recipe names with type indicator
+    for recipe_info in sorted(all_recipe_names, key=lambda x: x['name']):
+        all_search_items.append({'label': recipe_info['name'], 'value': recipe_info['slug'], 'type': 'recipe'})
+
+    # Add tags with type indicator
+    for tag in sorted(all_tags):
+        all_search_items.append({'label': tag, 'type': 'tag'})
+
     # Generate recipe lookup as JSON for JavaScript
     import json
     recipe_lookup_json = json.dumps(recipe_lookup, ensure_ascii=False)
+    search_items_json = json.dumps(all_search_items, ensure_ascii=False)
 
     html = f'''{generate_page_header(get_text('weekly_plan_title'), WEEKLY_PAGE_CSS)}
     <div class="page-header">
@@ -1196,7 +1216,13 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]], deploym
                 <h3 class="search-modal-title">Rezept auswählen</h3>
                 <button class="close-modal-btn" onclick="closeSearchModal()">×</button>
             </div>
-            <input type="text" id="searchInput" class="search-input" placeholder="{get_text('search_recipe')}" oninput="filterRecipes()">
+            <div class="search-container-modal">
+                <label for="searchInput" class="search-label">🔍 Suchen</label>
+                <input type="text" id="searchInput" class="search-input" placeholder="z.B. Fisch, Tomate, Vegetarisch..." autocomplete="off">
+                <div id="autocomplete" class="autocomplete"></div>
+                <div id="selectedItems" class="selected-items"></div>
+                <button id="resetModalSearch" class="reset-button">🔄 Suche zurücksetzen</button>
+            </div>
             <div id="searchResults" class="search-results"></div>
         </div>
     </div>
@@ -1392,13 +1418,22 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]], deploym
             document.getElementById('nextWeekBtn').disabled = isNextWeek;
         }}
 
-        // Recipe search and assignment
+        // Recipe search and assignment - Powerful search
+        const allSearchItems = {search_items_json};
+        let selectedItems = [];
+        let currentFocus = -1;
+
         function openSearchModal(day, meal) {{
             currentDay = day;
             currentMeal = meal;
-            document.getElementById('searchInput').value = '';
+            const searchInput = document.getElementById('searchInput');
+            searchInput.value = '';
+            document.getElementById('autocomplete').innerHTML = '';
+            document.getElementById('autocomplete').classList.remove('show');
             filterRecipes();
             document.getElementById('searchModal').style.display = 'flex';
+            // Focus on search input after modal opens
+            setTimeout(() => searchInput.focus(), 100);
         }}
 
         function closeSearchModal() {{
@@ -1411,12 +1446,162 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]], deploym
             }}
         }}
 
+        // Search autocomplete
+        const searchInput = document.getElementById('searchInput');
+        const autocomplete = document.getElementById('autocomplete');
+        const selectedItemsContainer = document.getElementById('selectedItems');
+
+        searchInput.addEventListener('input', function() {{
+            const value = this.value.toLowerCase().trim();
+            autocomplete.innerHTML = '';
+            currentFocus = -1;
+
+            if (!value) {{
+                autocomplete.classList.remove('show');
+                // If no search term, show all recipes
+                filterRecipes();
+                return;
+            }}
+
+            // Filter and show matching items
+            const matches = allSearchItems.filter(item => {{
+                const label = item.label.toLowerCase();
+                const isSelected = selectedItems.some(s => s.label === item.label && s.type === item.type);
+                return label.includes(value) && !isSelected;
+            }});
+
+            if (matches.length > 0) {{
+                matches.slice(0, 10).forEach(item => {{
+                    const suggestionEl = document.createElement('div');
+                    suggestionEl.className = 'search-suggestion';
+                    const typeLabel = item.type === 'tag' ? '🏷️ ' : item.type === 'recipe' ? '🍽️ ' : '';
+                    suggestionEl.innerHTML = `${{typeLabel}}${{item.label}}`;
+                    suggestionEl.addEventListener('click', () => addItem(item));
+                    autocomplete.appendChild(suggestionEl);
+                }});
+                autocomplete.classList.add('show');
+            }} else {{
+                autocomplete.classList.remove('show');
+            }}
+
+            // Also filter recipes as you type
+            filterRecipes();
+        }});
+
+        // Keyboard navigation
+        searchInput.addEventListener('keydown', function(e) {{
+            const suggestions = autocomplete.getElementsByClassName('search-suggestion');
+            if (e.key === 'ArrowDown') {{
+                e.preventDefault();
+                currentFocus++;
+                updateActiveSuggestion(suggestions);
+            }} else if (e.key === 'ArrowUp') {{
+                e.preventDefault();
+                currentFocus--;
+                updateActiveSuggestion(suggestions);
+            }} else if (e.key === 'Enter') {{
+                e.preventDefault();
+                if (currentFocus > -1 && suggestions[currentFocus]) {{
+                    const index = currentFocus;
+                    const matches = allSearchItems.filter(item => {{
+                        const label = item.label.toLowerCase();
+                        const isSelected = selectedItems.some(s => s.label === item.label && s.type === item.type);
+                        return label.includes(searchInput.value.toLowerCase().trim()) && !isSelected;
+                    }});
+                    if (matches[index]) {{
+                        addItem(matches[index]);
+                    }}
+                }}
+            }}
+        }});
+
+        function updateActiveSuggestion(suggestions) {{
+            if (!suggestions.length) return;
+            if (currentFocus >= suggestions.length) currentFocus = 0;
+            if (currentFocus < 0) currentFocus = suggestions.length - 1;
+
+            Array.from(suggestions).forEach((s, i) => {{
+                s.classList.toggle('active', i === currentFocus);
+                if (i === currentFocus) {{
+                    s.scrollIntoView({{ block: 'nearest', behavior: 'smooth' }});
+                }}
+            }});
+        }}
+
+        function addItem(item) {{
+            if (!selectedItems.some(s => s.label === item.label && s.type === item.type)) {{
+                selectedItems.push(item);
+                renderSelectedItems();
+                searchInput.value = '';
+                autocomplete.innerHTML = '';
+                autocomplete.classList.remove('show');
+                filterRecipes();
+            }}
+        }}
+
+        function removeItem(item) {{
+            selectedItems = selectedItems.filter(i => !(i.label === item.label && i.type === item.type));
+            renderSelectedItems();
+            filterRecipes();
+        }}
+
+        function renderSelectedItems() {{
+            selectedItemsContainer.innerHTML = '';
+            selectedItems.forEach(item => {{
+                const itemEl = document.createElement('div');
+                itemEl.className = 'selected-item';
+
+                // Add type indicator
+                const typeLabel = item.type === 'tag' ? '🏷️ ' : item.type === 'recipe' ? '🍽️ ' : '';
+                itemEl.innerHTML = `
+                    <span>${{typeLabel}}${{item.label}}</span>
+                    <span class="selected-item-remove" onclick='removeItem(${{JSON.stringify(item)}})'>&times;</span>
+                `;
+                selectedItemsContainer.appendChild(itemEl);
+            }});
+        }}
+
+        // Close autocomplete when clicking outside
+        document.addEventListener('click', function(e) {{
+            if (!e.target.closest('.search-container-modal')) {{
+                autocomplete.classList.remove('show');
+            }}
+        }});
+
+        // Reset search functionality
+        function resetModalSearch() {{
+            selectedItems = [];
+            searchInput.value = '';
+            autocomplete.innerHTML = '';
+            autocomplete.classList.remove('show');
+            renderSelectedItems();
+            filterRecipes();
+        }}
+
+        document.getElementById('resetModalSearch').addEventListener('click', resetModalSearch);
+
         function filterRecipes() {{
-            const query = document.getElementById('searchInput').value.toLowerCase();
+            // Separate selected items by type
+            const selectedTags = selectedItems.filter(i => i.type === 'tag').map(i => i.label);
+            const selectedRecipes = selectedItems.filter(i => i.type === 'recipe').map(i => i.value);
+
+            // Get simple text query from input
+            const query = searchInput.value.toLowerCase().trim();
+
             const results = Object.entries(recipeData).filter(([slug, recipe]) => {{
-                const nameMatch = recipe.name.toLowerCase().includes(query);
-                const tagMatch = recipe.tags?.some(tag => tag.toLowerCase().includes(query));
-                return nameMatch || tagMatch;
+                // Check if matches recipe name filter (empty = show all)
+                const matchesRecipe = selectedRecipes.length === 0 || selectedRecipes.includes(slug);
+
+                // Check if matches tag filter (recipe must have ALL selected tags)
+                const matchesTags = selectedTags.length === 0 || selectedTags.every(tag => recipe.tags?.includes(tag));
+
+                // Check if matches text query (name or tags)
+                const matchesQuery = !query ||
+                    recipe.name.toLowerCase().includes(query) ||
+                    recipe.tags?.some(tag => tag.toLowerCase().includes(query));
+
+                // Show recipe only if it matches all filters
+                return matchesRecipe && matchesTags && matchesQuery;
             }});
 
             const resultsHtml = results.map(([slug, recipe]) => `

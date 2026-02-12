@@ -1147,6 +1147,17 @@ h1 {
 .close-modal-btn:hover {
     color: var(--text-color);
 }
+.search-container-modal {
+    margin-bottom: 16px;
+    flex-shrink: 0;
+}
+.search-label {
+    display: block;
+    font-weight: 600;
+    color: var(--text-color);
+    margin-bottom: 10px;
+    font-size: 1em;
+}
 .search-input {
     width: 100%;
     padding: 12px;
@@ -1155,12 +1166,78 @@ h1 {
     font-size: 1em;
     background-color: var(--bg-color);
     color: var(--text-color);
-    margin-bottom: 16px;
     box-sizing: border-box;
-    flex-shrink: 0;
 }
 .search-input:focus {
     outline: none;
+    border-color: var(--primary-color);
+}
+.autocomplete {
+    position: relative;
+    margin-top: 5px;
+    background-color: var(--bg-color);
+    border: 2px solid var(--border-color);
+    border-radius: 6px;
+    max-height: 200px;
+    overflow-y: auto;
+    display: none;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+.autocomplete.show {
+    display: block;
+}
+.search-suggestion {
+    padding: 10px 15px;
+    cursor: pointer;
+    transition: background-color 0.15s;
+    color: var(--text-color);
+}
+.search-suggestion:hover, .search-suggestion.active {
+    background-color: var(--primary-color);
+    color: white;
+}
+.selected-items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 12px;
+    margin-bottom: 12px;
+}
+.selected-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    background-color: var(--primary-color);
+    color: white;
+    border-radius: 20px;
+    font-size: 0.9em;
+    font-weight: 500;
+}
+.selected-item-remove {
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 1.1em;
+    line-height: 1;
+    transition: opacity 0.2s;
+}
+.selected-item-remove:hover {
+    opacity: 0.7;
+}
+.reset-button {
+    padding: 8px 16px;
+    background-color: var(--bg-secondary);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.95em;
+    transition: all 0.2s ease;
+    margin-top: 8px;
+}
+.reset-button:hover {
+    background-color: var(--primary-color);
+    color: white;
     border-color: var(--primary-color);
 }
 .search-results {
