@@ -7,7 +7,7 @@ prep_time: 10
 cook_time: 0
 tags:
   - Äpfel
-  - Cranberrys
+  - Rosinen
   - Haferflocken
   - Haselnüsse
   - Honig
@@ -37,7 +37,7 @@ ingredients:
     amount: 2 TL
   - name: Zimt
     amount: nach Geschmack
-  - name: Cranberrys oder Rosinen
+  - name: Rosinen
     amount: nach Geschmack
 
 instructions:
