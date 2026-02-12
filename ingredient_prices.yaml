@@ -5,6 +5,9 @@
 
 # Vegetables
 Tomaten: {price: 5.00, unit: "kg"}
+Kirschtomaten: {price: 7.00, unit: "kg"}
+Avocado: {price: 2.50, unit: "piece"}
+Zwiebel: {price: 2.50, unit: "kg"}
 Zwiebeln: {price: 2.50, unit: "kg"}
 Rote Zwiebel: {price: 3.00, unit: "kg"}
 Frühlingszwiebeln: {price: 4.00, unit: "kg"}
@@ -36,6 +39,7 @@ Zitrone: {price: 0.50, unit: "piece"}
 Zitronen: {price: 0.50, unit: "piece"}
 Limette: {price: 0.60, unit: "piece"}
 Limetten: {price: 0.60, unit: "piece"}
+Limettensaft: {price: 10.00, unit: "L"}
 
 # Dairy & Eggs
 Milch: {price: 1.50, unit: "L"}
@@ -52,6 +56,7 @@ Quark: {price: 6.00, unit: "kg"}
 
 # Meat & Fish
 Rindfleisch: {price: 25.00, unit: "kg"}
+Rinderfilet: {price: 45.00, unit: "kg"}
 Hackfleisch: {price: 18.00, unit: "kg"}
 Hähnchenbrust: {price: 20.00, unit: "kg"}
 Putenbrust: {price: 22.00, unit: "kg"}

@@ -2198,7 +2198,12 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]], 
                 saveMealPlans(mealPlans);
             }}
 
-            loadShoppingList();
+            // Reload the current view
+            if (currentView === 'alphabetical') {{
+                loadShoppingListAlphabetical();
+            }} else {{
+                loadShoppingList();
+            }}
         }}
 
         function incrementServings(recipeSlug, currentServings) {{
@@ -2231,7 +2236,13 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]], 
                 }};
 
                 saveMealPlans(mealPlans);
-                loadShoppingList();
+
+                // Reload the current view
+                if (currentView === 'alphabetical') {{
+                    loadShoppingListAlphabetical();
+                }} else {{
+                    loadShoppingList();
+                }}
             }}
         }}
 
@@ -2407,7 +2418,7 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]], 
             html += `
                 <div style="background-color: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 6px; padding: 12px 16px; margin-bottom: 20px;">
                     <p style="margin: 0; color: var(--text-color); font-size: 1em;">
-                        <strong>💰 Geschätzte Gesamtkosten (BIO): ${{totalCost.toFixed(2).replace('.', ',')}} €</strong>
+                        <strong>💰 Geschätzte Gesamtkosten: ${{totalCost.toFixed(2).replace('.', ',')}} €</strong>
                     </p>
                 </div>
             `;
@@ -2456,8 +2467,7 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]], 
                         <p class="recipe-meta">
                             Original: ${{originalServings}} Portionen → Aktuell: ${{targetServings}} Portionen
                             <br>
-                            <strong>Geschätzte Kosten (BIO): ${{((recipeInfo.cost || 0) * targetServings / originalServings).toFixed(2).replace('.', ',')}} €</strong>
-                            ${{!recipeInfo.cost_complete ? ' <span style="color: var(--text-tertiary); font-size: 0.9em;">(teilweise geschätzt)</span>' : ''}}
+                            <strong>Geschätzte Kosten: ${{((recipeInfo.cost || 0) * targetServings / originalServings).toFixed(2).replace('.', ',')}} €</strong>
                         </p>
                         <ul class="ingredients-list">
                 `;
@@ -2570,7 +2580,7 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]], 
             html += `
                 <div style="background-color: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 6px; padding: 12px 16px; margin-bottom: 20px;">
                     <p style="margin: 0; color: var(--text-color); font-size: 1em;">
-                        <strong>💰 Geschätzte Gesamtkosten (BIO): ${{totalCost.toFixed(2).replace('.', ',')}} €</strong>
+                        <strong>💰 Geschätzte Gesamtkosten: ${{totalCost.toFixed(2).replace('.', ',')}} €</strong>
                     </p>
                 </div>
             `;
