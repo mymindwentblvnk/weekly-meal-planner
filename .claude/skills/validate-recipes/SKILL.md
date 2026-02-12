@@ -13,8 +13,9 @@ This skill performs comprehensive validation of all recipes and automatically fi
 3. **Fixes missing tags** - Adds tags based on ingredients
 4. **Fixes incomplete hierarchical tags** - Ensures generic + specific tag pairs
 5. **Sorts tags alphabetically** - Uses German alphabetization (ä=a, ö=o, ü=u)
-6. **Regenerates HTML** - Runs `python main.py`
-7. **Commits and pushes** - Saves all changes to Git
+6. **Fixes missing costs** - Calculates and adds estimated_cost if missing
+7. **Regenerates HTML** - Runs `python main.py`
+8. **Commits and pushes** - Saves all changes to Git
 
 ## Using recipe-utils.py
 
@@ -128,17 +129,70 @@ German alphabetization (DIN 5007-1):
 - ü treated as 'u'
 - ß treated as 'ss'
 
-### Step 5: Validate Again
+### Step 5: Fix Missing Costs
+
+Check for missing `estimated_cost` field and calculate it if needed:
+
+```python
+from recipe_generator.cost_calculator import load_prices, calculate_recipe_cost
+import yaml
+
+# Load recipe
+with open(yaml_file, 'r', encoding='utf-8') as f:
+    recipe = yaml.safe_load(f)
+
+# Check if cost is missing
+if 'estimated_cost' not in recipe:
+    # Calculate cost
+    prices = load_prices()
+    total_cost, priced_count, total_count = calculate_recipe_cost(recipe, prices)
+
+    # Add to recipe
+    recipe['estimated_cost'] = round(total_cost, 2)
+
+    # Save back to file (maintain field order)
+    # ... (use proper YAML formatting)
+```
+
+**Key Points:**
+- Add `estimated_cost` field after `cook_time`
+- Format: `estimated_cost: 11.68  # EUR - 9/9 ingredients priced`
+- Include comment showing ingredient coverage
+- If cost is 0.00, still add it (can be manually adjusted later)
+
+**Example:**
+```yaml
+# Before
+prep_time: 10  # minutes
+cook_time: 20  # minutes
+tags:
+  - Lachs
+
+# After
+prep_time: 10  # minutes
+cook_time: 20  # minutes
+estimated_cost: 15.50  # EUR - 7/10 ingredients priced
+tags:
+  - Lachs
+```
+
+### Step 6: Validate Again
 
 After fixes, run `validate_all_recipes()` again to confirm all issues are resolved.
 
-### Step 6: Regenerate HTML
+Also verify all recipes have `estimated_cost`:
+```bash
+# Check for recipes without cost
+grep -L "estimated_cost:" recipes/**/*.yaml
+```
+
+### Step 7: Regenerate HTML
 
 ```bash
 python main.py
 ```
 
-### Step 7: Commit and Push
+### Step 8: Commit and Push
 
 ```bash
 git add recipes/
@@ -147,6 +201,7 @@ git commit -m "Validate and fix recipe metadata
 - Fixed [X] recipes with missing descriptions
 - Fixed [Y] recipes with incomplete hierarchical tags
 - Fixed [Z] recipes with unsorted tags
+- Fixed [N] recipes with missing costs
 - All recipes now pass validation
 
 Co-Authored-By: Claude (@vertex-ai/anthropic.claude-sonnet-4-5@20250929) <noreply@anthropic.com>"
