@@ -131,34 +131,20 @@ German alphabetization (DIN 5007-1):
 
 ### Step 5: Fix Missing Costs
 
-Check for missing `estimated_cost` field and calculate it if needed:
+Check for missing `estimated_cost` field and ask user to provide it:
 
-```python
-from recipe_generator.cost_calculator import load_prices, calculate_recipe_cost
-import yaml
-
-# Load recipe
-with open(yaml_file, 'r', encoding='utf-8') as f:
-    recipe = yaml.safe_load(f)
-
-# Check if cost is missing
-if 'estimated_cost' not in recipe:
-    # Calculate cost
-    prices = load_prices()
-    total_cost, priced_count, total_count = calculate_recipe_cost(recipe, prices)
-
-    # Add to recipe
-    recipe['estimated_cost'] = round(total_cost, 2)
-
-    # Save back to file (maintain field order)
-    # ... (use proper YAML formatting)
-```
+**Process:**
+1. Identify recipes without `estimated_cost` field
+2. For each recipe, ask user: "What is the estimated cost for [Recipe Name] (for [X] servings)? Please provide in EUR."
+3. User provides cost as number (e.g., "12.50" or "8")
+4. Add to recipe file after `cook_time` field
+5. If user skips/says "don't know", use 0.00 as placeholder
 
 **Key Points:**
 - Add `estimated_cost` field after `cook_time`
-- Format: `estimated_cost: 11.68  # EUR - 9/9 ingredients priced`
-- Include comment showing ingredient coverage
-- If cost is 0.00, still add it (can be manually adjusted later)
+- Format: `estimated_cost: 11.68  # EUR`
+- Cost is user-provided, not automatically calculated
+- If user provides 0.00, it can be adjusted later
 
 **Example:**
 ```yaml
@@ -168,10 +154,10 @@ cook_time: 20  # minutes
 tags:
   - Lachs
 
-# After
+# After (user provided 15.50)
 prep_time: 10  # minutes
 cook_time: 20  # minutes
-estimated_cost: 15.50  # EUR - 7/10 ingredients priced
+estimated_cost: 15.50  # EUR
 tags:
   - Lachs
 ```

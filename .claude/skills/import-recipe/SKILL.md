@@ -139,17 +139,17 @@ Convert recipe name to slug:
 - "Baba Ghanoush" → `baba-ghanoush.yaml`
 - "Rührei wie im Hotel" → `ruehrei-wie-im-hotel.yaml`
 
-### Step 10: Calculate Estimated Cost
+### Step 10: Ask User for Estimated Cost
 
-Use the cost calculator to estimate BIO costs:
-```python
-from recipe_generator.cost_calculator import load_prices, calculate_recipe_cost, format_cost
+After creating the recipe, ask the user for the estimated cost:
 
-prices = load_prices()
-total_cost, priced_count, total_count = calculate_recipe_cost(recipe, prices)
-```
+**Prompt:**
+"What is the estimated cost for this recipe (for {servings} servings)? Please provide in EUR."
 
-Add cost to recipe metadata for manual adjustment later.
+**Input format:**
+- User provides cost as number (e.g., "12.50" or "8")
+- Store as float in YAML
+- If user skips/says "don't know", use 0.00 as placeholder
 
 ## Step 11: Create YAML File
 
@@ -162,7 +162,7 @@ category: 🍲
 servings: 4
 prep_time: 15  # minutes
 cook_time: 30  # minutes
-estimated_cost: 5.50  # EUR - estimated BIO cost for base servings
+estimated_cost: 5.50  # EUR
 tags:
   - Tag1
   - Tag2
@@ -178,8 +178,8 @@ instructions:
   - Step 2
 ```
 
-**Note:** `estimated_cost` is the total cost for the recipe at base servings.
-It will be scaled automatically when servings are adjusted.
+**Note:** `estimated_cost` is the user-provided total cost for the recipe at base servings.
+It will be scaled automatically when servings are adjusted in the shopping list.
 
 ### Step 11: Regenerate HTML and Commit
 

@@ -242,20 +242,17 @@ def find_recipes_without_cost(recipes_dir='recipes'):
     return missing_cost
 
 
-def add_estimated_cost(recipe_file):
+def add_estimated_cost(recipe_file, cost):
     """
-    Calculate and add estimated_cost to a recipe file.
+    Add user-provided estimated_cost to a recipe file.
 
     Args:
         recipe_file: Path to recipe YAML file
+        cost: User-provided cost as float
 
     Returns:
-        dict with 'added' (bool), 'cost' (float), 'coverage' (str)
+        dict with 'added' (bool), 'cost' (float)
     """
-    import sys
-    sys.path.insert(0, str(Path.cwd()))
-    from recipe_generator.cost_calculator import load_prices, calculate_recipe_cost
-
     # Read recipe
     with open(recipe_file, 'r', encoding='utf-8') as f:
         content = f.read()
@@ -265,13 +262,8 @@ def add_estimated_cost(recipe_file):
     if 'estimated_cost' in recipe:
         return {
             'added': False,
-            'cost': recipe['estimated_cost'],
-            'coverage': 'already exists'
+            'cost': recipe['estimated_cost']
         }
-
-    # Calculate cost
-    prices = load_prices()
-    total_cost, priced_count, total_count = calculate_recipe_cost(recipe, prices)
 
     # Find position to insert (after cook_time)
     lines = content.split('\n')
@@ -297,8 +289,7 @@ def add_estimated_cost(recipe_file):
                 break
 
     # Add cost line
-    coverage = f"{priced_count}/{total_count}"
-    cost_line = f"estimated_cost: {total_cost:.2f}  # EUR - {coverage} ingredients priced"
+    cost_line = f"estimated_cost: {cost:.2f}  # EUR"
 
     if insert_index is not None:
         lines.insert(insert_index, cost_line)
@@ -309,14 +300,12 @@ def add_estimated_cost(recipe_file):
 
         return {
             'added': True,
-            'cost': total_cost,
-            'coverage': coverage
+            'cost': cost
         }
 
     return {
         'added': False,
-        'cost': 0.0,
-        'coverage': 'could not insert'
+        'cost': 0.0
     }
 
 
