@@ -1,0 +1,124 @@
+# BIO Ingredient Price Database (EUR)
+# Prices are estimates based on typical German BIO supermarket prices
+# Update these prices based on your local market research
+# Format: ingredient_name: {price: X.XX, unit: "kg/L/piece", notes: "optional"}
+
+# Vegetables
+Tomaten: {price: 5.00, unit: "kg"}
+Zwiebeln: {price: 2.50, unit: "kg"}
+Rote Zwiebel: {price: 3.00, unit: "kg"}
+Frühlingszwiebeln: {price: 4.00, unit: "kg"}
+Knoblauch: {price: 18.00, unit: "kg"}
+Knoblauchzehe: {price: 0.30, unit: "piece"}
+Knoblauchzehen: {price: 0.30, unit: "piece"}
+Kartoffeln: {price: 2.50, unit: "kg"}
+Möhren: {price: 2.50, unit: "kg"}
+Paprika: {price: 7.00, unit: "kg"}
+Rote Paprika: {price: 7.00, unit: "kg"}
+Gurke: {price: 2.00, unit: "piece"}
+Mini-Gurken: {price: 1.50, unit: "piece"}
+Aubergine: {price: 6.00, unit: "kg"}
+Zucchini: {price: 4.50, unit: "kg"}
+Spinat: {price: 8.00, unit: "kg"}
+Chinakohl: {price: 3.50, unit: "kg"}
+Kohl: {price: 2.50, unit: "kg"}
+Weißkohl: {price: 2.50, unit: "kg"}
+Wirsing: {price: 3.00, unit: "kg"}
+Wassermelone: {price: 2.00, unit: "kg"}
+Mais: {price: 1.50, unit: "piece"}
+Maiskolben: {price: 1.50, unit: "piece"}
+
+# Fruits
+Äpfel: {price: 3.50, unit: "kg"}
+Heidelbeeren: {price: 12.00, unit: "kg"}
+Himbeeren: {price: 14.00, unit: "kg"}
+Zitrone: {price: 0.50, unit: "piece"}
+Zitronen: {price: 0.50, unit: "piece"}
+Limette: {price: 0.60, unit: "piece"}
+Limetten: {price: 0.60, unit: "piece"}
+
+# Dairy & Eggs
+Milch: {price: 1.50, unit: "L"}
+Joghurt: {price: 2.50, unit: "kg"}
+Joghurt (griechisch): {price: 4.00, unit: "kg"}
+Griechischer Joghurt: {price: 4.00, unit: "kg"}
+Eier: {price: 0.50, unit: "piece"}
+Ei: {price: 0.50, unit: "piece"}
+Butter: {price: 12.00, unit: "kg"}
+Käse: {price: 15.00, unit: "kg"}
+Feta: {price: 16.00, unit: "kg"}
+Frischkäse: {price: 10.00, unit: "kg"}
+Quark: {price: 6.00, unit: "kg"}
+
+# Meat & Fish
+Rindfleisch: {price: 25.00, unit: "kg"}
+Hackfleisch: {price: 18.00, unit: "kg"}
+Hähnchenbrust: {price: 20.00, unit: "kg"}
+Putenbrust: {price: 22.00, unit: "kg"}
+Minutenschnitzel: {price: 24.00, unit: "kg"}
+Lachs: {price: 35.00, unit: "kg"}
+Lachsfilet: {price: 38.00, unit: "kg"}
+Wildlachsfilet: {price: 40.00, unit: "kg"}
+Seelachs: {price: 25.00, unit: "kg"}
+Thunfisch: {price: 15.00, unit: "kg", notes: "canned"}
+Fisch: {price: 30.00, unit: "kg"}
+
+# Grains & Pasta
+Haferflocken: {price: 3.00, unit: "kg"}
+Reis: {price: 4.00, unit: "kg"}
+Wildreis: {price: 12.00, unit: "kg"}
+Nudeln: {price: 4.00, unit: "kg"}
+Gnocchi: {price: 8.00, unit: "kg"}
+Mehl: {price: 2.00, unit: "kg"}
+Glasnudeln: {price: 8.00, unit: "kg"}
+Buchweizen: {price: 5.00, unit: "kg"}
+
+# Legumes & Nuts
+Kichererbsen: {price: 5.00, unit: "kg"}
+Linsen: {price: 6.00, unit: "kg"}
+Bohnen: {price: 4.00, unit: "kg"}
+Nüsse: {price: 18.00, unit: "kg"}
+Walnüsse: {price: 20.00, unit: "kg"}
+Haselnüsse: {price: 18.00, unit: "kg"}
+Mandeln: {price: 20.00, unit: "kg"}
+Erdnüsse: {price: 12.00, unit: "kg"}
+Pinienkerne: {price: 45.00, unit: "kg"}
+Leinsamen: {price: 8.00, unit: "kg"}
+Chiasamen: {price: 15.00, unit: "kg"}
+Sesam: {price: 12.00, unit: "kg"}
+Sesamöl: {price: 20.00, unit: "L"}
+
+# Oils & Condiments
+Olivenöl: {price: 15.00, unit: "L"}
+Öl: {price: 10.00, unit: "L"}
+Essig: {price: 5.00, unit: "L"}
+Balsamico: {price: 8.00, unit: "L"}
+Sojasoße: {price: 12.00, unit: "L"}
+Tomatenmark: {price: 8.00, unit: "kg"}
+Senf: {price: 6.00, unit: "kg"}
+Mayonnaise: {price: 10.00, unit: "kg"}
+Honig: {price: 20.00, unit: "kg"}
+Ahornsirup: {price: 25.00, unit: "L"}
+Tahini: {price: 15.00, unit: "kg"}
+
+# Herbs & Spices
+Salz: {price: 2.00, unit: "kg"}
+Pfeffer: {price: 30.00, unit: "kg"}
+Kräutersalz: {price: 8.00, unit: "kg"}
+Petersilie: {price: 0.80, unit: "bunch"}
+Koriander: {price: 1.00, unit: "bunch"}
+Minze: {price: 0.80, unit: "bunch"}
+Basilikum: {price: 0.80, unit: "bunch"}
+Thymian: {price: 0.80, unit: "bunch"}
+Rucola: {price: 8.00, unit: "kg"}
+Zimt: {price: 40.00, unit: "kg"}
+
+# Canned & Preserved
+Mais (Dose): {price: 2.00, unit: "piece", notes: "per 140g can"}
+Tomaten (Dose): {price: 2.50, unit: "kg"}
+Gemüsebrühe: {price: 15.00, unit: "L"}
+Kokosmilch: {price: 4.00, unit: "L"}
+
+# Other
+Rosinen: {price: 8.00, unit: "kg"}
+Cranberrys: {price: 12.00, unit: "kg"}
