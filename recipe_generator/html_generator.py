@@ -2390,7 +2390,27 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]], 
             const validItemIds = new Set();
             let totalCost = 0;
 
+            // First pass: calculate total cost
+            plan.recipes.forEach((recipeInstance) => {{
+                const slug = recipeInstance.slug;
+                const recipeInfo = recipeData[slug];
+                if (!recipeInfo) return;
+                const originalServings = recipeInfo.servings || 2;
+                const targetServings = recipeInstance.servings || 2;
+                const recipeCost = (recipeInfo.cost || 0) * targetServings / originalServings;
+                totalCost += recipeCost;
+            }});
+
             let html = '<div class="shopping-list-container">';
+
+            // Add total cost summary at the top
+            html += `
+                <div style="background-color: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 6px; padding: 12px 16px; margin-bottom: 20px;">
+                    <p style="margin: 0; color: var(--text-color); font-size: 1em;">
+                        <strong>💰 Geschätzte Gesamtkosten (BIO): ${{totalCost.toFixed(2).replace('.', ',')}} €</strong>
+                    </p>
+                </div>
+            `;
 
             // Show each recipe instance separately (no aggregation)
             plan.recipes.forEach((recipeInstance, instanceIndex) => {{
@@ -2400,8 +2420,6 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]], 
 
                 const originalServings = recipeInfo.servings || 2;
                 const targetServings = recipeInstance.servings || 2;
-                const recipeCost = (recipeInfo.cost || 0) * targetServings / originalServings;
-                totalCost += recipeCost;
 
                 html += `
                     <div class="recipe-shopping-section">
@@ -2479,21 +2497,6 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]], 
                 `;
             }});
 
-            // Add total cost summary
-            html += `
-                <div class="recipe-shopping-section" style="background-color: var(--primary-color); color: white; border: none;">
-                    <div class="recipe-header" style="border-bottom-color: rgba(255,255,255,0.3);">
-                        <h2 class="recipe-title" style="color: white;">💰 Gesamtkosten</h2>
-                    </div>
-                    <p class="recipe-meta" style="color: white; font-size: 1.2em; margin: 10px 0;">
-                        <strong>Geschätzte Gesamtkosten (BIO): ${{totalCost.toFixed(2).replace('.', ',')}} €</strong>
-                    </p>
-                    <p style="color: rgba(255,255,255,0.9); font-size: 0.85em; font-style: italic; margin: 5px 0;">
-                        Basierend auf BIO-Preisen. Tatsächliche Preise können variieren.
-                    </p>
-                </div>
-            `;
-
             html += '</div>';
             container.innerHTML = html;
         }}
@@ -2521,6 +2524,17 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]], 
             const validItemIds = new Set();
             let totalCost = 0;
 
+            // First pass: calculate total cost
+            plan.recipes.forEach((recipeInstance) => {{
+                const slug = recipeInstance.slug;
+                const recipeInfo = recipeData[slug];
+                if (!recipeInfo) return;
+                const originalServings = recipeInfo.servings || 2;
+                const targetServings = recipeInstance.servings || 2;
+                const recipeCost = (recipeInfo.cost || 0) * targetServings / originalServings;
+                totalCost += recipeCost;
+            }});
+
             // Collect all ingredients from all recipe instances (no aggregation)
             const allIngredients = [];
             plan.recipes.forEach((recipeInstance, instanceIndex) => {{
@@ -2530,8 +2544,6 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]], 
 
                 const originalServings = recipeInfo.servings || 2;
                 const targetServings = recipeInstance.servings || 2;
-                const recipeCost = (recipeInfo.cost || 0) * targetServings / originalServings;
-                totalCost += recipeCost;
 
                 recipeInfo.ingredients.forEach((ingredient, index) => {{
                     const scaledAmount = scaleAmount(ingredient.amount, originalServings, targetServings);
@@ -2553,6 +2565,16 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]], 
 
             // Render alphabetical list
             let html = '<div class="shopping-list-container">';
+
+            // Add total cost summary at the top
+            html += `
+                <div style="background-color: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 6px; padding: 12px 16px; margin-bottom: 20px;">
+                    <p style="margin: 0; color: var(--text-color); font-size: 1em;">
+                        <strong>💰 Geschätzte Gesamtkosten (BIO): ${{totalCost.toFixed(2).replace('.', ',')}} €</strong>
+                    </p>
+                </div>
+            `;
+
             html += '<div class="recipe-shopping-section">';
             html += '<h2 class="recipe-title">Alle Zutaten alphabetisch</h2>';
             html += '<ul class="ingredients-list">';
@@ -2582,22 +2604,6 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]], 
 
             html += '</ul>';
             html += '</div>';
-
-            // Add total cost summary
-            html += `
-                <div class="recipe-shopping-section" style="background-color: var(--primary-color); color: white; border: none;">
-                    <div class="recipe-header" style="border-bottom-color: rgba(255,255,255,0.3);">
-                        <h2 class="recipe-title" style="color: white;">💰 Gesamtkosten</h2>
-                    </div>
-                    <p class="recipe-meta" style="color: white; font-size: 1.2em; margin: 10px 0;">
-                        <strong>Geschätzte Gesamtkosten (BIO): ${{totalCost.toFixed(2).replace('.', ',')}} €</strong>
-                    </p>
-                    <p style="color: rgba(255,255,255,0.9); font-size: 0.85em; font-style: italic; margin: 5px 0;">
-                        Basierend auf BIO-Preisen. Tatsächliche Preise können variieren.
-                    </p>
-                </div>
-            `;
-
             html += '</div>';
             container.innerHTML = html;
         }}
