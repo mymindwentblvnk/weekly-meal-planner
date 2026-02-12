@@ -1,0 +1,45 @@
+name: Frische Tomatensuppe
+description: Das pure Geschmackserlebnis
+author: Chefkoch
+category: 🍲
+servings: 4
+prep_time: 20
+cook_time: 30
+tags:
+  - Gemüsebrühe
+  - Knoblauch
+  - Kräutersalz
+  - Olivenöl
+  - Petersilie
+  - Thymian
+  - Tomaten
+  - Tomatenmark
+  - Zwiebeln
+
+ingredients:
+  - name: Tomaten
+    amount: 1 kg
+  - name: Zwiebeln
+    amount: 2
+  - name: Knoblauchzehen
+    amount: 3
+  - name: Olivenöl
+    amount: zum Braten
+  - name: Gemüsebrühe
+    amount: 750 ml
+  - name: Salz und weißer Pfeffer
+    amount: nach Geschmack
+  - name: Kräutersalz
+    amount: nach Geschmack
+  - name: Thymian (getrocknet)
+    amount: nach Geschmack
+  - name: Tomatenmark
+    amount: 3 TL
+  - name: Petersilie
+    amount: zum Servieren
+
+instructions:
+  - Tomaten an der Unterseite kreuzweise anritzen, in eine große Schüssel legen und mit kochendem Wasser übergießen. Nach 10 Minuten die Haut und den grünen Knopf entfernen und die geschälten Tomaten klein schneiden.
+  - Zwiebeln klein würfeln und Knoblauch pressen. Beides in Olivenöl anbraten und nach ca. 3 Minuten die Tomatenstücke hinzugeben.
+  - Nach ein paar Minuten die Gemüsebrühe und die Gewürze (ohne Petersilie) hinzugeben und auf niedriger Temperatur 20 Minuten kochen.
+  - Tomatenmark unterrühren und die Suppe mit einem Mixstab fein pürieren. Nach Belieben mit den Gewürzen abschmecken und mit frischer Petersilie servieren.
