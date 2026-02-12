@@ -1,0 +1,46 @@
+name: Bircher Müsli
+description: Gesund, zuckerarm, sättigend, gut vorzubereiten
+author: Chefkoch
+category: 🥣
+servings: 3
+prep_time: 10
+cook_time: 0
+tags:
+  - Äpfel
+  - Cranberrys
+  - Haferflocken
+  - Haselnüsse
+  - Honig
+  - Joghurt
+  - Mandeln
+  - Milch
+  - Nüsse
+  - Rosinen
+  - Walnüsse
+  - Zimt
+  - Zitrone
+
+ingredients:
+  - name: Joghurt (griechisch)
+    amount: 500 g
+  - name: Milch
+    amount: 500 ml
+  - name: Haferflocken
+    amount: 200 g
+  - name: Zitrone (Saft)
+    amount: 1
+  - name: Äpfel
+    amount: 2
+  - name: Nüsse gemahlen (Walnüsse, Haselnüsse oder Mandeln)
+    amount: 35 g
+  - name: Honig
+    amount: 2 TL
+  - name: Zimt
+    amount: nach Geschmack
+  - name: Cranberrys oder Rosinen
+    amount: nach Geschmack
+
+instructions:
+  - Äpfel vom Strunk befreien und in einem Zerkleinerer klein schneiden, alternativ mit der Reibe fein reiben.
+  - Alle Zutaten in einer Schüssel gut verrühren und für mindestens 2 Stunden im Kühlschrank ruhen lassen, damit das Müsli schön cremig wird.
+  - Das Müsli hält sich im Kühlschrank bis zu einer Woche und kann daher für mehrere Tage vorbereitet werden.
