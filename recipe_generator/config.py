@@ -1385,6 +1385,8 @@ h1 {
     .copy-link-btn,
     .servings-btn,
     .search-modal,
+    .add-plan-modal,
+    #settingsModal,
     .dark-mode-toggle,
     .top-nav,
     nav,
