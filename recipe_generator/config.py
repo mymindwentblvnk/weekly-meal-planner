@@ -1371,6 +1371,7 @@ h1 {
     .servings-btn,
     .search-modal,
     .dark-mode-toggle,
+    .top-nav,
     nav,
     .page-header button,
     .week-nav-buttons,
