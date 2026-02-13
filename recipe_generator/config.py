@@ -1363,7 +1363,7 @@ h1 {
     body {
         background: white !important;
         color: black !important;
-        font-size: 9pt;
+        font-size: 10pt;
         width: 100%;
         max-width: 100%;
     }
@@ -1400,17 +1400,17 @@ h1 {
     /* Show servings info in print */
     .servings-control {
         display: block !important;
-        margin-top: 1px;
+        margin-top: 2px;
     }
 
     .servings-adjuster {
         display: flex;
-        gap: 1px;
+        gap: 2px;
         align-items: center;
     }
 
     .servings-value {
-        font-size: 6pt;
+        font-size: 7pt;
         color: #666 !important;
         font-weight: normal;
     }
@@ -1421,24 +1421,24 @@ h1 {
 
     /* Optimize header */
     .page-header {
-        margin-bottom: 4px;
+        margin-bottom: 6px;
     }
 
     .page-header h1 {
-        font-size: 14pt;
-        margin: 0 0 2px 0;
+        font-size: 16pt;
+        margin: 0 0 4px 0;
         color: black !important;
     }
 
     .week-info {
-        font-size: 10pt;
+        font-size: 11pt;
         color: #333 !important;
-        margin-bottom: 4px;
+        margin-bottom: 8px;
     }
 
     /* Compact day cards */
     .days-container {
-        gap: 4px;
+        gap: 6px;
         margin: 0;
     }
 
@@ -1446,7 +1446,7 @@ h1 {
         background: white !important;
         border: 1px solid #333 !important;
         border-radius: 8px;
-        padding: 4px 6px;
+        padding: 6px 8px;
         page-break-inside: avoid;
         box-shadow: none !important;
     }
@@ -1462,11 +1462,11 @@ h1 {
     }
 
     .day-header {
-        font-size: 10pt;
+        font-size: 11pt;
         font-weight: bold;
         color: black !important;
-        margin-bottom: 3px;
-        padding-bottom: 2px;
+        margin-bottom: 4px;
+        padding-bottom: 3px;
         border-bottom: 1px solid #666 !important;
         cursor: default;
     }
@@ -1478,38 +1478,38 @@ h1 {
     /* Optimize meal grid */
     .meals-grid {
         grid-template-columns: repeat(3, 1fr);
-        gap: 4px;
+        gap: 6px;
     }
 
     .meal-slot {
         background: #f5f5f5 !important;
         border: 1px solid #ccc !important;
         border-radius: 6px;
-        padding: 4px;
+        padding: 6px;
         min-height: auto;
     }
 
     .meal-type {
         font-weight: bold;
-        font-size: 7pt;
+        font-size: 8pt;
         color: #333 !important;
-        margin-bottom: 2px;
+        margin-bottom: 3px;
         text-transform: uppercase;
         letter-spacing: 0.2px;
     }
 
     .meal-content.empty {
-        min-height: 20px;
-        font-size: 6pt;
+        min-height: 28px;
+        font-size: 7pt;
         color: #999 !important;
     }
 
     .meal-content.assigned {
-        gap: 2px;
+        gap: 3px;
     }
 
     .assigned-recipe {
-        gap: 2px;
+        gap: 3px;
         flex-direction: column;
         align-items: flex-start;
     }
@@ -1521,15 +1521,15 @@ h1 {
     .recipe-name {
         font-weight: 500;
         color: black !important;
-        font-size: 7pt;
-        line-height: 1.1;
+        font-size: 8pt;
+        line-height: 1.2;
     }
 
     .recipe-link {
         display: inline !important;
         color: black !important;
         text-decoration: none !important;
-        font-size: 7pt;
+        font-size: 8pt;
         font-weight: 500;
     }
 
