@@ -1435,7 +1435,7 @@ h1 {
     .day-card {
         background: white !important;
         border: 1px solid #333 !important;
-        border-radius: 2px;
+        border-radius: 8px;
         padding: 4px 6px;
         page-break-inside: avoid;
         box-shadow: none !important;
@@ -1474,7 +1474,7 @@ h1 {
     .meal-slot {
         background: #f5f5f5 !important;
         border: 1px solid #ccc !important;
-        border-radius: 2px;
+        border-radius: 6px;
         padding: 4px;
         min-height: auto;
     }
