@@ -1327,6 +1327,11 @@ h1 {
     opacity: 0.7;
 }
 
+/* Hide disabled meal slots in screen view (shown in print) */
+.meal-slot-disabled {
+    display: none;
+}
+
 /* Mobile optimizations */
 @media (max-width: 768px) {
     .week-navigation {
@@ -1439,6 +1444,11 @@ h1 {
     /* Force expand all days */
     .day-card.collapsed .meals-grid {
         display: grid !important;
+    }
+
+    /* Show all meal slots in print, even if disabled in settings */
+    .meal-slot-disabled {
+        display: block !important;
     }
 
     .day-header {

@@ -1774,16 +1774,8 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]], deploym
             const allMealTypes = ['breakfast', 'lunch', 'dinner'];
             const allMealLabels = ['{get_text('breakfast')}', '{get_text('lunch')}', '{get_text('dinner')}'];
 
-            // Filter meals based on user settings
+            // Get enabled meals for filtering display
             const enabledMeals = getEnabledMeals();
-            const mealTypes = [];
-            const mealLabels = [];
-            allMealTypes.forEach((type, index) => {{
-                if (enabledMeals[type]) {{
-                    mealTypes.push(type);
-                    mealLabels.push(allMealLabels[index]);
-                }}
-            }});
 
             document.getElementById('weekInfo').textContent = `{get_text('week_of')} ${{formatDate(dates[0])}} - ${{formatDate(dates[6])}}`;
 
@@ -1810,14 +1802,17 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]], deploym
                         <div class="meals-grid">
                 `;
 
-                mealTypes.forEach((mealType, mealIndex) => {{
-                    const mealLabel = mealLabels[mealIndex];
+                // Render ALL meal types, but add disabled class if not enabled
+                allMealTypes.forEach((mealType, mealIndex) => {{
+                    const mealLabel = allMealLabels[mealIndex];
+                    const isEnabled = enabledMeals[mealType];
+                    const disabledClass = isEnabled ? '' : ' meal-slot-disabled';
                     const mealData = getMealForSlot(currentWeek, dayKey, mealType);
                     const recipe = mealData ? recipeData[mealData.slug] : null;
 
                     if (recipe && mealData) {{
                         html += `
-                            <div class="meal-slot">
+                            <div class="meal-slot${{disabledClass}}">
                                 <div class="meal-type">${{mealLabel}}</div>
                                 <div class="meal-content assigned">
                                     <div class="assigned-recipe">
@@ -1841,7 +1836,7 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]], deploym
                         `;
                     }} else {{
                         html += `
-                            <div class="meal-slot">
+                            <div class="meal-slot${{disabledClass}}">
                                 <div class="meal-type">${{mealLabel}}</div>
                                 <div class="meal-content empty">
                                     <p>{get_text('no_meal_assigned')}</p>
