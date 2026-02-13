@@ -1347,6 +1347,154 @@ h1 {
         padding: 16px;
     }
 }
+
+/* Print optimizations for A4 page */
+@media print {
+    @page {
+        size: A4;
+        margin: 10mm 12mm;
+    }
+
+    body {
+        background: white !important;
+        color: black !important;
+        font-size: 9pt;
+    }
+
+    /* Hide interactive elements */
+    .week-navigation,
+    .meal-actions,
+    .assign-btn,
+    .remove-meal-btn,
+    .change-btn,
+    .copy-link-btn,
+    .servings-control,
+    .search-modal,
+    .dark-mode-toggle,
+    nav,
+    .page-header button,
+    .week-nav-buttons,
+    .day-todos {
+        display: none !important;
+    }
+
+    /* Optimize header */
+    .page-header {
+        margin-bottom: 8px;
+    }
+
+    .page-header h1 {
+        font-size: 16pt;
+        margin: 0 0 4px 0;
+        color: black !important;
+    }
+
+    .week-info {
+        font-size: 11pt;
+        color: #333 !important;
+        margin-bottom: 8px;
+    }
+
+    /* Compact day cards */
+    .days-container {
+        gap: 8px;
+        margin: 0;
+    }
+
+    .day-card {
+        background: white !important;
+        border: 1px solid #333 !important;
+        border-radius: 4px;
+        padding: 8px 10px;
+        page-break-inside: avoid;
+        box-shadow: none !important;
+    }
+
+    /* Force expand all days */
+    .day-card.collapsed .meals-grid {
+        display: grid !important;
+    }
+
+    .day-header {
+        font-size: 11pt;
+        font-weight: bold;
+        color: black !important;
+        margin-bottom: 6px;
+        padding-bottom: 4px;
+        border-bottom: 1px solid #666 !important;
+        cursor: default;
+    }
+
+    .day-toggle {
+        display: none;
+    }
+
+    /* Optimize meal grid */
+    .meals-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 6px;
+    }
+
+    .meal-slot {
+        background: #f5f5f5 !important;
+        border: 1px solid #ccc !important;
+        border-radius: 3px;
+        padding: 6px;
+        min-height: auto;
+    }
+
+    .meal-type {
+        font-weight: bold;
+        font-size: 8pt;
+        color: #333 !important;
+        margin-bottom: 3px;
+        text-transform: uppercase;
+        letter-spacing: 0.3px;
+    }
+
+    .meal-content.empty {
+        min-height: 30px;
+        font-size: 7pt;
+        color: #999 !important;
+    }
+
+    .meal-content.assigned {
+        gap: 4px;
+    }
+
+    .assigned-recipe {
+        gap: 4px;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .recipe-emoji {
+        font-size: 1.2em;
+    }
+
+    .recipe-name {
+        font-weight: 500;
+        color: black !important;
+        font-size: 8pt;
+        line-height: 1.2;
+    }
+
+    .recipe-link {
+        display: none;
+    }
+
+    /* Remove all shadows and transitions */
+    * {
+        box-shadow: none !important;
+        transition: none !important;
+    }
+
+    /* Ensure links are black */
+    a {
+        color: black !important;
+        text-decoration: none !important;
+    }
+}
 """
 
 SHOPPING_LIST_PAGE_CSS = """
