@@ -1357,13 +1357,23 @@ h1 {
 @media print {
     @page {
         size: A4;
-        margin: 10mm 12mm;
+        margin: 8mm 10mm;
     }
 
     body {
         background: white !important;
         color: black !important;
         font-size: 9pt;
+        width: 100%;
+        max-width: 100%;
+    }
+
+    /* Scale content to use full page width */
+    .container {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
     }
 
     /* Hide interactive elements */
