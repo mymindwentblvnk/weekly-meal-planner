@@ -1491,7 +1491,7 @@ h1 {
     }
 
     .recipe-emoji {
-        font-size: 1.2em;
+        display: none;
     }
 
     .recipe-name {
