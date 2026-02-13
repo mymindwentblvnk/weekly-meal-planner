@@ -116,6 +116,10 @@ def generate_settings_modal() -> str:
                         </label>
                     </div>
                 </div>
+                <div class="form-group">
+                    <label>Aktionen:</label>
+                    <button class="week-nav-btn" onclick="window.print()" style="width: 100%; margin-top: 8px;">🖨️ Wochenplan drucken</button>
+                </div>
                 <div class="modal-actions">
                     <button class="cancel-btn" onclick="closeSettingsModal()">Abbrechen</button>
                     <button class="add-btn" onclick="saveSettings()">Speichern</button>
