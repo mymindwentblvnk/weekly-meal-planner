@@ -75,13 +75,24 @@ def generate_navigation() -> str:
     </div>'''
 
 
-def generate_settings_modal() -> str:
+def generate_settings_modal(show_print_button: bool = False) -> str:
     """Generate settings modal HTML.
+
+    Args:
+        show_print_button: Whether to show the print button (only for weekly plan page)
 
     Returns:
         HTML for settings modal
     """
-    return '''<!-- Settings Modal -->
+    print_button_html = ''
+    if show_print_button:
+        print_button_html = '''
+                <div class="form-group">
+                    <label>Aktionen:</label>
+                    <button class="week-nav-btn" onclick="window.print()" style="width: 100%; margin-top: 8px;">🖨️ Wochenplan drucken</button>
+                </div>'''
+
+    return f'''<!-- Settings Modal -->
     <div id="settingsModal" class="add-plan-modal" style="display: none;" onclick="closeSettingsModalOnBackdrop(event)">
         <div class="add-plan-modal-content" onclick="event.stopPropagation()">
             <div class="add-plan-modal-header">
@@ -115,11 +126,7 @@ def generate_settings_modal() -> str:
                             <span>🌙 Dunkelmodus</span>
                         </label>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label>Aktionen:</label>
-                    <button class="week-nav-btn" onclick="window.print()" style="width: 100%; margin-top: 8px;">🖨️ Wochenplan drucken</button>
-                </div>
+                </div>{print_button_html}
                 <div class="modal-actions">
                     <button class="cancel-btn" onclick="closeSettingsModal()">Abbrechen</button>
                     <button class="add-btn" onclick="saveSettings()">Speichern</button>
@@ -1238,7 +1245,7 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]], deploym
 
     <div id="daysContainer" class="days-container"></div>
 
-    {generate_settings_modal()}
+    {generate_settings_modal(show_print_button=True)}
 
     <div id="searchModal" class="search-modal" style="display: none;" onclick="closeModalOnBackdrop(event)">
         <div class="search-modal-content" onclick="event.stopPropagation()">
