@@ -1368,7 +1368,7 @@ h1 {
     .remove-meal-btn,
     .change-btn,
     .copy-link-btn,
-    .servings-control,
+    .servings-btn,
     .search-modal,
     .dark-mode-toggle,
     nav,
@@ -1376,6 +1376,28 @@ h1 {
     .week-nav-buttons,
     .day-todos {
         display: none !important;
+    }
+
+    /* Show servings info in print */
+    .servings-control {
+        display: block !important;
+        margin-top: 2px;
+    }
+
+    .servings-adjuster {
+        display: flex;
+        gap: 2px;
+        align-items: center;
+    }
+
+    .servings-value {
+        font-size: 7pt;
+        color: #666 !important;
+        font-weight: normal;
+    }
+
+    .servings-value::before {
+        content: "Portionen: ";
     }
 
     /* Optimize header */
@@ -1480,7 +1502,11 @@ h1 {
     }
 
     .recipe-link {
-        display: none;
+        display: inline !important;
+        color: black !important;
+        text-decoration: none !important;
+        font-size: 8pt;
+        font-weight: 500;
     }
 
     /* Remove all shadows and transitions */
