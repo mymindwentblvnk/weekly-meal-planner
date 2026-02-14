@@ -1745,7 +1745,7 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]], deploym
                 const isCollapsed = dayCard.classList.toggle('collapsed');
                 const toggle = dayCard.querySelector('.day-toggle');
                 if (toggle) {{
-                    toggle.textContent = isCollapsed ? '▶' : '▼';
+                    toggle.textContent = isCollapsed ? '▶\uFE0E' : '▼\uFE0E';
                 }}
             }}
         }}
@@ -1837,7 +1837,7 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]], deploym
                     <div class="day-card${{collapsedClass}}" data-day="${{dayKey}}"${{todayId}}>
                         <div class="day-header">
                             <div onclick="toggleDay('${{dayKey}}')">
-                                <span class="day-toggle">${{isPast ? '▶' : '▼'}}</span>
+                                <span class="day-toggle">${{isPast ? '▶\uFE0E' : '▼\uFE0E'}}</span>
                                 <span>${{dayName}}, ${{formatDate(date)}}</span>
                             </div>
                             <button class="copy-day-btn" onclick="event.stopPropagation(); copyDayToClipboard('${{dayKey}}', '${{dayName}}', new Date(${{date.getTime()}}));" title="Tag in Zwischenablage kopieren">📋</button>
