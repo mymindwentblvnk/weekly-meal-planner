@@ -1690,26 +1690,6 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]], deploym
             }}
         }}
 
-        function copyRecipeLink(filename, recipeName) {{
-            const fullUrl = window.location.origin + window.location.pathname.replace('index.html', '') + filename;
-
-            navigator.clipboard.writeText(fullUrl).then(() => {{
-                // Show temporary success feedback
-                const btn = event.target;
-                const originalText = btn.textContent;
-                btn.textContent = '✓';
-                btn.style.backgroundColor = 'var(--primary-color)';
-
-                setTimeout(() => {{
-                    btn.textContent = originalText;
-                    btn.style.backgroundColor = '';
-                }}, 1500);
-            }}).catch(err => {{
-                console.error('Failed to copy link:', err);
-                alert('Link konnte nicht kopiert werden');
-            }});
-        }}
-
         function copyDayToClipboard(dayKey, dayName, date) {{
             const enabledMeals = getEnabledMeals();
             const allMealTypes = ['breakfast', 'lunch', 'dinner'];
@@ -1881,7 +1861,6 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]], deploym
                                     <div class="assigned-recipe">
                                         <span class="recipe-emoji">${{recipe.category}}</span>
                                         <a href="${{recipe.filename}}" class="recipe-link">${{recipe.name}}</a>
-                                        <button class="copy-link-btn" onclick="copyRecipeLink('${{recipe.filename}}', '${{recipe.name}}')" title="Link kopieren">🔗</button>
                                     </div>
                                     <div class="servings-control">
                                         <div class="servings-adjuster">
