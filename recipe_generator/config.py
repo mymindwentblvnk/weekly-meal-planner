@@ -1381,13 +1381,13 @@ h1 {
 @media print {
     @page {
         size: A4;
-        margin: 8mm 10mm;
+        margin: 6mm 8mm;
     }
 
     body {
         background: white !important;
         color: black !important;
-        font-size: 10pt;
+        font-size: 8pt;
         width: 100%;
         max-width: 100%;
     }
@@ -1426,17 +1426,17 @@ h1 {
     /* Show servings info in print */
     .servings-control {
         display: block !important;
-        margin-top: 2px;
+        margin-top: 1px;
     }
 
     .servings-adjuster {
         display: flex;
-        gap: 2px;
+        gap: 1px;
         align-items: center;
     }
 
     .servings-value {
-        font-size: 7pt;
+        font-size: 6pt;
         color: #666 !important;
         font-weight: normal;
     }
@@ -1447,32 +1447,32 @@ h1 {
 
     /* Optimize header */
     .page-header {
-        margin-bottom: 6px;
+        margin-bottom: 4px;
     }
 
     .page-header h1 {
-        font-size: 16pt;
-        margin: 0 0 4px 0;
+        font-size: 14pt;
+        margin: 0 0 2px 0;
         color: black !important;
     }
 
     .week-info {
-        font-size: 11pt;
+        font-size: 9pt;
         color: #333 !important;
-        margin-bottom: 8px;
+        margin-bottom: 4px;
     }
 
     /* Compact day cards */
     .days-container {
-        gap: 6px;
+        gap: 3px;
         margin: 0;
     }
 
     .day-card {
         background: white !important;
         border: 1px solid #333 !important;
-        border-radius: 8px;
-        padding: 6px 8px;
+        border-radius: 4px;
+        padding: 3px 5px;
         page-break-inside: avoid;
         box-shadow: none !important;
     }
@@ -1492,11 +1492,11 @@ h1 {
     }
 
     .day-header {
-        font-size: 11pt;
+        font-size: 9pt;
         font-weight: bold;
         color: black !important;
-        margin-bottom: 4px;
-        padding-bottom: 3px;
+        margin-bottom: 2px;
+        padding-bottom: 2px;
         border-bottom: 1px solid #666 !important;
         cursor: default;
     }
@@ -1508,38 +1508,38 @@ h1 {
     /* Optimize meal grid */
     .meals-grid {
         grid-template-columns: repeat(3, 1fr);
-        gap: 6px;
+        gap: 3px;
     }
 
     .meal-slot {
         background: #f5f5f5 !important;
         border: 1px solid #ccc !important;
-        border-radius: 6px;
-        padding: 6px;
+        border-radius: 3px;
+        padding: 3px;
         min-height: auto;
     }
 
     .meal-type {
         font-weight: bold;
-        font-size: 8pt;
+        font-size: 7pt;
         color: #333 !important;
-        margin-bottom: 3px;
+        margin-bottom: 2px;
         text-transform: uppercase;
-        letter-spacing: 0.2px;
+        letter-spacing: 0.1px;
     }
 
     .meal-content.empty {
-        min-height: 28px;
-        font-size: 7pt;
+        min-height: 20px;
+        font-size: 6pt;
         color: #999 !important;
     }
 
     .meal-content.assigned {
-        gap: 3px;
+        gap: 2px;
     }
 
     .assigned-recipe {
-        gap: 3px;
+        gap: 2px;
         flex-direction: column;
         align-items: flex-start;
     }
@@ -1551,7 +1551,7 @@ h1 {
     .recipe-name {
         font-weight: 500;
         color: black !important;
-        font-size: 8pt;
+        font-size: 7pt;
         line-height: 1.2;
     }
 
@@ -1559,31 +1559,31 @@ h1 {
         display: inline !important;
         color: black !important;
         text-decoration: none !important;
-        font-size: 8pt;
+        font-size: 7pt;
         font-weight: 500;
     }
 
     /* Todos section in print */
     .day-todos {
-        margin-top: 6px;
-        padding-top: 6px;
+        margin-top: 3px;
+        padding-top: 3px;
         border-top: 1px solid #ccc !important;
     }
 
     .todos-header {
         font-weight: bold;
-        font-size: 8pt;
+        font-size: 7pt;
         color: #333 !important;
-        margin-bottom: 3px;
+        margin-bottom: 2px;
         text-transform: uppercase;
     }
 
     .todos-textarea {
         width: 100%;
         min-height: auto;
-        padding: 4px;
-        font-size: 8pt;
-        line-height: 1.3;
+        padding: 3px;
+        font-size: 7pt;
+        line-height: 1.2;
         background: #f9f9f9 !important;
         border: 1px solid #ccc !important;
         color: black !important;
