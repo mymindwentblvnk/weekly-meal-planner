@@ -1417,7 +1417,6 @@ h1 {
     nav,
     .page-header button,
     .week-nav-buttons,
-    .day-todos,
     footer,
     .deployment-info,
     .page-footer {
@@ -1481,6 +1480,10 @@ h1 {
     /* Force expand all days */
     .day-card.collapsed .meals-grid {
         display: grid !important;
+    }
+
+    .day-card.collapsed .day-todos {
+        display: block !important;
     }
 
     /* Show all meal slots in print, even if disabled in settings */
@@ -1558,6 +1561,34 @@ h1 {
         text-decoration: none !important;
         font-size: 8pt;
         font-weight: 500;
+    }
+
+    /* Todos section in print */
+    .day-todos {
+        margin-top: 6px;
+        padding-top: 6px;
+        border-top: 1px solid #ccc !important;
+    }
+
+    .todos-header {
+        font-weight: bold;
+        font-size: 8pt;
+        color: #333 !important;
+        margin-bottom: 3px;
+        text-transform: uppercase;
+    }
+
+    .todos-textarea {
+        width: 100%;
+        min-height: auto;
+        padding: 4px;
+        font-size: 8pt;
+        line-height: 1.3;
+        background: #f9f9f9 !important;
+        border: 1px solid #ccc !important;
+        color: black !important;
+        white-space: pre-wrap;
+        word-wrap: break-word;
     }
 
     /* Remove all shadows and transitions */
