@@ -1714,6 +1714,7 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]], deploym
             const enabledMeals = getEnabledMeals();
             const allMealTypes = ['breakfast', 'lunch', 'dinner'];
             const allMealLabels = ['{get_text('breakfast')}', '{get_text('lunch')}', '{get_text('dinner')}'];
+            const mealEmojis = ['🐓', '☀️', '🌙'];
 
             // Get all meals for this day
             const meals = [];
@@ -1725,7 +1726,8 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]], deploym
                         if (recipe) {{
                             const fullUrl = window.location.origin + window.location.pathname.replace('index.html', '') + recipe.filename;
                             const mealLabel = allMealLabels[index];
-                            meals.push(`${{mealLabel}}: ${{recipe.name}} (${{fullUrl}})`);
+                            const emoji = mealEmojis[index];
+                            meals.push(`${{emoji}} ${{mealLabel}}\\n_${{recipe.name}}_\\n${{fullUrl}}`);
                         }}
                     }}
                 }}
@@ -1738,7 +1740,7 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]], deploym
 
             // Format the text with line breaks
             const formattedDate = formatDate(date);
-            const text = `${{dayName}}, ${{formattedDate}}:\\n${{meals.join(',\\n')}}`;
+            const text = `*${{dayName}}, ${{formattedDate}}*\\n\\n${{meals.join('\\n\\n')}}`;
 
             navigator.clipboard.writeText(text).then(() => {{
                 // Show temporary success feedback
