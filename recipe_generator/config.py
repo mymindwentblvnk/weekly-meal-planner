@@ -923,14 +923,38 @@ h1 {
     margin-bottom: 15px;
     padding-bottom: 10px;
     border-bottom: 2px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    user-select: none;
+}
+.day-header > div {
     cursor: pointer;
     display: flex;
     align-items: center;
     gap: 10px;
-    user-select: none;
+    flex: 1;
 }
-.day-header:hover {
+.day-header > div:hover {
     color: var(--primary-hover);
+}
+.copy-day-btn {
+    background-color: transparent;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    padding: 4px 8px;
+    font-size: 0.7em;
+    cursor: pointer;
+    transition: all 0.2s;
+    flex-shrink: 0;
+}
+.copy-day-btn:hover {
+    background-color: var(--bg-secondary);
+    border-color: var(--primary-color);
+}
+.copy-day-btn:active {
+    transform: scale(0.95);
 }
 .day-toggle {
     font-size: 0.7em;
@@ -1383,6 +1407,7 @@ h1 {
     .remove-meal-btn,
     .change-btn,
     .copy-link-btn,
+    .copy-day-btn,
     .servings-btn,
     .search-modal,
     .add-plan-modal,

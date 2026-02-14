@@ -1710,6 +1710,53 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]], deploym
             }});
         }}
 
+        function copyDayToClipboard(dayKey, dayName, date) {{
+            const enabledMeals = getEnabledMeals();
+            const allMealTypes = ['breakfast', 'lunch', 'dinner'];
+            const allMealLabels = ['{get_text('breakfast')}', '{get_text('lunch')}', '{get_text('dinner')}'];
+
+            // Get all meals for this day
+            const meals = [];
+            allMealTypes.forEach((mealType, index) => {{
+                if (enabledMeals[mealType]) {{
+                    const mealData = getMealForSlot(currentWeek, dayKey, mealType);
+                    if (mealData) {{
+                        const recipe = recipeData[mealData.slug];
+                        if (recipe) {{
+                            const fullUrl = window.location.origin + window.location.pathname.replace('index.html', '') + recipe.filename;
+                            const mealLabel = allMealLabels[index];
+                            meals.push(`${{mealLabel}}: ${{recipe.name}} (${{fullUrl}})`);
+                        }}
+                    }}
+                }}
+            }});
+
+            if (meals.length === 0) {{
+                alert('Keine Rezepte für diesen Tag zugewiesen');
+                return;
+            }}
+
+            // Format the text with line breaks
+            const formattedDate = formatDate(date);
+            const text = `${{dayName}}, ${{formattedDate}}: Heute gibt es\\n${{meals.join(',\\n')}}`;
+
+            navigator.clipboard.writeText(text).then(() => {{
+                // Show temporary success feedback
+                const btn = event.target;
+                const originalText = btn.textContent;
+                btn.textContent = '✓';
+                btn.style.backgroundColor = 'var(--primary-color)';
+
+                setTimeout(() => {{
+                    btn.textContent = originalText;
+                    btn.style.backgroundColor = '';
+                }}, 1500);
+            }}).catch(err => {{
+                console.error('Failed to copy day info:', err);
+                alert('Text konnte nicht kopiert werden');
+            }});
+        }}
+
         function toggleDay(dayKey) {{
             const dayCard = document.querySelector(`.day-card[data-day="${{dayKey}}"]`);
             if (dayCard) {{
@@ -1806,9 +1853,12 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]], deploym
 
                 html += `
                     <div class="day-card${{collapsedClass}}" data-day="${{dayKey}}"${{todayId}}>
-                        <div class="day-header" onclick="toggleDay('${{dayKey}}')">
-                            <span class="day-toggle">${{isPast ? '▶' : '▼'}}</span>
-                            <span>${{dayName}}, ${{formatDate(date)}}</span>
+                        <div class="day-header">
+                            <div onclick="toggleDay('${{dayKey}}')">
+                                <span class="day-toggle">${{isPast ? '▶' : '▼'}}</span>
+                                <span>${{dayName}}, ${{formatDate(date)}}</span>
+                            </div>
+                            <button class="copy-day-btn" onclick="event.stopPropagation(); copyDayToClipboard('${{dayKey}}', '${{dayName}}', new Date(${{date.getTime()}}));" title="Tag in Zwischenablage kopieren">📋</button>
                         </div>
                         <div class="meals-grid">
                 `;
