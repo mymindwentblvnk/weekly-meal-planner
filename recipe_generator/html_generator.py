@@ -1690,7 +1690,7 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]], deploym
             }}
         }}
 
-        function copyDayToClipboard(dayKey, dayName, date) {{
+        function copyDayToClipboard(dayKey, dayName, date, event) {{
             const enabledMeals = getEnabledMeals();
             const allMealTypes = ['breakfast', 'lunch', 'dinner'];
             const allMealLabels = ['{get_text('breakfast')}', '{get_text('lunch')}', '{get_text('dinner')}'];
@@ -1717,6 +1717,7 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]], deploym
             const todo = getTodoForDay(currentWeek, dayKey);
 
             // Build the text
+            const formattedDate = formatDate(date);
             let text = `*${{dayName}}, ${{formattedDate}}*\\n\\n`;
 
             if (meals.length > 0) {{
@@ -1853,7 +1854,7 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]], deploym
                                 <span class="day-toggle">${{isPast ? '▶\uFE0E' : '▼\uFE0E'}}</span>
                                 <span>${{dayName}}, ${{formatDate(date)}}</span>
                             </div>
-                            <button class="copy-day-btn" onclick="event.stopPropagation(); copyDayToClipboard('${{dayKey}}', '${{dayName}}', new Date(${{date.getTime()}}));" title="Tag in Zwischenablage kopieren">📋</button>
+                            <button class="copy-day-btn" onclick="event.stopPropagation(); copyDayToClipboard('${{dayKey}}', '${{dayName}}', new Date(${{date.getTime()}}), event);" title="Tag in Zwischenablage kopieren">📋</button>
                         </div>
                         <div class="meals-grid">
                 `;
