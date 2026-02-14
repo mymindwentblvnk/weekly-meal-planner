@@ -1713,14 +1713,27 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]], deploym
                 }}
             }});
 
-            if (meals.length === 0) {{
-                alert('Keine Rezepte für diesen Tag zugewiesen');
-                return;
+            // Get todos for this day
+            const todo = getTodoForDay(currentWeek, dayKey);
+
+            // Build the text
+            let text = `*${{dayName}}, ${{formattedDate}}*\\n\\n`;
+
+            if (meals.length > 0) {{
+                text += meals.join('\\n\\n');
             }}
 
-            // Format the text with line breaks
-            const formattedDate = formatDate(date);
-            const text = `*${{dayName}}, ${{formattedDate}}*\\n\\n${{meals.join('\\n\\n')}}`;
+            if (todo && todo.trim()) {{
+                if (meals.length > 0) {{
+                    text += '\\n\\n';
+                }}
+                text += `📝 Notizen & Todos\\n${{todo}}`;
+            }}
+
+            if (meals.length === 0 && (!todo || !todo.trim())) {{
+                alert('Keine Rezepte oder Notizen für diesen Tag');
+                return;
+            }}
 
             navigator.clipboard.writeText(text).then(() => {{
                 // Show temporary success feedback
