@@ -1738,7 +1738,7 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]], deploym
 
             // Format the text with line breaks
             const formattedDate = formatDate(date);
-            const text = `${{dayName}}, ${{formattedDate}}: Heute gibt es\\n${{meals.join(',\\n')}}`;
+            const text = `${{dayName}}, ${{formattedDate}}:\\n${{meals.join(',\\n')}}`;
 
             navigator.clipboard.writeText(text).then(() => {{
                 // Show temporary success feedback
