@@ -468,6 +468,35 @@ h2 {
 .recipe-info-table tr:last-child td {
     border-bottom: none;
 }
+.servings-adjuster {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+.servings-btn {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 4px 10px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    min-width: 30px;
+}
+.servings-btn:hover {
+    background-color: var(--primary-hover);
+}
+.servings-btn:active {
+    transform: scale(0.95);
+}
+.servings-value {
+    font-weight: 600;
+    color: var(--text-color);
+    min-width: 20px;
+    text-align: center;
+}
 .ingredients-table {
     width: 100%;
     margin: 20px 0;

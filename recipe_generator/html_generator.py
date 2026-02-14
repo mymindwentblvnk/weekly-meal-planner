@@ -234,11 +234,12 @@ def generate_recipe_detail_html(recipe: dict[str, Any], slug: str) -> str:
     Returns:
         Complete HTML page as a string
     """
-    # Generate ingredients table rows
+    # Generate ingredients table rows with data attributes for scaling
     ingredients_rows = []
     for ingredient in recipe['ingredients']:
+        amount_str = str(ingredient['amount'])
         ingredients_rows.append(f'''            <tr itemprop="recipeIngredient">
-                <td>{escape(str(ingredient['amount']))}</td>
+                <td class="ingredient-amount" data-original-amount="{escape(amount_str)}">{escape(amount_str)}</td>
                 <td>{escape(ingredient['name'])}</td>
             </tr>''')
 
@@ -282,7 +283,13 @@ def generate_recipe_detail_html(recipe: dict[str, Any], slug: str) -> str:
             </tr>
             <tr>
                 <td><meta itemprop="recipeYield" content="{recipe['servings']} servings">{get_text('servings_label')}</td>
-                <td>{recipe['servings']}</td>
+                <td>
+                    <div class="servings-adjuster">
+                        <button class="servings-btn" onclick="adjustServings(-1)">−</button>
+                        <span id="currentServings" class="servings-value">{recipe['servings']}</span>
+                        <button class="servings-btn" onclick="adjustServings(1)">+</button>
+                    </div>
+                </td>
             </tr>
         </table>
 
@@ -478,6 +485,49 @@ def generate_recipe_detail_html(recipe: dict[str, Any], slug: str) -> str:
                 button.classList.remove('in-plan');
                 button.textContent = '📅 Diese Woche kochen';
             }}
+        }}
+
+        // Servings adjustment
+        const baseServings = {recipe['servings']};
+        let currentServings = baseServings;
+
+        function adjustServings(delta) {{
+            const newServings = Math.max(1, currentServings + delta);
+            currentServings = newServings;
+            document.getElementById('currentServings').textContent = currentServings;
+            updateIngredientAmounts();
+        }}
+
+        function updateIngredientAmounts() {{
+            const scaleFactor = currentServings / baseServings;
+            const amountCells = document.querySelectorAll('.ingredient-amount');
+
+            amountCells.forEach(cell => {{
+                const originalAmount = cell.getAttribute('data-original-amount');
+                const scaledAmount = scaleAmount(originalAmount, scaleFactor);
+                cell.textContent = scaledAmount;
+            }});
+        }}
+
+        function scaleAmount(amountStr, scaleFactor) {{
+            // Try to extract numeric value and unit
+            const match = amountStr.match(/^([\\d.,]+)\\s*(.*)$/);
+
+            if (match) {{
+                const numericPart = parseFloat(match[1].replace(',', '.'));
+                const unit = match[2];
+
+                if (!isNaN(numericPart)) {{
+                    const scaled = numericPart * scaleFactor;
+                    // Round to 2 decimal places and remove trailing zeros
+                    const rounded = Math.round(scaled * 100) / 100;
+                    const formatted = rounded.toString().replace('.', ',');
+                    return unit ? `${{formatted}} ${{unit}}` : formatted;
+                }}
+            }}
+
+            // If we can't parse it, return original
+            return amountStr;
         }}
 
         {generate_dark_mode_script()}
