@@ -429,12 +429,6 @@ def generate_recipe_detail_html(recipe: dict[str, Any], slug: str) -> str:
 
         function exportData() {{
             try {{
-                // Check if LZ-String is loaded
-                if (typeof LZString === 'undefined') {{
-                    alert('Fehler: Komprimierungs-Bibliothek noch nicht geladen. Bitte versuche es in einem Moment erneut.');
-                    return;
-                }}
-
                 // Collect data for current week + next week
                 const today = new Date();
                 const currentWeekNum = getISOWeek(today);
@@ -463,13 +457,22 @@ def generate_recipe_detail_html(recipe: dict[str, Any], slug: str) -> str:
                     exportData.weeks[nextWeekNum] = nextWeekData;
                 }}
 
-                // Compress and encode data using LZ-String
+                // Encode data - use LZ-String if available, otherwise fall back to base64
                 const jsonStr = JSON.stringify(exportData);
-                const compressed = LZString.compressToEncodedURIComponent(jsonStr);
+                let encoded;
+
+                if (typeof LZString !== 'undefined') {{
+                    // Use compression (shorter URLs)
+                    encoded = LZString.compressToEncodedURIComponent(jsonStr);
+                }} else {{
+                    // Fallback to base64 (longer URLs but always works)
+                    console.warn('LZ-String not loaded, using base64 encoding');
+                    encoded = 'b64:' + btoa(unescape(encodeURIComponent(jsonStr)));
+                }}
 
                 // Create shareable URL
                 const url = new URL(window.location.href);
-                url.searchParams.set('import', compressed);
+                url.searchParams.set('import', encoded);
 
                 // Copy to clipboard
                 navigator.clipboard.writeText(url.toString()).then(() => {{
@@ -519,12 +522,25 @@ def generate_recipe_detail_html(recipe: dict[str, Any], slug: str) -> str:
 
                 if (!importParam) return;
 
-                // Decompress data using LZ-String
-                const decompressed = LZString.decompressFromEncodedURIComponent(importParam);
-                if (!decompressed) {{
-                    throw new Error('Dekomprimierung fehlgeschlagen');
+                // Decode data - handle both compressed and base64 formats
+                let jsonStr;
+
+                if (importParam.startsWith('b64:')) {{
+                    // Base64 format (fallback)
+                    const base64Data = importParam.substring(4);
+                    jsonStr = decodeURIComponent(escape(atob(base64Data)));
+                }} else if (typeof LZString !== 'undefined') {{
+                    // LZ-String compressed format
+                    jsonStr = LZString.decompressFromEncodedURIComponent(importParam);
+                    if (!jsonStr) {{
+                        throw new Error('Dekomprimierung fehlgeschlagen');
+                    }}
+                }} else {{
+                    // LZ-String not loaded but data is compressed
+                    throw new Error('Komprimierte Daten können nicht geladen werden');
                 }}
-                const data = JSON.parse(decompressed);
+
+                const data = JSON.parse(jsonStr);
 
                 pendingImportData = data;
 
@@ -1346,12 +1362,6 @@ def generate_overview_html(
 
         function exportData() {{
             try {{
-                // Check if LZ-String is loaded
-                if (typeof LZString === 'undefined') {{
-                    alert('Fehler: Komprimierungs-Bibliothek noch nicht geladen. Bitte versuche es in einem Moment erneut.');
-                    return;
-                }}
-
                 // Collect data for current week + next week
                 const today = new Date();
                 const currentWeekNum = getISOWeek(today);
@@ -1380,13 +1390,22 @@ def generate_overview_html(
                     exportData.weeks[nextWeekNum] = nextWeekData;
                 }}
 
-                // Compress and encode data using LZ-String
+                // Encode data - use LZ-String if available, otherwise fall back to base64
                 const jsonStr = JSON.stringify(exportData);
-                const compressed = LZString.compressToEncodedURIComponent(jsonStr);
+                let encoded;
+
+                if (typeof LZString !== 'undefined') {{
+                    // Use compression (shorter URLs)
+                    encoded = LZString.compressToEncodedURIComponent(jsonStr);
+                }} else {{
+                    // Fallback to base64 (longer URLs but always works)
+                    console.warn('LZ-String not loaded, using base64 encoding');
+                    encoded = 'b64:' + btoa(unescape(encodeURIComponent(jsonStr)));
+                }}
 
                 // Create shareable URL
                 const url = new URL(window.location.href);
-                url.searchParams.set('import', compressed);
+                url.searchParams.set('import', encoded);
 
                 // Copy to clipboard
                 navigator.clipboard.writeText(url.toString()).then(() => {{
@@ -1436,12 +1455,25 @@ def generate_overview_html(
 
                 if (!importParam) return;
 
-                // Decompress data using LZ-String
-                const decompressed = LZString.decompressFromEncodedURIComponent(importParam);
-                if (!decompressed) {{
-                    throw new Error('Dekomprimierung fehlgeschlagen');
+                // Decode data - handle both compressed and base64 formats
+                let jsonStr;
+
+                if (importParam.startsWith('b64:')) {{
+                    // Base64 format (fallback)
+                    const base64Data = importParam.substring(4);
+                    jsonStr = decodeURIComponent(escape(atob(base64Data)));
+                }} else if (typeof LZString !== 'undefined') {{
+                    // LZ-String compressed format
+                    jsonStr = LZString.decompressFromEncodedURIComponent(importParam);
+                    if (!jsonStr) {{
+                        throw new Error('Dekomprimierung fehlgeschlagen');
+                    }}
+                }} else {{
+                    // LZ-String not loaded but data is compressed
+                    throw new Error('Komprimierte Daten können nicht geladen werden');
                 }}
-                const data = JSON.parse(decompressed);
+
+                const data = JSON.parse(jsonStr);
 
                 pendingImportData = data;
 
@@ -2207,12 +2239,6 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]], deploym
 
         function exportData() {{
             try {{
-                // Check if LZ-String is loaded
-                if (typeof LZString === 'undefined') {{
-                    alert('Fehler: Komprimierungs-Bibliothek noch nicht geladen. Bitte versuche es in einem Moment erneut.');
-                    return;
-                }}
-
                 // Collect data for current week + next week
                 const today = new Date();
                 const currentWeekNum = getISOWeek(today);
@@ -2241,13 +2267,22 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]], deploym
                     exportData.weeks[nextWeekNum] = nextWeekData;
                 }}
 
-                // Compress and encode data using LZ-String
+                // Encode data - use LZ-String if available, otherwise fall back to base64
                 const jsonStr = JSON.stringify(exportData);
-                const compressed = LZString.compressToEncodedURIComponent(jsonStr);
+                let encoded;
+
+                if (typeof LZString !== 'undefined') {{
+                    // Use compression (shorter URLs)
+                    encoded = LZString.compressToEncodedURIComponent(jsonStr);
+                }} else {{
+                    // Fallback to base64 (longer URLs but always works)
+                    console.warn('LZ-String not loaded, using base64 encoding');
+                    encoded = 'b64:' + btoa(unescape(encodeURIComponent(jsonStr)));
+                }}
 
                 // Create shareable URL
                 const url = new URL(window.location.href);
-                url.searchParams.set('import', compressed);
+                url.searchParams.set('import', encoded);
 
                 // Copy to clipboard
                 navigator.clipboard.writeText(url.toString()).then(() => {{
@@ -2297,12 +2332,25 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]], deploym
 
                 if (!importParam) return;
 
-                // Decompress data using LZ-String
-                const decompressed = LZString.decompressFromEncodedURIComponent(importParam);
-                if (!decompressed) {{
-                    throw new Error('Dekomprimierung fehlgeschlagen');
+                // Decode data - handle both compressed and base64 formats
+                let jsonStr;
+
+                if (importParam.startsWith('b64:')) {{
+                    // Base64 format (fallback)
+                    const base64Data = importParam.substring(4);
+                    jsonStr = decodeURIComponent(escape(atob(base64Data)));
+                }} else if (typeof LZString !== 'undefined') {{
+                    // LZ-String compressed format
+                    jsonStr = LZString.decompressFromEncodedURIComponent(importParam);
+                    if (!jsonStr) {{
+                        throw new Error('Dekomprimierung fehlgeschlagen');
+                    }}
+                }} else {{
+                    // LZ-String not loaded but data is compressed
+                    throw new Error('Komprimierte Daten können nicht geladen werden');
                 }}
-                const data = JSON.parse(decompressed);
+
+                const data = JSON.parse(jsonStr);
 
                 pendingImportData = data;
 
@@ -2611,12 +2659,6 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]], 
 
         function exportData() {{
             try {{
-                // Check if LZ-String is loaded
-                if (typeof LZString === 'undefined') {{
-                    alert('Fehler: Komprimierungs-Bibliothek noch nicht geladen. Bitte versuche es in einem Moment erneut.');
-                    return;
-                }}
-
                 // Collect data for current week + next week
                 const today = new Date();
                 const currentWeekNum = getISOWeek(today);
@@ -2645,13 +2687,22 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]], 
                     exportData.weeks[nextWeekNum] = nextWeekData;
                 }}
 
-                // Compress and encode data using LZ-String
+                // Encode data - use LZ-String if available, otherwise fall back to base64
                 const jsonStr = JSON.stringify(exportData);
-                const compressed = LZString.compressToEncodedURIComponent(jsonStr);
+                let encoded;
+
+                if (typeof LZString !== 'undefined') {{
+                    // Use compression (shorter URLs)
+                    encoded = LZString.compressToEncodedURIComponent(jsonStr);
+                }} else {{
+                    // Fallback to base64 (longer URLs but always works)
+                    console.warn('LZ-String not loaded, using base64 encoding');
+                    encoded = 'b64:' + btoa(unescape(encodeURIComponent(jsonStr)));
+                }}
 
                 // Create shareable URL
                 const url = new URL(window.location.href);
-                url.searchParams.set('import', compressed);
+                url.searchParams.set('import', encoded);
 
                 // Copy to clipboard
                 navigator.clipboard.writeText(url.toString()).then(() => {{
@@ -2701,12 +2752,25 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]], 
 
                 if (!importParam) return;
 
-                // Decompress data using LZ-String
-                const decompressed = LZString.decompressFromEncodedURIComponent(importParam);
-                if (!decompressed) {{
-                    throw new Error('Dekomprimierung fehlgeschlagen');
+                // Decode data - handle both compressed and base64 formats
+                let jsonStr;
+
+                if (importParam.startsWith('b64:')) {{
+                    // Base64 format (fallback)
+                    const base64Data = importParam.substring(4);
+                    jsonStr = decodeURIComponent(escape(atob(base64Data)));
+                }} else if (typeof LZString !== 'undefined') {{
+                    // LZ-String compressed format
+                    jsonStr = LZString.decompressFromEncodedURIComponent(importParam);
+                    if (!jsonStr) {{
+                        throw new Error('Dekomprimierung fehlgeschlagen');
+                    }}
+                }} else {{
+                    // LZ-String not loaded but data is compressed
+                    throw new Error('Komprimierte Daten können nicht geladen werden');
                 }}
-                const data = JSON.parse(decompressed);
+
+                const data = JSON.parse(jsonStr);
 
                 pendingImportData = data;
 
