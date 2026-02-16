@@ -205,6 +205,7 @@ def generate_page_header(title: str, css: str, additional_css: str = "") -> str:
     <style>
         {all_css}
     </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.5.0/lz-string.min.js" integrity="sha512-uFsBSCUd2EBF/Eb4MMxjBq+mpqUON6/VUhO9IlTPLBLvCIsEe/0RkUMyYNfkS/H8/NU0qJTJn9egkB4RU6oiDQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
 <body>'''
 
@@ -463,13 +464,13 @@ def generate_recipe_detail_html(recipe: dict[str, Any], slug: str) -> str:
                     darkMode: darkMode
                 }};
 
-                // Encode data
+                // Compress and encode data using LZ-String
                 const jsonStr = JSON.stringify(exportData);
-                const encoded = btoa(unescape(encodeURIComponent(jsonStr)));
+                const compressed = LZString.compressToEncodedURIComponent(jsonStr);
 
                 // Create shareable URL
                 const url = new URL(window.location.href);
-                url.searchParams.set('import', encoded);
+                url.searchParams.set('import', compressed);
 
                 // Copy to clipboard
                 navigator.clipboard.writeText(url.toString()).then(() => {{
@@ -529,9 +530,12 @@ def generate_recipe_detail_html(recipe: dict[str, Any], slug: str) -> str:
 
                 if (!importParam) return;
 
-                // Decode data
-                const decoded = decodeURIComponent(escape(atob(importParam)));
-                const data = JSON.parse(decoded);
+                // Decompress data using LZ-String
+                const decompressed = LZString.decompressFromEncodedURIComponent(importParam);
+                if (!decompressed) {{
+                    throw new Error('Dekomprimierung fehlgeschlagen');
+                }}
+                const data = JSON.parse(decompressed);
 
                 pendingImportData = data;
 
@@ -1403,13 +1407,13 @@ def generate_overview_html(
                     darkMode: darkMode
                 }};
 
-                // Encode data
+                // Compress and encode data using LZ-String
                 const jsonStr = JSON.stringify(exportData);
-                const encoded = btoa(unescape(encodeURIComponent(jsonStr)));
+                const compressed = LZString.compressToEncodedURIComponent(jsonStr);
 
                 // Create shareable URL
                 const url = new URL(window.location.href);
-                url.searchParams.set('import', encoded);
+                url.searchParams.set('import', compressed);
 
                 // Copy to clipboard
                 navigator.clipboard.writeText(url.toString()).then(() => {{
@@ -1469,9 +1473,12 @@ def generate_overview_html(
 
                 if (!importParam) return;
 
-                // Decode data
-                const decoded = decodeURIComponent(escape(atob(importParam)));
-                const data = JSON.parse(decoded);
+                // Decompress data using LZ-String
+                const decompressed = LZString.decompressFromEncodedURIComponent(importParam);
+                if (!decompressed) {{
+                    throw new Error('Dekomprimierung fehlgeschlagen');
+                }}
+                const data = JSON.parse(decompressed);
 
                 pendingImportData = data;
 
@@ -2287,13 +2294,13 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]], deploym
                     darkMode: darkMode
                 }};
 
-                // Encode data
+                // Compress and encode data using LZ-String
                 const jsonStr = JSON.stringify(exportData);
-                const encoded = btoa(unescape(encodeURIComponent(jsonStr)));
+                const compressed = LZString.compressToEncodedURIComponent(jsonStr);
 
                 // Create shareable URL
                 const url = new URL(window.location.href);
-                url.searchParams.set('import', encoded);
+                url.searchParams.set('import', compressed);
 
                 // Copy to clipboard
                 navigator.clipboard.writeText(url.toString()).then(() => {{
@@ -2353,9 +2360,12 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]], deploym
 
                 if (!importParam) return;
 
-                // Decode data
-                const decoded = decodeURIComponent(escape(atob(importParam)));
-                const data = JSON.parse(decoded);
+                // Decompress data using LZ-String
+                const decompressed = LZString.decompressFromEncodedURIComponent(importParam);
+                if (!decompressed) {{
+                    throw new Error('Dekomprimierung fehlgeschlagen');
+                }}
+                const data = JSON.parse(decompressed);
 
                 pendingImportData = data;
 
@@ -2714,13 +2724,13 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]], 
                     darkMode: darkMode
                 }};
 
-                // Encode data
+                // Compress and encode data using LZ-String
                 const jsonStr = JSON.stringify(exportData);
-                const encoded = btoa(unescape(encodeURIComponent(jsonStr)));
+                const compressed = LZString.compressToEncodedURIComponent(jsonStr);
 
                 // Create shareable URL
                 const url = new URL(window.location.href);
-                url.searchParams.set('import', encoded);
+                url.searchParams.set('import', compressed);
 
                 // Copy to clipboard
                 navigator.clipboard.writeText(url.toString()).then(() => {{
@@ -2780,9 +2790,12 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]], 
 
                 if (!importParam) return;
 
-                // Decode data
-                const decoded = decodeURIComponent(escape(atob(importParam)));
-                const data = JSON.parse(decoded);
+                // Decompress data using LZ-String
+                const decompressed = LZString.decompressFromEncodedURIComponent(importParam);
+                if (!decompressed) {{
+                    throw new Error('Dekomprimierung fehlgeschlagen');
+                }}
+                const data = JSON.parse(decompressed);
 
                 pendingImportData = data;
 
