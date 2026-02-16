@@ -101,6 +101,9 @@ COMMON_CSS = """
     --card-bg: #f7fafc;
     --table-header-bg: #6b46c1;
     --shadow: rgba(0, 0, 0, 0.1);
+    --accent-color: #38b2ac;
+    --error-color: #e53e3e;
+    --background-color: #f7fafc;
 }
 
 body.dark-mode {

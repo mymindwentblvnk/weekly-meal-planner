@@ -127,9 +127,32 @@ def generate_settings_modal(show_print_button: bool = False) -> str:
                         </label>
                     </div>
                 </div>{print_button_html}
+                <div class="form-group">
+                    <label>Daten teilen:</label>
+                    <p class="settings-hint">Exportiere deine Wochenpläne als Link zum Teilen mit anderen Geräten oder Personen.</p>
+                    <button class="week-nav-btn" onclick="exportData()" style="width: 100%; margin-top: 8px;">📤 Daten als Link exportieren</button>
+                </div>
                 <div class="modal-actions">
                     <button class="cancel-btn" onclick="closeSettingsModal()">Abbrechen</button>
                     <button class="add-btn" onclick="saveSettings()">Speichern</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Import Data Modal -->
+    <div id="importModal" class="add-plan-modal" style="display: none;">
+        <div class="add-plan-modal-content">
+            <div class="add-plan-modal-header">
+                <h3 class="add-plan-modal-title">Daten importieren</h3>
+            </div>
+            <div class="add-plan-modal-body">
+                <p>Möchtest du deine aktuellen Daten mit den importierten Daten überschreiben?</p>
+                <div id="importPreview" style="background: var(--background-color); padding: 10px; border-radius: 8px; margin: 15px 0; max-height: 200px; overflow-y: auto; font-size: 13px;"></div>
+                <p class="settings-hint" style="color: var(--error-color);">⚠️ Deine aktuellen Daten werden überschrieben und können nicht wiederhergestellt werden.</p>
+                <div class="modal-actions">
+                    <button class="cancel-btn" onclick="closeImportModal()">Abbrechen</button>
+                    <button class="add-btn" onclick="confirmImport()">Importieren</button>
                 </div>
             </div>
         </div>
@@ -388,6 +411,164 @@ def generate_recipe_detail_html(recipe: dict[str, Any], slug: str) -> str:
                 closeSettingsModal();
             }}
         }}
+
+        // Export/Import functions
+        let pendingImportData = null;
+
+        function exportData() {{
+            try {{
+                // Collect data for current week + next week
+                const currentWeekNum = getWeekNumber(currentWeekStart);
+                const nextWeekStart = new Date(currentWeekStart);
+                nextWeekStart.setDate(nextWeekStart.getDate() + 7);
+                const nextWeekNum = getWeekNumber(nextWeekStart);
+
+                const plans = getMealPlans();
+                const currentWeekData = plans[currentWeekNum] || {{}};
+                const nextWeekData = plans[nextWeekNum] || {{}};
+
+                const exportData = {{
+                    version: 1,
+                    exportDate: new Date().toISOString(),
+                    currentWeek: currentWeekNum,
+                    nextWeek: nextWeekNum,
+                    weeks: {{}}
+                }};
+
+                if (Object.keys(currentWeekData).length > 0) {{
+                    exportData.weeks[currentWeekNum] = currentWeekData;
+                }}
+                if (Object.keys(nextWeekData).length > 0) {{
+                    exportData.weeks[nextWeekNum] = nextWeekData;
+                }}
+
+                // Include settings
+                const mealSettings = getEnabledMeals();
+                const darkMode = localStorage.getItem('darkMode') === 'enabled';
+                exportData.settings = {{
+                    meals: mealSettings,
+                    darkMode: darkMode
+                }};
+
+                // Encode data
+                const jsonStr = JSON.stringify(exportData);
+                const encoded = btoa(unescape(encodeURIComponent(jsonStr)));
+
+                // Create shareable URL
+                const url = new URL(window.location.href);
+                url.searchParams.set('import', encoded);
+
+                // Copy to clipboard
+                navigator.clipboard.writeText(url.toString()).then(() => {{
+                    alert('✅ Link kopiert!\\n\\nDer Link wurde in die Zwischenablage kopiert. Du kannst ihn jetzt teilen.');
+                    closeSettingsModal();
+                }}).catch(() => {{
+                    // Fallback: show URL in prompt
+                    prompt('Kopiere diesen Link:', url.toString());
+                    closeSettingsModal();
+                }});
+            }} catch (e) {{
+                console.error('Export error:', e);
+                alert('Fehler beim Exportieren der Daten: ' + e.message);
+            }}
+        }}
+
+        function closeImportModal() {{
+            document.getElementById('importModal').style.display = 'none';
+            pendingImportData = null;
+        }}
+
+        function confirmImport() {{
+            if (!pendingImportData) return;
+
+            try {{
+                // Import meal plans
+                if (pendingImportData.weeks) {{
+                    const currentPlans = getMealPlans();
+                    Object.assign(currentPlans, pendingImportData.weeks);
+                    saveMealPlans(currentPlans);
+                }}
+
+                // Import settings
+                if (pendingImportData.settings) {{
+                    if (pendingImportData.settings.meals) {{
+                        localStorage.setItem('mealSettings', JSON.stringify(pendingImportData.settings.meals));
+                    }}
+                    if (pendingImportData.settings.darkMode !== undefined) {{
+                        localStorage.setItem('darkMode', pendingImportData.settings.darkMode ? 'enabled' : 'disabled');
+                    }}
+                }}
+
+                closeImportModal();
+
+                // Reload page to apply changes
+                window.location.href = window.location.pathname;
+            }} catch (e) {{
+                console.error('Import error:', e);
+                alert('Fehler beim Importieren der Daten: ' + e.message);
+            }}
+        }}
+
+        function checkForImportData() {{
+            try {{
+                const urlParams = new URLSearchParams(window.location.search);
+                const importParam = urlParams.get('import');
+
+                if (!importParam) return;
+
+                // Decode data
+                const decoded = decodeURIComponent(escape(atob(importParam)));
+                const data = JSON.parse(decoded);
+
+                pendingImportData = data;
+
+                // Build preview
+                let preview = '';
+                if (data.weeks) {{
+                    const weekCount = Object.keys(data.weeks).length;
+                    preview += `<strong>Wochenpläne:</strong> ${{weekCount}} Woche(n)<br>`;
+
+                    for (const [weekNum, weekData] of Object.entries(data.weeks)) {{
+                        const days = Object.keys(weekData);
+                        if (days.length > 0) {{
+                            preview += `<div style="margin-left: 15px; margin-top: 5px;">📅 Woche ${{weekNum}}: ${{days.length}} Tag(e)</div>`;
+                        }}
+                    }}
+                }}
+
+                if (data.settings) {{
+                    preview += `<br><strong>Einstellungen:</strong><br>`;
+                    if (data.settings.meals) {{
+                        const enabled = [];
+                        if (data.settings.meals.breakfast) enabled.push('Frühstück');
+                        if (data.settings.meals.lunch) enabled.push('Mittagessen');
+                        if (data.settings.meals.dinner) enabled.push('Abendessen');
+                        preview += `<div style="margin-left: 15px;">Mahlzeiten: ${{enabled.join(', ')}}</div>`;
+                    }}
+                    if (data.settings.darkMode !== undefined) {{
+                        preview += `<div style="margin-left: 15px;">Dunkelmodus: ${{data.settings.darkMode ? 'Ja' : 'Nein'}}</div>`;
+                    }}
+                }}
+
+                if (data.exportDate) {{
+                    const date = new Date(data.exportDate);
+                    preview += `<br><small style="color: var(--text-secondary);">Exportiert am: ${{date.toLocaleString('de-DE')}}</small>`;
+                }}
+
+                document.getElementById('importPreview').innerHTML = preview;
+                document.getElementById('importModal').style.display = 'flex';
+            }} catch (e) {{
+                console.error('Import check error:', e);
+                alert('Ungültiger Import-Link');
+                // Remove invalid import parameter
+                const url = new URL(window.location.href);
+                url.searchParams.delete('import');
+                window.history.replaceState({{}}, '', url.toString());
+            }}
+        }}
+
+        // Check for import data on page load
+        checkForImportData();
 
         // Track page view
         (function trackPageView() {{
@@ -1158,6 +1339,164 @@ def generate_overview_html(
             }}
         }}
 
+        // Export/Import functions
+        let pendingImportData = null;
+
+        function exportData() {{
+            try {{
+                // Collect data for current week + next week
+                const currentWeekNum = getWeekNumber(currentWeekStart);
+                const nextWeekStart = new Date(currentWeekStart);
+                nextWeekStart.setDate(nextWeekStart.getDate() + 7);
+                const nextWeekNum = getWeekNumber(nextWeekStart);
+
+                const plans = getMealPlans();
+                const currentWeekData = plans[currentWeekNum] || {{}};
+                const nextWeekData = plans[nextWeekNum] || {{}};
+
+                const exportData = {{
+                    version: 1,
+                    exportDate: new Date().toISOString(),
+                    currentWeek: currentWeekNum,
+                    nextWeek: nextWeekNum,
+                    weeks: {{}}
+                }};
+
+                if (Object.keys(currentWeekData).length > 0) {{
+                    exportData.weeks[currentWeekNum] = currentWeekData;
+                }}
+                if (Object.keys(nextWeekData).length > 0) {{
+                    exportData.weeks[nextWeekNum] = nextWeekData;
+                }}
+
+                // Include settings
+                const mealSettings = getEnabledMeals();
+                const darkMode = localStorage.getItem('darkMode') === 'enabled';
+                exportData.settings = {{
+                    meals: mealSettings,
+                    darkMode: darkMode
+                }};
+
+                // Encode data
+                const jsonStr = JSON.stringify(exportData);
+                const encoded = btoa(unescape(encodeURIComponent(jsonStr)));
+
+                // Create shareable URL
+                const url = new URL(window.location.href);
+                url.searchParams.set('import', encoded);
+
+                // Copy to clipboard
+                navigator.clipboard.writeText(url.toString()).then(() => {{
+                    alert('✅ Link kopiert!\\n\\nDer Link wurde in die Zwischenablage kopiert. Du kannst ihn jetzt teilen.');
+                    closeSettingsModal();
+                }}).catch(() => {{
+                    // Fallback: show URL in prompt
+                    prompt('Kopiere diesen Link:', url.toString());
+                    closeSettingsModal();
+                }});
+            }} catch (e) {{
+                console.error('Export error:', e);
+                alert('Fehler beim Exportieren der Daten: ' + e.message);
+            }}
+        }}
+
+        function closeImportModal() {{
+            document.getElementById('importModal').style.display = 'none';
+            pendingImportData = null;
+        }}
+
+        function confirmImport() {{
+            if (!pendingImportData) return;
+
+            try {{
+                // Import meal plans
+                if (pendingImportData.weeks) {{
+                    const currentPlans = getMealPlans();
+                    Object.assign(currentPlans, pendingImportData.weeks);
+                    saveMealPlans(currentPlans);
+                }}
+
+                // Import settings
+                if (pendingImportData.settings) {{
+                    if (pendingImportData.settings.meals) {{
+                        localStorage.setItem('mealSettings', JSON.stringify(pendingImportData.settings.meals));
+                    }}
+                    if (pendingImportData.settings.darkMode !== undefined) {{
+                        localStorage.setItem('darkMode', pendingImportData.settings.darkMode ? 'enabled' : 'disabled');
+                    }}
+                }}
+
+                closeImportModal();
+
+                // Reload page to apply changes
+                window.location.href = window.location.pathname;
+            }} catch (e) {{
+                console.error('Import error:', e);
+                alert('Fehler beim Importieren der Daten: ' + e.message);
+            }}
+        }}
+
+        function checkForImportData() {{
+            try {{
+                const urlParams = new URLSearchParams(window.location.search);
+                const importParam = urlParams.get('import');
+
+                if (!importParam) return;
+
+                // Decode data
+                const decoded = decodeURIComponent(escape(atob(importParam)));
+                const data = JSON.parse(decoded);
+
+                pendingImportData = data;
+
+                // Build preview
+                let preview = '';
+                if (data.weeks) {{
+                    const weekCount = Object.keys(data.weeks).length;
+                    preview += `<strong>Wochenpläne:</strong> ${{weekCount}} Woche(n)<br>`;
+
+                    for (const [weekNum, weekData] of Object.entries(data.weeks)) {{
+                        const days = Object.keys(weekData);
+                        if (days.length > 0) {{
+                            preview += `<div style="margin-left: 15px; margin-top: 5px;">📅 Woche ${{weekNum}}: ${{days.length}} Tag(e)</div>`;
+                        }}
+                    }}
+                }}
+
+                if (data.settings) {{
+                    preview += `<br><strong>Einstellungen:</strong><br>`;
+                    if (data.settings.meals) {{
+                        const enabled = [];
+                        if (data.settings.meals.breakfast) enabled.push('Frühstück');
+                        if (data.settings.meals.lunch) enabled.push('Mittagessen');
+                        if (data.settings.meals.dinner) enabled.push('Abendessen');
+                        preview += `<div style="margin-left: 15px;">Mahlzeiten: ${{enabled.join(', ')}}</div>`;
+                    }}
+                    if (data.settings.darkMode !== undefined) {{
+                        preview += `<div style="margin-left: 15px;">Dunkelmodus: ${{data.settings.darkMode ? 'Ja' : 'Nein'}}</div>`;
+                    }}
+                }}
+
+                if (data.exportDate) {{
+                    const date = new Date(data.exportDate);
+                    preview += `<br><small style="color: var(--text-secondary);">Exportiert am: ${{date.toLocaleString('de-DE')}}</small>`;
+                }}
+
+                document.getElementById('importPreview').innerHTML = preview;
+                document.getElementById('importModal').style.display = 'flex';
+            }} catch (e) {{
+                console.error('Import check error:', e);
+                alert('Ungültiger Import-Link');
+                // Remove invalid import parameter
+                const url = new URL(window.location.href);
+                url.searchParams.delete('import');
+                window.history.replaceState({{}}, '', url.toString());
+            }}
+        }}
+
+        // Check for import data on page load
+        checkForImportData();
+
         {generate_dark_mode_script()}
 
         // Apply saved preferences on page load
@@ -1871,6 +2210,164 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]], deploym
             }}
         }}
 
+        // Export/Import functions
+        let pendingImportData = null;
+
+        function exportData() {{
+            try {{
+                // Collect data for current week + next week
+                const currentWeekNum = currentWeek;
+                const nextWeekStart = new Date(currentWeekStart);
+                nextWeekStart.setDate(nextWeekStart.getDate() + 7);
+                const nextWeekNum = getWeekNumber(nextWeekStart);
+
+                const plans = getMealPlans();
+                const currentWeekData = plans[currentWeekNum] || {{}};
+                const nextWeekData = plans[nextWeekNum] || {{}};
+
+                const exportData = {{
+                    version: 1,
+                    exportDate: new Date().toISOString(),
+                    currentWeek: currentWeekNum,
+                    nextWeek: nextWeekNum,
+                    weeks: {{}}
+                }};
+
+                if (Object.keys(currentWeekData).length > 0) {{
+                    exportData.weeks[currentWeekNum] = currentWeekData;
+                }}
+                if (Object.keys(nextWeekData).length > 0) {{
+                    exportData.weeks[nextWeekNum] = nextWeekData;
+                }}
+
+                // Include settings
+                const mealSettings = getEnabledMeals();
+                const darkMode = localStorage.getItem('darkMode') === 'enabled';
+                exportData.settings = {{
+                    meals: mealSettings,
+                    darkMode: darkMode
+                }};
+
+                // Encode data
+                const jsonStr = JSON.stringify(exportData);
+                const encoded = btoa(unescape(encodeURIComponent(jsonStr)));
+
+                // Create shareable URL
+                const url = new URL(window.location.href);
+                url.searchParams.set('import', encoded);
+
+                // Copy to clipboard
+                navigator.clipboard.writeText(url.toString()).then(() => {{
+                    alert('✅ Link kopiert!\\n\\nDer Link wurde in die Zwischenablage kopiert. Du kannst ihn jetzt teilen.');
+                    closeSettingsModal();
+                }}).catch(() => {{
+                    // Fallback: show URL in prompt
+                    prompt('Kopiere diesen Link:', url.toString());
+                    closeSettingsModal();
+                }});
+            }} catch (e) {{
+                console.error('Export error:', e);
+                alert('Fehler beim Exportieren der Daten: ' + e.message);
+            }}
+        }}
+
+        function closeImportModal() {{
+            document.getElementById('importModal').style.display = 'none';
+            pendingImportData = null;
+        }}
+
+        function confirmImport() {{
+            if (!pendingImportData) return;
+
+            try {{
+                // Import meal plans
+                if (pendingImportData.weeks) {{
+                    const currentPlans = getMealPlans();
+                    Object.assign(currentPlans, pendingImportData.weeks);
+                    saveMealPlans(currentPlans);
+                }}
+
+                // Import settings
+                if (pendingImportData.settings) {{
+                    if (pendingImportData.settings.meals) {{
+                        localStorage.setItem('mealSettings', JSON.stringify(pendingImportData.settings.meals));
+                    }}
+                    if (pendingImportData.settings.darkMode !== undefined) {{
+                        localStorage.setItem('darkMode', pendingImportData.settings.darkMode ? 'enabled' : 'disabled');
+                    }}
+                }}
+
+                closeImportModal();
+
+                // Reload page to apply changes
+                window.location.href = window.location.pathname;
+            }} catch (e) {{
+                console.error('Import error:', e);
+                alert('Fehler beim Importieren der Daten: ' + e.message);
+            }}
+        }}
+
+        function checkForImportData() {{
+            try {{
+                const urlParams = new URLSearchParams(window.location.search);
+                const importParam = urlParams.get('import');
+
+                if (!importParam) return;
+
+                // Decode data
+                const decoded = decodeURIComponent(escape(atob(importParam)));
+                const data = JSON.parse(decoded);
+
+                pendingImportData = data;
+
+                // Build preview
+                let preview = '';
+                if (data.weeks) {{
+                    const weekCount = Object.keys(data.weeks).length;
+                    preview += `<strong>Wochenpläne:</strong> ${{weekCount}} Woche(n)<br>`;
+
+                    for (const [weekNum, weekData] of Object.entries(data.weeks)) {{
+                        const days = Object.keys(weekData);
+                        if (days.length > 0) {{
+                            preview += `<div style="margin-left: 15px; margin-top: 5px;">📅 Woche ${{weekNum}}: ${{days.length}} Tag(e)</div>`;
+                        }}
+                    }}
+                }}
+
+                if (data.settings) {{
+                    preview += `<br><strong>Einstellungen:</strong><br>`;
+                    if (data.settings.meals) {{
+                        const enabled = [];
+                        if (data.settings.meals.breakfast) enabled.push('Frühstück');
+                        if (data.settings.meals.lunch) enabled.push('Mittagessen');
+                        if (data.settings.meals.dinner) enabled.push('Abendessen');
+                        preview += `<div style="margin-left: 15px;">Mahlzeiten: ${{enabled.join(', ')}}</div>`;
+                    }}
+                    if (data.settings.darkMode !== undefined) {{
+                        preview += `<div style="margin-left: 15px;">Dunkelmodus: ${{data.settings.darkMode ? 'Ja' : 'Nein'}}</div>`;
+                    }}
+                }}
+
+                if (data.exportDate) {{
+                    const date = new Date(data.exportDate);
+                    preview += `<br><small style="color: var(--text-secondary);">Exportiert am: ${{date.toLocaleString('de-DE')}}</small>`;
+                }}
+
+                document.getElementById('importPreview').innerHTML = preview;
+                document.getElementById('importModal').style.display = 'flex';
+            }} catch (e) {{
+                console.error('Import check error:', e);
+                alert('Ungültiger Import-Link');
+                // Remove invalid import parameter
+                const url = new URL(window.location.href);
+                url.searchParams.delete('import');
+                window.history.replaceState({{}}, '', url.toString());
+            }}
+        }}
+
+        // Check for import data on page load
+        checkForImportData();
+
         // Render week view
         function renderWeek() {{
             const dates = getWeekDates(currentWeek);
@@ -2126,6 +2623,164 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]], 
                 closeSettingsModal();
             }}
         }}
+
+        // Export/Import functions
+        let pendingImportData = null;
+
+        function exportData() {{
+            try {{
+                // Collect data for current week + next week
+                const currentWeekNum = getWeekNumber(currentWeekStart);
+                const nextWeekStart = new Date(currentWeekStart);
+                nextWeekStart.setDate(nextWeekStart.getDate() + 7);
+                const nextWeekNum = getWeekNumber(nextWeekStart);
+
+                const plans = getMealPlans();
+                const currentWeekData = plans[currentWeekNum] || {{}};
+                const nextWeekData = plans[nextWeekNum] || {{}};
+
+                const exportData = {{
+                    version: 1,
+                    exportDate: new Date().toISOString(),
+                    currentWeek: currentWeekNum,
+                    nextWeek: nextWeekNum,
+                    weeks: {{}}
+                }};
+
+                if (Object.keys(currentWeekData).length > 0) {{
+                    exportData.weeks[currentWeekNum] = currentWeekData;
+                }}
+                if (Object.keys(nextWeekData).length > 0) {{
+                    exportData.weeks[nextWeekNum] = nextWeekData;
+                }}
+
+                // Include settings
+                const mealSettings = getEnabledMeals();
+                const darkMode = localStorage.getItem('darkMode') === 'enabled';
+                exportData.settings = {{
+                    meals: mealSettings,
+                    darkMode: darkMode
+                }};
+
+                // Encode data
+                const jsonStr = JSON.stringify(exportData);
+                const encoded = btoa(unescape(encodeURIComponent(jsonStr)));
+
+                // Create shareable URL
+                const url = new URL(window.location.href);
+                url.searchParams.set('import', encoded);
+
+                // Copy to clipboard
+                navigator.clipboard.writeText(url.toString()).then(() => {{
+                    alert('✅ Link kopiert!\\n\\nDer Link wurde in die Zwischenablage kopiert. Du kannst ihn jetzt teilen.');
+                    closeSettingsModal();
+                }}).catch(() => {{
+                    // Fallback: show URL in prompt
+                    prompt('Kopiere diesen Link:', url.toString());
+                    closeSettingsModal();
+                }});
+            }} catch (e) {{
+                console.error('Export error:', e);
+                alert('Fehler beim Exportieren der Daten: ' + e.message);
+            }}
+        }}
+
+        function closeImportModal() {{
+            document.getElementById('importModal').style.display = 'none';
+            pendingImportData = null;
+        }}
+
+        function confirmImport() {{
+            if (!pendingImportData) return;
+
+            try {{
+                // Import meal plans
+                if (pendingImportData.weeks) {{
+                    const currentPlans = getMealPlans();
+                    Object.assign(currentPlans, pendingImportData.weeks);
+                    saveMealPlans(currentPlans);
+                }}
+
+                // Import settings
+                if (pendingImportData.settings) {{
+                    if (pendingImportData.settings.meals) {{
+                        localStorage.setItem('mealSettings', JSON.stringify(pendingImportData.settings.meals));
+                    }}
+                    if (pendingImportData.settings.darkMode !== undefined) {{
+                        localStorage.setItem('darkMode', pendingImportData.settings.darkMode ? 'enabled' : 'disabled');
+                    }}
+                }}
+
+                closeImportModal();
+
+                // Reload page to apply changes
+                window.location.href = window.location.pathname;
+            }} catch (e) {{
+                console.error('Import error:', e);
+                alert('Fehler beim Importieren der Daten: ' + e.message);
+            }}
+        }}
+
+        function checkForImportData() {{
+            try {{
+                const urlParams = new URLSearchParams(window.location.search);
+                const importParam = urlParams.get('import');
+
+                if (!importParam) return;
+
+                // Decode data
+                const decoded = decodeURIComponent(escape(atob(importParam)));
+                const data = JSON.parse(decoded);
+
+                pendingImportData = data;
+
+                // Build preview
+                let preview = '';
+                if (data.weeks) {{
+                    const weekCount = Object.keys(data.weeks).length;
+                    preview += `<strong>Wochenpläne:</strong> ${{weekCount}} Woche(n)<br>`;
+
+                    for (const [weekNum, weekData] of Object.entries(data.weeks)) {{
+                        const days = Object.keys(weekData);
+                        if (days.length > 0) {{
+                            preview += `<div style="margin-left: 15px; margin-top: 5px;">📅 Woche ${{weekNum}}: ${{days.length}} Tag(e)</div>`;
+                        }}
+                    }}
+                }}
+
+                if (data.settings) {{
+                    preview += `<br><strong>Einstellungen:</strong><br>`;
+                    if (data.settings.meals) {{
+                        const enabled = [];
+                        if (data.settings.meals.breakfast) enabled.push('Frühstück');
+                        if (data.settings.meals.lunch) enabled.push('Mittagessen');
+                        if (data.settings.meals.dinner) enabled.push('Abendessen');
+                        preview += `<div style="margin-left: 15px;">Mahlzeiten: ${{enabled.join(', ')}}</div>`;
+                    }}
+                    if (data.settings.darkMode !== undefined) {{
+                        preview += `<div style="margin-left: 15px;">Dunkelmodus: ${{data.settings.darkMode ? 'Ja' : 'Nein'}}</div>`;
+                    }}
+                }}
+
+                if (data.exportDate) {{
+                    const date = new Date(data.exportDate);
+                    preview += `<br><small style="color: var(--text-secondary);">Exportiert am: ${{date.toLocaleString('de-DE')}}</small>`;
+                }}
+
+                document.getElementById('importPreview').innerHTML = preview;
+                document.getElementById('importModal').style.display = 'flex';
+            }} catch (e) {{
+                console.error('Import check error:', e);
+                alert('Ungültiger Import-Link');
+                // Remove invalid import parameter
+                const url = new URL(window.location.href);
+                url.searchParams.delete('import');
+                window.history.replaceState({{}}, '', url.toString());
+            }}
+        }}
+
+        // Check for import data on page load
+        checkForImportData();
 
         {generate_dark_mode_script()}
 
