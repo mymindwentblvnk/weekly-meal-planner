@@ -415,13 +415,26 @@ def generate_recipe_detail_html(recipe: dict[str, Any], slug: str) -> str:
         // Export/Import functions
         let pendingImportData = null;
 
+        // Helper function to get ISO week number
+        function getISOWeek(date) {{
+            const d = new Date(date);
+            d.setHours(0, 0, 0, 0);
+            d.setDate(d.getDate() + 4 - (d.getDay() || 7));
+            const yearStart = new Date(d.getFullYear(), 0, 1);
+            const weekNo = Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
+            return d.getFullYear() + '-W' + String(weekNo).padStart(2, '0');
+        }}
+
         function exportData() {{
             try {{
                 // Collect data for current week + next week
-                const currentWeekNum = getWeekNumber(currentWeekStart);
-                const nextWeekStart = new Date(currentWeekStart);
-                nextWeekStart.setDate(nextWeekStart.getDate() + 7);
-                const nextWeekNum = getWeekNumber(nextWeekStart);
+                const today = new Date();
+                const currentWeekNum = getISOWeek(today);
+
+                // Calculate next week
+                const nextWeekDate = new Date(today);
+                nextWeekDate.setDate(nextWeekDate.getDate() + 7);
+                const nextWeekNum = getISOWeek(nextWeekDate);
 
                 const plans = getMealPlans();
                 const currentWeekData = plans[currentWeekNum] || {{}};
@@ -1342,13 +1355,26 @@ def generate_overview_html(
         // Export/Import functions
         let pendingImportData = null;
 
+        // Helper function to get ISO week number
+        function getISOWeek(date) {{
+            const d = new Date(date);
+            d.setHours(0, 0, 0, 0);
+            d.setDate(d.getDate() + 4 - (d.getDay() || 7));
+            const yearStart = new Date(d.getFullYear(), 0, 1);
+            const weekNo = Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
+            return d.getFullYear() + '-W' + String(weekNo).padStart(2, '0');
+        }}
+
         function exportData() {{
             try {{
                 // Collect data for current week + next week
-                const currentWeekNum = getWeekNumber(currentWeekStart);
-                const nextWeekStart = new Date(currentWeekStart);
-                nextWeekStart.setDate(nextWeekStart.getDate() + 7);
-                const nextWeekNum = getWeekNumber(nextWeekStart);
+                const today = new Date();
+                const currentWeekNum = getISOWeek(today);
+
+                // Calculate next week
+                const nextWeekDate = new Date(today);
+                nextWeekDate.setDate(nextWeekDate.getDate() + 7);
+                const nextWeekNum = getISOWeek(nextWeekDate);
 
                 const plans = getMealPlans();
                 const currentWeekData = plans[currentWeekNum] || {{}};
@@ -2213,6 +2239,16 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]], deploym
         // Export/Import functions
         let pendingImportData = null;
 
+        // Helper function to get ISO week number
+        function getISOWeek(date) {{
+            const d = new Date(date);
+            d.setHours(0, 0, 0, 0);
+            d.setDate(d.getDate() + 4 - (d.getDay() || 7));
+            const yearStart = new Date(d.getFullYear(), 0, 1);
+            const weekNo = Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
+            return d.getFullYear() + '-W' + String(weekNo).padStart(2, '0');
+        }}
+
         function exportData() {{
             try {{
                 // Collect data for current week + next week
@@ -2627,13 +2663,26 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]], 
         // Export/Import functions
         let pendingImportData = null;
 
+        // Helper function to get ISO week number
+        function getISOWeek(date) {{
+            const d = new Date(date);
+            d.setHours(0, 0, 0, 0);
+            d.setDate(d.getDate() + 4 - (d.getDay() || 7));
+            const yearStart = new Date(d.getFullYear(), 0, 1);
+            const weekNo = Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
+            return d.getFullYear() + '-W' + String(weekNo).padStart(2, '0');
+        }}
+
         function exportData() {{
             try {{
                 // Collect data for current week + next week
-                const currentWeekNum = getWeekNumber(currentWeekStart);
-                const nextWeekStart = new Date(currentWeekStart);
-                nextWeekStart.setDate(nextWeekStart.getDate() + 7);
-                const nextWeekNum = getWeekNumber(nextWeekStart);
+                const today = new Date();
+                const currentWeekNum = getISOWeek(today);
+
+                // Calculate next week
+                const nextWeekDate = new Date(today);
+                nextWeekDate.setDate(nextWeekDate.getDate() + 7);
+                const nextWeekNum = getISOWeek(nextWeekDate);
 
                 const plans = getMealPlans();
                 const currentWeekData = plans[currentWeekNum] || {{}};
