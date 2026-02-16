@@ -2252,10 +2252,13 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]], deploym
         function exportData() {{
             try {{
                 // Collect data for current week + next week
-                const currentWeekNum = currentWeek;
-                const nextWeekStart = new Date(currentWeekStart);
-                nextWeekStart.setDate(nextWeekStart.getDate() + 7);
-                const nextWeekNum = getWeekNumber(nextWeekStart);
+                const today = new Date();
+                const currentWeekNum = getISOWeek(today);
+
+                // Calculate next week
+                const nextWeekDate = new Date(today);
+                nextWeekDate.setDate(nextWeekDate.getDate() + 7);
+                const nextWeekNum = getISOWeek(nextWeekDate);
 
                 const plans = getMealPlans();
                 const currentWeekData = plans[currentWeekNum] || {{}};
