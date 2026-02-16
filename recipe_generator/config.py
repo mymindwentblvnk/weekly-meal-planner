@@ -118,6 +118,9 @@ body.dark-mode {
     --card-bg: #2d3748;
     --table-header-bg: #a78bfa;
     --shadow: rgba(0, 0, 0, 0.3);
+    --accent-color: #4fd1c5;
+    --error-color: #fc8181;
+    --background-color: #2d3748;
 }
 
 body {
