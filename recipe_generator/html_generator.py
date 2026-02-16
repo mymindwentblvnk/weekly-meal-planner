@@ -205,9 +205,10 @@ def generate_page_header(title: str, css: str, additional_css: str = "") -> str:
     <style>
         {all_css}
     </style>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.5.0/lz-string.min.js" integrity="sha512-uFsBSCUd2EBF/Eb4MMxjBq+mpqUON6/VUhO9IlTPLBLvCIsEe/0RkUMyYNfkS/H8/NU0qJTJn9egkB4RU6oiDQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
-<body>'''
+<body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.5.0/lz-string.min.js" integrity="sha512-uFsBSCUd2EBF/Eb4MMxjBq+mpqUON6/VUhO9IlTPLBLvCIsEe/0RkUMyYNfkS/H8/NU0qJTJn9egkB4RU6oiDQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+'''
 
 
 def format_time(minutes: int) -> str:
@@ -428,6 +429,12 @@ def generate_recipe_detail_html(recipe: dict[str, Any], slug: str) -> str:
 
         function exportData() {{
             try {{
+                // Check if LZ-String is loaded
+                if (typeof LZString === 'undefined') {{
+                    alert('Fehler: Komprimierungs-Bibliothek noch nicht geladen. Bitte versuche es in einem Moment erneut.');
+                    return;
+                }}
+
                 // Collect data for current week + next week
                 const today = new Date();
                 const currentWeekNum = getISOWeek(today);
@@ -1371,6 +1378,12 @@ def generate_overview_html(
 
         function exportData() {{
             try {{
+                // Check if LZ-String is loaded
+                if (typeof LZString === 'undefined') {{
+                    alert('Fehler: Komprimierungs-Bibliothek noch nicht geladen. Bitte versuche es in einem Moment erneut.');
+                    return;
+                }}
+
                 // Collect data for current week + next week
                 const today = new Date();
                 const currentWeekNum = getISOWeek(today);
@@ -2258,6 +2271,12 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]], deploym
 
         function exportData() {{
             try {{
+                // Check if LZ-String is loaded
+                if (typeof LZString === 'undefined') {{
+                    alert('Fehler: Komprimierungs-Bibliothek noch nicht geladen. Bitte versuche es in einem Moment erneut.');
+                    return;
+                }}
+
                 // Collect data for current week + next week
                 const today = new Date();
                 const currentWeekNum = getISOWeek(today);
@@ -2688,6 +2707,12 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]], 
 
         function exportData() {{
             try {{
+                // Check if LZ-String is loaded
+                if (typeof LZString === 'undefined') {{
+                    alert('Fehler: Komprimierungs-Bibliothek noch nicht geladen. Bitte versuche es in einem Moment erneut.');
+                    return;
+                }}
+
                 // Collect data for current week + next week
                 const today = new Date();
                 const currentWeekNum = getISOWeek(today);
