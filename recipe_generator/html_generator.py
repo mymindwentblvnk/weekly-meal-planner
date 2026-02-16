@@ -463,14 +463,6 @@ def generate_recipe_detail_html(recipe: dict[str, Any], slug: str) -> str:
                     exportData.weeks[nextWeekNum] = nextWeekData;
                 }}
 
-                // Include settings
-                const mealSettings = getEnabledMeals();
-                const darkMode = localStorage.getItem('darkMode') === 'enabled';
-                exportData.settings = {{
-                    meals: mealSettings,
-                    darkMode: darkMode
-                }};
-
                 // Compress and encode data using LZ-String
                 const jsonStr = JSON.stringify(exportData);
                 const compressed = LZString.compressToEncodedURIComponent(jsonStr);
@@ -510,16 +502,6 @@ def generate_recipe_detail_html(recipe: dict[str, Any], slug: str) -> str:
                     saveMealPlans(currentPlans);
                 }}
 
-                // Import settings
-                if (pendingImportData.settings) {{
-                    if (pendingImportData.settings.meals) {{
-                        localStorage.setItem('mealSettings', JSON.stringify(pendingImportData.settings.meals));
-                    }}
-                    if (pendingImportData.settings.darkMode !== undefined) {{
-                        localStorage.setItem('darkMode', pendingImportData.settings.darkMode ? 'enabled' : 'disabled');
-                    }}
-                }}
-
                 closeImportModal();
 
                 // Reload page to apply changes
@@ -557,20 +539,6 @@ def generate_recipe_detail_html(recipe: dict[str, Any], slug: str) -> str:
                         if (days.length > 0) {{
                             preview += `<div style="margin-left: 15px; margin-top: 5px;">📅 Woche ${{weekNum}}: ${{days.length}} Tag(e)</div>`;
                         }}
-                    }}
-                }}
-
-                if (data.settings) {{
-                    preview += `<br><strong>Einstellungen:</strong><br>`;
-                    if (data.settings.meals) {{
-                        const enabled = [];
-                        if (data.settings.meals.breakfast) enabled.push('Frühstück');
-                        if (data.settings.meals.lunch) enabled.push('Mittagessen');
-                        if (data.settings.meals.dinner) enabled.push('Abendessen');
-                        preview += `<div style="margin-left: 15px;">Mahlzeiten: ${{enabled.join(', ')}}</div>`;
-                    }}
-                    if (data.settings.darkMode !== undefined) {{
-                        preview += `<div style="margin-left: 15px;">Dunkelmodus: ${{data.settings.darkMode ? 'Ja' : 'Nein'}}</div>`;
                     }}
                 }}
 
@@ -1412,14 +1380,6 @@ def generate_overview_html(
                     exportData.weeks[nextWeekNum] = nextWeekData;
                 }}
 
-                // Include settings
-                const mealSettings = getEnabledMeals();
-                const darkMode = localStorage.getItem('darkMode') === 'enabled';
-                exportData.settings = {{
-                    meals: mealSettings,
-                    darkMode: darkMode
-                }};
-
                 // Compress and encode data using LZ-String
                 const jsonStr = JSON.stringify(exportData);
                 const compressed = LZString.compressToEncodedURIComponent(jsonStr);
@@ -1459,16 +1419,6 @@ def generate_overview_html(
                     saveMealPlans(currentPlans);
                 }}
 
-                // Import settings
-                if (pendingImportData.settings) {{
-                    if (pendingImportData.settings.meals) {{
-                        localStorage.setItem('mealSettings', JSON.stringify(pendingImportData.settings.meals));
-                    }}
-                    if (pendingImportData.settings.darkMode !== undefined) {{
-                        localStorage.setItem('darkMode', pendingImportData.settings.darkMode ? 'enabled' : 'disabled');
-                    }}
-                }}
-
                 closeImportModal();
 
                 // Reload page to apply changes
@@ -1506,20 +1456,6 @@ def generate_overview_html(
                         if (days.length > 0) {{
                             preview += `<div style="margin-left: 15px; margin-top: 5px;">📅 Woche ${{weekNum}}: ${{days.length}} Tag(e)</div>`;
                         }}
-                    }}
-                }}
-
-                if (data.settings) {{
-                    preview += `<br><strong>Einstellungen:</strong><br>`;
-                    if (data.settings.meals) {{
-                        const enabled = [];
-                        if (data.settings.meals.breakfast) enabled.push('Frühstück');
-                        if (data.settings.meals.lunch) enabled.push('Mittagessen');
-                        if (data.settings.meals.dinner) enabled.push('Abendessen');
-                        preview += `<div style="margin-left: 15px;">Mahlzeiten: ${{enabled.join(', ')}}</div>`;
-                    }}
-                    if (data.settings.darkMode !== undefined) {{
-                        preview += `<div style="margin-left: 15px;">Dunkelmodus: ${{data.settings.darkMode ? 'Ja' : 'Nein'}}</div>`;
                     }}
                 }}
 
@@ -2305,14 +2241,6 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]], deploym
                     exportData.weeks[nextWeekNum] = nextWeekData;
                 }}
 
-                // Include settings
-                const mealSettings = getEnabledMeals();
-                const darkMode = localStorage.getItem('darkMode') === 'enabled';
-                exportData.settings = {{
-                    meals: mealSettings,
-                    darkMode: darkMode
-                }};
-
                 // Compress and encode data using LZ-String
                 const jsonStr = JSON.stringify(exportData);
                 const compressed = LZString.compressToEncodedURIComponent(jsonStr);
@@ -2352,16 +2280,6 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]], deploym
                     saveMealPlans(currentPlans);
                 }}
 
-                // Import settings
-                if (pendingImportData.settings) {{
-                    if (pendingImportData.settings.meals) {{
-                        localStorage.setItem('mealSettings', JSON.stringify(pendingImportData.settings.meals));
-                    }}
-                    if (pendingImportData.settings.darkMode !== undefined) {{
-                        localStorage.setItem('darkMode', pendingImportData.settings.darkMode ? 'enabled' : 'disabled');
-                    }}
-                }}
-
                 closeImportModal();
 
                 // Reload page to apply changes
@@ -2399,20 +2317,6 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]], deploym
                         if (days.length > 0) {{
                             preview += `<div style="margin-left: 15px; margin-top: 5px;">📅 Woche ${{weekNum}}: ${{days.length}} Tag(e)</div>`;
                         }}
-                    }}
-                }}
-
-                if (data.settings) {{
-                    preview += `<br><strong>Einstellungen:</strong><br>`;
-                    if (data.settings.meals) {{
-                        const enabled = [];
-                        if (data.settings.meals.breakfast) enabled.push('Frühstück');
-                        if (data.settings.meals.lunch) enabled.push('Mittagessen');
-                        if (data.settings.meals.dinner) enabled.push('Abendessen');
-                        preview += `<div style="margin-left: 15px;">Mahlzeiten: ${{enabled.join(', ')}}</div>`;
-                    }}
-                    if (data.settings.darkMode !== undefined) {{
-                        preview += `<div style="margin-left: 15px;">Dunkelmodus: ${{data.settings.darkMode ? 'Ja' : 'Nein'}}</div>`;
                     }}
                 }}
 
@@ -2741,14 +2645,6 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]], 
                     exportData.weeks[nextWeekNum] = nextWeekData;
                 }}
 
-                // Include settings
-                const mealSettings = getEnabledMeals();
-                const darkMode = localStorage.getItem('darkMode') === 'enabled';
-                exportData.settings = {{
-                    meals: mealSettings,
-                    darkMode: darkMode
-                }};
-
                 // Compress and encode data using LZ-String
                 const jsonStr = JSON.stringify(exportData);
                 const compressed = LZString.compressToEncodedURIComponent(jsonStr);
@@ -2788,16 +2684,6 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]], 
                     saveMealPlans(currentPlans);
                 }}
 
-                // Import settings
-                if (pendingImportData.settings) {{
-                    if (pendingImportData.settings.meals) {{
-                        localStorage.setItem('mealSettings', JSON.stringify(pendingImportData.settings.meals));
-                    }}
-                    if (pendingImportData.settings.darkMode !== undefined) {{
-                        localStorage.setItem('darkMode', pendingImportData.settings.darkMode ? 'enabled' : 'disabled');
-                    }}
-                }}
-
                 closeImportModal();
 
                 // Reload page to apply changes
@@ -2835,20 +2721,6 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]], 
                         if (days.length > 0) {{
                             preview += `<div style="margin-left: 15px; margin-top: 5px;">📅 Woche ${{weekNum}}: ${{days.length}} Tag(e)</div>`;
                         }}
-                    }}
-                }}
-
-                if (data.settings) {{
-                    preview += `<br><strong>Einstellungen:</strong><br>`;
-                    if (data.settings.meals) {{
-                        const enabled = [];
-                        if (data.settings.meals.breakfast) enabled.push('Frühstück');
-                        if (data.settings.meals.lunch) enabled.push('Mittagessen');
-                        if (data.settings.meals.dinner) enabled.push('Abendessen');
-                        preview += `<div style="margin-left: 15px;">Mahlzeiten: ${{enabled.join(', ')}}</div>`;
-                    }}
-                    if (data.settings.darkMode !== undefined) {{
-                        preview += `<div style="margin-left: 15px;">Dunkelmodus: ${{data.settings.darkMode ? 'Ja' : 'Nein'}}</div>`;
                     }}
                 }}
 
