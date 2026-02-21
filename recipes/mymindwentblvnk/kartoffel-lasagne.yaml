@@ -5,7 +5,7 @@ category: 🥩
 servings: 2
 prep_time: 30  # minutes
 cook_time: 70  # minutes
-estimated_cost: 8.50  # EUR
+estimated_cost: 14.00  # EUR
 tags:
 - Butter
 - Fleisch
@@ -31,6 +31,8 @@ ingredients:
   amount: 150 g
 - name: Stückige Tomaten
   amount: 1 Dose
+- name: Käse (gerieben)
+  amount: 1 Packung
 - name: Paprikapulver
   amount: etwas
 - name: Salz
