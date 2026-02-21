@@ -1680,6 +1680,7 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]], deploym
         <div class="week-nav-buttons">
             <button class="week-nav-btn current-week-btn" id="thisWeekBtn" onclick="goToCurrentWeek()">{get_text('current_week')}</button>
             <button class="week-nav-btn" id="nextWeekBtn" onclick="goToNextWeek()">{get_text('next_week')}</button>
+            <button class="week-nav-btn random-btn" id="randomRecipesBtn" onclick="fillWeekWithRandomRecipes()">🎲 Zufällige Rezepte</button>
         </div>
         <div class="week-info" id="weekInfo"></div>
     </div>
@@ -1894,6 +1895,79 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]], deploym
 
             // Disable next week button if already viewing next week
             document.getElementById('nextWeekBtn').disabled = isNextWeek;
+        }}
+
+        // Fill week with random recipes
+        function fillWeekWithRandomRecipes() {{
+            // Check if week already has recipes
+            const stored = localStorage.getItem('mealPlansV2');
+            const mealPlans = stored ? JSON.parse(stored) : {{}};
+            const weekPlan = mealPlans[currentWeek] || {{}};
+
+            let hasRecipes = false;
+            const days = ['montag', 'dienstag', 'mittwoch', 'donnerstag', 'freitag', 'samstag', 'sonntag'];
+            const meals = ['breakfast', 'lunch', 'dinner'];
+
+            // Check if any recipes are assigned
+            for (const day of days) {{
+                if (weekPlan[day]) {{
+                    for (const meal of meals) {{
+                        if (weekPlan[day][meal]) {{
+                            hasRecipes = true;
+                            break;
+                        }}
+                    }}
+                    if (hasRecipes) break;
+                }}
+            }}
+
+            // Warn if recipes exist
+            if (hasRecipes) {{
+                if (!confirm('Diese Woche enthält bereits Rezepte. Möchtest du sie mit zufälligen Rezepten überschreiben?')) {{
+                    return;
+                }}
+            }}
+
+            // Get enabled meals from settings
+            const enabledMeals = getEnabledMeals();
+
+            // Get all recipe slugs
+            const allRecipes = Object.keys(recipeData);
+
+            if (allRecipes.length === 0) {{
+                alert('Keine Rezepte verfügbar!');
+                return;
+            }}
+
+            // Clear existing week plan
+            if (!mealPlans[currentWeek]) mealPlans[currentWeek] = {{}};
+
+            // Fill each day with random recipes
+            for (const day of days) {{
+                if (!mealPlans[currentWeek][day]) mealPlans[currentWeek][day] = {{}};
+
+                for (const meal of meals) {{
+                    // Only assign if meal is enabled
+                    if (enabledMeals[meal]) {{
+                        // Pick a random recipe
+                        const randomIndex = Math.floor(Math.random() * allRecipes.length);
+                        const randomSlug = allRecipes[randomIndex];
+                        const recipe = recipeData[randomSlug];
+
+                        mealPlans[currentWeek][day][meal] = {{
+                            slug: randomSlug,
+                            servings: recipe.servings || 2
+                        }};
+                    }} else {{
+                        // Clear disabled meals
+                        delete mealPlans[currentWeek][day][meal];
+                    }}
+                }}
+            }}
+
+            // Save and refresh
+            localStorage.setItem('mealPlansV2', JSON.stringify(mealPlans));
+            renderWeek();
         }}
 
         // Recipe search and assignment - Powerful search
