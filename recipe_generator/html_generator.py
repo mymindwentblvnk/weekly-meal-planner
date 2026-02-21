@@ -898,6 +898,14 @@ def generate_overview_html(
                 <div class="recipe-preview" id="recipePreview"></div>
 
                 <div class="form-group">
+                    <label>{get_text('select_week')}</label>
+                    <div class="button-group" id="weekButtons">
+                        <button type="button" class="selection-btn" data-value="current">{get_text('this_week')}</button>
+                        <button type="button" class="selection-btn" data-value="next">{get_text('next_week_option')}</button>
+                    </div>
+                </div>
+
+                <div class="form-group">
                     <label>{get_text('select_day')}</label>
                     <div class="button-group" id="dayButtons">
                         <button type="button" class="selection-btn" data-value="montag">Mo</button>
@@ -1157,6 +1165,15 @@ def generate_overview_html(
                 </div>
             `;
 
+            // Select default week button (next week)
+            document.querySelectorAll('#weekButtons .selection-btn').forEach(btn => {{
+                if (btn.dataset.value === 'next') {{
+                    btn.classList.add('selected');
+                }} else {{
+                    btn.classList.remove('selected');
+                }}
+            }});
+
             // Set default to current day
             const today = new Date().getDay();
             const dayMap = ['sonntag', 'montag', 'dienstag', 'mittwoch', 'donnerstag', 'freitag', 'samstag'];
@@ -1207,18 +1224,26 @@ def generate_overview_html(
         function confirmAddToPlan() {{
             if (!currentRecipeForPlan) return;
 
-            // Get selected day and meal from buttons
+            // Get selected week, day, and meal from buttons
+            const selectedWeekBtn = document.querySelector('#weekButtons .selection-btn.selected');
             const selectedDayBtn = document.querySelector('#dayButtons .selection-btn.selected');
             const selectedMealBtn = document.querySelector('#mealButtons .selection-btn.selected');
 
-            if (!selectedDayBtn || !selectedMealBtn) {{
-                alert('Bitte wählen Sie einen Tag und eine Mahlzeit aus.');
+            if (!selectedWeekBtn || !selectedDayBtn || !selectedMealBtn) {{
+                alert('Bitte wählen Sie eine Woche, einen Tag und eine Mahlzeit aus.');
                 return;
             }}
 
             const day = selectedDayBtn.dataset.value;
             const meal = selectedMealBtn.dataset.value;
-            const currentWeek = getISOWeek(new Date());
+
+            // Calculate target week based on selection
+            const today = new Date();
+            let targetDate = new Date(today);
+            if (selectedWeekBtn.dataset.value === 'next') {{
+                targetDate.setDate(targetDate.getDate() + 7);
+            }}
+            const targetWeek = getISOWeek(targetDate);
 
             try {{
                 // Get meal plans
@@ -1226,11 +1251,11 @@ def generate_overview_html(
                 const mealPlans = stored ? JSON.parse(stored) : {{}};
 
                 // Initialize structure
-                if (!mealPlans[currentWeek]) mealPlans[currentWeek] = {{}};
-                if (!mealPlans[currentWeek][day]) mealPlans[currentWeek][day] = {{}};
+                if (!mealPlans[targetWeek]) mealPlans[targetWeek] = {{}};
+                if (!mealPlans[targetWeek][day]) mealPlans[targetWeek][day] = {{}};
 
                 // Add to plan with recipe's default servings
-                mealPlans[currentWeek][day][meal] = {{
+                mealPlans[targetWeek][day][meal] = {{
                     slug: currentRecipeForPlan.slug,
                     servings: currentRecipeForPlan.servings
                 }};
@@ -1526,6 +1551,14 @@ def generate_overview_html(
 
             // Update weekly plan button states
             updateAllWeeklyPlanButtons();
+
+            // Add event listeners for week selection buttons
+            document.querySelectorAll('#weekButtons .selection-btn').forEach(btn => {{
+                btn.addEventListener('click', function() {{
+                    document.querySelectorAll('#weekButtons .selection-btn').forEach(b => b.classList.remove('selected'));
+                    this.classList.add('selected');
+                }});
+            }});
 
             // Add event listeners for day and meal selection buttons
             document.querySelectorAll('#dayButtons .selection-btn').forEach(btn => {{
