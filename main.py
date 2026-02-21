@@ -24,7 +24,10 @@ def main():
     errors = []
 
     # Process all YAML files in recipes directory (including subdirectories)
-    for yaml_file in RECIPES_DIR.glob("**/*.yaml"):
+    # Sort by modification time (oldest first, so newest get highest index)
+    yaml_files = sorted(RECIPES_DIR.glob("**/*.yaml"), key=lambda p: p.stat().st_mtime)
+
+    for yaml_file in yaml_files:
         print(f"Processing {yaml_file.name}...")
 
         try:
