@@ -1607,8 +1607,9 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]], deploym
         Complete HTML page as a string
     """
     # Create recipe lookup by slug with tags, servings, author, and category
+    # Add index to track order (higher index = more recently added)
     recipe_lookup = {}
-    for filename, recipe in recipes_data:
+    for index, (filename, recipe) in enumerate(recipes_data):
         slug = filename.replace('.html', '')
         recipe_lookup[slug] = {
             'name': recipe['name'],
@@ -1616,7 +1617,8 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]], deploym
             'category': recipe.get('category', ''),
             'author': recipe.get('author', ''),
             'tags': recipe.get('tags', []),
-            'servings': recipe.get('servings', 2)
+            'servings': recipe.get('servings', 2),
+            'index': index  # Track order for sorting (higher = more recent)
         }
 
     # Collect all unique tags, recipe names, authors, and categories for powerful search
@@ -2092,6 +2094,9 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]], deploym
 
                 // Show recipe only if it matches all filters
                 return matchesRecipe && matchesTags && matchesAuthor && matchesCategory && matchesQuery;
+            }}).sort((a, b) => {{
+                // Sort by index descending (higher index = more recently added = shown first)
+                return (b[1].index || 0) - (a[1].index || 0);
             }});
 
             const resultsHtml = results.map(([slug, recipe]) => `
