@@ -309,9 +309,58 @@ def add_estimated_cost(recipe_file, cost):
     }
 
 
+def check_description(recipe_file):
+    """
+    Check if a recipe has a valid description.
+
+    Args:
+        recipe_file: Path to recipe YAML file
+
+    Returns:
+        dict with 'has_description' (bool) and 'description' (str or None)
+    """
+    with open(recipe_file, 'r', encoding='utf-8') as f:
+        recipe = yaml.safe_load(f)
+
+    has_description = 'description' in recipe
+    description = recipe.get('description', None)
+
+    # Check if description is empty or placeholder
+    is_valid = (has_description and
+                description and
+                description.strip() and
+                description.lower() not in ['tbd', 'todo', 'placeholder'])
+
+    return {
+        'has_description': is_valid,
+        'description': description
+    }
+
+
+def check_tags_exist(recipe_file):
+    """
+    Check if a recipe has tags field.
+
+    Args:
+        recipe_file: Path to recipe YAML file
+
+    Returns:
+        dict with 'has_tags' (bool) and 'tags' (list or None)
+    """
+    with open(recipe_file, 'r', encoding='utf-8') as f:
+        recipe = yaml.safe_load(f)
+
+    has_tags = 'tags' in recipe and recipe['tags']
+
+    return {
+        'has_tags': has_tags,
+        'tags': recipe.get('tags', None)
+    }
+
+
 def validate_all_recipes(recipes_dir='recipes'):
     """
-    Validate all recipes for quality issues (tags, hierarchical tags, costs).
+    Validate all recipes for quality issues (tags, hierarchical tags, costs, descriptions).
 
     Args:
         recipes_dir: Directory to search for recipe YAML files
@@ -322,6 +371,8 @@ def validate_all_recipes(recipes_dir='recipes'):
     recipe_files = list(Path(recipes_dir).rglob('*.yaml'))
     results = {
         'total': len(recipe_files),
+        'missing_description': [],
+        'missing_tags': [],
         'unsorted_tags': [],
         'missing_hierarchical': [],
         'missing_cost': [],
@@ -330,22 +381,35 @@ def validate_all_recipes(recipes_dir='recipes'):
 
     for recipe_file in recipe_files:
         try:
-            # Check tag sorting
+            # Check description
+            desc_check = check_description(recipe_file)
+            if not desc_check['has_description']:
+                results['missing_description'].append(str(recipe_file))
+
+            # Check tags exist
+            tags_check = check_tags_exist(recipe_file)
+            if not tags_check['has_tags']:
+                results['missing_tags'].append(str(recipe_file))
+
+            # Check tag sorting (only if tags exist)
             sort_check = check_tag_sorting(recipe_file)
-            if not sort_check['sorted']:
+            if tags_check['has_tags'] and not sort_check['sorted']:
                 results['unsorted_tags'].append({
                     'file': str(recipe_file),
                     'current': sort_check['current'],
                     'should_be': sort_check['should_be']
                 })
 
-            # Check hierarchical tags
-            missing = check_hierarchical_tags(recipe_file)
-            if missing:
-                results['missing_hierarchical'].append({
-                    'file': str(recipe_file),
-                    'missing': missing
-                })
+            # Check hierarchical tags (only if tags exist)
+            if tags_check['has_tags']:
+                missing = check_hierarchical_tags(recipe_file)
+                if missing:
+                    results['missing_hierarchical'].append({
+                        'file': str(recipe_file),
+                        'missing': missing
+                    })
+            else:
+                missing = []
 
             # Check estimated cost
             cost_check = check_estimated_cost(recipe_file)
@@ -353,7 +417,11 @@ def validate_all_recipes(recipes_dir='recipes'):
                 results['missing_cost'].append(str(recipe_file))
 
             # If all checks pass, add to valid
-            if sort_check['sorted'] and not missing and cost_check['has_cost']:
+            if (desc_check['has_description'] and
+                tags_check['has_tags'] and
+                sort_check['sorted'] and
+                not missing and
+                cost_check['has_cost']):
                 results['valid'].append(str(recipe_file))
 
         except Exception as e:
@@ -380,9 +448,21 @@ if __name__ == '__main__':
     results = validate_all_recipes()
     print(f"Total recipes: {results['total']}")
     print(f"Valid recipes: {len(results['valid'])}")
+    print(f"Recipes missing description: {len(results['missing_description'])}")
+    print(f"Recipes missing tags: {len(results['missing_tags'])}")
     print(f"Recipes with unsorted tags: {len(results['unsorted_tags'])}")
     print(f"Recipes missing hierarchical tags: {len(results['missing_hierarchical'])}")
     print(f"Recipes missing estimated_cost: {len(results['missing_cost'])}")
+
+    if results['missing_description']:
+        print("\nMissing description:")
+        for file in results['missing_description']:
+            print(f"  {file}")
+
+    if results['missing_tags']:
+        print("\nMissing tags:")
+        for file in results['missing_tags']:
+            print(f"  {file}")
 
     if results['missing_hierarchical']:
         print("\nMissing hierarchical tags:")

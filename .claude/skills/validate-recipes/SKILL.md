@@ -8,14 +8,17 @@ This skill performs comprehensive validation of all recipes and automatically fi
 
 ## What This Skill Does
 
-1. **Validates all recipes** using `.claude/agents/recipe-utils.py`
-2. **Fixes missing descriptions** - Generates appetizing German descriptions
-3. **Fixes missing tags** - Adds tags based on ingredients
-4. **Fixes incomplete hierarchical tags** - Ensures generic + specific tag pairs
-5. **Sorts tags alphabetically** - Uses German alphabetization (ä=a, ö=o, ü=u)
-6. **Fixes missing costs** - Calculates and adds estimated_cost if missing
-7. **Regenerates HTML** - Runs `python main.py`
-8. **Commits and pushes** - Saves all changes to Git
+**COMPREHENSIVE VALIDATION**: This skill checks **ALL recipes** in the `recipes/` folder recursively, including all subdirectories.
+
+1. **Validates all recipes** using `.claude/utils/recipe-utils.py`
+2. **Checks for missing required fields** - description, tags, estimated_cost
+3. **Fixes missing descriptions** - Generates appetizing German descriptions
+4. **Fixes missing tags** - Adds tags based on ingredients
+5. **Fixes incomplete hierarchical tags** - Ensures generic + specific tag pairs
+6. **Sorts tags alphabetically** - Uses German alphabetization (ä=a, ö=o, ü=u)
+7. **Fixes missing costs** - Asks user for estimated_cost if missing
+8. **Regenerates HTML** - Runs `python main.py`
+9. **Commits and pushes** - Saves all changes to Git
 
 ## Using recipe-utils.py
 
@@ -42,9 +45,14 @@ results = validate_all_recipes()
 ### Step 1: Validate All Recipes
 
 Use `validate_all_recipes()` from recipe-utils.py to get a comprehensive report:
-- Recipes with unsorted tags
-- Recipes with missing hierarchical tags
-- Count of valid recipes
+- **Recipes missing description field** (or empty/placeholder descriptions)
+- **Recipes missing tags field** (or empty tags)
+- **Recipes with unsorted tags**
+- **Recipes with missing hierarchical tags**
+- **Recipes missing estimated_cost field**
+- **Count of valid recipes**
+
+The validation now checks for **completely missing required fields**, not just validating existing ones.
 
 ### Step 2: Fix Missing Descriptions
 
