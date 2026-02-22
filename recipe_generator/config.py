@@ -977,6 +977,13 @@ h1 {
 .day-header > div:hover {
     color: var(--primary-hover);
 }
+.day-header-actions {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    flex-shrink: 0;
+}
+.random-day-btn,
 .copy-day-btn {
     background-color: transparent;
     border: 1px solid var(--border-color);
@@ -987,10 +994,12 @@ h1 {
     transition: all 0.2s;
     flex-shrink: 0;
 }
+.random-day-btn:hover,
 .copy-day-btn:hover {
     background-color: var(--bg-secondary);
     border-color: var(--primary-color);
 }
+.random-day-btn:active,
 .copy-day-btn:active {
     transform: scale(0.95);
 }
@@ -1445,6 +1454,7 @@ h1 {
     .remove-meal-btn,
     .change-btn,
     .copy-link-btn,
+    .random-day-btn,
     .copy-day-btn,
     .servings-btn,
     .search-modal,

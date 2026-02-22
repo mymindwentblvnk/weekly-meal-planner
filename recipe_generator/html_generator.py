@@ -1680,7 +1680,6 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]], deploym
         <div class="week-nav-buttons">
             <button class="week-nav-btn current-week-btn" id="thisWeekBtn" onclick="goToCurrentWeek()">{get_text('current_week')}</button>
             <button class="week-nav-btn" id="nextWeekBtn" onclick="goToNextWeek()">{get_text('next_week')}</button>
-            <button class="week-nav-btn random-btn" id="randomRecipesBtn" onclick="fillWeekWithRandomRecipes()">🎲 Zufällige Rezepte</button>
         </div>
         <div class="week-info" id="weekInfo"></div>
     </div>
@@ -1895,6 +1894,51 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]], deploym
 
             // Disable next week button if already viewing next week
             document.getElementById('nextWeekBtn').disabled = isNextWeek;
+        }}
+
+        // Fill day with random recipes
+        function fillDayWithRandomRecipes(dayKey) {{
+            const stored = localStorage.getItem('mealPlansV2');
+            const mealPlans = stored ? JSON.parse(stored) : {{}};
+
+            if (!mealPlans[currentWeek]) mealPlans[currentWeek] = {{}};
+            if (!mealPlans[currentWeek][dayKey]) mealPlans[currentWeek][dayKey] = {{}};
+
+            const meals = ['breakfast', 'lunch', 'dinner'];
+
+            // Get enabled meals from settings
+            const enabledMeals = getEnabledMeals();
+
+            // Get all recipe slugs
+            const allRecipes = Object.keys(recipeData);
+
+            if (allRecipes.length === 0) {{
+                alert('Keine Rezepte verfügbar!');
+                return;
+            }}
+
+            // Fill day with random recipes
+            for (const meal of meals) {{
+                // Only assign if meal is enabled
+                if (enabledMeals[meal]) {{
+                    // Pick a random recipe
+                    const randomIndex = Math.floor(Math.random() * allRecipes.length);
+                    const randomSlug = allRecipes[randomIndex];
+                    const recipe = recipeData[randomSlug];
+
+                    mealPlans[currentWeek][dayKey][meal] = {{
+                        slug: randomSlug,
+                        servings: recipe.servings || 2
+                    }};
+                }} else {{
+                    // Clear disabled meals
+                    delete mealPlans[currentWeek][dayKey][meal];
+                }}
+            }}
+
+            // Save and refresh
+            localStorage.setItem('mealPlansV2', JSON.stringify(mealPlans));
+            renderWeek();
         }}
 
         // Fill week with random recipes
@@ -2536,7 +2580,10 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]], deploym
                                 <span class="day-toggle">${{isPast ? '▶\uFE0E' : '▼\uFE0E'}}</span>
                                 <span>${{dayName}}, ${{formatDate(date)}}</span>
                             </div>
-                            <button class="copy-day-btn" onclick="event.stopPropagation(); copyDayToClipboard('${{dayKey}}', '${{dayName}}', new Date(${{date.getTime()}}), event);" title="Tag in Zwischenablage kopieren">📋</button>
+                            <div class="day-header-actions">
+                                <button class="random-day-btn" onclick="event.stopPropagation(); fillDayWithRandomRecipes('${{dayKey}}');" title="Zufällige Rezepte für diesen Tag">🎲</button>
+                                <button class="copy-day-btn" onclick="event.stopPropagation(); copyDayToClipboard('${{dayKey}}', '${{dayName}}', new Date(${{date.getTime()}}), event);" title="Tag in Zwischenablage kopieren">📋</button>
+                            </div>
                         </div>
                         <div class="meals-grid">
                 `;
