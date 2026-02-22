@@ -977,7 +977,7 @@ h1 {
 .day-header > div:hover {
     color: var(--primary-hover);
 }
-.day-header-actions {
+.day-header > .day-header-actions {
     display: flex;
     gap: 8px;
     align-items: center;
