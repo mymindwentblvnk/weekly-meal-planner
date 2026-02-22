@@ -4,12 +4,16 @@ description: "Import a recipe from a URL and create YAML file"
 
 # Import Recipe from URL
 
-This skill imports a recipe from a URL (currently supports Chefkoch.de) and creates a properly formatted YAML file.
+This skill imports recipes from URLs (supports Chefkoch.de, EatSmarter.de) and creates properly formatted YAML files. Supports both single and batch imports.
 
 ## Usage
 
 ```
+# Single recipe
 /import-recipe <URL>
+
+# Multiple recipes (batch import)
+/import-recipe <URL1> <URL2> <URL3> ...
 ```
 
 ## What This Skill Does
@@ -25,6 +29,7 @@ This skill imports a recipe from a URL (currently supports Chefkoch.de) and crea
 
 Currently supports:
 - **Chefkoch.de** - Extracts from JSON-LD structured data
+- **EatSmarter.de** - Extracts from JSON-LD structured data
 
 ## Step-by-Step Process
 
@@ -123,6 +128,7 @@ Based on recipe name/description:
 Based on URL domain:
 - `chefkoch.de` → `recipes/Chefkoch/`
 - `hellofresh.de` → `recipes/HelloFresh/`
+- `eatsmarter.de` → `recipes/EatSmarter/`
 - Otherwise → `recipes/mymindwentblvnk/`
 
 Set `author` field to match folder name.
@@ -139,19 +145,7 @@ Convert recipe name to slug:
 - "Baba Ghanoush" → `baba-ghanoush.yaml`
 - "Rührei wie im Hotel" → `ruehrei-wie-im-hotel.yaml`
 
-### Step 10: Ask User for Estimated Cost
-
-After creating the recipe, ask the user for the estimated cost:
-
-**Prompt:**
-"What is the estimated cost for this recipe (for {servings} servings)? Please provide in EUR."
-
-**Input format:**
-- User provides cost as number (e.g., "12.50" or "8")
-- Store as float in YAML
-- If user skips/says "don't know", use 0.00 as placeholder
-
-## Step 11: Create YAML File
+### Step 10: Create YAML File
 
 Format:
 ```yaml
@@ -162,7 +156,7 @@ category: 🍲
 servings: 4
 prep_time: 15  # minutes
 cook_time: 30  # minutes
-estimated_cost: 5.50  # EUR
+estimated_cost: 0.00  # EUR - always set to 0.00 by default
 tags:
   - Tag1
   - Tag2
@@ -178,8 +172,8 @@ instructions:
   - Step 2
 ```
 
-**Note:** `estimated_cost` is the user-provided total cost for the recipe at base servings.
-It will be scaled automatically when servings are adjusted in the shopping list.
+**Note:** `estimated_cost` is always set to `0.00` by default. Do NOT ask the user for this value.
+It can be manually updated later if needed. The cost will be scaled automatically when servings are adjusted in the shopping list.
 
 ### Step 11: Regenerate HTML and Commit
 
@@ -198,6 +192,8 @@ git push
 
 ## Important Notes
 
+- **Batch imports supported** - Multiple URLs can be provided and all recipes will be imported sequentially
+- **No cost prompts** - estimated_cost is always set to 0.00 without asking the user
 - **Verify tags** - Check hierarchical tags are complete
 - **Review description** - May need editing for quality
 - **Check times** - Ensure prep_time + cook_time makes sense
@@ -205,6 +201,8 @@ git push
 - **Clean ingredients** - Remove unnecessary descriptors
 
 ## Example Workflow
+
+### Single Recipe Import
 
 ```bash
 # User invokes skill
@@ -214,9 +212,23 @@ git push
 1. curl + grep + sed + python to extract JSON-LD
 2. Parse recipe data
 3. Generate tags from ingredients
-4. Create recipes/Chefkoch/baba-ghanoush.yaml
+4. Create recipes/Chefkoch/baba-ghanoush.yaml with estimated_cost: 0.00
 5. python main.py
 6. git add + commit + push
+```
+
+### Batch Import (Multiple URLs)
+
+```bash
+# User invokes skill with multiple URLs
+/import-recipe https://eatsmarter.de/rezepte/quinoa-bowl https://eatsmarter.de/rezepte/chickpea-salad https://chefkoch.de/rezepte/pasta
+
+# Skill executes for each URL sequentially:
+1. Extract and parse first recipe → Create YAML with estimated_cost: 0.00
+2. Extract and parse second recipe → Create YAML with estimated_cost: 0.00
+3. Extract and parse third recipe → Create YAML with estimated_cost: 0.00
+4. python main.py (once after all recipes)
+5. git add + commit + push (all recipes together or individually)
 ```
 
 ## Error Handling
