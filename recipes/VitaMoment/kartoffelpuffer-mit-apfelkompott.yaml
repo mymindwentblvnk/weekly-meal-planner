@@ -11,10 +11,13 @@ tags:
 - Apfel
 - Butter
 - Eier
+- Fisch
+- Frischkäse
 - Kartoffeln
+- Käse
+- Lachs
 - Mehl
 - Obst
-
 ingredients:
 - name: Flohsamenschalen
   amount: 50 g
@@ -40,7 +43,6 @@ ingredients:
   amount: 1 Packung
 - name: Frischkäse
   amount: 1 Packung
-
 instructions:
 - Kartoffeln schälen und mit einer Küchenreibe raspeln. Ei, Dinkelmehl, Flohsamenschalen
   und Salz hinzugeben und gut vermengen.
@@ -48,4 +50,5 @@ instructions:
   zum Kochen bringen. Hitze reduzieren und einkochen lassen.
 - In einer heißen Pfanne Butterschmalz erhitzen und den Kartoffelteig mit einem Löffel
   portionieren. Hitze reduzieren und von beiden Seiten goldbraun braten.
-- Kartoffelpuffer auf einem Teller servieren und mit Apfelkompott oder Lachs-Frischkäse belegen.
+- Kartoffelpuffer auf einem Teller servieren und mit Apfelkompott oder Lachs-Frischkäse
+  belegen.
