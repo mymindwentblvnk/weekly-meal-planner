@@ -1713,6 +1713,7 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]], deploym
         let currentDay = null;
         let currentMeal = null;
         let collapsedDays = {{}}; // Track collapsed state for each day
+        let isInitialLoad = true; // Track if this is the first page load
 
         {generate_dark_mode_script()}
 
@@ -1879,6 +1880,7 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]], deploym
             currentWeek = getISOWeek(new Date());
             collapsedDays = {{}}; // Reset collapsed state for new week
             initializeCollapsedState();
+            isInitialLoad = true; // Re-enable scroll to today when returning to current week
             updateWeekButtons();
             renderWeek();
         }}
@@ -2659,19 +2661,22 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]], deploym
 
             document.getElementById('daysContainer').innerHTML = html;
 
-            // Scroll to today's card after a delay to show header first
-            setTimeout(() => {{
-                const todayCard = document.getElementById('today-card');
-                if (todayCard) {{
-                    // Use smooth scroll with custom timing
-                    const scrollOptions = {{
-                        behavior: 'smooth',
-                        block: 'start',
-                        inline: 'nearest'
-                    }};
-                    todayCard.scrollIntoView(scrollOptions);
-                }}
-            }}, 800);
+            // Scroll to today's card only on initial page load
+            if (isInitialLoad) {{
+                setTimeout(() => {{
+                    const todayCard = document.getElementById('today-card');
+                    if (todayCard) {{
+                        // Use smooth scroll with custom timing
+                        const scrollOptions = {{
+                            behavior: 'smooth',
+                            block: 'start',
+                            inline: 'nearest'
+                        }};
+                        todayCard.scrollIntoView(scrollOptions);
+                    }}
+                    isInitialLoad = false; // Mark initial load as complete
+                }}, 800);
+            }}
         }}
 
         // Initialize collapsed state for current week
