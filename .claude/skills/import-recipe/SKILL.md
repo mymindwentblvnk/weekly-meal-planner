@@ -156,7 +156,6 @@ category: 🍲
 servings: 4
 prep_time: 15  # minutes
 cook_time: 30  # minutes
-estimated_cost: 0.00  # EUR - always set to 0.00 by default
 tags:
   - Tag1
   - Tag2
@@ -171,9 +170,6 @@ instructions:
   - Step 1
   - Step 2
 ```
-
-**Note:** `estimated_cost` is always set to `0.00` by default. Do NOT ask the user for this value.
-It can be manually updated later if needed. The cost will be scaled automatically when servings are adjusted in the shopping list.
 
 ### Step 11: Regenerate HTML and Commit
 
@@ -193,7 +189,6 @@ git push
 ## Important Notes
 
 - **Batch imports supported** - Multiple URLs can be provided and all recipes will be imported sequentially
-- **No cost prompts** - estimated_cost is always set to 0.00 without asking the user
 - **Verify tags** - Check hierarchical tags are complete
 - **Review description** - May need editing for quality
 - **Check times** - Ensure prep_time + cook_time makes sense
@@ -212,7 +207,7 @@ git push
 1. curl + grep + sed + python to extract JSON-LD
 2. Parse recipe data
 3. Generate tags from ingredients
-4. Create recipes/Chefkoch/baba-ghanoush.yaml with estimated_cost: 0.00
+4. Create recipes/Chefkoch/baba-ghanoush.yaml
 5. python main.py
 6. git add + commit + push
 ```
@@ -224,9 +219,9 @@ git push
 /import-recipe https://eatsmarter.de/rezepte/quinoa-bowl https://eatsmarter.de/rezepte/chickpea-salad https://chefkoch.de/rezepte/pasta
 
 # Skill executes for each URL sequentially:
-1. Extract and parse first recipe → Create YAML with estimated_cost: 0.00
-2. Extract and parse second recipe → Create YAML with estimated_cost: 0.00
-3. Extract and parse third recipe → Create YAML with estimated_cost: 0.00
+1. Extract and parse first recipe → Create YAML
+2. Extract and parse second recipe → Create YAML
+3. Extract and parse third recipe → Create YAML
 4. python main.py (once after all recipes)
 5. git add + commit + push (all recipes together or individually)
 ```

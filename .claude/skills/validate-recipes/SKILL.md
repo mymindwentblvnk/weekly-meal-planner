@@ -11,14 +11,13 @@ This skill performs comprehensive validation of all recipes and automatically fi
 **COMPREHENSIVE VALIDATION**: This skill checks **ALL recipes** in the `recipes/` folder recursively, including all subdirectories.
 
 1. **Validates all recipes** using `.claude/utils/recipe-utils.py`
-2. **Checks for missing required fields** - description, tags, estimated_cost
+2. **Checks for missing required fields** - description, tags
 3. **Fixes missing descriptions** - Generates appetizing German descriptions
 4. **Fixes missing tags** - Adds tags based on ingredients
 5. **Fixes incomplete hierarchical tags** - Ensures generic + specific tag pairs
 6. **Sorts tags alphabetically** - Uses German alphabetization (ä=a, ö=o, ü=u)
-7. **Fixes missing costs** - Asks user for estimated_cost if missing
-8. **Regenerates HTML** - Runs `python main.py`
-9. **Commits and pushes** - Saves all changes to Git
+7. **Regenerates HTML** - Runs `python main.py`
+8. **Commits and pushes** - Saves all changes to Git
 
 ## Using recipe-utils.py
 
@@ -49,7 +48,6 @@ Use `validate_all_recipes()` from recipe-utils.py to get a comprehensive report:
 - **Recipes missing tags field** (or empty tags)
 - **Recipes with unsorted tags**
 - **Recipes with missing hierarchical tags**
-- **Recipes missing estimated_cost field**
 - **Count of valid recipes**
 
 The validation now checks for **completely missing required fields**, not just validating existing ones.
@@ -137,56 +135,17 @@ German alphabetization (DIN 5007-1):
 - ü treated as 'u'
 - ß treated as 'ss'
 
-### Step 5: Fix Missing Costs
-
-Check for missing `estimated_cost` field and ask user to provide it:
-
-**Process:**
-1. Identify recipes without `estimated_cost` field
-2. For each recipe, ask user: "What is the estimated cost for [Recipe Name] (for [X] servings)? Please provide in EUR."
-3. User provides cost as number (e.g., "12.50" or "8")
-4. Add to recipe file after `cook_time` field
-5. If user skips/says "don't know", use 0.00 as placeholder
-
-**Key Points:**
-- Add `estimated_cost` field after `cook_time`
-- Format: `estimated_cost: 11.68  # EUR`
-- Cost is user-provided, not automatically calculated
-- If user provides 0.00, it can be adjusted later
-
-**Example:**
-```yaml
-# Before
-prep_time: 10  # minutes
-cook_time: 20  # minutes
-tags:
-  - Lachs
-
-# After (user provided 15.50)
-prep_time: 10  # minutes
-cook_time: 20  # minutes
-estimated_cost: 15.50  # EUR
-tags:
-  - Lachs
-```
-
-### Step 6: Validate Again
+### Step 5: Validate Again
 
 After fixes, run `validate_all_recipes()` again to confirm all issues are resolved.
 
-Also verify all recipes have `estimated_cost`:
-```bash
-# Check for recipes without cost
-grep -L "estimated_cost:" recipes/**/*.yaml
-```
-
-### Step 7: Regenerate HTML
+### Step 6: Regenerate HTML
 
 ```bash
 python main.py
 ```
 
-### Step 8: Commit and Push
+### Step 7: Commit and Push
 
 ```bash
 git add recipes/
@@ -195,7 +154,6 @@ git commit -m "Validate and fix recipe metadata
 - Fixed [X] recipes with missing descriptions
 - Fixed [Y] recipes with incomplete hierarchical tags
 - Fixed [Z] recipes with unsorted tags
-- Fixed [N] recipes with missing costs
 - All recipes now pass validation
 
 Co-Authored-By: Claude (@vertex-ai/anthropic.claude-sonnet-4-5@20250929) <noreply@anthropic.com>"

@@ -194,120 +194,6 @@ def check_hierarchical_tags(recipe_file):
     return missing_generic
 
 
-# ============ COST VALIDATION ============
-
-def check_estimated_cost(recipe_file):
-    """
-    Check if a recipe has the estimated_cost field.
-
-    Args:
-        recipe_file: Path to recipe YAML file
-
-    Returns:
-        dict with 'has_cost' (bool) and 'cost' (float or None)
-    """
-    with open(recipe_file, 'r', encoding='utf-8') as f:
-        recipe = yaml.safe_load(f)
-
-    has_cost = 'estimated_cost' in recipe
-    cost = recipe.get('estimated_cost', None)
-
-    return {
-        'has_cost': has_cost,
-        'cost': cost
-    }
-
-
-def find_recipes_without_cost(recipes_dir='recipes'):
-    """
-    Find all recipe files without estimated_cost field.
-
-    Args:
-        recipes_dir: Directory to search for recipe YAML files
-
-    Returns:
-        List of recipe file paths without cost
-    """
-    recipe_files = list(Path(recipes_dir).rglob('*.yaml'))
-    missing_cost = []
-
-    for recipe_file in recipe_files:
-        try:
-            result = check_estimated_cost(recipe_file)
-            if not result['has_cost']:
-                missing_cost.append(str(recipe_file))
-        except Exception as e:
-            print(f"Error checking {recipe_file}: {e}")
-
-    return missing_cost
-
-
-def add_estimated_cost(recipe_file, cost):
-    """
-    Add user-provided estimated_cost to a recipe file.
-
-    Args:
-        recipe_file: Path to recipe YAML file
-        cost: User-provided cost as float
-
-    Returns:
-        dict with 'added' (bool), 'cost' (float)
-    """
-    # Read recipe
-    with open(recipe_file, 'r', encoding='utf-8') as f:
-        content = f.read()
-        recipe = yaml.safe_load(content)
-
-    # Check if already has cost
-    if 'estimated_cost' in recipe:
-        return {
-            'added': False,
-            'cost': recipe['estimated_cost']
-        }
-
-    # Find position to insert (after cook_time)
-    lines = content.split('\n')
-    insert_index = None
-
-    for i, line in enumerate(lines):
-        if line.startswith('cook_time:'):
-            insert_index = i + 1
-            break
-
-    if insert_index is None:
-        # If no cook_time, insert after prep_time
-        for i, line in enumerate(lines):
-            if line.startswith('prep_time:'):
-                insert_index = i + 1
-                break
-
-    if insert_index is None:
-        # If neither found, insert after servings
-        for i, line in enumerate(lines):
-            if line.startswith('servings:'):
-                insert_index = i + 1
-                break
-
-    # Add cost line
-    cost_line = f"estimated_cost: {cost:.2f}  # EUR"
-
-    if insert_index is not None:
-        lines.insert(insert_index, cost_line)
-
-        # Write back
-        with open(recipe_file, 'w', encoding='utf-8') as f:
-            f.write('\n'.join(lines))
-
-        return {
-            'added': True,
-            'cost': cost
-        }
-
-    return {
-        'added': False,
-        'cost': 0.0
-    }
-
 
 def check_description(recipe_file):
     """
@@ -375,7 +261,6 @@ def validate_all_recipes(recipes_dir='recipes'):
         'missing_tags': [],
         'unsorted_tags': [],
         'missing_hierarchical': [],
-        'missing_cost': [],
         'valid': []
     }
 
@@ -411,17 +296,11 @@ def validate_all_recipes(recipes_dir='recipes'):
             else:
                 missing = []
 
-            # Check estimated cost
-            cost_check = check_estimated_cost(recipe_file)
-            if not cost_check['has_cost']:
-                results['missing_cost'].append(str(recipe_file))
-
             # If all checks pass, add to valid
             if (desc_check['has_description'] and
                 tags_check['has_tags'] and
                 sort_check['sorted'] and
-                not missing and
-                cost_check['has_cost']):
+                not missing):
                 results['valid'].append(str(recipe_file))
 
         except Exception as e:
@@ -452,7 +331,6 @@ if __name__ == '__main__':
     print(f"Recipes missing tags: {len(results['missing_tags'])}")
     print(f"Recipes with unsorted tags: {len(results['unsorted_tags'])}")
     print(f"Recipes missing hierarchical tags: {len(results['missing_hierarchical'])}")
-    print(f"Recipes missing estimated_cost: {len(results['missing_cost'])}")
 
     if results['missing_description']:
         print("\nMissing description:")
@@ -470,8 +348,3 @@ if __name__ == '__main__':
             print(f"  {item['file']}:")
             for missing in item['missing']:
                 print(f"    - Missing '{missing['generic']}' (has {missing['specific_found']})")
-
-    if results['missing_cost']:
-        print("\nMissing estimated_cost:")
-        for file in results['missing_cost'][:10]:  # Show first 10
-            print(f"  {file}")

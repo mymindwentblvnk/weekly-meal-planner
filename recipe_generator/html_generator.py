@@ -2731,21 +2731,17 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]], 
     Returns:
         Complete HTML page as a string
     """
-    # Create recipe lookup by slug with full recipe data including ingredients and costs
+    # Create recipe lookup by slug with full recipe data including ingredients
     recipe_lookup = {}
     for filename, recipe in recipes_data:
         slug = filename.replace('.html', '')
-
-        # Get estimated cost from YAML (if available)
-        estimated_cost = recipe.get('estimated_cost', 0.0)
 
         recipe_lookup[slug] = {
             'name': recipe['name'],
             'filename': filename,
             'category': recipe.get('category', ''),
             'servings': recipe.get('servings', 2),
-            'ingredients': recipe.get('ingredients', []),
-            'cost': estimated_cost
+            'ingredients': recipe.get('ingredients', [])
         }
 
     # Generate recipe lookup as JSON for JavaScript
@@ -3370,29 +3366,8 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]], 
 
             // Track valid item IDs in current shopping list
             const validItemIds = new Set();
-            let totalCost = 0;
-
-            // First pass: calculate total cost
-            plan.recipes.forEach((recipeInstance) => {{
-                const slug = recipeInstance.slug;
-                const recipeInfo = recipeData[slug];
-                if (!recipeInfo) return;
-                const originalServings = recipeInfo.servings || 2;
-                const targetServings = recipeInstance.servings || 2;
-                const recipeCost = (recipeInfo.cost || 0) * targetServings / originalServings;
-                totalCost += recipeCost;
-            }});
 
             let html = '<div class="shopping-list-container">';
-
-            // Add total cost summary at the top
-            html += `
-                <div style="background-color: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 6px; padding: 12px 16px; margin-bottom: 20px;">
-                    <p style="margin: 0; color: var(--text-color); font-size: 1em;">
-                        <strong>💰 Geschätzte Gesamtkosten: ${{totalCost.toFixed(2).replace('.', ',')}} €</strong>
-                    </p>
-                </div>
-            `;
 
             // Show each recipe instance separately (no aggregation)
             plan.recipes.forEach((recipeInstance, instanceIndex) => {{
@@ -3437,8 +3412,6 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]], 
                         </div>
                         <p class="recipe-meta">
                             Original: ${{originalServings}} Portionen → Aktuell: ${{targetServings}} Portionen
-                            <br>
-                            <strong>Geschätzte Kosten: ${{((recipeInfo.cost || 0) * targetServings / originalServings).toFixed(2).replace('.', ',')}} €</strong>
                         </p>
                         <ul class="ingredients-list">
                 `;
@@ -3503,18 +3476,6 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]], 
 
             // Track valid item IDs in current shopping list
             const validItemIds = new Set();
-            let totalCost = 0;
-
-            // First pass: calculate total cost
-            plan.recipes.forEach((recipeInstance) => {{
-                const slug = recipeInstance.slug;
-                const recipeInfo = recipeData[slug];
-                if (!recipeInfo) return;
-                const originalServings = recipeInfo.servings || 2;
-                const targetServings = recipeInstance.servings || 2;
-                const recipeCost = (recipeInfo.cost || 0) * targetServings / originalServings;
-                totalCost += recipeCost;
-            }});
 
             // Collect all ingredients from all recipe instances (no aggregation)
             const allIngredients = [];
@@ -3546,16 +3507,6 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]], 
 
             // Render alphabetical list
             let html = '<div class="shopping-list-container">';
-
-            // Add total cost summary at the top
-            html += `
-                <div style="background-color: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 6px; padding: 12px 16px; margin-bottom: 20px;">
-                    <p style="margin: 0; color: var(--text-color); font-size: 1em;">
-                        <strong>💰 Geschätzte Gesamtkosten: ${{totalCost.toFixed(2).replace('.', ',')}} €</strong>
-                    </p>
-                </div>
-            `;
-
             html += '<div class="recipe-shopping-section">';
             html += '<h2 class="recipe-title">Alle Zutaten alphabetisch</h2>';
             html += '<ul class="ingredients-list">';
