@@ -982,6 +982,7 @@ h1 {
     gap: 8px;
     align-items: center;
     flex-shrink: 0;
+    flex-grow: 0;
 }
 .random-day-btn,
 .copy-day-btn {
