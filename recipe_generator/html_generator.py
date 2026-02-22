@@ -1712,6 +1712,7 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]], deploym
         let currentWeek = null;
         let currentDay = null;
         let currentMeal = null;
+        let collapsedDays = {{}}; // Track collapsed state for each day
 
         {generate_dark_mode_script()}
 
@@ -1867,6 +1868,8 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]], deploym
             // Only allow navigation to next week if currently viewing this week
             if (currentWeek === thisWeek) {{
                 currentWeek = nextWeek;
+                collapsedDays = {{}}; // Reset collapsed state for new week
+                initializeCollapsedState();
                 updateWeekButtons();
                 renderWeek();
             }}
@@ -1874,6 +1877,8 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]], deploym
 
         function goToCurrentWeek() {{
             currentWeek = getISOWeek(new Date());
+            collapsedDays = {{}}; // Reset collapsed state for new week
+            initializeCollapsedState();
             updateWeekButtons();
             renderWeek();
         }}
@@ -2323,6 +2328,8 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]], deploym
                 if (toggle) {{
                     toggle.textContent = isCollapsed ? '▶\uFE0E' : '▼\uFE0E';
                 }}
+                // Save collapsed state
+                collapsedDays[dayKey] = isCollapsed;
             }}
         }}
 
@@ -2570,14 +2577,17 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]], deploym
                 dayDate.setHours(0, 0, 0, 0);
                 const isPast = dayDate < today;
                 const isToday = dayDate.getTime() === today.getTime();
-                const collapsedClass = isPast ? ' collapsed' : '';
+
+                // Check if we have a saved collapsed state, otherwise default to isPast
+                const isCollapsed = collapsedDays.hasOwnProperty(dayKey) ? collapsedDays[dayKey] : isPast;
+                const collapsedClass = isCollapsed ? ' collapsed' : '';
                 const todayId = isToday ? ' id="today-card"' : '';
 
                 html += `
                     <div class="day-card${{collapsedClass}}" data-day="${{dayKey}}"${{todayId}}>
                         <div class="day-header">
                             <div onclick="toggleDay('${{dayKey}}')">
-                                <span class="day-toggle">${{isPast ? '▶\uFE0E' : '▼\uFE0E'}}</span>
+                                <span class="day-toggle">${{isCollapsed ? '▶\uFE0E' : '▼\uFE0E'}}</span>
                                 <span>${{dayName}}, ${{formatDate(date)}}</span>
                             </div>
                             <div class="day-header-actions">
@@ -2664,6 +2674,25 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]], deploym
             }}, 800);
         }}
 
+        // Initialize collapsed state for current week
+        function initializeCollapsedState() {{
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            const dates = getWeekDates(currentWeek);
+            const dayNames = ['{get_text('monday')}', '{get_text('tuesday')}', '{get_text('wednesday')}', '{get_text('thursday')}', '{get_text('friday')}', '{get_text('saturday')}', '{get_text('sunday')}'];
+
+            dates.forEach((date, dayIndex) => {{
+                const dayKey = dayNames[dayIndex].toLowerCase();
+                const dayDate = new Date(date);
+                dayDate.setHours(0, 0, 0, 0);
+                const isPast = dayDate < today;
+                // Only set if not already in state (preserve user changes)
+                if (!collapsedDays.hasOwnProperty(dayKey)) {{
+                    collapsedDays[dayKey] = isPast;
+                }}
+            }});
+        }}
+
         // Initialize
         document.addEventListener('DOMContentLoaded', function() {{
             const today = new Date();
@@ -2675,6 +2704,7 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]], deploym
             // Always start with current week
             currentWeek = thisWeek;
             cleanupOldWeeks();
+            initializeCollapsedState();
             updateWeekButtons();
             renderWeek();
             initializeDarkMode();
