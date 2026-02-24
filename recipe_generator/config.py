@@ -93,43 +93,65 @@ def get_text(key: str) -> str:
 # CSS Styles
 COMMON_CSS = """
 :root {
-    --bg-color: #ffffff;
-    --text-color: #2d3748;
-    --text-secondary: #4a5568;
-    --text-tertiary: #718096;
-    --primary-color: #6b46c1;
-    --primary-hover: #553c9a;
-    --bg-secondary: #f7fafc;
-    --border-color: #e2e8f0;
-    --card-bg: #f7fafc;
-    --table-header-bg: #6b46c1;
-    --shadow: rgba(0, 0, 0, 0.1);
-    --accent-color: #38b2ac;
-    --error-color: #e53e3e;
-    --background-color: #f7fafc;
-    --warning-bg: #fff3cd;
-    --warning-border: #ffc107;
+    /* Cream base colors */
+    --bg-color: #FFF8E7;
+    --text-color: #3d3d3d;
+    --text-secondary: #6b6b6b;
+    --text-tertiary: #8a8a8a;
+
+    /* Rainbow accent colors */
+    --primary-color: #9B59B6;  /* Purple */
+    --primary-hover: #8E44AD;
+    --accent-color: #3498DB;   /* Blue */
+    --accent-green: #2ECC71;   /* Green */
+    --accent-orange: #FF8C42;  /* Orange */
+    --accent-pink: #FF6B9D;    /* Pink */
+    --accent-yellow: #F1C40F;  /* Yellow */
+
+    /* UI colors */
+    --bg-secondary: #FFF4D6;
+    --border-color: #E8DCC3;
+    --card-bg: #FFFDF7;
+    --table-header-bg: #9B59B6;
+    --shadow: rgba(0, 0, 0, 0.08);
+    --background-color: #FFF8E7;
+
+    /* Status colors */
+    --error-color: #E74C3C;    /* Red */
+    --warning-bg: #FFF4D6;
+    --warning-border: #F1C40F;
     --warning-text: #856404;
 }
 
 body.dark-mode {
-    --bg-color: #1a202c;
-    --text-color: #e2e8f0;
-    --text-secondary: #cbd5e0;
-    --text-tertiary: #a0aec0;
-    --primary-color: #a78bfa;
-    --primary-hover: #8b5cf6;
-    --bg-secondary: #2d3748;
-    --border-color: #4a5568;
-    --card-bg: #2d3748;
-    --table-header-bg: #a78bfa;
-    --shadow: rgba(0, 0, 0, 0.3);
-    --accent-color: #4fd1c5;
-    --error-color: #fc8181;
-    --background-color: #2d3748;
-    --warning-bg: #744210;
-    --warning-border: #f59e0b;
-    --warning-text: #fbbf24;
+    /* Dark warm base colors */
+    --bg-color: #2C2416;
+    --text-color: #F5F0E6;
+    --text-secondary: #D4CCBB;
+    --text-tertiary: #B3A895;
+
+    /* Rainbow accent colors (brighter for dark mode) */
+    --primary-color: #B19CD9;  /* Light Purple */
+    --primary-hover: #9B7FD1;
+    --accent-color: #5DADE2;   /* Light Blue */
+    --accent-green: #58D68D;   /* Light Green */
+    --accent-orange: #FFAA66;  /* Light Orange */
+    --accent-pink: #FF8FB3;    /* Light Pink */
+    --accent-yellow: #F4D03F;  /* Light Yellow */
+
+    /* UI colors */
+    --bg-secondary: #3A2F1E;
+    --border-color: #5C4A33;
+    --card-bg: #3A2F1E;
+    --table-header-bg: #B19CD9;
+    --shadow: rgba(0, 0, 0, 0.4);
+    --background-color: #3A2F1E;
+
+    /* Status colors */
+    --error-color: #EC7063;    /* Light Red */
+    --warning-bg: #5C4A33;
+    --warning-border: #F4D03F;
+    --warning-text: #F4D03F;
 }
 
 body {

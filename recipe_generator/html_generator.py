@@ -67,10 +67,10 @@ def generate_navigation() -> str:
     """
     return f'''<div class="top-nav">
         <div style="display: flex; gap: 10px; align-items: center;">
-            <a href="index.html" class="nav-link" aria-label="Weekly Plan">🗓️</a>
-            <a href="shopping.html" class="nav-link" aria-label="Shopping List">🛒</a>
-            <a href="recipes.html" class="nav-link" aria-label="Recipes Catalog">📖</a>
-            <a href="settings.html" class="nav-link" aria-label="Settings">⚙️</a>
+            <a href="index.html" class="nav-link" style="background-color: var(--primary-color);" aria-label="Weekly Plan">🗓️</a>
+            <a href="shopping.html" class="nav-link" style="background-color: var(--accent-green);" aria-label="Shopping List">🛒</a>
+            <a href="recipes.html" class="nav-link" style="background-color: var(--accent-orange);" aria-label="Recipes Catalog">📖</a>
+            <a href="settings.html" class="nav-link" style="background-color: var(--accent-color);" aria-label="Settings">⚙️</a>
         </div>
     </div>'''
 
