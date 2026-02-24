@@ -216,9 +216,8 @@ body {
 
 /* Footer */
 .page-footer {
-    margin-top: 60px;
-    padding: 30px 20px 20px;
-    border-top: 1px solid var(--border-color);
+    margin-top: 20px;
+    padding: 10px;
     text-align: center;
 }
 
@@ -897,6 +896,33 @@ h1 {
 }
 .deployment-info p {
     margin: 0;
+}
+
+/* Settings Page */
+.settings-container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+.settings-section {
+    background-color: var(--card-bg);
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    padding: 24px;
+    margin-bottom: 20px;
+}
+.settings-section h2 {
+    color: var(--primary-color);
+    font-size: 1.3em;
+    margin-top: 0;
+    margin-bottom: 20px;
+    padding-left: 0;
+    border-left: none;
+    background: none;
+    padding: 0;
+}
+.settings-actions {
+    margin-top: 30px;
+    text-align: center;
 }
 """
 
