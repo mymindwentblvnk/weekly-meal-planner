@@ -2753,10 +2753,7 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]], deploym
                                     <div class="assigned-recipe">
                                         <img src="${{recipe.image}}" alt="${{recipe.name}}" class="meal-thumbnail">
                                         <div class="recipe-info">
-                                            <div style="display: flex; align-items: center; gap: 6px;">
-                                                <span class="recipe-emoji">${{recipe.category}}</span>
-                                                <a href="${{recipe.filename}}" class="recipe-link">${{recipe.name}}</a>
-                                            </div>
+                                            <a href="${{recipe.filename}}" class="recipe-link">${{recipe.name}}</a>
                                             <div class="servings-control">
                                                 <div class="servings-adjuster">
                                                     <button class="servings-btn" onclick="adjustServings('${{dayKey}}', '${{mealType}}', -1)">−</button>
