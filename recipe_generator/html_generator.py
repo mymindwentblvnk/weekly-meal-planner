@@ -297,7 +297,7 @@ def generate_recipe_detail_html(recipe: dict[str, Any], slug: str) -> str:
 
         <div style="display: flex; gap: 15px; align-items: center; margin: 20px 0; flex-wrap: wrap;">
             {generate_bring_widget()}
-            <button id="weeklyPlanButton" class="weekly-plan-button" onclick="toggleWeeklyPlan()">📅 Diese Woche kochen</button>
+            <button id="weeklyPlanButton" class="weekly-plan-button" onclick="toggleWeeklyPlan()">📅 Einplanen</button>
         </div>
 
         <table class="recipe-info-table">
@@ -345,6 +345,54 @@ def generate_recipe_detail_html(recipe: dict[str, Any], slug: str) -> str:
 
     {generate_settings_modal()}
 
+    <!-- Add to Plan Modal -->
+    <div id="addToPlanModal" class="add-plan-modal" style="display: none;" onclick="closeModalOnBackdrop(event)">
+        <div class="add-plan-modal-content" onclick="event.stopPropagation()">
+            <div class="add-plan-modal-header">
+                <h3 class="add-plan-modal-title">{get_text('add_to_plan_title')}</h3>
+                <button class="close-modal-btn" onclick="closeAddToPlanModal()">×</button>
+            </div>
+            <div class="add-plan-modal-body">
+                <div class="recipe-preview" id="recipePreview"></div>
+
+                <div class="form-group">
+                    <label>{get_text('select_week')}</label>
+                    <div class="button-group" id="weekButtons">
+                        <button type="button" class="selection-btn" data-value="current">{get_text('this_week')}</button>
+                        <button type="button" class="selection-btn" data-value="next">{get_text('next_week_option')}</button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>{get_text('select_day')}</label>
+                    <div class="button-group" id="dayButtons">
+                        <button type="button" class="selection-btn" data-value="montag">Mo</button>
+                        <button type="button" class="selection-btn" data-value="dienstag">Di</button>
+                        <button type="button" class="selection-btn" data-value="mittwoch">Mi</button>
+                        <button type="button" class="selection-btn" data-value="donnerstag">Do</button>
+                        <button type="button" class="selection-btn" data-value="freitag">Fr</button>
+                        <button type="button" class="selection-btn" data-value="samstag">Sa</button>
+                        <button type="button" class="selection-btn" data-value="sonntag">So</button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>{get_text('select_meal')}</label>
+                    <div class="button-group" id="mealButtons">
+                        <button type="button" class="selection-btn" data-value="breakfast">{get_text('breakfast')}</button>
+                        <button type="button" class="selection-btn" data-value="lunch">{get_text('lunch')}</button>
+                        <button type="button" class="selection-btn" data-value="dinner">{get_text('dinner')}</button>
+                    </div>
+                </div>
+
+                <div class="modal-actions">
+                    <button class="cancel-btn" onclick="closeAddToPlanModal()">{get_text('cancel')}</button>
+                    <button class="add-btn" onclick="confirmAddToPlan()">{get_text('add_to_plan')}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     {generate_footer()}
 
     <script>
@@ -352,8 +400,12 @@ def generate_recipe_detail_html(recipe: dict[str, Any], slug: str) -> str:
         const recipeData = {{
             name: '{escape(recipe['name'])}',
             slug: '{escape(slug)}',
-            category: '{escape(recipe.get('category', ''))}'
+            category: '{escape(recipe.get('category', ''))}',
+            servings: {recipe['servings']}
         }};
+
+        // Store current recipe for plan modal
+        let currentRecipeForPlan = null;
 
         // Settings functions
         function getEnabledMeals() {{
@@ -611,71 +663,119 @@ def generate_recipe_detail_html(recipe: dict[str, Any], slug: str) -> str:
         // Track cumulative "add to plan" clicks
         // Weekly plan functionality
         function toggleWeeklyPlan() {{
-            const planKey = 'weeklyMealPlan';
-            let plan = {{ recipes: [] }};
-
-            try {{
-                const stored = localStorage.getItem(planKey);
-                if (stored) {{
-                    plan = JSON.parse(stored);
-                }}
-            }} catch (e) {{
-                console.error('Error reading weekly plan:', e);
-            }}
-
-            // Always add to plan (allow duplicates)
-            plan.recipes.push({{
-                id: String(Date.now() + Math.random()), // Unique ID for each instance (as string)
-                name: recipeData.name,
+            // Store current recipe info
+            currentRecipeForPlan = {{
                 slug: recipeData.slug,
+                name: recipeData.name,
                 category: recipeData.category,
-                addedAt: Date.now(),
-                cooked: false
+                servings: recipeData.servings
+            }};
+
+            // Show recipe preview in modal
+            document.getElementById('recipePreview').innerHTML = `
+                <div style="display: flex; align-items: center; gap: 10px; padding: 10px; background-color: var(--bg-secondary); border-radius: 6px; margin-bottom: 20px;">
+                    <span style="font-size: 2em;">${{recipeData.category}}</span>
+                    <span style="font-weight: 600; font-size: 1.1em;">${{recipeData.name}}</span>
+                </div>
+            `;
+
+            // Select default week button (next week)
+            document.querySelectorAll('#weekButtons .selection-btn').forEach(btn => {{
+                if (btn.dataset.value === 'next') {{
+                    btn.classList.add('selected');
+                }} else {{
+                    btn.classList.remove('selected');
+                }}
             }});
 
-            // Update lastModified timestamp
-            plan.lastModified = Date.now();
+            // Set default to current day
+            const today = new Date().getDay();
+            const dayMap = ['sonntag', 'montag', 'dienstag', 'mittwoch', 'donnerstag', 'freitag', 'samstag'];
+            const defaultDay = dayMap[today];
 
-            // Save back to localStorage
-            try {{
-                localStorage.setItem(planKey, JSON.stringify(plan));
-                updateWeeklyPlanButton();
-
-                // Trigger sync by posting message to any open weekly plan tabs
-                try {{
-                    localStorage.setItem('weeklyPlanNeedsSync', Date.now().toString());
-                }} catch (e) {{
-                    // Ignore if localStorage is full
+            // Select default day button
+            document.querySelectorAll('#dayButtons .selection-btn').forEach(btn => {{
+                if (btn.dataset.value === defaultDay) {{
+                    btn.classList.add('selected');
+                }} else {{
+                    btn.classList.remove('selected');
                 }}
-            }} catch (e) {{
-                console.error('Error saving weekly plan:', e);
+            }});
+
+            // Select default meal button (breakfast)
+            document.querySelectorAll('#mealButtons .selection-btn').forEach(btn => {{
+                if (btn.dataset.value === 'breakfast') {{
+                    btn.classList.add('selected');
+                }} else {{
+                    btn.classList.remove('selected');
+                }}
+            }});
+
+            // Show modal
+            document.getElementById('addToPlanModal').style.display = 'flex';
+        }}
+
+        function closeAddToPlanModal() {{
+            document.getElementById('addToPlanModal').style.display = 'none';
+            currentRecipeForPlan = null;
+        }}
+
+        function closeModalOnBackdrop(event) {{
+            if (event.target === event.currentTarget) {{
+                closeAddToPlanModal();
             }}
         }}
 
-        function updateWeeklyPlanButton() {{
-            const planKey = 'weeklyMealPlan';
-            const button = document.getElementById('weeklyPlanButton');
-            if (!button) return;
+        function confirmAddToPlan() {{
+            if (!currentRecipeForPlan) return;
 
-            let plan = {{ recipes: [] }};
-            try {{
-                const stored = localStorage.getItem(planKey);
-                if (stored) {{
-                    plan = JSON.parse(stored);
-                }}
-            }} catch (e) {{
-                console.error('Error reading weekly plan:', e);
+            // Get selected week, day, and meal from buttons
+            const selectedWeekBtn = document.querySelector('#weekButtons .selection-btn.selected');
+            const selectedDayBtn = document.querySelector('#dayButtons .selection-btn.selected');
+            const selectedMealBtn = document.querySelector('#mealButtons .selection-btn.selected');
+
+            if (!selectedWeekBtn || !selectedDayBtn || !selectedMealBtn) {{
+                alert('Bitte wählen Sie eine Woche, einen Tag und eine Mahlzeit aus.');
+                return;
             }}
 
-            const count = plan.recipes.filter(r => r.slug === recipeData.slug).length;
+            const day = selectedDayBtn.dataset.value;
+            const meal = selectedMealBtn.dataset.value;
 
-            if (count > 0) {{
-                button.classList.add('in-plan');
-                const countText = count > 1 ? ` (${{count}}×)` : '';
-                button.textContent = `✓ In Wochenplan${{countText}}`;
-            }} else {{
-                button.classList.remove('in-plan');
-                button.textContent = '📅 Diese Woche kochen';
+            // Calculate target week based on selection
+            const today = new Date();
+            let targetDate = new Date(today);
+            if (selectedWeekBtn.dataset.value === 'next') {{
+                targetDate.setDate(targetDate.getDate() + 7);
+            }}
+            const targetWeek = getISOWeek(targetDate);
+
+            try {{
+                // Get meal plans
+                const stored = localStorage.getItem('mealPlansV2');
+                const mealPlans = stored ? JSON.parse(stored) : {{}};
+
+                // Initialize structure
+                if (!mealPlans[targetWeek]) mealPlans[targetWeek] = {{}};
+                if (!mealPlans[targetWeek][day]) mealPlans[targetWeek][day] = {{}};
+
+                // Add to plan with recipe's default servings
+                mealPlans[targetWeek][day][meal] = {{
+                    slug: currentRecipeForPlan.slug,
+                    servings: currentRecipeForPlan.servings
+                }};
+
+                // Save back
+                localStorage.setItem('mealPlansV2', JSON.stringify(mealPlans));
+
+                // Close modal
+                closeAddToPlanModal();
+
+                // Show success message
+                alert('✅ Rezept wurde zum Wochenplan hinzugefügt!');
+            }} catch (e) {{
+                console.error('Error adding to plan:', e);
+                alert('Fehler beim Hinzufügen zum Wochenplan');
             }}
         }}
 
@@ -728,8 +828,36 @@ def generate_recipe_detail_html(recipe: dict[str, Any], slug: str) -> str:
         document.addEventListener('DOMContentLoaded', function() {{
             initializeDarkMode();
 
-            // Update weekly plan button state
-            updateWeeklyPlanButton();
+            // Add event listeners for week selection buttons
+            document.querySelectorAll('#weekButtons .selection-btn').forEach(btn => {{
+                btn.addEventListener('click', function() {{
+                    document.querySelectorAll('#weekButtons .selection-btn').forEach(b => b.classList.remove('selected'));
+                    this.classList.add('selected');
+                }});
+            }});
+
+            // Add event listeners for day selection buttons
+            document.querySelectorAll('#dayButtons .selection-btn').forEach(btn => {{
+                btn.addEventListener('click', function() {{
+                    document.querySelectorAll('#dayButtons .selection-btn').forEach(b => b.classList.remove('selected'));
+                    this.classList.add('selected');
+                }});
+            }});
+
+            // Filter meal buttons based on settings and add event listeners
+            const enabledMeals = getEnabledMeals();
+            document.querySelectorAll('#mealButtons .selection-btn').forEach(btn => {{
+                const mealType = btn.dataset.value;
+                if (!enabledMeals[mealType]) {{
+                    btn.style.display = 'none';
+                }} else {{
+                    btn.style.display = '';
+                    btn.addEventListener('click', function() {{
+                        document.querySelectorAll('#mealButtons .selection-btn').forEach(b => b.classList.remove('selected'));
+                        this.classList.add('selected');
+                    }});
+                }}
+            }});
         }});
     </script>
 </body>
