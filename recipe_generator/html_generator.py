@@ -1194,6 +1194,23 @@ def generate_overview_html(
         key=lambda x: category_order.get(x[1].get('category', ''), 999)
     )
 
+    # Create recipe lookup for JavaScript
+    recipe_lookup = {}
+    for filename, recipe in recipes_data:
+        slug = filename.replace('.html', '')
+        recipe_lookup[slug] = {
+            'name': recipe['name'],
+            'filename': filename,
+            'category': recipe.get('category', ''),
+            'author': recipe.get('author', ''),
+            'servings': recipe.get('servings', 2)
+        }
+
+    # Generate recipe lookup as JSON for JavaScript
+    import json
+    recipe_lookup_json = json.dumps(recipe_lookup, ensure_ascii=False)
+    search_items_json = json.dumps(all_search_items, ensure_ascii=False)
+
     # Generate recipe entries
     recipe_entries = []
     for filename, recipe in sorted_recipes:
@@ -1332,6 +1349,9 @@ def generate_overview_html(
     </div>
 
     <script>
+        // Recipe lookup for checking existing meals
+        const recipeData = {recipe_lookup_json};
+
         // Unified search functionality
         const allSearchItems = {search_items_json};
         const searchInput = document.getElementById('search');
