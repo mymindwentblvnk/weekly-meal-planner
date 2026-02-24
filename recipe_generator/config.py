@@ -1053,57 +1053,70 @@ h1 {
     gap: 15px;
 }
 .meal-slot {
-    background-color: var(--bg-secondary);
-    border: 1px solid var(--border-color);
-    border-radius: 6px;
-    padding: 12px;
+    background-color: var(--card-bg);
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    padding: 0;
     min-height: 100px;
+    overflow: hidden;
+    transition: all 0.2s;
+}
+.meal-slot:hover {
+    border-color: var(--primary-color);
+    box-shadow: 0 2px 8px var(--shadow);
 }
 .meal-type {
     font-weight: 600;
-    font-size: 0.9em;
+    font-size: 0.75em;
     color: var(--text-secondary);
-    margin-bottom: 8px;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.8px;
+    padding: 8px 12px;
+    background: var(--bg-secondary);
+    border-bottom: 1px solid var(--border-color);
 }
 .meal-content.empty {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    min-height: 60px;
+    min-height: 80px;
+    padding: 12px;
     color: var(--text-tertiary);
     font-size: 0.9em;
 }
 .meal-content.assigned {
     display: flex;
     flex-direction: column;
-    gap: 8px;
-    align-items: center;
+    gap: 0;
 }
 .assigned-recipe {
     display: flex;
-    align-items: center;
-    gap: 8px;
-    width: 100%;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px;
+    background: var(--card-bg);
 }
 .meal-thumbnail {
-    width: 50px;
-    height: 50px;
+    width: 60px;
+    height: 60px;
     object-fit: cover;
-    border-radius: 4px;
+    border-radius: 6px;
     flex-shrink: 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 .recipe-info {
     display: flex;
-    align-items: center;
-    gap: 8px;
+    flex-direction: column;
+    gap: 6px;
     flex: 1;
     min-width: 0;
+    justify-content: center;
 }
 .recipe-emoji {
-    font-size: 1.5em;
+    font-size: 1.2em;
+    line-height: 1;
+    flex-shrink: 0;
 }
 .recipe-name {
     flex: 1;
@@ -1111,41 +1124,52 @@ h1 {
     color: var(--text-color);
 }
 .recipe-link {
-    color: var(--primary-color);
+    color: var(--text-color);
     text-decoration: none;
     font-size: 0.95em;
+    font-weight: 500;
+    line-height: 1.3;
+    display: block;
 }
 .recipe-link:hover {
-    text-decoration: underline;
+    color: var(--primary-color);
 }
 .meal-actions {
     display: flex;
-    gap: 6px;
-    margin-top: 8px;
+    gap: 0;
+    border-top: 1px solid var(--border-color);
+    background: var(--bg-secondary);
 }
 .assign-btn, .remove-meal-btn, .change-btn {
-    padding: 6px 12px;
+    padding: 10px 16px;
     border: none;
-    border-radius: 4px;
+    border-radius: 0;
     font-size: 0.85em;
     font-weight: 500;
     cursor: pointer;
     transition: all 0.2s;
     flex: 1;
+    background-color: var(--bg-secondary);
+    color: var(--text-color);
+    border-right: 1px solid var(--border-color);
+}
+.assign-btn:last-child, .remove-meal-btn:last-child, .change-btn:last-child {
+    border-right: none;
 }
 .assign-btn, .change-btn {
+    color: var(--primary-color);
+    font-weight: 600;
+}
+.assign-btn:hover, .change-btn:hover {
     background-color: var(--primary-color);
     color: white;
 }
-.assign-btn:hover, .change-btn:hover {
-    background-color: #5a35a1;
-}
 .remove-meal-btn {
-    background-color: #e53e3e;
-    color: white;
+    color: #e53e3e;
 }
 .remove-meal-btn:hover {
-    background-color: #c53030;
+    background-color: #e53e3e;
+    color: white;
 }
 .copy-link-btn {
     padding: 2px 6px;
@@ -1165,28 +1189,30 @@ h1 {
 .servings-control {
     display: flex;
     align-items: center;
-    gap: 8px;
-    margin-top: 8px;
-    padding: 6px 0;
+    gap: 6px;
 }
 .servings-label {
-    font-size: 0.85em;
+    font-size: 0.75em;
     color: var(--text-secondary);
     font-weight: 500;
 }
 .servings-adjuster {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
+    background: var(--bg-secondary);
+    padding: 4px 8px;
+    border-radius: 20px;
+    border: 1px solid var(--border-color);
 }
 .servings-btn {
-    width: 32px;
-    height: 32px;
-    border: 2px solid var(--primary-color);
-    background-color: var(--bg-color);
-    color: var(--primary-color);
+    width: 24px;
+    height: 24px;
+    border: none;
+    background-color: var(--primary-color);
+    color: white;
     border-radius: 50%;
-    font-size: 1.2em;
+    font-size: 14px;
     font-weight: bold;
     cursor: pointer;
     transition: all 0.2s;
@@ -1197,17 +1223,17 @@ h1 {
     line-height: 1;
 }
 .servings-btn:hover {
-    background-color: var(--primary-color);
-    color: white;
+    background-color: var(--primary-hover);
+    transform: scale(1.1);
 }
 .servings-btn:active {
     transform: scale(0.95);
 }
 .servings-value {
-    font-size: 1em;
+    font-size: 0.85em;
     font-weight: 600;
     color: var(--text-color);
-    min-width: 30px;
+    min-width: 24px;
     text-align: center;
 }
 .search-modal {
