@@ -33,9 +33,17 @@ If a recipe doesn't have an `image` field in its YAML file, the `placeholder.svg
 - Images are clickable and link to the recipe detail page
 - Images have rounded top corners matching the card design
 
+## Automatic Optimization
+
+When importing recipes using `/import-recipe`, images are automatically:
+- Downloaded from the recipe source
+- Resized to max 800px width/height (maintains aspect ratio)
+- Optimized to reduce file size by 10-30%
+- This ensures fast page load times while maintaining quality
+
 ## Tips
 
 - Use high-quality, well-lit food photography
 - Ensure images are properly cropped and centered on the food
-- Keep file sizes reasonable (< 500KB) for faster loading
-- Use descriptive filenames matching the recipe name
+- Images are automatically resized during import, but keeping source images under 1200px is ideal
+- Use descriptive filenames matching the recipe name (slug format)
