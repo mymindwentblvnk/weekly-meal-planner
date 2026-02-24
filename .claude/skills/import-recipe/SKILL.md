@@ -67,15 +67,19 @@ SLUG="recipe-slug"  # Use the same slug as the YAML filename
 EXT="${IMAGE_URL##*.}"  # Extract file extension from URL
 EXT="${EXT%%\?*}"      # Remove query parameters if present
 
-# Download image to images/recipes/ directory
-curl -s "$IMAGE_URL" -o "images/recipes/${SLUG}.${EXT}"
+# Download and optimize image
+curl -s "$IMAGE_URL" -o "images/recipes/${SLUG}.jpg"
+
+# Resize to max 800px width (maintains aspect ratio) using sips (built into macOS)
+sips -Z 800 "images/recipes/${SLUG}.jpg" > /dev/null
 ```
 
 **Important:**
-- If the image URL is empty or download fails, skip the image (YAML will use placeholder)
-- Common extensions: jpg, jpeg, png, webp
-- Handle both direct image URLs and URLs with query parameters
-- Image field in YAML should be: `images/recipes/${SLUG}.${EXT}`
+- Images are automatically resized to max 800px width/height (maintains aspect ratio) using `sips`
+- Images are saved as downloaded (usually JPEG from recipe sites)
+- Resizing typically reduces file size by 10-30% while maintaining good quality
+- If the image URL is empty or download/optimization fails, skip the image (YAML will use placeholder)
+- Image field in YAML should be: `images/recipes/${SLUG}.jpg`
 
 ### Step 3: Convert Times
 
@@ -199,7 +203,7 @@ instructions:
   - Step 2
 ```
 
-**Note:** The `image` field should reference the downloaded image. If the image download fails or no image is available, omit this field and a placeholder will be used.
+**Note:** The `image` field should reference the optimized image. Images are automatically resized to max 800px (maintains aspect ratio) using `sips` to reduce file size. If the image download/optimization fails or no image is available, omit this field and a placeholder will be used.
 
 ### Step 12: Regenerate HTML and Commit
 
