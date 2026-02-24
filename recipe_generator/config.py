@@ -93,11 +93,11 @@ def get_text(key: str) -> str:
 # CSS Styles
 COMMON_CSS = """
 :root {
-    /* Cream base colors */
-    --bg-color: #FFF8E7;
-    --text-color: #3d3d3d;
-    --text-secondary: #6b6b6b;
-    --text-tertiary: #8a8a8a;
+    /* Light grey base colors */
+    --bg-color: #F5F5F5;
+    --text-color: #2d2d2d;
+    --text-secondary: #5a5a5a;
+    --text-tertiary: #7a7a7a;
 
     /* Rainbow accent colors */
     --primary-color: #9B59B6;  /* Purple */
@@ -109,26 +109,26 @@ COMMON_CSS = """
     --accent-yellow: #F1C40F;  /* Yellow */
 
     /* UI colors */
-    --bg-secondary: #FFF4D6;
-    --border-color: #E8DCC3;
-    --card-bg: #FFFDF7;
+    --bg-secondary: #EEEEEE;
+    --border-color: #D0D0D0;
+    --card-bg: #FAFAFA;
     --table-header-bg: #9B59B6;
     --shadow: rgba(0, 0, 0, 0.08);
-    --background-color: #FFF8E7;
+    --background-color: #F5F5F5;
 
     /* Status colors */
     --error-color: #E74C3C;    /* Red */
-    --warning-bg: #FFF4D6;
+    --warning-bg: #EEEEEE;
     --warning-border: #F1C40F;
     --warning-text: #856404;
 }
 
 body.dark-mode {
-    /* Dark warm base colors */
-    --bg-color: #2C2416;
-    --text-color: #F5F0E6;
-    --text-secondary: #D4CCBB;
-    --text-tertiary: #B3A895;
+    /* Dark grey base colors */
+    --bg-color: #1E1E1E;
+    --text-color: #E0E0E0;
+    --text-secondary: #B0B0B0;
+    --text-tertiary: #808080;
 
     /* Rainbow accent colors (brighter for dark mode) */
     --primary-color: #B19CD9;  /* Light Purple */
@@ -140,16 +140,16 @@ body.dark-mode {
     --accent-yellow: #F4D03F;  /* Light Yellow */
 
     /* UI colors */
-    --bg-secondary: #3A2F1E;
-    --border-color: #5C4A33;
-    --card-bg: #3A2F1E;
+    --bg-secondary: #2A2A2A;
+    --border-color: #404040;
+    --card-bg: #2A2A2A;
     --table-header-bg: #B19CD9;
     --shadow: rgba(0, 0, 0, 0.4);
-    --background-color: #3A2F1E;
+    --background-color: #2A2A2A;
 
     /* Status colors */
     --error-color: #EC7063;    /* Light Red */
-    --warning-bg: #5C4A33;
+    --warning-bg: #404040;
     --warning-border: #F4D03F;
     --warning-text: #F4D03F;
 }
