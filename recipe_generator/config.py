@@ -1086,6 +1086,21 @@ h1 {
     display: flex;
     align-items: center;
     gap: 8px;
+    width: 100%;
+}
+.meal-thumbnail {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 4px;
+    flex-shrink: 0;
+}
+.recipe-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex: 1;
+    min-width: 0;
 }
 .recipe-emoji {
     font-size: 1.5em;
@@ -1621,6 +1636,16 @@ h1 {
         gap: 2px;
         flex-direction: column;
         align-items: flex-start;
+    }
+
+    .meal-thumbnail {
+        display: none;
+    }
+
+    .recipe-info {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1px;
     }
 
     .recipe-emoji {

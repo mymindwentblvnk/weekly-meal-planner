@@ -1742,7 +1742,7 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]], deploym
     Returns:
         Complete HTML page as a string
     """
-    # Create recipe lookup by slug with tags, servings, author, and category
+    # Create recipe lookup by slug with tags, servings, author, category, and image
     # Add index to track order (higher index = more recently added)
     recipe_lookup = {}
     for index, (filename, recipe) in enumerate(recipes_data):
@@ -1754,6 +1754,7 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]], deploym
             'author': recipe.get('author', ''),
             'tags': recipe.get('tags', []),
             'servings': recipe.get('servings', 2),
+            'image': recipe.get('image', 'images/recipes/placeholder.svg'),
             'index': index  # Track order for sorting (higher = more recent)
         }
 
@@ -2750,8 +2751,11 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]], deploym
                                 <div class="meal-type">${{mealLabel}}</div>
                                 <div class="meal-content assigned">
                                     <div class="assigned-recipe">
-                                        <span class="recipe-emoji">${{recipe.category}}</span>
-                                        <a href="${{recipe.filename}}" class="recipe-link">${{recipe.name}}</a>
+                                        <img src="${{recipe.image}}" alt="${{recipe.name}}" class="meal-thumbnail">
+                                        <div class="recipe-info">
+                                            <span class="recipe-emoji">${{recipe.category}}</span>
+                                            <a href="${{recipe.filename}}" class="recipe-link">${{recipe.name}}</a>
+                                        </div>
                                     </div>
                                     <div class="servings-control">
                                         <div class="servings-adjuster">
