@@ -1,0 +1,50 @@
+name: Chili-Hummus
+description: Scharfer Hummus-Dip mit Kichererbsen, roten Chilischoten und Tahini, verfeinert mit Tomatenmark und Kreuzkümmel
+author: EatSmarter
+category: 🍲
+servings: 4
+prep_time: 10
+cook_time: 5
+image: images/recipes/chili-hummus.jpg
+tags:
+  - Chili
+  - Kerne
+  - Kichererbsen
+  - Knoblauch
+  - Kreuzkümmel
+  - Kräuter
+  - Olivenöl
+  - Öl
+  - Petersilie
+  - Sesam
+  - Tomate
+  - Zitrone
+
+ingredients:
+  - name: Kichererbsen (Abtropfgewicht, Glas)
+    amount: 250 g
+  - name: Knoblauchzehen
+    amount: 2
+  - name: Rote Chilischoten
+    amount: 2
+  - name: Tahini
+    amount: 30 g (2 EL)
+  - name: Olivenöl
+    amount: 2 EL
+  - name: Tomatenmark
+    amount: 20 g (1 EL)
+  - name: Zitrone (Saft)
+    amount: 0.5
+  - name: Salz
+    amount: nach Geschmack
+  - name: Pfeffer
+    amount: nach Geschmack
+  - name: Kreuzkümmel (gemahlen)
+    amount: nach Geschmack
+  - name: Petersilie
+    amount: 10 g (0.5 Bund)
+
+instructions:
+  - Kichererbsen in ein Sieb abgießen und unter kaltem Wasser abspülen. Knoblauch schälen. Chilischoten waschen, putzen und in Stücke schneiden.
+  - Tahini-Paste mit Olivenöl im Mixer ca. 1 Minute lang pürieren. Dann Kichererbsen, Knoblauch, Chilischoten, Tomatenmark und Zitronensaft dazugeben und alles zu einem cremigen Chili-Hummus pürieren. Je nach gewünschter Konsistenz noch etwas Wasser untermixen. Chili-Hummus mit Salz, Pfeffer und Kreuzkümmel abschmecken.
+  - Petersilie waschen, trocken schütteln und hacken. Chili-Hummus in eine Schüssel füllen und mit Petersilie bestreuen.
