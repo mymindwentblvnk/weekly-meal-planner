@@ -959,7 +959,7 @@ def generate_overview_html(
         </p>
         <div style="display: flex; gap: 10px; margin-top: 15px;">
             <a href="{escape(filename)}" class="view-recipe-btn">{get_text('view_recipe')}</a>
-            <button class="weekly-plan-button-card" data-slug="{slug}" data-name="{escape(recipe['name'])}" data-category="{category}" data-servings="{servings}" onclick="toggleWeeklyPlanFromCard(this)">📅 Diese Woche kochen</button>
+            <button class="weekly-plan-button-card" data-slug="{slug}" data-name="{escape(recipe['name'])}" data-category="{category}" data-servings="{servings}" onclick="toggleWeeklyPlanFromCard(this)">📅 Einplanen</button>
         </div>
     </div>'''
         recipe_entries.append(recipe_entry)
@@ -1430,7 +1430,7 @@ def generate_overview_html(
                         button.textContent = `✓ In Wochenplan${{countText}}`;
                     }} else {{
                         button.classList.remove('in-plan');
-                        button.textContent = '📅 Diese Woche kochen';
+                        button.textContent = '📅 Einplanen';
                     }}
                 }});
             }} catch (e) {{
