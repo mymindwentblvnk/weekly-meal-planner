@@ -1,27 +1,26 @@
 name: Chili-Hummus
-description: Scharfer Hummus-Dip mit Kichererbsen, roten Chilischoten und Tahini, verfeinert mit Tomatenmark und Kreuzkümmel
+description: Chili-Hummus von EAT SMARTER ist perfekt für alle Fans von scharfen Dips und Aufstrichen.
 author: EatSmarter
 category: 🍲
 servings: 4
-prep_time: 10
-cook_time: 5
+prep_time: 15
+cook_time: 0
 image: images/recipes/chili-hummus.jpg
 tags:
   - Chili
+  - Hülsenfrüchte
   - Kerne
   - Kichererbsen
   - Knoblauch
-  - Kreuzkümmel
   - Kräuter
-  - Olivenöl
-  - Öl
   - Petersilie
   - Sesam
   - Tomate
   - Zitrone
+  - Zitrusfrüchte
 
 ingredients:
-  - name: Kichererbsen (Abtropfgewicht, Glas)
+  - name: Kichererbsen (Abtropfgewicht)
     amount: 250 g
   - name: Knoblauchzehen
     amount: 2
@@ -33,8 +32,8 @@ ingredients:
     amount: 2 EL
   - name: Tomatenmark
     amount: 20 g (1 EL)
-  - name: Zitrone (Saft)
-    amount: 0.5
+  - name: Zitronensaft
+    amount: 0.5 Zitrone
   - name: Salz
     amount: nach Geschmack
   - name: Pfeffer
