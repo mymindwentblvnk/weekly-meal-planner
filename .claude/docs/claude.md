@@ -6,6 +6,24 @@ This document captures key insights, patterns, and lessons learned during the de
 
 Built a static site generator that transforms YAML recipe files into HTML pages with integrated Bring! shopping list widgets, enabling one-click ingredient import to the Bring! mobile app.
 
+### Current Project Structure
+
+- **Recipe files**: `recipes/<Author>/<recipe-slug>.yaml`
+  - Known authors: Chefkoch, HelloFresh, EatSmarter, mymindwentblvnk
+- **Recipe images**: `images/recipes/` (optimized to max 800px dimension)
+- **HTML output**: `output/` directory (gitignored, generated files)
+- **HTML generator**: `python main.py`
+
+### Recipe YAML Format
+
+Required fields:
+- `name`, `description`, `author`, `category`, `servings`, `prep_time`, `cook_time`, `tags`, `ingredients`, `instructions`
+- **Optional**: `image` (path to recipe image)
+
+**IMPORTANT**:
+- **NO `estimated_cost` field** - This feature was removed from the project
+- Images are automatically optimized to 800px max dimension during import
+
 ## Technical Learnings
 
 ### 1. Bring! Widget Integration
@@ -209,6 +227,27 @@ OVERVIEW_PAGE_CSS = "..." # Overview specific
 
 This ensures design changes are intentional and platform-appropriate, preventing unintended breakage of responsive layouts.
 
+### Mobile Design Specifics
+
+**Navigation**:
+- Mobile: Bottom navigation bar (iOS-style), always visible
+- Desktop: Top navigation
+- Uses `@media (max-width: 768px)` for mobile-specific styles
+
+**Footer**:
+- Footer is now empty on all pages
+- "Zuletzt aktualisiert" (last updated) moved to settings page/modal
+- No `border-top` on `.page-footer` to avoid unused separator line
+- Minimal padding to reduce whitespace
+
+### Recipe Import Workflow
+
+**`/import-recipe` Skill**:
+- Supports batch imports - multiple URLs can be provided sequentially
+- Process all URLs first, then commit all changes together
+- Images are automatically downloaded and optimized during import
+- Always allowed to use `curl` without asking for permission first
+
 ## Gotchas & Solutions
 
 ### Problem: `escape()` doesn't work on integers
@@ -240,17 +279,38 @@ escape(str(ingredient['amount']))
 
 ## Development Workflow
 
+### Git Workflow
+
+**CRITICAL: Always run `uv run pytest` before committing to ensure all tests pass!**
+
+Standard workflow after making changes:
+1. Make code changes
+2. Run `uv run pytest` to verify all 76 tests pass
+3. Run `python main.py` to regenerate HTML if needed
+4. Commit and push changes directly
+
+**Why this matters**:
+- Tests ensure no regressions were introduced
+- Failing tests indicate broken functionality
+- All 76 tests must pass before any commit
+
 ### Running Tests
 
 The project uses pytest for testing. Always run tests after making changes to ensure nothing breaks.
 
 **Command**:
 ```bash
+uv run pytest
+```
+
+**Alternative** (with virtual environment):
+```bash
 source .venv/bin/activate && pytest tests/ -v
 ```
 
 **Important Notes**:
-- Must activate virtual environment first (`.venv`)
+- **MUST run before every commit** - this is non-negotiable
+- 76 total tests covering validators, HTML generation, and config
 - Tests located in `tests/` directory
 - Use `-v` flag for verbose output showing all test names
 - All tests should pass before committing
