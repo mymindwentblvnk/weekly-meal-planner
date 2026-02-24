@@ -29,6 +29,9 @@ def main():
             shutil.rmtree(images_dst)
         shutil.copytree(images_src, images_dst)
 
+    # Get deployment time for all pages
+    deployment_time = datetime.now(ZoneInfo("Europe/Berlin"))
+
     # Store recipes for overview generation
     recipes_data = []
     errors = []
@@ -49,7 +52,7 @@ def main():
             validate_recipe(recipe, yaml_file.name)
 
             # Generate recipe detail HTML
-            html = generate_recipe_detail_html(recipe, yaml_file.stem)
+            html = generate_recipe_detail_html(recipe, yaml_file.stem, deployment_time)
 
             # Write HTML file
             output_filename = f"{yaml_file.stem}.html"
@@ -77,9 +80,6 @@ def main():
 
     # Generate pages if we have at least one valid recipe
     if recipes_data:
-        # Get deployment time for all pages
-        deployment_time = datetime.now(ZoneInfo("Europe/Berlin"))
-
         # Generate weekly plan page as the main index
         print("Generating weekly plan page (index)...")
         weekly_html = generate_weekly_html(recipes_data, deployment_time)

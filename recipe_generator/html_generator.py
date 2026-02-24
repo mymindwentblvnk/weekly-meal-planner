@@ -75,11 +75,12 @@ def generate_navigation() -> str:
     </div>'''
 
 
-def generate_settings_modal(show_print_button: bool = False) -> str:
+def generate_settings_modal(show_print_button: bool = False, deployment_time: datetime | None = None) -> str:
     """Generate settings modal HTML.
 
     Args:
         show_print_button: Whether to show the print button (only for weekly plan page)
+        deployment_time: Optional datetime for when the page was last updated
 
     Returns:
         HTML for settings modal
@@ -90,6 +91,15 @@ def generate_settings_modal(show_print_button: bool = False) -> str:
                 <div class="form-group">
                     <label>Aktionen:</label>
                     <button class="week-nav-btn" onclick="window.print()" style="width: 100%; margin-top: 8px;">🖨️ Wochenplan drucken</button>
+                </div>'''
+
+    last_updated_html = ''
+    if deployment_time:
+        formatted_time = deployment_time.strftime("%d. %B %Y um %H:%M %Z")
+        last_updated_html = f'''
+                <div class="form-group">
+                    <label>{get_text("last_updated")}</label>
+                    <p class="settings-hint">{formatted_time}</p>
                 </div>'''
 
     return f'''<!-- Settings Modal -->
@@ -131,7 +141,7 @@ def generate_settings_modal(show_print_button: bool = False) -> str:
                     <label>Daten teilen:</label>
                     <p class="settings-hint">Exportiere deine Wochenpläne als Link zum Teilen mit anderen Geräten oder Personen.</p>
                     <button class="week-nav-btn" onclick="exportData()" style="width: 100%; margin-top: 8px;">📤 Daten als Link exportieren</button>
-                </div>
+                </div>{last_updated_html}
                 <div class="modal-actions">
                     <button class="cancel-btn" onclick="closeSettingsModal()">Abbrechen</button>
                     <button class="add-btn" onclick="saveSettings()">Speichern</button>
@@ -160,25 +170,16 @@ def generate_settings_modal(show_print_button: bool = False) -> str:
 
 
 def generate_footer(deployment_time: datetime | None = None) -> str:
-    """Generate footer HTML with last updated info and data storage disclaimer.
+    """Generate footer HTML (placeholder for future use).
 
     Args:
-        deployment_time: Optional datetime for when the page was last updated
+        deployment_time: Optional datetime for when the page was last updated (unused, kept for compatibility)
 
     Returns:
-        HTML for page footer
+        Empty footer HTML
     """
-    footer_class = "deployment-info" if deployment_time else "page-footer"
-    footer_html = f'<footer class="{footer_class}">'
-
-    if deployment_time:
-        formatted_time = deployment_time.strftime("%d. %B %Y um %H:%M %Z")
-        footer_html += f'<p class="footer-updated">{get_text("last_updated")}: {formatted_time}</p>'
-
-    footer_html += f'<p class="footer-disclaimer">{get_text("data_stored_locally")}</p>'
-    footer_html += '</footer>'
-
-    return footer_html
+    # Footer now empty - deployment time moved to settings modal
+    return '<footer class="page-footer"></footer>'
 
 
 def generate_page_header(title: str, css: str, additional_css: str = "") -> str:
@@ -252,12 +253,13 @@ def generate_schema_metadata(recipe: dict[str, Any]) -> str:
     return metadata
 
 
-def generate_recipe_detail_html(recipe: dict[str, Any], slug: str) -> str:
+def generate_recipe_detail_html(recipe: dict[str, Any], slug: str, deployment_time: datetime | None = None) -> str:
     """Generate HTML with Schema.org microdata and Bring! widget from recipe data.
 
     Args:
         recipe: Recipe dictionary containing name, ingredients, instructions, etc.
         slug: Recipe slug/filename (without .html extension) for weekly plan tracking
+        deployment_time: Optional datetime for when the page was deployed
 
     Returns:
         Complete HTML page as a string
@@ -348,7 +350,7 @@ def generate_recipe_detail_html(recipe: dict[str, Any], slug: str) -> str:
         </div>
     </div>
 
-    {generate_settings_modal()}
+    {generate_settings_modal(deployment_time=deployment_time)}
 
     <!-- Add to Plan Modal -->
     <div id="addToPlanModal" class="add-plan-modal" style="display: none;" onclick="closeModalOnBackdrop(event)">
@@ -1021,7 +1023,7 @@ def generate_overview_html(
 
     {generate_footer(deployment_time)}
 
-    {generate_settings_modal()}
+    {generate_settings_modal(deployment_time=deployment_time)}
 
     <!-- Add to Plan Modal -->
     <div id="addToPlanModal" class="add-plan-modal" style="display: none;" onclick="closeModalOnBackdrop(event)">
@@ -1823,7 +1825,7 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]], deploym
 
     <div id="daysContainer" class="days-container"></div>
 
-    {generate_settings_modal(show_print_button=True)}
+    {generate_settings_modal(show_print_button=True, deployment_time=deployment_time)}
 
     <div id="searchModal" class="search-modal" style="display: none;" onclick="closeModalOnBackdrop(event)">
         <div class="search-modal-content" onclick="event.stopPropagation()">
@@ -2910,7 +2912,7 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]], 
 
     <div id="shoppingListContainer"></div>
 
-    {generate_settings_modal()}
+    {generate_settings_modal(deployment_time=deployment_time)}
 
     {generate_footer(deployment_time)}
 
