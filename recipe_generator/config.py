@@ -1130,7 +1130,6 @@ h1 {
 }
 .recipe-link:hover {
     color: var(--primary-hover);
-    text-decoration: underline;
 }
 .meal-actions {
     display: flex;
