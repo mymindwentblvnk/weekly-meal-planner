@@ -187,6 +187,28 @@ OVERVIEW_PAGE_CSS = "..." # Overview specific
 - Better tool support (especially for Bring!)
 - More explicit relationship between markup and data
 
+## Design Targets
+
+### Mobile vs Desktop Design
+
+**Important**: This project maintains **two separate design targets**:
+
+1. **Mobile Design**: Optimized for mobile devices and small screens
+2. **Desktop Design**: Optimized for desktop browsers and large screens
+
+**When implementing design changes**:
+- If the user requests a design change and it's **not clear** whether it applies to:
+  - Mobile only
+  - Desktop only
+  - Both platforms
+- **Always ask for clarification** before implementing
+
+**Examples**:
+- "Should this change apply to mobile, desktop, or both?"
+- "I can implement this for [mobile/desktop/both]. Which would you prefer?"
+
+This ensures design changes are intentional and platform-appropriate, preventing unintended breakage of responsive layouts.
+
 ## Gotchas & Solutions
 
 ### Problem: `escape()` doesn't work on integers
