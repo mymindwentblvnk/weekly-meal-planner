@@ -958,7 +958,6 @@ def generate_overview_html(
             <span class="time">⏱️ {total_time} {get_text('min_total')}</span>
         </p>
         <div style="display: flex; gap: 10px; margin-top: 15px;">
-            <a href="{escape(filename)}" class="view-recipe-btn">{get_text('view_recipe')}</a>
             <button class="weekly-plan-button-card" data-slug="{slug}" data-name="{escape(recipe['name'])}" data-category="{category}" data-servings="{servings}" onclick="toggleWeeklyPlanFromCard(this)">📅 Einplanen</button>
         </div>
     </div>'''
