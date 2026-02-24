@@ -281,6 +281,9 @@ def generate_recipe_detail_html(recipe: dict[str, Any], slug: str) -> str:
     # Get category emoji if available
     category = recipe.get('category', '')
 
+    # Get image path (use placeholder if not specified)
+    image = recipe.get('image', 'images/recipes/placeholder.svg')
+
     title = f"{recipe['name']} {get_text('recipe_title_suffix')}"
     html = f'''{generate_page_header(title, DETAIL_PAGE_CSS)}
     <div itemscope itemtype="https://schema.org/Recipe">
@@ -290,6 +293,8 @@ def generate_recipe_detail_html(recipe: dict[str, Any], slug: str) -> str:
         </div>
 
         <p itemprop="description">{escape(recipe.get('description', ''))}</p>
+
+        <img src="{escape(image)}" alt="{escape(recipe['name'])}" itemprop="image" class="recipe-detail-image">
 
         <div itemprop="author" itemscope itemtype="https://schema.org/Person">
             <meta itemprop="name" content="{escape(recipe.get('author', 'Unknown'))}">

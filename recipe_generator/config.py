@@ -605,6 +605,14 @@ ol li span {
 .weekly-plan-button.in-plan:hover {
     background-color: var(--bg-secondary);
 }
+.recipe-detail-image {
+    width: 100%;
+    max-width: 600px;
+    height: auto;
+    border-radius: 8px;
+    margin: 20px 0;
+    display: block;
+}
 """
 
 OVERVIEW_PAGE_CSS = """
