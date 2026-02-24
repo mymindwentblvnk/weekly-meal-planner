@@ -107,6 +107,9 @@ COMMON_CSS = """
     --accent-color: #38b2ac;
     --error-color: #e53e3e;
     --background-color: #f7fafc;
+    --warning-bg: #fff3cd;
+    --warning-border: #ffc107;
+    --warning-text: #856404;
 }
 
 body.dark-mode {
@@ -124,6 +127,9 @@ body.dark-mode {
     --accent-color: #4fd1c5;
     --error-color: #fc8181;
     --background-color: #2d3748;
+    --warning-bg: #744210;
+    --warning-border: #f59e0b;
+    --warning-text: #fbbf24;
 }
 
 body {

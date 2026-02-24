@@ -596,6 +596,10 @@ def generate_recipe_detail_html(recipe: dict[str, Any], slug: str, deployment_ti
                     </div>
                 </div>
 
+                <div id="overwriteWarning" style="display: none; margin: 15px 0; padding: 12px; background-color: var(--warning-bg, #fff3cd); border: 1px solid var(--warning-border, #ffc107); border-radius: 6px; color: var(--warning-text, #856404);">
+                    <strong>⚠️ Achtung:</strong> <span id="overwriteWarningText"></span>
+                </div>
+
                 <div class="modal-actions">
                     <button class="cancel-btn" onclick="closeAddToPlanModal()">{get_text('cancel')}</button>
                     <button class="add-btn" onclick="confirmAddToPlan()">{get_text('add_to_plan')}</button>
@@ -924,11 +928,16 @@ def generate_recipe_detail_html(recipe: dict[str, Any], slug: str, deployment_ti
 
             // Show modal
             document.getElementById('addToPlanModal').style.display = 'flex';
+
+            // Check for existing meal with default selections
+            checkForExistingMeal();
         }}
 
         function closeAddToPlanModal() {{
             document.getElementById('addToPlanModal').style.display = 'none';
             currentRecipeForPlan = null;
+            // Hide warning when closing
+            document.getElementById('overwriteWarning').style.display = 'none';
         }}
 
         function closeModalOnBackdrop(event) {{
@@ -970,16 +979,7 @@ def generate_recipe_detail_html(recipe: dict[str, Any], slug: str, deployment_ti
                 if (!mealPlans[targetWeek]) mealPlans[targetWeek] = {{}};
                 if (!mealPlans[targetWeek][day]) mealPlans[targetWeek][day] = {{}};
 
-                // Check if there's already a meal in this slot
-                const existingMeal = mealPlans[targetWeek][day][meal];
-                if (existingMeal && existingMeal.slug) {{
-                    const confirmed = confirm(`Es ist bereits ein Rezept eingeplant. Möchten Sie es überschreiben?`);
-                    if (!confirmed) {{
-                        return;
-                    }}
-                }}
-
-                // Add to plan with recipe's default servings
+                // Add to plan with recipe's default servings (warning already shown in modal)
                 mealPlans[targetWeek][day][meal] = {{
                     slug: currentRecipeForPlan.slug,
                     servings: currentRecipeForPlan.servings
@@ -1044,6 +1044,45 @@ def generate_recipe_detail_html(recipe: dict[str, Any], slug: str, deployment_ti
 
         {generate_dark_mode_script()}
 
+        // Check if there's already a meal planned and show warning
+        function checkForExistingMeal() {{
+            const selectedWeekBtn = document.querySelector('#weekButtons .selection-btn.selected');
+            const selectedDayBtn = document.querySelector('#dayButtons .selection-btn.selected');
+            const selectedMealBtn = document.querySelector('#mealButtons .selection-btn.selected');
+
+            const warningDiv = document.getElementById('overwriteWarning');
+            const warningText = document.getElementById('overwriteWarningText');
+
+            if (!selectedWeekBtn || !selectedDayBtn || !selectedMealBtn) {{
+                warningDiv.style.display = 'none';
+                return;
+            }}
+
+            // Calculate target week
+            const today = new Date();
+            let targetDate = new Date(today);
+            if (selectedWeekBtn.dataset.value === 'next') {{
+                targetDate.setDate(targetDate.getDate() + 7);
+            }}
+            const targetWeek = getISOWeek(targetDate);
+
+            const day = selectedDayBtn.dataset.value;
+            const meal = selectedMealBtn.dataset.value;
+
+            // Check if meal exists
+            const stored = localStorage.getItem('mealPlansV2');
+            const mealPlans = stored ? JSON.parse(stored) : {{}};
+            const existingMeal = mealPlans[targetWeek]?.[day]?.[meal];
+
+            if (existingMeal && existingMeal.slug) {{
+                const recipeName = recipeData.name || 'Unbekanntes Rezept';
+                warningText.textContent = `An diesem Zeitpunkt ist bereits "${{recipeName}}" eingeplant. Das Rezept wird überschrieben.`;
+                warningDiv.style.display = 'block';
+            }} else {{
+                warningDiv.style.display = 'none';
+            }}
+        }}
+
         // Apply saved preferences on page load
         document.addEventListener('DOMContentLoaded', function() {{
             initializeDarkMode();
@@ -1053,6 +1092,7 @@ def generate_recipe_detail_html(recipe: dict[str, Any], slug: str, deployment_ti
                 btn.addEventListener('click', function() {{
                     document.querySelectorAll('#weekButtons .selection-btn').forEach(b => b.classList.remove('selected'));
                     this.classList.add('selected');
+                    checkForExistingMeal();
                 }});
             }});
 
@@ -1061,6 +1101,7 @@ def generate_recipe_detail_html(recipe: dict[str, Any], slug: str, deployment_ti
                 btn.addEventListener('click', function() {{
                     document.querySelectorAll('#dayButtons .selection-btn').forEach(b => b.classList.remove('selected'));
                     this.classList.add('selected');
+                    checkForExistingMeal();
                 }});
             }});
 
@@ -1075,6 +1116,7 @@ def generate_recipe_detail_html(recipe: dict[str, Any], slug: str, deployment_ti
                     btn.addEventListener('click', function() {{
                         document.querySelectorAll('#mealButtons .selection-btn').forEach(b => b.classList.remove('selected'));
                         this.classList.add('selected');
+                        checkForExistingMeal();
                     }});
                 }}
             }});
@@ -1276,6 +1318,10 @@ def generate_overview_html(
                         <button type="button" class="selection-btn" data-value="lunch">{get_text('lunch')}</button>
                         <button type="button" class="selection-btn" data-value="dinner">{get_text('dinner')}</button>
                     </div>
+                </div>
+
+                <div id="overwriteWarning" style="display: none; margin: 15px 0; padding: 12px; background-color: var(--warning-bg, #fff3cd); border: 1px solid var(--warning-border, #ffc107); border-radius: 6px; color: var(--warning-text, #856404);">
+                    <strong>⚠️ Achtung:</strong> <span id="overwriteWarningText"></span>
                 </div>
 
                 <div class="modal-actions">
@@ -1550,11 +1596,16 @@ def generate_overview_html(
 
             // Show modal
             document.getElementById('addToPlanModal').style.display = 'flex';
+
+            // Check for existing meal with default selections
+            checkForExistingMeal();
         }}
 
         function closeAddToPlanModal() {{
             document.getElementById('addToPlanModal').style.display = 'none';
             currentRecipeForPlan = null;
+            // Hide warning when closing
+            document.getElementById('overwriteWarning').style.display = 'none';
         }}
 
         function closeModalOnBackdrop(event) {{
@@ -1605,16 +1656,7 @@ def generate_overview_html(
                 if (!mealPlans[targetWeek]) mealPlans[targetWeek] = {{}};
                 if (!mealPlans[targetWeek][day]) mealPlans[targetWeek][day] = {{}};
 
-                // Check if there's already a meal in this slot
-                const existingMeal = mealPlans[targetWeek][day][meal];
-                if (existingMeal && existingMeal.slug) {{
-                    const confirmed = confirm(`Es ist bereits ein Rezept eingeplant. Möchten Sie es überschreiben?`);
-                    if (!confirmed) {{
-                        return;
-                    }}
-                }}
-
-                // Add to plan with recipe's default servings
+                // Add to plan with recipe's default servings (warning already shown in modal)
                 mealPlans[targetWeek][day][meal] = {{
                     slug: currentRecipeForPlan.slug,
                     servings: currentRecipeForPlan.servings
@@ -1901,6 +1943,46 @@ def generate_overview_html(
 
         {generate_dark_mode_script()}
 
+        // Check if there's already a meal planned and show warning
+        function checkForExistingMeal() {{
+            const selectedWeekBtn = document.querySelector('#weekButtons .selection-btn.selected');
+            const selectedDayBtn = document.querySelector('#dayButtons .selection-btn.selected');
+            const selectedMealBtn = document.querySelector('#mealButtons .selection-btn.selected');
+
+            const warningDiv = document.getElementById('overwriteWarning');
+            const warningText = document.getElementById('overwriteWarningText');
+
+            if (!selectedWeekBtn || !selectedDayBtn || !selectedMealBtn) {{
+                warningDiv.style.display = 'none';
+                return;
+            }}
+
+            // Calculate target week
+            const today = new Date();
+            let targetDate = new Date(today);
+            if (selectedWeekBtn.dataset.value === 'next') {{
+                targetDate.setDate(targetDate.getDate() + 7);
+            }}
+            const targetWeek = getISOWeek(targetDate);
+
+            const day = selectedDayBtn.dataset.value;
+            const meal = selectedMealBtn.dataset.value;
+
+            // Check if meal exists
+            const stored = localStorage.getItem('mealPlansV2');
+            const mealPlans = stored ? JSON.parse(stored) : {{}};
+            const existingMeal = mealPlans[targetWeek]?.[day]?.[meal];
+
+            if (existingMeal && existingMeal.slug) {{
+                const existingRecipe = recipeData[existingMeal.slug];
+                const recipeName = existingRecipe?.name || 'Unbekanntes Rezept';
+                warningText.textContent = `An diesem Zeitpunkt ist bereits "${{recipeName}}" eingeplant. Das Rezept wird überschrieben.`;
+                warningDiv.style.display = 'block';
+            }} else {{
+                warningDiv.style.display = 'none';
+            }}
+        }}
+
         // Apply saved preferences on page load
         document.addEventListener('DOMContentLoaded', function() {{
             initializeDarkMode();
@@ -1917,6 +1999,7 @@ def generate_overview_html(
                 btn.addEventListener('click', function() {{
                     document.querySelectorAll('#weekButtons .selection-btn').forEach(b => b.classList.remove('selected'));
                     this.classList.add('selected');
+                    checkForExistingMeal();
                 }});
             }});
 
@@ -1925,6 +2008,7 @@ def generate_overview_html(
                 btn.addEventListener('click', function() {{
                     document.querySelectorAll('#dayButtons .selection-btn').forEach(b => b.classList.remove('selected'));
                     this.classList.add('selected');
+                    checkForExistingMeal();
                 }});
             }});
 
@@ -1939,6 +2023,7 @@ def generate_overview_html(
                     btn.addEventListener('click', function() {{
                         document.querySelectorAll('#mealButtons .selection-btn').forEach(b => b.classList.remove('selected'));
                         this.classList.add('selected');
+                        checkForExistingMeal();
                     }});
                 }}
             }});
