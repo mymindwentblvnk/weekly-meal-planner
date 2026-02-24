@@ -106,7 +106,8 @@ COMMON_CSS = """
     --accent-green: #2ECC71;   /* Green */
     --accent-orange: #FF8C42;  /* Orange */
     --accent-pink: #FF6B9D;    /* Pink */
-    --accent-yellow: #F1C40F;  /* Yellow */
+    --accent-yellow: #D4A000;  /* Yellow (darker for readability on grey) */
+    --accent-red: #E74C3C;     /* Red */
 
     /* UI colors */
     --bg-secondary: #EEEEEE;
@@ -119,7 +120,7 @@ COMMON_CSS = """
     /* Status colors */
     --error-color: #E74C3C;    /* Red */
     --warning-bg: #EEEEEE;
-    --warning-border: #F1C40F;
+    --warning-border: #D4A000;
     --warning-text: #856404;
 }
 
@@ -137,7 +138,8 @@ body.dark-mode {
     --accent-green: #58D68D;   /* Light Green */
     --accent-orange: #FFAA66;  /* Light Orange */
     --accent-pink: #FF8FB3;    /* Light Pink */
-    --accent-yellow: #F4D03F;  /* Light Yellow */
+    --accent-yellow: #FFD93D;  /* Light Yellow (brighter for dark mode) */
+    --accent-red: #EC7063;     /* Light Red */
 
     /* UI colors */
     --bg-secondary: #2A2A2A;
@@ -150,8 +152,8 @@ body.dark-mode {
     /* Status colors */
     --error-color: #EC7063;    /* Light Red */
     --warning-bg: #404040;
-    --warning-border: #F4D03F;
-    --warning-text: #F4D03F;
+    --warning-border: #FFD93D;
+    --warning-text: #FFD93D;
 }
 
 body {
