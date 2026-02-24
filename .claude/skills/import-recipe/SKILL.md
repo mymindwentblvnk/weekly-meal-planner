@@ -158,6 +158,7 @@ category: 🍲
 servings: 4
 prep_time: 15  # minutes
 cook_time: 30  # minutes
+image: images/recipes/recipe-name.jpg  # optional - omit to use placeholder
 tags:
   - Tag1
   - Tag2
@@ -172,6 +173,8 @@ instructions:
   - Step 1
   - Step 2
 ```
+
+**Note:** The `image` field is optional. If omitted, a placeholder image will be displayed on recipe cards. To add an image, place the image file in `images/recipes/` and reference it in the YAML.
 
 ### Step 11: Regenerate HTML and Commit
 
@@ -191,6 +194,7 @@ git push
 ## Important Notes
 
 - **Batch imports supported** - Multiple URLs can be provided and all recipes will be imported sequentially
+- **Images optional** - Recipe images are optional; omit the `image` field to use placeholder
 - **Verify tags** - Check hierarchical tags are complete
 - **Review description** - May need editing for quality
 - **Check times** - Ensure prep_time + cook_time makes sense
