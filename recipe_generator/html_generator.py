@@ -970,6 +970,15 @@ def generate_recipe_detail_html(recipe: dict[str, Any], slug: str, deployment_ti
                 if (!mealPlans[targetWeek]) mealPlans[targetWeek] = {{}};
                 if (!mealPlans[targetWeek][day]) mealPlans[targetWeek][day] = {{}};
 
+                // Check if there's already a meal in this slot
+                const existingMeal = mealPlans[targetWeek][day][meal];
+                if (existingMeal && existingMeal.slug) {{
+                    const confirmed = confirm(`Es ist bereits ein Rezept eingeplant. Möchten Sie es überschreiben?`);
+                    if (!confirmed) {{
+                        return;
+                    }}
+                }}
+
                 // Add to plan with recipe's default servings
                 mealPlans[targetWeek][day][meal] = {{
                     slug: currentRecipeForPlan.slug,
@@ -1595,6 +1604,15 @@ def generate_overview_html(
                 // Initialize structure
                 if (!mealPlans[targetWeek]) mealPlans[targetWeek] = {{}};
                 if (!mealPlans[targetWeek][day]) mealPlans[targetWeek][day] = {{}};
+
+                // Check if there's already a meal in this slot
+                const existingMeal = mealPlans[targetWeek][day][meal];
+                if (existingMeal && existingMeal.slug) {{
+                    const confirmed = confirm(`Es ist bereits ein Rezept eingeplant. Möchten Sie es überschreiben?`);
+                    if (!confirmed) {{
+                        return;
+                    }}
+                }}
 
                 // Add to plan with recipe's default servings
                 mealPlans[targetWeek][day][meal] = {{
