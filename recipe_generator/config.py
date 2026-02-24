@@ -786,6 +786,8 @@ h1 {
     padding: 20px;
     background-color: var(--card-bg);
     transition: box-shadow 0.2s;
+    display: flex;
+    flex-direction: column;
 }
 .recipe-card.hidden {
     display: none;
@@ -814,6 +816,12 @@ h1 {
     color: var(--text-tertiary);
     font-size: 0.9em;
     margin-bottom: 15px;
+}
+.recipe-card-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: auto;
+    padding-top: 15px;
 }
 .view-recipe-btn {
     display: inline-block;
