@@ -953,11 +953,11 @@ def generate_overview_html(
         recipe_entry = f'''    <div class="recipe-card" data-category="{category}" data-author="{author}" data-time="{time_category}" data-tags="{tags_json}" data-slug="{slug}" data-name="{escape(recipe['name'])}">
         <h2><a href="{escape(filename)}">{escape(recipe['name'])}</a></h2>
         <p class="description">{description}</p>
-        <p class="meta">
-            <span class="servings">🍽️ {servings} {get_text('servings')}</span> •
-            <span class="time">⏱️ {total_time} {get_text('min_total')}</span>
-        </p>
         <div class="recipe-card-actions">
+            <p class="meta">
+                <span class="servings">🍽️ {servings} {get_text('servings')}</span> •
+                <span class="time">⏱️ {total_time} {get_text('min_total')}</span>
+            </p>
             <button class="weekly-plan-button-card" data-slug="{slug}" data-name="{escape(recipe['name'])}" data-category="{category}" data-servings="{servings}" onclick="toggleWeeklyPlanFromCard(this)">📅 Einplanen</button>
         </div>
     </div>'''

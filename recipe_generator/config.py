@@ -819,9 +819,13 @@ h1 {
 }
 .recipe-card-actions {
     display: flex;
+    flex-direction: column;
     gap: 10px;
     margin-top: auto;
     padding-top: 15px;
+}
+.recipe-card-actions .meta {
+    margin-bottom: 0;
 }
 .view-recipe-btn {
     display: inline-block;
