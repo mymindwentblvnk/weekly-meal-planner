@@ -989,8 +989,7 @@ h1 {
     font-weight: 600;
     color: var(--primary-color);
     margin-bottom: 15px;
-    padding-bottom: 10px;
-    border-bottom: 2px solid var(--border-color);
+    padding-bottom: 0;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -1044,8 +1043,6 @@ h1 {
 }
 .day-card.collapsed .day-header {
     margin-bottom: 0;
-    padding-bottom: 0;
-    border-bottom: none;
 }
 .meals-grid {
     display: grid;
@@ -1436,8 +1433,7 @@ h1 {
 /* Todo section */
 .day-todos {
     margin-top: 15px;
-    padding-top: 15px;
-    border-top: 2px solid var(--border-color);
+    padding-top: 0;
 }
 .todos-header {
     font-weight: 600;
@@ -1616,8 +1612,7 @@ h1 {
         font-weight: bold;
         color: black !important;
         margin-bottom: 2px;
-        padding-bottom: 2px;
-        border-bottom: 1px solid #666 !important;
+        padding-bottom: 0;
         cursor: default;
     }
 
@@ -1696,8 +1691,7 @@ h1 {
     /* Todos section in print */
     .day-todos {
         margin-top: 3px;
-        padding-top: 3px;
-        border-top: 1px solid #ccc !important;
+        padding-top: 0;
     }
 
     .todos-header {
