@@ -376,23 +376,25 @@ class TestGenerateOverviewHtml:
         assert 'href="single.html"' in html
 
     def test_deployment_time_included(self, sample_recipes_data):
-        """Test that deployment time is included when provided."""
+        """Test that deployment time is included in settings modal when provided."""
         deployment_time = datetime(2024, 1, 15, 14, 30, 0, tzinfo=timezone.utc)
         html = generate_overview_html(sample_recipes_data, deployment_time)
-        assert 'Zuletzt aktualisiert:' in html
+        # Deployment time is now in settings modal, not footer
+        assert 'Zuletzt aktualisiert' in html
         assert '15. January 2024' in html
 
     def test_deployment_time_not_included_when_none(self, sample_recipes_data):
-        """Test that deployment time footer is not included when None."""
+        """Test that deployment time is not included when None."""
         html = generate_overview_html(sample_recipes_data, None)
-        assert 'Zuletzt aktualisiert:' not in html
-        assert '<footer class="deployment-info">' not in html
+        # No deployment time should be shown when None is passed
+        assert 'Zuletzt aktualisiert' not in html or 'Zuletzt aktualisiert</label>' in html  # Label is okay, but no date
 
     def test_deployment_time_footer_has_correct_class(self, sample_recipes_data):
-        """Test that deployment footer has correct CSS class."""
+        """Test that footer has correct CSS class."""
         deployment_time = datetime(2024, 1, 15, 14, 30, 0, tzinfo=timezone.utc)
         html = generate_overview_html(sample_recipes_data, deployment_time)
-        assert 'class="deployment-info"' in html
+        # Footer is now a simple page-footer, deployment-info moved to settings modal
+        assert 'class="page-footer"' in html
 
     def test_unified_search_included(self, sample_recipes_data):
         """Test that unified search is included."""

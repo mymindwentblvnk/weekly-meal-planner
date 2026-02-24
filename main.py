@@ -14,6 +14,7 @@ from recipe_generator import (
     generate_overview_html,
     generate_weekly_html,
     generate_shopping_list_html,
+    generate_settings_page_html,
 )
 
 
@@ -103,6 +104,14 @@ def main():
         with open(shopping_file, 'w', encoding='utf-8') as f:
             f.write(shopping_html)
         print(f"  → Generated {shopping_file}")
+
+        # Generate settings page
+        print("Generating settings page...")
+        settings_html = generate_settings_page_html(deployment_time)
+        settings_file = OUTPUT_DIR / "settings.html"
+        with open(settings_file, 'w', encoding='utf-8') as f:
+            f.write(settings_html)
+        print(f"  → Generated {settings_file}")
 
     # Print summary
     print(f"\nDone! Generated {len(recipes_data)} recipe(s) in the 'output' directory.")

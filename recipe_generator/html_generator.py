@@ -70,7 +70,7 @@ def generate_navigation() -> str:
             <a href="index.html" class="nav-link" aria-label="Weekly Plan">🗓️</a>
             <a href="shopping.html" class="nav-link" aria-label="Shopping List">🛒</a>
             <a href="recipes.html" class="nav-link" aria-label="Recipes Catalog">📖</a>
-            <button class="nav-toggle-button" onclick="openSettingsModal()" aria-label="Settings">⚙️</button>
+            <a href="settings.html" class="nav-link" aria-label="Settings">⚙️</a>
         </div>
     </div>'''
 
@@ -180,6 +180,210 @@ def generate_footer(deployment_time: datetime | None = None) -> str:
     """
     # Footer now empty - deployment time moved to settings modal
     return '<footer class="page-footer"></footer>'
+
+
+def generate_settings_page_html(deployment_time: datetime | None = None) -> str:
+    """Generate standalone settings page.
+
+    Args:
+        deployment_time: Optional datetime for when the page was last updated
+
+    Returns:
+        Complete HTML page as a string
+    """
+    last_updated_html = ''
+    if deployment_time:
+        formatted_time = deployment_time.strftime("%d. %B %Y um %H:%M %Z")
+        last_updated_html = f'''
+            <div class="settings-section">
+                <h2>Informationen</h2>
+                <div class="form-group">
+                    <label>{get_text("last_updated")}</label>
+                    <p class="settings-hint">{formatted_time}</p>
+                </div>
+            </div>'''
+
+    html = f'''{generate_page_header("Einstellungen", OVERVIEW_PAGE_CSS)}
+    <div class="page-header">
+        <h1>⚙️ Einstellungen</h1>
+        {generate_navigation()}
+    </div>
+
+    <div class="settings-container">
+        <div class="settings-section">
+            <h2>Mahlzeiten</h2>
+            <div class="form-group">
+                <label>Mahlzeiten, die ich plane:</label>
+                <div class="settings-meal-options">
+                    <label class="settings-checkbox">
+                        <input type="checkbox" id="settingBreakfast" value="breakfast" checked>
+                        <span>Frühstück</span>
+                    </label>
+                    <label class="settings-checkbox">
+                        <input type="checkbox" id="settingLunch" value="lunch" checked>
+                        <span>Mittagessen</span>
+                    </label>
+                    <label class="settings-checkbox">
+                        <input type="checkbox" id="settingDinner" value="dinner" checked>
+                        <span>Abendessen</span>
+                    </label>
+                </div>
+                <p class="settings-hint">Wähle aus, welche Mahlzeiten du in deinem Wochenplan sehen möchtest.</p>
+            </div>
+        </div>
+
+        <div class="settings-section">
+            <h2>Darstellung</h2>
+            <div class="form-group">
+                <div class="settings-meal-options">
+                    <label class="settings-checkbox">
+                        <input type="checkbox" id="settingDarkMode">
+                        <span>🌙 Dunkelmodus</span>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="settings-section">
+            <h2>Daten teilen</h2>
+            <div class="form-group">
+                <p class="settings-hint">Exportiere deine Wochenpläne als Link zum Teilen mit anderen Geräten oder Personen.</p>
+                <button class="week-nav-btn" onclick="exportData()" style="width: 100%; max-width: 400px; margin-top: 8px;">📤 Daten als Link exportieren</button>
+            </div>
+        </div>{last_updated_html}
+
+        <div class="settings-actions">
+            <button class="add-btn" onclick="saveSettingsAndReturn()" style="width: 100%; max-width: 400px;">Speichern</button>
+        </div>
+    </div>
+
+    <!-- Import Data Modal -->
+    <div id="importModal" class="add-plan-modal" style="display: none;">
+        <div class="add-plan-modal-content">
+            <div class="add-plan-modal-header">
+                <h3 class="add-plan-modal-title">Daten importieren</h3>
+            </div>
+            <div class="add-plan-modal-body">
+                <p>Möchtest du deine aktuellen Daten mit den importierten Daten überschreiben?</p>
+                <div id="importPreview" style="background: var(--background-color); padding: 10px; border-radius: 8px; margin: 15px 0; max-height: 200px; overflow-y: auto; font-size: 13px;"></div>
+                <p class="settings-hint" style="color: var(--error-color);">⚠️ Deine aktuellen Daten werden überschrieben und können nicht wiederhergestellt werden.</p>
+                <div class="modal-actions">
+                    <button class="cancel-btn" onclick="closeImportModal()">Abbrechen</button>
+                    <button class="add-btn" onclick="confirmImport()">Importieren</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {generate_footer(deployment_time)}
+
+    <script>
+        {generate_dark_mode_script()}
+
+        // Load settings on page load
+        function loadSettings() {{
+            const settings = JSON.parse(localStorage.getItem('mealSettings') || '{{"breakfast": true, "lunch": true, "dinner": true}}');
+            document.getElementById('settingBreakfast').checked = settings.breakfast ?? true;
+            document.getElementById('settingLunch').checked = settings.lunch ?? true;
+            document.getElementById('settingDinner').checked = settings.dinner ?? true;
+
+            const darkMode = localStorage.getItem('darkMode');
+            document.getElementById('settingDarkMode').checked = darkMode === 'enabled';
+        }}
+
+        // Save settings and go back
+        function saveSettingsAndReturn() {{
+            const settings = {{
+                breakfast: document.getElementById('settingBreakfast').checked,
+                lunch: document.getElementById('settingLunch').checked,
+                dinner: document.getElementById('settingDinner').checked
+            }};
+            localStorage.setItem('mealSettings', JSON.stringify(settings));
+
+            // Handle dark mode
+            const darkModeChecked = document.getElementById('settingDarkMode').checked;
+            const currentDarkMode = localStorage.getItem('darkMode') === 'enabled';
+            if (darkModeChecked !== currentDarkMode) {{
+                toggleDarkMode();
+            }}
+
+            // Go back to previous page or index
+            if (document.referrer && document.referrer.includes(window.location.host)) {{
+                window.history.back();
+            }} else {{
+                window.location.href = 'index.html';
+            }}
+        }}
+
+        // Export data functionality
+        function exportData() {{
+            const mealPlans = localStorage.getItem('mealPlansV2') || '{{}}';
+            const settings = localStorage.getItem('mealSettings') || '{{"breakfast": true, "lunch": true, "dinner": true}}';
+
+            const data = {{
+                mealPlans: JSON.parse(mealPlans),
+                settings: JSON.parse(settings),
+                exportDate: new Date().toISOString()
+            }};
+
+            const jsonStr = JSON.stringify(data);
+            const base64 = btoa(unescape(encodeURIComponent(jsonStr)));
+            const url = `${{window.location.origin}}${{window.location.pathname.replace('settings.html', 'index.html')}}#import=${{base64}}`;
+
+            navigator.clipboard.writeText(url).then(() => {{
+                alert('✓ Link wurde in die Zwischenablage kopiert!\\n\\nTeile diesen Link, um deine Daten auf ein anderes Gerät zu übertragen.');
+            }}).catch(() => {{
+                prompt('Kopiere diesen Link:', url);
+            }});
+        }}
+
+        // Import functionality (from URL hash)
+        function checkForImportData() {{
+            const hash = window.location.hash;
+            if (hash.startsWith('#import=')) {{
+                const base64 = hash.substring(8);
+                try {{
+                    const jsonStr = decodeURIComponent(escape(atob(base64)));
+                    const data = JSON.parse(jsonStr);
+
+                    const preview = `Wochenpläne: ${{Object.keys(data.mealPlans || {{}}).length}} Wochen\\nExportiert: ${{new Date(data.exportDate).toLocaleString('de-DE')}}`;
+                    document.getElementById('importPreview').textContent = preview;
+
+                    window.importData = data;
+                    document.getElementById('importModal').style.display = 'flex';
+                }} catch (e) {{
+                    console.error('Import error:', e);
+                    alert('Fehler beim Importieren der Daten.');
+                }}
+            }}
+        }}
+
+        function closeImportModal() {{
+            document.getElementById('importModal').style.display = 'none';
+            window.location.hash = '';
+        }}
+
+        function confirmImport() {{
+            if (window.importData) {{
+                localStorage.setItem('mealPlansV2', JSON.stringify(window.importData.mealPlans));
+                localStorage.setItem('mealSettings', JSON.stringify(window.importData.settings));
+                closeImportModal();
+                loadSettings();
+                alert('✓ Daten erfolgreich importiert!');
+            }}
+        }}
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {{
+            loadSettings();
+            checkForImportData();
+            initializeDarkMode();
+        }});
+    </script>
+</body>
+</html>'''
+
+    return html
 
 
 def generate_page_header(title: str, css: str, additional_css: str = "") -> str:
