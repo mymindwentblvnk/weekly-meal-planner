@@ -22,10 +22,11 @@ This skill imports recipes from URLs (supports Chefkoch.de, EatSmarter.de) and c
 
 1. **Fetches recipe data** - Uses curl to download the recipe page (always allowed, no permission needed)
 2. **Extracts structured data** - Parses JSON-LD Schema.org recipe data
-3. **Generates tags** - Creates appropriate tags from ingredients following hierarchical rules
-4. **Creates YAML file** - Saves recipe in correct author folder
-5. **Regenerates HTML** - Runs `python main.py`
-6. **Commits changes** - Saves to Git with descriptive message
+3. **Downloads recipe image** - Automatically downloads and saves the recipe image from the source
+4. **Generates tags** - Creates appropriate tags from ingredients following hierarchical rules
+5. **Creates YAML file** - Saves recipe in correct author folder with image reference
+6. **Regenerates HTML** - Runs `python main.py`
+7. **Commits changes** - Saves to Git with descriptive message
 
 ## Supported Sites
 
@@ -51,8 +52,32 @@ Extract:
 - `totalTime` - Total time (ISO 8601 format)
 - `recipeIngredient` - Array of ingredient strings
 - `recipeInstructions` - Array of instruction steps
+- `image` - Image URL (extract from JSON-LD)
 
-### Step 2: Convert Times
+### Step 2: Download Recipe Image
+
+Extract the image URL from the JSON-LD `image` field and download it:
+
+```bash
+# Extract image URL from JSON-LD
+IMAGE_URL=$(echo "$json_data" | python3 -c "import sys, json; data=json.load(sys.stdin); print(data.get('image', ''))")
+
+# Generate filename from recipe slug
+SLUG="recipe-slug"  # Use the same slug as the YAML filename
+EXT="${IMAGE_URL##*.}"  # Extract file extension from URL
+EXT="${EXT%%\?*}"      # Remove query parameters if present
+
+# Download image to images/recipes/ directory
+curl -s "$IMAGE_URL" -o "images/recipes/${SLUG}.${EXT}"
+```
+
+**Important:**
+- If the image URL is empty or download fails, skip the image (YAML will use placeholder)
+- Common extensions: jpg, jpeg, png, webp
+- Handle both direct image URLs and URLs with query parameters
+- Image field in YAML should be: `images/recipes/${SLUG}.${EXT}`
+
+### Step 3: Convert Times
 
 Convert ISO 8601 duration format to minutes:
 - `P0DT0H5M` → 5 minutes
@@ -61,7 +86,7 @@ Convert ISO 8601 duration format to minutes:
 
 Formula: Parse hours (H) and minutes (M), calculate total minutes.
 
-### Step 3: Parse Ingredients
+### Step 4: Parse Ingredients
 
 Convert ingredient strings to YAML format:
 
@@ -84,7 +109,7 @@ Convert ingredient strings to YAML format:
 - Clean ingredient name (remove parentheses, descriptors)
 - Keep it simple and readable
 
-### Step 4: Parse Instructions
+### Step 5: Parse Instructions
 
 Convert instruction steps from JSON-LD:
 
@@ -93,7 +118,7 @@ Convert instruction steps from JSON-LD:
 
 Skip overly detailed steps, combine related steps, focus on actionable instructions.
 
-### Step 5: Generate Tags
+### Step 6: Generate Tags
 
 Use the ingredient tag mapping from `/validate-recipes` skill:
 
@@ -111,7 +136,7 @@ Use the ingredient tag mapping from `/validate-recipes` skill:
 - Knoblauch → `Knoblauch`
 - Tahini → `Sesam`, `Kerne` (tahini is sesame paste)
 
-### Step 6: Sort Tags
+### Step 7: Sort Tags
 
 Use German alphabetization (DIN 5007-1):
 - ä → a
@@ -119,13 +144,13 @@ Use German alphabetization (DIN 5007-1):
 - ü → u
 - ß → ss
 
-### Step 7: Determine Category
+### Step 8: Determine Category
 
 Based on recipe name/description:
 - `🥣` - Breakfast items (Müsli, Porridge, Frühstück, etc.)
 - `🍲` - Main dishes (default)
 
-### Step 8: Determine Author Folder
+### Step 9: Determine Author Folder
 
 Based on URL domain:
 - `chefkoch.de` → `recipes/Chefkoch/`
@@ -135,7 +160,7 @@ Based on URL domain:
 
 Set `author` field to match folder name.
 
-### Step 9: Create Filename
+### Step 10: Create Filename
 
 Convert recipe name to slug:
 - Lowercase
@@ -147,7 +172,7 @@ Convert recipe name to slug:
 - "Baba Ghanoush" → `baba-ghanoush.yaml`
 - "Rührei wie im Hotel" → `ruehrei-wie-im-hotel.yaml`
 
-### Step 10: Create YAML File
+### Step 11: Create YAML File
 
 Format:
 ```yaml
@@ -174,13 +199,13 @@ instructions:
   - Step 2
 ```
 
-**Note:** The `image` field is optional. If omitted, a placeholder image will be displayed on recipe cards. To add an image, place the image file in `images/recipes/` and reference it in the YAML.
+**Note:** The `image` field should reference the downloaded image. If the image download fails or no image is available, omit this field and a placeholder will be used.
 
-### Step 11: Regenerate HTML and Commit
+### Step 12: Regenerate HTML and Commit
 
 ```bash
 python main.py
-git add recipes/
+git add recipes/ images/
 git commit -m "Import recipe: [Recipe Name]
 
 - Imported from [URL]
@@ -194,7 +219,7 @@ git push
 ## Important Notes
 
 - **Batch imports supported** - Multiple URLs can be provided and all recipes will be imported sequentially
-- **Images optional** - Recipe images are optional; omit the `image` field to use placeholder
+- **Images automatically downloaded** - Recipe images are extracted from JSON-LD and downloaded automatically; if unavailable or download fails, omit the `image` field to use placeholder
 - **Verify tags** - Check hierarchical tags are complete
 - **Review description** - May need editing for quality
 - **Check times** - Ensure prep_time + cook_time makes sense
@@ -211,11 +236,12 @@ git push
 
 # Skill executes:
 1. curl + grep + sed + python to extract JSON-LD
-2. Parse recipe data
-3. Generate tags from ingredients
-4. Create recipes/Chefkoch/baba-ghanoush.yaml
-5. python main.py
-6. git add + commit + push
+2. Parse recipe data (including image URL)
+3. Download recipe image → images/recipes/baba-ghanoush.jpg
+4. Generate tags from ingredients
+5. Create recipes/Chefkoch/baba-ghanoush.yaml (with image field)
+6. python main.py
+7. git add + commit + push
 ```
 
 ### Batch Import (Multiple URLs)
@@ -225,11 +251,11 @@ git push
 /import-recipe https://eatsmarter.de/rezepte/quinoa-bowl https://eatsmarter.de/rezepte/chickpea-salad https://chefkoch.de/rezepte/pasta
 
 # Skill executes for each URL sequentially:
-1. Extract and parse first recipe → Create YAML
-2. Extract and parse second recipe → Create YAML
-3. Extract and parse third recipe → Create YAML
+1. Extract and parse first recipe → Download image → Create YAML
+2. Extract and parse second recipe → Download image → Create YAML
+3. Extract and parse third recipe → Download image → Create YAML
 4. python main.py (once after all recipes)
-5. git add + commit + push (all recipes together or individually)
+5. git add + commit + push (all recipes and images together)
 ```
 
 ## Error Handling
