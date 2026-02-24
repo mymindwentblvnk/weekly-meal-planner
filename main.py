@@ -1,6 +1,8 @@
 """Main script to generate HTML recipe pages from YAML files."""
 
 import yaml
+import shutil
+from pathlib import Path
 from datetime import datetime
 from zoneinfo import ZoneInfo
 
@@ -18,6 +20,14 @@ from recipe_generator import (
 def main():
     """Generate HTML files from YAML recipes."""
     OUTPUT_DIR.mkdir(exist_ok=True)
+
+    # Copy images directory to output
+    images_src = Path("images")
+    images_dst = OUTPUT_DIR / "images"
+    if images_src.exists():
+        if images_dst.exists():
+            shutil.rmtree(images_dst)
+        shutil.copytree(images_src, images_dst)
 
     # Store recipes for overview generation
     recipes_data = []

@@ -950,7 +950,11 @@ def generate_overview_html(
         tags_json = escape(','.join(recipe_tags))  # Comma-separated tags for data attribute
         slug = filename.replace('.html', '')  # Recipe slug for search filtering
 
+        # Get image path (use placeholder if not specified)
+        image = recipe.get('image', 'images/recipes/placeholder.svg')
+
         recipe_entry = f'''    <div class="recipe-card" data-category="{category}" data-author="{author}" data-time="{time_category}" data-tags="{tags_json}" data-slug="{slug}" data-name="{escape(recipe['name'])}">
+        <a href="{escape(filename)}"><img src="{escape(image)}" alt="{escape(recipe['name'])}" class="recipe-card-image"></a>
         <h2><a href="{escape(filename)}">{escape(recipe['name'])}</a></h2>
         <p class="description">{description}</p>
         <div class="recipe-card-actions">

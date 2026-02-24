@@ -783,11 +783,12 @@ h1 {
 .recipe-card {
     border: 1px solid var(--border-color);
     border-radius: 8px;
-    padding: 20px;
+    padding: 0;
     background-color: var(--card-bg);
     transition: box-shadow 0.2s;
     display: flex;
     flex-direction: column;
+    overflow: hidden;
 }
 .recipe-card.hidden {
     display: none;
@@ -795,9 +796,17 @@ h1 {
 .recipe-card:hover {
     box-shadow: 0 4px 6px var(--shadow);
 }
+.recipe-card-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 0;
+    margin-bottom: 0;
+}
 .recipe-card h2 {
     margin-top: 0;
     margin-bottom: 10px;
+    padding: 15px 20px 0 20px;
     color: var(--text-color);
 }
 .recipe-card h2 a {
@@ -811,6 +820,7 @@ h1 {
     color: var(--text-secondary);
     line-height: 1.6;
     margin-bottom: 12px;
+    padding: 0 20px;
 }
 .meta {
     color: var(--text-tertiary);
@@ -822,7 +832,7 @@ h1 {
     flex-direction: column;
     gap: 10px;
     margin-top: auto;
-    padding-top: 15px;
+    padding: 15px 20px 20px 20px;
 }
 .recipe-card-actions .meta {
     margin-bottom: 0;
