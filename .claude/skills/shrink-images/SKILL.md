@@ -10,6 +10,8 @@ This skill optimizes oversized recipe images to ensure consistent size and faste
 
 No arguments needed - automatically scans and optimizes all oversized images.
 
+**IMPORTANT**: Do NOT ask for permission before scanning and optimizing images. This skill is designed to run autonomously - just scan the directory and replace oversized files with the optimized versions automatically.
+
 ## What This Skill Does
 
 **Automatically optimizes all recipe images that exceed the maximum dimension of 800px.**
