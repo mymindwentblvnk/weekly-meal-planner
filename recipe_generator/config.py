@@ -1121,15 +1121,16 @@ h1 {
     color: var(--text-color);
 }
 .recipe-link {
-    color: var(--text-color);
+    color: var(--primary-color);
     text-decoration: none;
     font-size: 0.95em;
-    font-weight: 500;
+    font-weight: 700;
     line-height: 1.3;
     display: block;
 }
 .recipe-link:hover {
-    color: var(--primary-color);
+    color: var(--primary-hover);
+    text-decoration: underline;
 }
 .meal-actions {
     display: flex;
