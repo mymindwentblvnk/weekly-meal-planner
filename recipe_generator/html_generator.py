@@ -1075,7 +1075,9 @@ def generate_recipe_detail_html(recipe: dict[str, Any], slug: str, deployment_ti
             const existingMeal = mealPlans[targetWeek]?.[day]?.[meal];
 
             if (existingMeal && existingMeal.slug) {{
-                warningText.textContent = `An diesem Zeitpunkt ist bereits ein Rezept eingeplant. Das Rezept wird überschrieben.`;
+                const existingRecipe = recipeData[existingMeal.slug];
+                const recipeName = existingRecipe?.name || 'Unbekanntes Rezept';
+                warningText.textContent = `An diesem Zeitpunkt ist bereits "${{recipeName}}" eingeplant. Das Rezept wird überschrieben.`;
                 warningDiv.style.display = 'block';
             }} else {{
                 warningDiv.style.display = 'none';
