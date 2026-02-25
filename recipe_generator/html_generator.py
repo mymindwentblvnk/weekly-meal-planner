@@ -611,7 +611,7 @@ def generate_recipe_detail_html(recipe: dict[str, Any], slug: str, deployment_ti
     {generate_footer()}
 
     <script>
-        // Recipe data for weekly plan
+        // Recipe data for weekly plan (single recipe, not a lookup)
         const recipeData = {{
             name: '{escape(recipe['name'])}',
             slug: '{escape(slug)}',
@@ -1075,9 +1075,9 @@ def generate_recipe_detail_html(recipe: dict[str, Any], slug: str, deployment_ti
             const existingMeal = mealPlans[targetWeek]?.[day]?.[meal];
 
             if (existingMeal && existingMeal.slug) {{
-                const existingRecipe = recipeData[existingMeal.slug];
-                const recipeName = existingRecipe?.name || 'Unbekanntes Rezept';
-                warningText.textContent = `An diesem Zeitpunkt ist bereits "${{recipeName}}" eingeplant. Das Rezept wird überschrieben.`;
+                // On recipe detail pages, recipeData is just the current recipe, not a lookup
+                // So we can't show which recipe is planned - just show a generic message
+                warningText.textContent = `An diesem Zeitpunkt ist bereits ein Rezept eingeplant. Das Rezept wird überschrieben.`;
                 warningDiv.style.display = 'block';
             }} else {{
                 warningDiv.style.display = 'none';
