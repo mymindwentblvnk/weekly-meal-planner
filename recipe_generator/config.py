@@ -468,8 +468,6 @@ h1 {
     color: var(--primary-color);
     font-size: 1.75em;
     margin-bottom: 15px;
-    padding-bottom: 15px;
-    border-bottom: 2px solid var(--primary-color);
 }
 h2 {
     color: var(--primary-color);
