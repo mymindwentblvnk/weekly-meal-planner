@@ -4,8 +4,8 @@ description: Ofengebackene Kartoffel gefüllt mit cremigem Magerquark-Joghurt-Di
 author: VitaMoment
 category: 🥦
 servings: 1
-prep_time: 5  # minutes
-cook_time: 60  # minutes
+prep_time: 5
+cook_time: 60
 tags:
 - Eier
 - Gurke
@@ -14,7 +14,6 @@ tags:
 - Kräuter
 - Quark
 - Radieschen
-
 ingredients:
 - name: Kartoffel (groß)
   amount: 1
@@ -30,7 +29,6 @@ ingredients:
   amount: 10 ml
 - name: Petersilie (gehackt)
   amount: 1 EL
-
 instructions:
 - Backofen auf 200 °C Ober-/Unterhitze vorheizen.
 - Kartoffel waschen, salzen und in Alufolie wickeln. Für rund 30-40 Minuten im Ofen
@@ -39,3 +37,4 @@ instructions:
 - Gemüse, Magerquark, Joghurt und Leinöl mit der Petersilie verrühren und mit Salz
   und Pfeffer würzen.
 - Kartoffel mittig einschneiden und mit dem Quark füllen.
+import_date: '2026-02-26'

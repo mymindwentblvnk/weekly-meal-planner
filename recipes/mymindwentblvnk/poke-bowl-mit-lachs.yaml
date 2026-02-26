@@ -4,8 +4,8 @@ description: Frische Bowl mit mariniertem Lachs in Sushi-Qualität, buntem Gemü
 author: Lecker
 category: 🐟
 servings: 4
-prep_time: 20  # minutes
-cook_time: 25  # minutes
+prep_time: 20
+cook_time: 25
 tags:
 - Avocado
 - Fisch
@@ -18,7 +18,6 @@ tags:
 - Reis
 - Sesam
 - Zwiebel
-
 ingredients:
 - name: Basmatireis
   amount: 250 g
@@ -48,7 +47,6 @@ ingredients:
   amount: 2
 - name: Schwarzer Sesam
   amount: 1 EL
-
 instructions:
 - Den Basmatireis in gesalzenem kochendem Wasser nach Packungsanweisung garen. Währenddessen
   die Mango schälen und würfeln. Die Avocado halbieren, entkernen und in Scheiben
@@ -58,3 +56,4 @@ instructions:
   große Würfel schneiden. Die vorbereiteten Zutaten in Schalen anrichten, mit der
   Vinaigrette beträufeln und mit gehackten Lauchzwiebeln und schwarzem Sesam bestreut
   servieren.
+import_date: '2026-02-26'

@@ -4,8 +4,8 @@ description: Getoastete Süßkartoffelscheiben mit cremigem Erbsen-Avocado-Aufst
 author: VitaMoment
 category: 🥦
 servings: 1
-prep_time: 20  # minutes
-cook_time: 15  # minutes
+prep_time: 20
+cook_time: 15
 tags:
 - Avocado
 - Erbsen
@@ -14,7 +14,6 @@ tags:
 - Käse
 - Süßkartoffel
 - Tomate
-
 ingredients:
 - name: Süßkartoffel
   amount: 250 g
@@ -28,7 +27,6 @@ ingredients:
   amount: 8 ml
 - name: Feta (fettreduziert)
   amount: 90 g
-
 instructions:
 - Süßkartoffel schälen und in Scheiben schneiden und mehrfach toasten (alternativ
   im Backofen garen).
@@ -39,3 +37,4 @@ instructions:
   Pfeffer, Koriander nach Geschmack würzen.
 - Süßkartoffelscheiben aus dem Toaster nehmen, mit Erbsen-Avocado-Püree belegen und
   mit Fetabröseln bestreuen.
+import_date: '2026-02-26'

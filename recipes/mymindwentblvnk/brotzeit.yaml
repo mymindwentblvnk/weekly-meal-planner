@@ -4,8 +4,8 @@ description: Traditionelle bayerische Brotzeit mit Räucherlachs, Bergkäse, Fri
 author: mymindwentblvnk
 category: 🥣
 servings: 3
-prep_time: 10  # minutes
-cook_time: 0  # minutes
+prep_time: 10
+cook_time: 0
 tags:
 - Bergkäse
 - Butter
@@ -17,7 +17,6 @@ tags:
 - Käse
 - Lachs
 - Paprika
-
 ingredients:
 - name: Räucherlachs
   amount: 1
@@ -37,6 +36,6 @@ ingredients:
   amount: 1 Packung
 - name: Feta
   amount: 1 Packung
-
 instructions:
 - Zusammenstellen
+import_date: '2026-02-26'

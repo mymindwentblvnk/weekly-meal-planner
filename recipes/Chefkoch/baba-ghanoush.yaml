@@ -4,8 +4,8 @@ description: Orientalische Vorspeise mit Suchtfaktor – cremiges Auberginenpür
 author: Chefkoch
 category: 🥣
 servings: 4
-prep_time: 30  # minutes
-cook_time: 30  # minutes
+prep_time: 30
+cook_time: 30
 tags:
 - Aubergine
 - Kerne
@@ -14,7 +14,6 @@ tags:
 - Öl
 - Oliven
 - Sesam
-
 ingredients:
 - name: Auberginen
   amount: 2
@@ -32,7 +31,6 @@ ingredients:
   amount: 0.5 Bund
 - name: Schwarze Oliven (ohne Stein)
   amount: 1 EL
-
 instructions:
 - Backofen auf 220°C vorheizen
 - Auberginen waschen und mehrmals mit einem spitzen Messer einstechen
@@ -46,3 +44,4 @@ instructions:
 - Mit Salz und Pfeffer abschmecken
 - Petersilie und Oliven fein hacken
 - Kurz vor dem Servieren Petersilie und Oliven auf das Baba Ghanoush streuen
+import_date: '2026-02-26'

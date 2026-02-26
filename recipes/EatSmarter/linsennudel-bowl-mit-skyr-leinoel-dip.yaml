@@ -1,5 +1,6 @@
 name: Linsennudel-Bowl mit Skyr-Leinöl-Dip
-description: Leichte Bowl mit Linsennudeln, Rucola, Radieschen, Kirschtomaten und Himbeeren, serviert mit cremigem Skyr-Leinöl-Dip
+description: Leichte Bowl mit Linsennudeln, Rucola, Radieschen, Kirschtomaten und
+  Himbeeren, serviert mit cremigem Skyr-Leinöl-Dip
 author: EatSmarter
 category: 🍲
 servings: 4
@@ -7,42 +8,46 @@ prep_time: 15
 cook_time: 5
 image: images/recipes/linsennudel-bowl-mit-skyr-leinoel-dip.jpg
 tags:
-  - Beeren
-  - Himbeeren
-  - Kräuter
-  - Linsen
-  - Öl
-  - Pasta
-  - Radieschen
-  - Rucola
-  - Salat
-  - Skyr
-  - Tomate
-
+- Beeren
+- Himbeeren
+- Kräuter
+- Linsen
+- Öl
+- Pasta
+- Radieschen
+- Rucola
+- Salat
+- Skyr
+- Tomate
 ingredients:
-  - name: Linsennudeln
-    amount: 150 g
-  - name: Salz
-    amount: nach Geschmack
-  - name: Rucola
-    amount: 80 g (1 Bund)
-  - name: Radieschen
-    amount: 1 Bund
-  - name: Kirschtomaten
-    amount: 250 g
-  - name: Skyr
-    amount: 150 g
-  - name: Leinöl
-    amount: 2 EL
-  - name: Pfeffer
-    amount: nach Geschmack
-  - name: Himbeeren
-    amount: 100 g
-  - name: Artischockenherzen (in Öl eingelegt)
-    amount: 150 g (8 Stück)
-
+- name: Linsennudeln
+  amount: 150 g
+- name: Salz
+  amount: nach Geschmack
+- name: Rucola
+  amount: 80 g (1 Bund)
+- name: Radieschen
+  amount: 1 Bund
+- name: Kirschtomaten
+  amount: 250 g
+- name: Skyr
+  amount: 150 g
+- name: Leinöl
+  amount: 2 EL
+- name: Pfeffer
+  amount: nach Geschmack
+- name: Himbeeren
+  amount: 100 g
+- name: Artischockenherzen (in Öl eingelegt)
+  amount: 150 g (8 Stück)
 instructions:
-  - Nudeln in kochendem Salzwasser nach Packungsanleitung bissfest kochen. Anschließend abgießen und abtropfen lassen.
-  - Nebenher Rucola waschen, trocken schütteln. Radieschen putzen, waschen, halbieren und in Scheiben schneiden. Tomaten waschen und halbieren.
-  - Skyr mit 2-3 EL Wasser und Leinöl glatt zu einem Dip rühren, mit Salz und Pfeffer würzen.
-  - Himbeeren waschen und trocken tupfen. Artischocken abtropfen lassen und vierteln. Nudeln, Rucola, Radieschen und Tomaten in Schalen anrichten, mit Beeren bestreuen und dem Dip servieren.
+- Nudeln in kochendem Salzwasser nach Packungsanleitung bissfest kochen. Anschließend
+  abgießen und abtropfen lassen.
+- Nebenher Rucola waschen, trocken schütteln. Radieschen putzen, waschen, halbieren
+  und in Scheiben schneiden. Tomaten waschen und halbieren.
+- Skyr mit 2-3 EL Wasser und Leinöl glatt zu einem Dip rühren, mit Salz und Pfeffer
+  würzen.
+- Himbeeren waschen und trocken tupfen. Artischocken abtropfen lassen und vierteln.
+  Nudeln, Rucola, Radieschen und Tomaten in Schalen anrichten, mit Beeren bestreuen
+  und dem Dip servieren.
+import_date: '2026-02-26'

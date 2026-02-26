@@ -1,5 +1,6 @@
 name: Salbei-Gemüse-Gnocchi
-description: Schnelle Gnocchi-Pfanne mit Salbei, Kirschtomaten, Frühlingszwiebeln und cremigem Ricotta
+description: Schnelle Gnocchi-Pfanne mit Salbei, Kirschtomaten, Frühlingszwiebeln
+  und cremigem Ricotta
 author: EatSmarter
 category: 🍲
 servings: 2
@@ -7,39 +8,44 @@ prep_time: 10
 cook_time: 5
 image: images/recipes/salbei-gemuese-gnocchi.jpg
 tags:
-  - Frühlingszwiebel
-  - Gnocchi
-  - Käse
-  - Kräuter
-  - Olivenöl
-  - Öl
-  - Ricotta
-  - Salbei
-  - Tomate
-  - Zwiebel
-
+- Frühlingszwiebel
+- Gnocchi
+- Käse
+- Kräuter
+- Öl
+- Olivenöl
+- Ricotta
+- Salbei
+- Tomate
+- Zwiebel
 ingredients:
-  - name: Frühlingszwiebeln
-    amount: 150 g (2 Bund)
-  - name: Salbei
-    amount: 3 Stiele
-  - name: Olivenöl
-    amount: 2 EL
-  - name: Gnocchi (Kühlregal)
-    amount: 300 g
-  - name: Kirschtomaten
-    amount: 250 g
-  - name: Salz
-    amount: nach Geschmack
-  - name: Pfeffer
-    amount: nach Geschmack
-  - name: Ricotta
-    amount: 100 g
-
+- name: Frühlingszwiebeln
+  amount: 150 g (2 Bund)
+- name: Salbei
+  amount: 3 Stiele
+- name: Olivenöl
+  amount: 2 EL
+- name: Gnocchi (Kühlregal)
+  amount: 300 g
+- name: Kirschtomaten
+  amount: 250 g
+- name: Salz
+  amount: nach Geschmack
+- name: Pfeffer
+  amount: nach Geschmack
+- name: Ricotta
+  amount: 100 g
 instructions:
-  - Frühlingszwiebeln waschen, putzen und in etwa 2 cm große Stücke schneiden.
-  - Salbei waschen, trocken schütteln und die Blätter abzupfen. Einige davon zum Garnieren beiseitelegen, den Rest in Streifen schneiden.
-  - Öl in einer beschichteten Pfanne erhitzen und die Gnocchi darin bei mittlerer Hitze kurz andünsten.
-  - Frühlingszwiebeln und Salbeistreifen dazugeben. Zugedeckt bei mittlerer Hitze etwa 5 Minuten dünsten.
-  - Inzwischen Kirschtomaten waschen, nach Belieben die Hälfte der Tomaten halbieren. Zu den Gnocchi in die Pfanne geben. Bei mittlerer Hitze offen 2 Minuten erhitzen. Mit Salz und Pfeffer würzen.
-  - Salbei-Gemüse-Gnocchi anrichten. Den Ricotta mit einem Teelöffel in kleinen Portionen darauf verteilen. Mit den Salbeiblättern garnieren.
+- Frühlingszwiebeln waschen, putzen und in etwa 2 cm große Stücke schneiden.
+- Salbei waschen, trocken schütteln und die Blätter abzupfen. Einige davon zum Garnieren
+  beiseitelegen, den Rest in Streifen schneiden.
+- Öl in einer beschichteten Pfanne erhitzen und die Gnocchi darin bei mittlerer Hitze
+  kurz andünsten.
+- Frühlingszwiebeln und Salbeistreifen dazugeben. Zugedeckt bei mittlerer Hitze etwa
+  5 Minuten dünsten.
+- Inzwischen Kirschtomaten waschen, nach Belieben die Hälfte der Tomaten halbieren.
+  Zu den Gnocchi in die Pfanne geben. Bei mittlerer Hitze offen 2 Minuten erhitzen.
+  Mit Salz und Pfeffer würzen.
+- Salbei-Gemüse-Gnocchi anrichten. Den Ricotta mit einem Teelöffel in kleinen Portionen
+  darauf verteilen. Mit den Salbeiblättern garnieren.
+import_date: '2026-02-26'

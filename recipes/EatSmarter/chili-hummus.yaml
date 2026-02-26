@@ -1,5 +1,6 @@
 name: Chili-Hummus
-description: Chili-Hummus von EAT SMARTER ist perfekt für alle Fans von scharfen Dips und Aufstrichen.
+description: Chili-Hummus von EAT SMARTER ist perfekt für alle Fans von scharfen Dips
+  und Aufstrichen.
 author: EatSmarter
 category: 🍲
 servings: 4
@@ -7,43 +8,47 @@ prep_time: 15
 cook_time: 0
 image: images/recipes/chili-hummus.jpg
 tags:
-  - Chili
-  - Hülsenfrüchte
-  - Kerne
-  - Kichererbsen
-  - Knoblauch
-  - Kräuter
-  - Petersilie
-  - Sesam
-  - Tomate
-  - Zitrone
-  - Zitrusfrüchte
-
+- Chili
+- Hülsenfrüchte
+- Kerne
+- Kichererbsen
+- Knoblauch
+- Kräuter
+- Petersilie
+- Sesam
+- Tomate
+- Zitrone
+- Zitrusfrüchte
 ingredients:
-  - name: Kichererbsen (Abtropfgewicht)
-    amount: 250 g
-  - name: Knoblauchzehen
-    amount: 2
-  - name: Rote Chilischoten
-    amount: 2
-  - name: Tahini
-    amount: 30 g (2 EL)
-  - name: Olivenöl
-    amount: 2 EL
-  - name: Tomatenmark
-    amount: 20 g (1 EL)
-  - name: Zitronensaft
-    amount: 0.5 Zitrone
-  - name: Salz
-    amount: nach Geschmack
-  - name: Pfeffer
-    amount: nach Geschmack
-  - name: Kreuzkümmel (gemahlen)
-    amount: nach Geschmack
-  - name: Petersilie
-    amount: 10 g (0.5 Bund)
-
+- name: Kichererbsen (Abtropfgewicht)
+  amount: 250 g
+- name: Knoblauchzehen
+  amount: 2
+- name: Rote Chilischoten
+  amount: 2
+- name: Tahini
+  amount: 30 g (2 EL)
+- name: Olivenöl
+  amount: 2 EL
+- name: Tomatenmark
+  amount: 20 g (1 EL)
+- name: Zitronensaft
+  amount: 0.5 Zitrone
+- name: Salz
+  amount: nach Geschmack
+- name: Pfeffer
+  amount: nach Geschmack
+- name: Kreuzkümmel (gemahlen)
+  amount: nach Geschmack
+- name: Petersilie
+  amount: 10 g (0.5 Bund)
 instructions:
-  - Kichererbsen in ein Sieb abgießen und unter kaltem Wasser abspülen. Knoblauch schälen. Chilischoten waschen, putzen und in Stücke schneiden.
-  - Tahini-Paste mit Olivenöl im Mixer ca. 1 Minute lang pürieren. Dann Kichererbsen, Knoblauch, Chilischoten, Tomatenmark und Zitronensaft dazugeben und alles zu einem cremigen Chili-Hummus pürieren. Je nach gewünschter Konsistenz noch etwas Wasser untermixen. Chili-Hummus mit Salz, Pfeffer und Kreuzkümmel abschmecken.
-  - Petersilie waschen, trocken schütteln und hacken. Chili-Hummus in eine Schüssel füllen und mit Petersilie bestreuen.
+- Kichererbsen in ein Sieb abgießen und unter kaltem Wasser abspülen. Knoblauch schälen.
+  Chilischoten waschen, putzen und in Stücke schneiden.
+- Tahini-Paste mit Olivenöl im Mixer ca. 1 Minute lang pürieren. Dann Kichererbsen,
+  Knoblauch, Chilischoten, Tomatenmark und Zitronensaft dazugeben und alles zu einem
+  cremigen Chili-Hummus pürieren. Je nach gewünschter Konsistenz noch etwas Wasser
+  untermixen. Chili-Hummus mit Salz, Pfeffer und Kreuzkümmel abschmecken.
+- Petersilie waschen, trocken schütteln und hacken. Chili-Hummus in eine Schüssel
+  füllen und mit Petersilie bestreuen.
+import_date: '2026-02-26'

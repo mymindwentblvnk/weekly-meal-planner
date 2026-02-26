@@ -5,8 +5,8 @@ description: Saftiger Karottenkuchen mit gemahlenen Mandeln statt Mehl, gesüßt
 author: Familienkost
 category: 🥣
 servings: 12
-prep_time: 15  # minutes
-cook_time: 55  # minutes
+prep_time: 15
+cook_time: 55
 tags:
 - Butter
 - Eier
@@ -16,7 +16,6 @@ tags:
 - Mandeln
 - Nüsse
 - Quark
-
 ingredients:
 - name: Möhren
   amount: 200 g
@@ -48,7 +47,6 @@ ingredients:
   amount: 50 g
 - name: Gehackte Pistazienkerne (Deko)
   amount: 2 EL
-
 instructions:
 - Die Möhren schälen und grob raspeln. Die Eier trennen und das Eiweiß mit dem Salz
   steif schlagen.
@@ -61,3 +59,4 @@ instructions:
   auskühlen lassen.
 - Die Zutaten für das Frosting mit einem Teigschaber verrühren. Auf dem ausgekühlten
   Kuchen verteilen und als Deko die gehackten Pistazien darüber streuen.
+import_date: '2026-02-26'

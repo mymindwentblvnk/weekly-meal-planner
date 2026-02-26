@@ -3,8 +3,8 @@ description: Einfacher und schneller Thunfischsalat mit Eiern, Mais und cremigem
 author: mymindwentblvnk
 category: 🐟
 servings: 4
-prep_time: 15  # minutes
-cook_time: 0  # minutes
+prep_time: 15
+cook_time: 0
 tags:
 - Eier
 - Fisch
@@ -15,7 +15,6 @@ tags:
 - Petersilie
 - Thunfisch
 - Zwiebeln
-
 ingredients:
 - name: Thunfisch in eigenem Saft
   amount: 2 Dosen (je 185 g)
@@ -37,10 +36,10 @@ ingredients:
   amount: 1 EL
 - name: Salz
   amount: nach Geschmack
-
 instructions:
 - Thunfisch und Mais abtropfen lassen. Eier hart kochen und vierteln. Zwiebel würfeln
   und Paprika in kleine Stücke schneiden.
 - Alle Dressing-Zutaten (Joghurt, Mayonnaise, Balsamico, Salz) miteinander vermischen.
 - Dressing mit Thunfisch, Mais, Zwiebeln, Paprika und Petersilie vermengen. Eier vorsichtig
   unterheben.
+import_date: '2026-02-26'

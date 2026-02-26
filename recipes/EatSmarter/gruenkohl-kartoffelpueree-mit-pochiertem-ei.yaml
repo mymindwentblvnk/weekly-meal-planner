@@ -1,5 +1,6 @@
 name: Grünkohl-Kartoffelpüree mit pochiertem Ei
-description: Cremiges Kartoffelpüree mit Grünkohl und Frühlingszwiebeln, getoppt mit pochiertem Ei
+description: Cremiges Kartoffelpüree mit Grünkohl und Frühlingszwiebeln, getoppt mit
+  pochiertem Ei
 author: EatSmarter
 category: 🍲
 servings: 4
@@ -7,40 +8,50 @@ prep_time: 10
 cook_time: 30
 image: images/recipes/gruenkohl-kartoffelpueree-mit-pochiertem-ei.jpg
 tags:
-  - Butter
-  - Ei
-  - Essig
-  - Frühlingszwiebel
-  - Grünkohl
-  - Kartoffel
-  - Milch
-  - Muskat
-  - Zwiebel
-
+- Butter
+- Ei
+- Essig
+- Frühlingszwiebel
+- Grünkohl
+- Kartoffel
+- Milch
+- Muskat
+- Zwiebel
 ingredients:
-  - name: Mehligkochende Kartoffeln
-    amount: 600 g
-  - name: Salz
-    amount: nach Geschmack
-  - name: Frühlingszwiebeln
-    amount: 4
-  - name: Grünkohl
-    amount: 400 g
-  - name: Butter
-    amount: 30 g
-  - name: Milch (3,5% Fett, warm)
-    amount: 100 ml
-  - name: Muskatnuss
-    amount: nach Geschmack
-  - name: Pfeffer
-    amount: nach Geschmack
-  - name: Weißweinessig
-    amount: 3 EL
-  - name: Eier
-    amount: 4
-
+- name: Mehligkochende Kartoffeln
+  amount: 600 g
+- name: Salz
+  amount: nach Geschmack
+- name: Frühlingszwiebeln
+  amount: 4
+- name: Grünkohl
+  amount: 400 g
+- name: Butter
+  amount: 30 g
+- name: Milch (3,5% Fett, warm)
+  amount: 100 ml
+- name: Muskatnuss
+  amount: nach Geschmack
+- name: Pfeffer
+  amount: nach Geschmack
+- name: Weißweinessig
+  amount: 3 EL
+- name: Eier
+  amount: 4
 instructions:
-  - Kartoffeln schälen und in kochendem Salzwasser in ca. 30 Minuten gar kochen.
-  - Inzwischen Frühlingszwiebeln waschen, putzen und in Ringe schneiden. Grünkohl waschen, putzen und in Streifen schneiden. Kohl in kochendem Salzwasser ca. 10 Minuten garen. Dann mit einer Schaumkelle herausnehmen und abtropfen lassen.
-  - Kartoffeln abgießen, mit einer Gabel oder einem Kartoffelstampfer zerdrücken und kurz ausdampfen lassen. Die Hälfte der Butter in einem großen Topf schmelzen und Frühlingszwiebeln und Kohl darin bei mittlerer Hitze ca. 3 Minuten andünsten. Mischung mit der restlichen Butter und dem Kartoffelbrei vermengen und so viel Milch zugeben, bis der Brei eine cremige Konsistenz hat. Dann mit frisch abgeriebenem Muskat, Salz und Pfeffer würzen und warm stellen.
-  - Etwa 1 l Wasser mit Essig in einem großen Topf aufkochen lassen und dann die Hitze reduzieren. Eier einzeln nacheinander in eine Tasse aufschlagen und vorsichtig ins Essigwasser gleiten lassen. Im nur noch siedenden Wasser 4-5 Minuten pochieren. Kartoffelbrei auf 4 Teller verteilen, jeweils ein Ei darauf setzen und mit Pfeffer würzen.
+- Kartoffeln schälen und in kochendem Salzwasser in ca. 30 Minuten gar kochen.
+- Inzwischen Frühlingszwiebeln waschen, putzen und in Ringe schneiden. Grünkohl waschen,
+  putzen und in Streifen schneiden. Kohl in kochendem Salzwasser ca. 10 Minuten garen.
+  Dann mit einer Schaumkelle herausnehmen und abtropfen lassen.
+- Kartoffeln abgießen, mit einer Gabel oder einem Kartoffelstampfer zerdrücken und
+  kurz ausdampfen lassen. Die Hälfte der Butter in einem großen Topf schmelzen und
+  Frühlingszwiebeln und Kohl darin bei mittlerer Hitze ca. 3 Minuten andünsten. Mischung
+  mit der restlichen Butter und dem Kartoffelbrei vermengen und so viel Milch zugeben,
+  bis der Brei eine cremige Konsistenz hat. Dann mit frisch abgeriebenem Muskat, Salz
+  und Pfeffer würzen und warm stellen.
+- Etwa 1 l Wasser mit Essig in einem großen Topf aufkochen lassen und dann die Hitze
+  reduzieren. Eier einzeln nacheinander in eine Tasse aufschlagen und vorsichtig ins
+  Essigwasser gleiten lassen. Im nur noch siedenden Wasser 4-5 Minuten pochieren.
+  Kartoffelbrei auf 4 Teller verteilen, jeweils ein Ei darauf setzen und mit Pfeffer
+  würzen.
+import_date: '2026-02-26'

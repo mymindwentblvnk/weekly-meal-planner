@@ -4,8 +4,8 @@ description: Glutenfreie Brötchen aus Buchweizenmehl und Mandelmehl mit Frischk
 author: VitaMoment
 category: 🍞
 servings: 1
-prep_time: 30  # minutes
-cook_time: 25  # minutes
+prep_time: 30
+cook_time: 25
 tags:
 - Eier
 - Frischkäse
@@ -16,7 +16,6 @@ tags:
 - Mehl
 - Nüsse
 - Sesam
-
 ingredients:
 - name: Eier
   amount: 3
@@ -32,7 +31,6 @@ ingredients:
   amount: 10 g
 - name: Flohsamenschalen (gemahlen)
   amount: 5 g
-
 instructions:
 - Backofen auf 190 °C Ober-/Unterhitze vorheizen.
 - Eier in einer großen Schüssel verquirlen. Frischkäse unterrühren.
@@ -41,3 +39,4 @@ instructions:
 - Aus dem Teig mit angefeuchteten Händen kleine Brötchen formen und auf mit Backpapier
   ausgelegtes Backblech legen. Mit Sesam bestreuen.
 - Rund 20-25 Minuten im Backofen backen.
+import_date: '2026-02-26'

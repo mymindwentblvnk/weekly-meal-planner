@@ -1,5 +1,6 @@
 name: Paneer-Butter-Masala
-description: Indisches Gericht mit Paneer-Käse in cremiger Tomaten-Cashew-Sauce, serviert mit Hafer, Salat und Joghurt
+description: Indisches Gericht mit Paneer-Käse in cremiger Tomaten-Cashew-Sauce, serviert
+  mit Hafer, Salat und Joghurt
 author: EatSmarter
 category: 🍲
 servings: 4
@@ -7,70 +8,79 @@ prep_time: 15
 cook_time: 25
 image: images/recipes/paneer-butter-masala.jpg
 tags:
-  - Butter
-  - Cashewkerne
-  - Garam Masala
-  - Hafer
-  - Ingwer
-  - Joghurt
-  - Kardamom
-  - Käse
-  - Knoblauch
-  - Koriander
-  - Lorbeer
-  - Nelken
-  - Nüsse
-  - Paneer
-  - Sahne
-  - Salat
-  - Tomate
-  - Zimt
-  - Zwiebel
-
+- Butter
+- Cashewkerne
+- Garam Masala
+- Hafer
+- Ingwer
+- Joghurt
+- Kardamom
+- Käse
+- Knoblauch
+- Koriander
+- Lorbeer
+- Nelken
+- Nüsse
+- Paneer
+- Sahne
+- Salat
+- Tomate
+- Zimt
+- Zwiebel
 ingredients:
-  - name: Cashewkerne
-    amount: 75 g
-  - name: Hafer (entspelzt)
-    amount: 250 g
-  - name: Zimtstange
-    amount: 1 Stück (3 cm)
-  - name: Lorbeerblatt (klein)
-    amount: 1
-  - name: Kardamomkapseln
-    amount: 2
-  - name: Gewürznelken
-    amount: 2
-  - name: Salz
-    amount: nach Geschmack
-  - name: Ingwerwurzel
-    amount: 30 g
-  - name: Knoblauchzehen
-    amount: 3
-  - name: Zwiebel
-    amount: 1
-  - name: Tomaten
-    amount: 600 g
-  - name: Butter
-    amount: 3 EL (45 g)
-  - name: Garam Masala
-    amount: 3 TL
-  - name: Schlagsahne
-    amount: 100 g
-  - name: Pfeffer
-    amount: nach Geschmack
-  - name: Paneer (indischer Frischkäse)
-    amount: 400 g
-  - name: Koriander
-    amount: 0.5 Bund
-  - name: Römersalatherz
-    amount: 1
-  - name: Schafsmilchjoghurt (5% Fett)
-    amount: 125 g
-
+- name: Cashewkerne
+  amount: 75 g
+- name: Hafer (entspelzt)
+  amount: 250 g
+- name: Zimtstange
+  amount: 1 Stück (3 cm)
+- name: Lorbeerblatt (klein)
+  amount: 1
+- name: Kardamomkapseln
+  amount: 2
+- name: Gewürznelken
+  amount: 2
+- name: Salz
+  amount: nach Geschmack
+- name: Ingwerwurzel
+  amount: 30 g
+- name: Knoblauchzehen
+  amount: 3
+- name: Zwiebel
+  amount: 1
+- name: Tomaten
+  amount: 600 g
+- name: Butter
+  amount: 3 EL (45 g)
+- name: Garam Masala
+  amount: 3 TL
+- name: Schlagsahne
+  amount: 100 g
+- name: Pfeffer
+  amount: nach Geschmack
+- name: Paneer (indischer Frischkäse)
+  amount: 400 g
+- name: Koriander
+  amount: 0.5 Bund
+- name: Römersalatherz
+  amount: 1
+- name: Schafsmilchjoghurt (5% Fett)
+  amount: 125 g
 instructions:
-  - 2 Handvoll Cashewkerne in heißem Wasser etwa 20 Minuten einweichen.
-  - Inzwischen Hafer waschen und mit doppelter Menge Wasser, Zimt, Lorbeer, Kardamom, Nelken und etwas Salz zum Kochen bringen. Anschließend bei kleiner Hitze 25-30 Minuten köcheln lassen, dabei gelegentlich umrühren.
-  - Derweil Ingwer, Knoblauch und Zwiebel schälen und fein würfeln. Tomaten waschen und grob würfeln. 2 EL Butter in einem breiten Topf erhitzen. Ingwer, Knoblauch und Zwiebel zugeben und 3 Minuten bei kleiner Hitze anbraten. Mit Tomaten ergänzen und bei starker Hitze 5-8 Minuten braten.
-  - Cashews abgießen, im Blitzhacker mit 1 EL Wasser pürieren, mit Garam Masala zum Tomaten-Mix geben und weitere 5 Minuten köcheln lassen. Sahne zufügen und alles mit einem Stabmixer pürieren. Mit Salz und Pfeffer würzen.
-  - Paneer würfeln. Übrige Butter in einer Pfanne erhitzen. Paneer darin bei mittlerer Hitze rundherum 2-3 Minuten anbraten. Hafer abgießen. Koriander und Salat waschen, trocken schütteln, kleiner zupfen oder schneiden.
-  - Paneer mit Tomatensauce, Hafer und Salat auf 4 Schüsseln verteilen und jeweils mit 1 Klecks Joghurt, Cashews sowie Koriander toppen.
+- 2 Handvoll Cashewkerne in heißem Wasser etwa 20 Minuten einweichen.
+- Inzwischen Hafer waschen und mit doppelter Menge Wasser, Zimt, Lorbeer, Kardamom,
+  Nelken und etwas Salz zum Kochen bringen. Anschließend bei kleiner Hitze 25-30 Minuten
+  köcheln lassen, dabei gelegentlich umrühren.
+- Derweil Ingwer, Knoblauch und Zwiebel schälen und fein würfeln. Tomaten waschen
+  und grob würfeln. 2 EL Butter in einem breiten Topf erhitzen. Ingwer, Knoblauch
+  und Zwiebel zugeben und 3 Minuten bei kleiner Hitze anbraten. Mit Tomaten ergänzen
+  und bei starker Hitze 5-8 Minuten braten.
+- Cashews abgießen, im Blitzhacker mit 1 EL Wasser pürieren, mit Garam Masala zum
+  Tomaten-Mix geben und weitere 5 Minuten köcheln lassen. Sahne zufügen und alles
+  mit einem Stabmixer pürieren. Mit Salz und Pfeffer würzen.
+- Paneer würfeln. Übrige Butter in einer Pfanne erhitzen. Paneer darin bei mittlerer
+  Hitze rundherum 2-3 Minuten anbraten. Hafer abgießen. Koriander und Salat waschen,
+  trocken schütteln, kleiner zupfen oder schneiden.
+- Paneer mit Tomatensauce, Hafer und Salat auf 4 Schüsseln verteilen und jeweils mit
+  1 Klecks Joghurt, Cashews sowie Koriander toppen.
+import_date: '2026-02-26'

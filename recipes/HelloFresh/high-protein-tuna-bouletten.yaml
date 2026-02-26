@@ -4,8 +4,8 @@ description: Knusprige Thunfisch-Bouletten mit Butterbohnen auf frischem Romana-
 author: HelloFresh
 category: 🐟
 servings: 2
-prep_time: 10  # minutes
-cook_time: 35  # minutes
+prep_time: 10
+cook_time: 35
 tags:
 - Butter
 - Fisch
@@ -17,7 +17,6 @@ tags:
 - Sellerie
 - Thunfisch
 - Zwiebel
-
 ingredients:
 - name: Butterbohnen
   amount: 380 g
@@ -41,7 +40,6 @@ ingredients:
   amount: 10 g
 - name: Salatherz (Romana)
   amount: 150 g
-
 instructions:
 - '[Bouletten anfangen] Karotte grob raspeln. Häfte Zwiebel fein würfeln. Restliche
   Zwiebel in feine Streifen schneiden. Kräuter fein hacken. Butterbohnen durch ein
@@ -65,3 +63,4 @@ instructions:
 - '[Anrichten] Salat auf tiefe Teller verteilen. Mit restlichen Bohnen, eingelegter
   Zwiebel und Sellerie toppen. Tuna-Bouletten darauf anrichten, mit restlicher Petersilie
   garnieren und mit restlicher Soße genießen.'
+import_date: '2026-02-26'

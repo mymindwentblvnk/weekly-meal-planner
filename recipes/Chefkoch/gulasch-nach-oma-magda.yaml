@@ -4,8 +4,8 @@ description: Herzhaftes Rindergulasch mit Paprika und Zwiebeln in würziger Sauc
 author: Chefkoch
 category: 🥩
 servings: 6
-prep_time: 30  # minutes
-cook_time: 240  # minutes
+prep_time: 30
+cook_time: 240
 tags:
 - Butter
 - Eier
@@ -16,7 +16,6 @@ tags:
 - Sellerie
 - Tomate
 - Zwiebel
-
 ingredients:
 - name: Butterschmalz
   amount: 2 EL
@@ -44,7 +43,6 @@ ingredients:
   amount: nach Geschmack
 - name: Pfeffer
   amount: nach Geschmack
-
 instructions:
 - Die Zwiebeln in 0,5 cm große Würfel schneiden, Karotte und Sellerie würfeln. Alles
   in 2 EL Butterschmalz kräftig anbraten. Tomatenmark zugeben und andünsten bis sich
@@ -60,3 +58,4 @@ instructions:
 - Dies ist ein Grundrezept für Gulasch, man kann es wunderbar abwandeln, indem man
   z. B. eine halbe Stunde vor Ende der Garzeit noch Sahne, Kartoffeln und/oder Paprikaschoten
   zugibt. Ich gebe auch immer noch Knoblauch dazu, den mochte aber meine Oma nicht.
+import_date: '2026-02-26'

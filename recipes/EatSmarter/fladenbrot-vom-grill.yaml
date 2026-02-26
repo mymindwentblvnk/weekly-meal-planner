@@ -7,55 +7,62 @@ prep_time: 10
 cook_time: 15
 image: images/recipes/fladenbrot-vom-grill.jpg
 tags:
-  - Backpulver
-  - Dinkel
-  - Feta
-  - Honig
-  - Joghurt
-  - Käse
-  - Kerne
-  - Knoblauch
-  - Mehl
-  - Olivenöl
-  - Öl
-  - Petersilie
-  - Sesam
-  - Sumach
-  - Tomate
-  - Zitrone
-
+- Backpulver
+- Dinkel
+- Feta
+- Honig
+- Joghurt
+- Käse
+- Kerne
+- Knoblauch
+- Mehl
+- Öl
+- Olivenöl
+- Petersilie
+- Sesam
+- Sumach
+- Tomate
+- Zitrone
 ingredients:
-  - name: Dinkel-Vollkornmehl
-    amount: 200 g (+ Mehl für die Arbeitsfläche)
-  - name: Backpulver
-    amount: 1 TL
-  - name: Salz
-    amount: nach Geschmack
-  - name: Joghurt (3,5% Fett)
-    amount: 140 g
-  - name: Feta (45% Fett i. Tr.)
-    amount: 200 g
-  - name: Knoblauchzehe
-    amount: 1
-  - name: Petersilie
-    amount: 0.5 Bund (10 g)
-  - name: Pfeffer
-    amount: nach Geschmack
-  - name: Kirschtomaten
-    amount: 400 g
-  - name: Olivenöl
-    amount: 3 EL
-  - name: Sumach (orientalisches Gewürz)
-    amount: 0.5 TL
-  - name: Honig
-    amount: 1 TL
-  - name: Zitronensaft
-    amount: 1 EL
-  - name: Schwarzer Sesam
-    amount: 1 TL
-
+- name: Dinkel-Vollkornmehl
+  amount: 200 g (+ Mehl für die Arbeitsfläche)
+- name: Backpulver
+  amount: 1 TL
+- name: Salz
+  amount: nach Geschmack
+- name: Joghurt (3,5% Fett)
+  amount: 140 g
+- name: Feta (45% Fett i. Tr.)
+  amount: 200 g
+- name: Knoblauchzehe
+  amount: 1
+- name: Petersilie
+  amount: 0.5 Bund (10 g)
+- name: Pfeffer
+  amount: nach Geschmack
+- name: Kirschtomaten
+  amount: 400 g
+- name: Olivenöl
+  amount: 3 EL
+- name: Sumach (orientalisches Gewürz)
+  amount: 0.5 TL
+- name: Honig
+  amount: 1 TL
+- name: Zitronensaft
+  amount: 1 EL
+- name: Schwarzer Sesam
+  amount: 1 TL
 instructions:
-  - Mehl mit Backpulver und 1/2 TL Salz in einer Schüssel mischen. 70 g Joghurt und 60 ml lauwarmes Wasser zugeben und alles zu einem glatten Teig verkneten. Teig in 4 Stücke teilen und jeweils zu ca. 1/2 cm dicken Fladen ausrollen.
-  - Feta mit einer Gabel zerdrücken und mit restlichem Joghurt zu einer Creme vermengen. Knoblauch schälen und hacken. Petersilie waschen, trocken schütteln und hacken. Knoblauch und die Hälfte der Petersilie unter die Creme heben und mit Salz und Pfeffer würzen.
-  - Tomaten putzen, waschen, halbieren oder vierteln. Olivenöl, Sumach, Honig, Zitronensaft und Sesam zu einem Dressing verrühren und mit Tomaten und restlicher Petersilie mischen.
-  - Fladenbrote auf dem heißen Grill von jeder Seite 1-2 Minuten grillen. Fladenbrot vom Grill mit der Creme bestreichen und Salat darauf verteilen.
+- Mehl mit Backpulver und 1/2 TL Salz in einer Schüssel mischen. 70 g Joghurt und
+  60 ml lauwarmes Wasser zugeben und alles zu einem glatten Teig verkneten. Teig in
+  4 Stücke teilen und jeweils zu ca. 1/2 cm dicken Fladen ausrollen.
+- Feta mit einer Gabel zerdrücken und mit restlichem Joghurt zu einer Creme vermengen.
+  Knoblauch schälen und hacken. Petersilie waschen, trocken schütteln und hacken.
+  Knoblauch und die Hälfte der Petersilie unter die Creme heben und mit Salz und Pfeffer
+  würzen.
+- Tomaten putzen, waschen, halbieren oder vierteln. Olivenöl, Sumach, Honig, Zitronensaft
+  und Sesam zu einem Dressing verrühren und mit Tomaten und restlicher Petersilie
+  mischen.
+- Fladenbrote auf dem heißen Grill von jeder Seite 1-2 Minuten grillen. Fladenbrot
+  vom Grill mit der Creme bestreichen und Salat darauf verteilen.
+import_date: '2026-02-26'

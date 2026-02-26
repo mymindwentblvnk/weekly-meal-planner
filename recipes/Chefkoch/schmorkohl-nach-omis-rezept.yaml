@@ -4,8 +4,8 @@ description: Herzhafter Schmorkohl mit gemischtem Hackfleisch, Zwiebeln und Küm
 author: Chefkoch
 category: 🥩
 servings: 4
-prep_time: 15  # minutes
-cook_time: 30  # minutes
+prep_time: 15
+cook_time: 30
 image: images/recipes/schmorkohl-nach-omis-rezept.jpg
 tags:
 - Fleisch
@@ -13,7 +13,6 @@ tags:
 - Kohl
 - Öl
 - Zwiebel
-
 ingredients:
 - name: Weißkohl
   amount: 1 Kopf
@@ -33,7 +32,6 @@ ingredients:
   amount: 400 g
 - name: Olivenöl
   amount: 6 EL
-
 instructions:
 - Den Kohl vom Strunk befreien und klein schneiden. In einem großen Topf das Olivenöl
   erhitzen und den Kohl auf höchster Temperatur unter Rühren anbraten.
@@ -43,3 +41,4 @@ instructions:
 - Die Brühe aufgießen und kurz köcheln lassen. Nochmal abschmecken und Soßenbinder
   zum Andicken einrühren.
 - Dazu passen Kartoffeln.
+import_date: '2026-02-26'

@@ -3,8 +3,8 @@ description: Gesund, zuckerarm, sättigend, gut vorzubereiten
 author: Chefkoch
 category: 🥣
 servings: 3
-prep_time: 10  # minutes
-cook_time: 0  # minutes
+prep_time: 10
+cook_time: 0
 image: images/recipes/bircher-muesli.jpg
 tags:
 - Äpfel
@@ -19,7 +19,6 @@ tags:
 - Walnüsse
 - Zimt
 - Zitrone
-
 ingredients:
 - name: Joghurt (griechisch)
   amount: 500 g
@@ -39,7 +38,6 @@ ingredients:
   amount: nach Geschmack
 - name: Rosinen
   amount: nach Geschmack
-
 instructions:
 - Äpfel vom Strunk befreien und in einem Zerkleinerer klein schneiden, alternativ
   mit der Reibe fein reiben.
@@ -47,3 +45,4 @@ instructions:
   ruhen lassen, damit das Müsli schön cremig wird.
 - Das Müsli hält sich im Kühlschrank bis zu einer Woche und kann daher für mehrere
   Tage vorbereitet werden.
+import_date: '2026-02-26'

@@ -4,8 +4,8 @@ description: Cremiges Spinatpüree mit Frischkäse und Gewürzen, serviert mit g
 author: VitaMoment
 category: 🥦
 servings: 1
-prep_time: 5  # minutes
-cook_time: 15  # minutes
+prep_time: 5
+cook_time: 15
 tags:
 - Butter
 - Eier
@@ -13,7 +13,6 @@ tags:
 - Käse
 - Spinat
 - Zwiebel
-
 ingredients:
 - name: Zwiebel
   amount: 1
@@ -29,7 +28,6 @@ ingredients:
   amount: 1 Prise
 - name: Muskat
   amount: 1 Prise
-
 instructions:
 - Zwiebel schälen und in Ringe schneiden.
 - Hälfte der Butter in einem kleinen Topf zum Schmelzen bringen, Blattspinat und Zwiebeln
@@ -38,3 +36,4 @@ instructions:
 - Spinat-Zwiebelmischung pürieren, Frischkäse hinzugeben und mit Salz, Pfeffer, Kreuzkümmel
   und Muskat abschmecken.
 - Beides auf einem Teller servieren.
+import_date: '2026-02-26'

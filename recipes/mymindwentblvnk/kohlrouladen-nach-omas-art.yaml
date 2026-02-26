@@ -4,8 +4,8 @@ description: Klassische Kohlrouladen mit Hackfleischfüllung und brauner Soße -
 author: Familienkost
 category: 🥩
 servings: 8
-prep_time: 35  # minutes
-cook_time: 35  # minutes
+prep_time: 35
+cook_time: 35
 tags:
 - Eier
 - Fleisch
@@ -13,7 +13,6 @@ tags:
 - Kohl
 - Öl
 - Zwiebel
-
 ingredients:
 - name: Weißkohl
   amount: 1 Kopf
@@ -35,7 +34,6 @@ ingredients:
   amount: zum Braten
 - name: Senf
   amount: 1 Tl
-
 instructions:
 - Den Weißkohl waschen, den Strunk keilförmig herausschneiden und eine große Gabel
   in die Mitte stecken. Den Kohlkopf in kochendes Salzwasser legen und 5-10 Minuten
@@ -54,3 +52,4 @@ instructions:
 - Die Kohlrouladen herausnehmen. Die Speisestärke mit 50 ml kaltem Wasser glatt rühren
   und in die Soße geben. Die Soße kurz aufkochen, bis sie andickt. Mit Salz und Pfeffer
   abschmecken und nach Belieben etwas Sahne unterrühren.
+import_date: '2026-02-26'

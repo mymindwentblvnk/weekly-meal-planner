@@ -4,8 +4,8 @@ description: Knusprige Kartoffelpuffer mit Flohsamenschalen und Dinkelmehl, serv
 author: VitaMoment
 category: 🥦
 servings: 2
-prep_time: 30  # minutes
-cook_time: 30  # minutes
+prep_time: 30
+cook_time: 30
 image: images/recipes/kartoffelpuffer-mit-apfelkompott.png
 tags:
 - Apfel
@@ -52,3 +52,4 @@ instructions:
   portionieren. Hitze reduzieren und von beiden Seiten goldbraun braten.
 - Kartoffelpuffer auf einem Teller servieren und mit Apfelkompott oder Lachs-Frischkäse
   belegen.
+import_date: '2026-02-26'

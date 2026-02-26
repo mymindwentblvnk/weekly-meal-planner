@@ -4,8 +4,8 @@ description: Reichhaltiges fränkisches Frühstücksbuffet mit süßen und herzh
 author: mymindwentblvnk
 category: 🥣
 servings: 8
-prep_time: 20  # minutes
-cook_time: 20  # minutes
+prep_time: 20
+cook_time: 20
 tags:
 - Apfel
 - Avocado
@@ -28,7 +28,6 @@ tags:
 - Paprika
 - Schinken
 - Weintrauben
-
 ingredients:
 - name: Orangensaft
   amount: 2 l
@@ -74,6 +73,6 @@ ingredients:
   amount: 1
 - name: Eier
   amount: 10
-
 instructions:
 - Zusammenstellen
+import_date: '2026-02-26'

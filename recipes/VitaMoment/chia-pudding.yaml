@@ -4,8 +4,8 @@ description: Cremiger Chia-Quark-Pudding mit warmem Beerenpüree, Kokosraspeln u
 author: VitaMoment
 category: 🥣
 servings: 1
-prep_time: 5  # minutes
-cook_time: 15  # minutes
+prep_time: 5
+cook_time: 15
 tags:
 - Beeren
 - Chiasamen
@@ -14,7 +14,6 @@ tags:
 - Kerne
 - Milch
 - Quark
-
 ingredients:
 - name: Haferdrink (ungesüßt)
   amount: 75 ml
@@ -28,7 +27,6 @@ ingredients:
   amount: 20 g
 - name: Kokosraspel
   amount: 15 g
-
 instructions:
 - Kokosdrink erwärmen und mit den Chiasamen verrühren. 5 Minuten quellen lassen.
 - Währenddessen die Himbeeren und Blaubeeren in einem Kochtopf auf niedriger Flamme
@@ -36,3 +34,4 @@ instructions:
 - Gequellte Chiasamen mit dem Magerquark vermengen, in eine Schale geben und mit Amaranth,
   Beerenpüree und Kokosraspeln toppen.
 - Nach Bedarf mit etwas Honig verfeinern.
+import_date: '2026-02-26'

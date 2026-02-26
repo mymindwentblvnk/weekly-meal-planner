@@ -4,8 +4,8 @@ description: Klassische Lasagne mit würzigem Ragú Bolognese, cremiger Béchame
 author: mymindwentblvnk
 category: 🥩
 servings: 4
-prep_time: 30  # minutes
-cook_time: 70  # minutes
+prep_time: 30
+cook_time: 70
 tags:
 - Butter
 - Fleisch
@@ -20,7 +20,6 @@ tags:
 - Sellerie
 - Tomate
 - Zwiebel
-
 ingredients:
 - name: Hackfleisch (gemischt)
   amount: 500g
@@ -56,7 +55,6 @@ ingredients:
   amount: 300 g
 - name: Käse (gerieben)
   amount: 1 Packung
-
 instructions:
 - '[Ragú Bolognese] In einem Topf das Olivenöl erhitzen, das Hackfleisch darin rundherum
   anbraten und die gehackten Zwiebeln, das Gemüse und die gehackte Petersilie dazugeben.
@@ -78,3 +76,4 @@ instructions:
   darauf setzen.'
 - Die Lasagne im heißen Backofen bei 180 °C Umluft ca. 30 - 40 Minuten backen, bis
   die Kruste goldbraun ist.
+import_date: '2026-02-26'

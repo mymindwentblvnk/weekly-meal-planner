@@ -1,41 +1,50 @@
 name: Smarte Dinkel-Vollkornbrötchen
-description: Vollkorn-Dinkelbrötchen mit Haferflocken und Mohn, einfach zubereitet und schmecken wie vom Bäcker
+description: Vollkorn-Dinkelbrötchen mit Haferflocken und Mohn, einfach zubereitet
+  und schmecken wie vom Bäcker
 author: EatSmarter
 category: 🥣
 servings: 10
 prep_time: 25
 cook_time: 70
 tags:
-  - Brot
-  - Dinkel
-  - Haferflocken
-  - Hafermilch
-  - Hefe
-  - Kerne
-  - Mehl
-  - Milch
-  - Mohn
-  - Zucker
-
+- Brot
+- Dinkel
+- Haferflocken
+- Hafermilch
+- Hefe
+- Kerne
+- Mehl
+- Milch
+- Mohn
+- Zucker
 ingredients:
-  - name: Dinkel-Vollkornmehl
-    amount: 350 g
-  - name: Dinkelmehl Type 1050
-    amount: 150 g
-  - name: Salz
-    amount: 1 TL
-  - name: Trockenbackhefe (oder 0.5 Würfel frische Hefe)
-    amount: 1 Päckchen
-  - name: Rohrohrzucker
-    amount: 0.5 TL
-  - name: Haferdrink (Hafermilch)
-    amount: 355 ml
-  - name: Haferflocken
-    amount: 1 EL
-  - name: Mohnsamen
-    amount: 1 TL
-
+- name: Dinkel-Vollkornmehl
+  amount: 350 g
+- name: Dinkelmehl Type 1050
+  amount: 150 g
+- name: Salz
+  amount: 1 TL
+- name: Trockenbackhefe (oder 0.5 Würfel frische Hefe)
+  amount: 1 Päckchen
+- name: Rohrohrzucker
+  amount: 0.5 TL
+- name: Haferdrink (Hafermilch)
+  amount: 355 ml
+- name: Haferflocken
+  amount: 1 EL
+- name: Mohnsamen
+  amount: 1 TL
 instructions:
-  - Mehle mit Salz vermischen, Hefe und Zucker zugeben und mit 350 ml Haferdrink zu einem glatten und elastischen Teig verkneten. Diesen an einem warmen Ort abgedeckt einen halbe bis eine Stunde gehen lassen.
-  - Anschließend noch einmal durchkneten. Teig halbieren zu zwei lange Würsten rollen und jeweils in fünf Stücke teilen. Die Stücke zu Kugeln formen und auf ein mit Backpapier belegtes Backblech geben. Mit einem Messer in der Mitte leicht einschneiden, mit dem restlichen Haferdrink bepinseln und mit Haferflocken sowie Mohnsamen bestreuen.
-  - Die Teiglinge noch weitere 30 Minuten an einem warmen Ort ruhen lassen. Backofen auf 200 Grad (Umluft 180 Grad) vorheizen. Danach das Blech in den Ofen schieben und ein feuerfestes Gefäß mit etwas Wasser auf den Boden des Ofen geben. Dinkel-Vollkornbrötchen ca. 20 Minuten backen bis sie goldgelb sind. Anschließend aus dem Ofen nehmen und auskühlen lassen.
+- Mehle mit Salz vermischen, Hefe und Zucker zugeben und mit 350 ml Haferdrink zu
+  einem glatten und elastischen Teig verkneten. Diesen an einem warmen Ort abgedeckt
+  einen halbe bis eine Stunde gehen lassen.
+- Anschließend noch einmal durchkneten. Teig halbieren zu zwei lange Würsten rollen
+  und jeweils in fünf Stücke teilen. Die Stücke zu Kugeln formen und auf ein mit Backpapier
+  belegtes Backblech geben. Mit einem Messer in der Mitte leicht einschneiden, mit
+  dem restlichen Haferdrink bepinseln und mit Haferflocken sowie Mohnsamen bestreuen.
+- Die Teiglinge noch weitere 30 Minuten an einem warmen Ort ruhen lassen. Backofen
+  auf 200 Grad (Umluft 180 Grad) vorheizen. Danach das Blech in den Ofen schieben
+  und ein feuerfestes Gefäß mit etwas Wasser auf den Boden des Ofen geben. Dinkel-Vollkornbrötchen
+  ca. 20 Minuten backen bis sie goldgelb sind. Anschließend aus dem Ofen nehmen und
+  auskühlen lassen.
+import_date: '2026-02-26'

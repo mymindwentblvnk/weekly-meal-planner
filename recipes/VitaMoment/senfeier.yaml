@@ -5,8 +5,8 @@ description: Hartgekochte Eier in einer cremigen Senfsoße mit Buchweizen, verfe
 author: VitaMoment
 category: 🥦
 servings: 1
-prep_time: 10  # minutes
-cook_time: 25  # minutes
+prep_time: 10
+cook_time: 25
 tags:
 - Butter
 - Eier
@@ -14,7 +14,6 @@ tags:
 - Kartoffeln
 - Mehl
 - Zwiebel
-
 ingredients:
 - name: Eier
   amount: 3
@@ -34,7 +33,6 @@ ingredients:
   amount: 5 g
 - name: Kartoffeln
   amount: 200 g
-
 instructions:
 - Eier in kochendem Wasser ca. 6-10 Minuten kochen. Abschrecken und pellen.
 - Zucchiniwaschen und klein schneiden. Frühlingszwiebel putzen und in feine Ringe
@@ -47,3 +45,4 @@ instructions:
   ca. 15-20 Minuten köcheln.
 - Kartoffeln abgießen und auf einem Teller servieren. Eier halbieren und mit der Senfsoße
   über die Kartoffeln geben.
+import_date: '2026-02-26'

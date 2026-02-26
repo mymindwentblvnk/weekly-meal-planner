@@ -4,14 +4,13 @@ description: Unglaublich fluffiges, cremiges und aromatisches Rührei mit Butter
 author: Chefkoch
 category: 🥣
 servings: 2
-prep_time: 5  # minutes
-cook_time: 5  # minutes
+prep_time: 5
+cook_time: 5
 tags:
 - Butter
 - Eier
 - Kräuter
 - Öl
-
 ingredients:
 - name: Eier (groß)
   amount: 4
@@ -23,7 +22,6 @@ ingredients:
   amount: 1 Prise
 - name: Schwarzer Pfeffer
   amount: nach Geschmack
-
 instructions:
 - Pfanne sehr stark erhitzen und mit etwas Olivenöl einreiben (mit Küchenpapier verteilen)
 - Butter in der Mikrowelle bei 150 Watt schmelzen (nur leicht, nicht bräunen)
@@ -37,3 +35,4 @@ instructions:
   in eine vorgewärmte Schüssel geben
 - Das Ei gart in der Schüssel nach und bleibt saftig
 - Sofort servieren
+import_date: '2026-02-26'

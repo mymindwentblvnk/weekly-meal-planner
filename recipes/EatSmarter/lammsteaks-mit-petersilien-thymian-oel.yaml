@@ -1,5 +1,6 @@
 name: Lammsteaks mit Petersilien-Thymian-Öl
-description: Saftige Lammsteaks mit aromatischem Kräuteröl aus Petersilie und Thymian, serviert mit geröstetem Weißbrot
+description: Saftige Lammsteaks mit aromatischem Kräuteröl aus Petersilie und Thymian,
+  serviert mit geröstetem Weißbrot
 author: EatSmarter
 category: 🍲
 servings: 6
@@ -7,41 +8,45 @@ prep_time: 30
 cook_time: 30
 image: images/recipes/lammsteaks-mit-petersilien-thymian-oel.jpg
 tags:
-  - Brot
-  - Fleisch
-  - Knoblauch
-  - Kräuter
-  - Lamm
-  - Olivenöl
-  - Öl
-  - Petersilie
-  - Thymian
-  - Zitrone
-
+- Brot
+- Fleisch
+- Knoblauch
+- Kräuter
+- Lamm
+- Öl
+- Olivenöl
+- Petersilie
+- Thymian
+- Zitrone
 ingredients:
-  - name: Lammsteaks (à ca. 200 g)
-    amount: 6
-  - name: Salz
-    amount: nach Geschmack
-  - name: Pfeffer
-    amount: nach Geschmack
-  - name: Petersilie (glatt)
-    amount: 1.5 Bund
-  - name: Thymian
-    amount: 6 Zweige
-  - name: Knoblauchzehen
-    amount: 2
-  - name: Zitronenschale (unbehandelt, abgerieben)
-    amount: 1 TL
-  - name: Olivenöl
-    amount: 150 ml
-  - name: Weißbrot (in Scheiben)
-    amount: 6 Scheiben
-
+- name: Lammsteaks (à ca. 200 g)
+  amount: 6
+- name: Salz
+  amount: nach Geschmack
+- name: Pfeffer
+  amount: nach Geschmack
+- name: Petersilie (glatt)
+  amount: 1.5 Bund
+- name: Thymian
+  amount: 6 Zweige
+- name: Knoblauchzehen
+  amount: 2
+- name: Zitronenschale (unbehandelt, abgerieben)
+  amount: 1 TL
+- name: Olivenöl
+  amount: 150 ml
+- name: Weißbrot (in Scheiben)
+  amount: 6 Scheiben
 instructions:
-  - Die Lammsteaks waschen, trocken tupfen und mit Salz und Pfeffer würzen.
-  - Petersilie waschen, trocken schütteln und grob hacken. Thymianblättchen von den Stielen zupfen. Knoblauch schälen und fein hacken.
-  - Petersilie, Thymian, Knoblauch und Zitronenschale mit 100 ml Olivenöl in einem hohen Gefäß mit dem Pürierstab fein pürieren. Mit Salz und Pfeffer abschmecken.
-  - Das restliche Öl in einer großen Pfanne erhitzen. Die Lammsteaks darin bei mittlerer bis starker Hitze von jeder Seite 3-4 Minuten braten (je nach gewünschtem Gargrad). Aus der Pfanne nehmen und warm stellen.
-  - Die Weißbrotscheiben in der Pfanne im Bratfett kurz anrösten.
-  - Die Lammsteaks mit dem Petersilien-Thymian-Öl beträufeln und mit den gerösteten Brotscheiben servieren.
+- Die Lammsteaks waschen, trocken tupfen und mit Salz und Pfeffer würzen.
+- Petersilie waschen, trocken schütteln und grob hacken. Thymianblättchen von den
+  Stielen zupfen. Knoblauch schälen und fein hacken.
+- Petersilie, Thymian, Knoblauch und Zitronenschale mit 100 ml Olivenöl in einem hohen
+  Gefäß mit dem Pürierstab fein pürieren. Mit Salz und Pfeffer abschmecken.
+- Das restliche Öl in einer großen Pfanne erhitzen. Die Lammsteaks darin bei mittlerer
+  bis starker Hitze von jeder Seite 3-4 Minuten braten (je nach gewünschtem Gargrad).
+  Aus der Pfanne nehmen und warm stellen.
+- Die Weißbrotscheiben in der Pfanne im Bratfett kurz anrösten.
+- Die Lammsteaks mit dem Petersilien-Thymian-Öl beträufeln und mit den gerösteten
+  Brotscheiben servieren.
+import_date: '2026-02-26'

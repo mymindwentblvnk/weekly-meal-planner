@@ -1,10 +1,11 @@
 name: Burrata auf Aubergine und Zucchini
-description: Geröstetes Ofengemüse mit Aubergine und Zucchini in würziger Tomatensauce mit braunen Linsen, gekrönt mit cremiger Burrata.
+description: Geröstetes Ofengemüse mit Aubergine und Zucchini in würziger Tomatensauce
+  mit braunen Linsen, gekrönt mit cremiger Burrata.
 author: Instagram
 category: 🥦
 servings: 2
-prep_time: 10  # minutes
-cook_time: 50  # minutes
+prep_time: 10
+cook_time: 50
 tags:
 - Aubergine
 - Käse
@@ -13,7 +14,6 @@ tags:
 - Tomate
 - Zucchini
 - Zwiebel
-
 ingredients:
 - name: Aubergine
   amount: 1
@@ -39,10 +39,11 @@ ingredients:
   amount: 2
 - name: Ahornsirup
   amount: 1 TL
-
 instructions:
 - Aubergine, Zucchini und Zwiebel in grobe Stücke schneiden.
 - Knoblauch anziehen und klein hacken.
 - Alles in eine Ofernform geben und mit Olivenöl und Gewürzen marinieren.
-- Bei 220 Grad ca 30 Minuten backen, danach Linsen, Tomaten und Ahornsirup dazu geben und untermischen- nochmals 10 Minuten im Ofen backen.
+- Bei 220 Grad ca 30 Minuten backen, danach Linsen, Tomaten und Ahornsirup dazu geben
+  und untermischen- nochmals 10 Minuten im Ofen backen.
 - Petersilie und Basilikum hacken und unterheben und mit Burrata servieren.
+import_date: '2026-02-26'

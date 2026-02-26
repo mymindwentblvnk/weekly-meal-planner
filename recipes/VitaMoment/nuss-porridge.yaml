@@ -3,8 +3,8 @@ description: Cremiger Haferbrei mit Himbeeren, Erdnussmus und gerösteten Haseln
 author: VitaMoment
 category: 🥣
 servings: 1
-prep_time: 5  # minutes
-cook_time: 10  # minutes
+prep_time: 5
+cook_time: 10
 tags:
 - Beeren
 - Frühstück
@@ -13,7 +13,6 @@ tags:
 - Himbeeren
 - Milch
 - Nüsse
-
 ingredients:
 - name: Milch
   amount: 200 ml
@@ -29,10 +28,10 @@ ingredients:
   amount: 15 g
 - name: Haselnüsse (gehackt)
   amount: 10 g
-
 instructions:
 - Milch mit Haferflocken und einer Prise Salz in einen Topf geben, kurz aufkochen
   und vom Herd nehmen.
 - Etwa 10 Minuten quellen lassen.
 - Zimt unterrühren und in eine Schüssel füllen. Mit Himbeeren, Erdnussmus und Haselnüssen
   garnieren.
+import_date: '2026-02-26'

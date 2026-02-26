@@ -7,59 +7,65 @@ prep_time: 10
 cook_time: 25
 image: images/recipes/quinoa-gemuese-bowl.jpg
 tags:
-  - Chili
-  - Erdnüsse
-  - Granatapfel
-  - Joghurt
-  - Kurkuma
-  - Majoran
-  - Möhre
-  - Nüsse
-  - Paprika
-  - Petersilie
-  - Quinoa
-  - Sellerie
-  - Spinat
-  - Thymian
-
+- Chili
+- Erdnüsse
+- Granatapfel
+- Joghurt
+- Kurkuma
+- Majoran
+- Möhre
+- Nüsse
+- Paprika
+- Petersilie
+- Quinoa
+- Sellerie
+- Spinat
+- Thymian
 ingredients:
-  - name: Quinoa
-    amount: 100 g
-  - name: Kurkumapulver
-    amount: 1 TL
-  - name: Salz
-    amount: nach Geschmack
-  - name: Knollensellerie
-    amount: 300 g
-  - name: Möhre
-    amount: 1
-  - name: Olivenöl
-    amount: 1 TL
-  - name: Pfeffer
-    amount: nach Geschmack
-  - name: Paprikapulver
-    amount: nach Geschmack
-  - name: Majoran (getrocknet)
-    amount: nach Geschmack
-  - name: Thymian (getrocknet)
-    amount: nach Geschmack
-  - name: Petersilie
-    amount: 2 Stiele
-  - name: Joghurt (3,5% Fett)
-    amount: 100 g
-  - name: Erdnussmus
-    amount: 1 EL
-  - name: Chiliflocken
-    amount: 1 Prise
-  - name: Erdnusskerne
-    amount: 15 g
-  - name: Baby-Spinat
-    amount: 50 g
-  - name: Granatapfelkerne
-    amount: 30 g
-
+- name: Quinoa
+  amount: 100 g
+- name: Kurkumapulver
+  amount: 1 TL
+- name: Salz
+  amount: nach Geschmack
+- name: Knollensellerie
+  amount: 300 g
+- name: Möhre
+  amount: 1
+- name: Olivenöl
+  amount: 1 TL
+- name: Pfeffer
+  amount: nach Geschmack
+- name: Paprikapulver
+  amount: nach Geschmack
+- name: Majoran (getrocknet)
+  amount: nach Geschmack
+- name: Thymian (getrocknet)
+  amount: nach Geschmack
+- name: Petersilie
+  amount: 2 Stiele
+- name: Joghurt (3,5% Fett)
+  amount: 100 g
+- name: Erdnussmus
+  amount: 1 EL
+- name: Chiliflocken
+  amount: 1 Prise
+- name: Erdnusskerne
+  amount: 15 g
+- name: Baby-Spinat
+  amount: 50 g
+- name: Granatapfelkerne
+  amount: 30 g
 instructions:
-  - Quinoa abspülen, abtropfen und mit Kurkuma und der doppelten Menge kochendem Salzwasser 15 Minuten kochen, anschließend vom Herd nehmen und quellen lassen.
-  - Inzwischen Sellerie und Möhre schälen und in kleine Würfel schneiden. Öl in einer Pfanne erhitzen und Gemüsewürfel darin unter gelegentlichem Rühren etwa 10 Minuten bei mittlerer Hitze dünsten. Mit Salz, Pfeffer und Gewürzen würzen.
-  - Petersilie waschen, trocken schütteln und fein hacken. Joghurt mit Erdnussmus, Hälfte der Petersilie verrühren, mit Salz, Pfeffer und Chiliflocken würzen. Erdnusskerne hacken.
-  - Quinoa mit Spinat in zwei Schalen geben und das Gemüse darauf anrichten. Die Bowl mit der Sauce beträufeln und mit den Nüssen, der restlichen Petersilie sowie den Granatapfelkernen bestreuen.
+- Quinoa abspülen, abtropfen und mit Kurkuma und der doppelten Menge kochendem Salzwasser
+  15 Minuten kochen, anschließend vom Herd nehmen und quellen lassen.
+- Inzwischen Sellerie und Möhre schälen und in kleine Würfel schneiden. Öl in einer
+  Pfanne erhitzen und Gemüsewürfel darin unter gelegentlichem Rühren etwa 10 Minuten
+  bei mittlerer Hitze dünsten. Mit Salz, Pfeffer und Gewürzen würzen.
+- Petersilie waschen, trocken schütteln und fein hacken. Joghurt mit Erdnussmus, Hälfte
+  der Petersilie verrühren, mit Salz, Pfeffer und Chiliflocken würzen. Erdnusskerne
+  hacken.
+- Quinoa mit Spinat in zwei Schalen geben und das Gemüse darauf anrichten. Die Bowl
+  mit der Sauce beträufeln und mit den Nüssen, der restlichen Petersilie sowie den
+  Granatapfelkernen bestreuen.
+import_date: '2026-02-26'

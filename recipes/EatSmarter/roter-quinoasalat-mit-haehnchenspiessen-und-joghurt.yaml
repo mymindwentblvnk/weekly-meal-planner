@@ -1,5 +1,6 @@
 name: Roter Quinoasalat mit Hähnchenspießen und Joghurt
-description: Superfood-Rezept mit roter Quinoa, gegrillten Hähnchenspießen, frischem Gemüse und griechischem Joghurt
+description: Superfood-Rezept mit roter Quinoa, gegrillten Hähnchenspießen, frischem
+  Gemüse und griechischem Joghurt
 author: EatSmarter
 category: 🍲
 servings: 4
@@ -7,54 +8,59 @@ prep_time: 15
 cook_time: 15
 image: images/recipes/roter-quinoasalat-mit-haehnchenspiessen-und-joghurt.jpg
 tags:
-  - Fleisch
-  - Gurke
-  - Hähnchen
-  - Joghurt
-  - Kresse
-  - Olivenöl
-  - Öl
-  - Petersilie
-  - Quinoa
-  - Rapsöl
-  - Tomate
-  - Zitrone
-  - Zwiebel
-
+- Fleisch
+- Gurke
+- Hähnchen
+- Joghurt
+- Kresse
+- Öl
+- Olivenöl
+- Petersilie
+- Quinoa
+- Rapsöl
+- Tomate
+- Zitrone
+- Zwiebel
 ingredients:
-  - name: Rote Quinoa
-    amount: 300 g
-  - name: Salz
-    amount: nach Geschmack
-  - name: Hähnchenbrustfilet
-    amount: 600 g
-  - name: Pfeffer
-    amount: nach Geschmack
-  - name: Salatgurke
-    amount: 1
-  - name: Tomaten
-    amount: 5
-  - name: Rote Zwiebel
-    amount: 1
-  - name: Petersilie
-    amount: 10 g
-  - name: Zitronensaft
-    amount: 0.5 Zitrone
-  - name: Olivenöl
-    amount: 4 EL
-  - name: Rapsöl
-    amount: 2 EL
-  - name: Griechischer Joghurt (10% Fett)
-    amount: 150 g
-  - name: Kresse
-    amount: 1 Kästchen
-  - name: Holzspieße
-    amount: 8 Stück
-
+- name: Rote Quinoa
+  amount: 300 g
+- name: Salz
+  amount: nach Geschmack
+- name: Hähnchenbrustfilet
+  amount: 600 g
+- name: Pfeffer
+  amount: nach Geschmack
+- name: Salatgurke
+  amount: 1
+- name: Tomaten
+  amount: 5
+- name: Rote Zwiebel
+  amount: 1
+- name: Petersilie
+  amount: 10 g
+- name: Zitronensaft
+  amount: 0.5 Zitrone
+- name: Olivenöl
+  amount: 4 EL
+- name: Rapsöl
+  amount: 2 EL
+- name: Griechischer Joghurt (10% Fett)
+  amount: 150 g
+- name: Kresse
+  amount: 1 Kästchen
+- name: Holzspieße
+  amount: 8 Stück
 instructions:
-  - Quinoa mit Wasser abspülen, in der 2,5-fachen Menge Salzwasser in etwa 15 Minuten bissfest garen. Dann abkühlen lassen.
-  - Inzwischen Hähnchenbrustfilet abspülen, trocken tupfen und in Würfel schneiden. Würfel auf 8 Spieße stecken und mit Salz und Pfeffer würzen.
-  - Gurke und Tomaten putzen, waschen und fein würfeln. Zwiebel schälen und hacken. Petersilie waschen, trocken schütteln und hacken.
-  - Quinoa mit Gurke, Tomaten, Zwiebel, Petersilie, Zitronensaft und Olivenöl mischen. Mit Salz und Pfeffer abschmecken.
-  - Rapsöl in einer Pfanne erhitzen. Hähnchenspieße darin von allen Seiten 10 Minuten bei mittlerer Hitze braten.
-  - Quinoasalat auf Tellern anrichten, Spieße daraufgeben und mit Joghurt beträufeln. Kresse vom Beet schneiden und die Spieße damit garnieren.
+- Quinoa mit Wasser abspülen, in der 2,5-fachen Menge Salzwasser in etwa 15 Minuten
+  bissfest garen. Dann abkühlen lassen.
+- Inzwischen Hähnchenbrustfilet abspülen, trocken tupfen und in Würfel schneiden.
+  Würfel auf 8 Spieße stecken und mit Salz und Pfeffer würzen.
+- Gurke und Tomaten putzen, waschen und fein würfeln. Zwiebel schälen und hacken.
+  Petersilie waschen, trocken schütteln und hacken.
+- Quinoa mit Gurke, Tomaten, Zwiebel, Petersilie, Zitronensaft und Olivenöl mischen.
+  Mit Salz und Pfeffer abschmecken.
+- Rapsöl in einer Pfanne erhitzen. Hähnchenspieße darin von allen Seiten 10 Minuten
+  bei mittlerer Hitze braten.
+- Quinoasalat auf Tellern anrichten, Spieße daraufgeben und mit Joghurt beträufeln.
+  Kresse vom Beet schneiden und die Spieße damit garnieren.
+import_date: '2026-02-26'

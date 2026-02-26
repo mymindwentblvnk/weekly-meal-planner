@@ -1,14 +1,14 @@
 name: Eiweißbrot
-description: Proteinreiches Dinkel-Skyr-Brot, einfach geknetet und goldbraun gebacken - perfekt für eine gesunde Brotzeit.
+description: Proteinreiches Dinkel-Skyr-Brot, einfach geknetet und goldbraun gebacken
+  - perfekt für eine gesunde Brotzeit.
 author: Instagram
 category: 🍞
 servings: 1
-prep_time: 10  # minutes
-cook_time: 50  # minutes
+prep_time: 10
+cook_time: 50
 tags:
 - Mehl
 - Skyr
-
 ingredients:
 - name: Dinkelmehl
   amount: 350 g
@@ -20,9 +20,9 @@ ingredients:
   amount: 10 g
 - name: Brotgewürz
   amount: etwas
-
 instructions:
 - Alle Zutaten vermengen und für ein paar Minuten gut durch kneten.
 - Danach ein Brot formen und ein wenig mit Olivenöl bestreichen.
 - Bei 220° Umluft circa 20 Minuten backen.
 - Frisch genießen.
+import_date: '2026-02-26'

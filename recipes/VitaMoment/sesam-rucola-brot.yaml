@@ -3,8 +3,8 @@ description: Herzhaftes Brot mit Rucola, Haferflocken und Sesam.
 author: VitaMoment
 category: 🍞
 servings: 1
-prep_time: 10  # minutes
-cook_time: 50  # minutes
+prep_time: 10
+cook_time: 50
 tags:
 - Eier
 - Frühstück
@@ -14,7 +14,6 @@ tags:
 - Salat
 - Sesam
 - Tomate
-
 ingredients:
 - name: Rucola
   amount: 60 g
@@ -30,7 +29,6 @@ ingredients:
   amount: 3
 - name: Sesam
   amount: 40 g
-
 instructions:
 - Backofen auf 180 °C Ober-/Unterhitze vorheizen.
 - Rucola und getrocknete Tomaten klein schneiden.
@@ -39,3 +37,4 @@ instructions:
 - Brotlaib formen, mit etwas Wasser bestreichen und Sesam bestreuen.
 - Brot auf ein mit Backpapier ausgelegtes Backblech legen und für etwa 50 Minuten
   backen.
+import_date: '2026-02-26'

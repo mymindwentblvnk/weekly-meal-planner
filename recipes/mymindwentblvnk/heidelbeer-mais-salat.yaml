@@ -3,8 +3,8 @@ description: Erfrischender Sommersalat mit Heidelbeeren, Mais und Koriander
 author: mymindwentblvnk
 category: 🥦
 servings: 2
-prep_time: 10  # minutes
-cook_time: 20  # minutes
+prep_time: 10
+cook_time: 20
 tags:
 - Gurke
 - Heidelbeeren
@@ -14,7 +14,6 @@ tags:
 - Mais
 - Olivenöl
 - Zwiebeln
-
 ingredients:
 - name: Maiskolben
   amount: 2
@@ -34,10 +33,10 @@ ingredients:
   amount: 2 TL
 - name: Salz und Pfeffer
   amount: nach Geschmack
-
 instructions:
 - Maiskolben in Salzwasser 15-20 Minuten kochen.
 - Heidelbeeren waschen. Gurke längs halbieren und in Scheiben schneiden. Zwiebel fein
   würfeln.
 - Für das Dressing Limettensaft, Olivenöl, Honig, Salz und Pfeffer verrühren.
 - Alle Zutaten vermengen und mit frischem Koriander garnieren.
+import_date: '2026-02-26'

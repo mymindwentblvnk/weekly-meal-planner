@@ -4,8 +4,8 @@ description: Zartes Putengeschnetzeltes in cremiger Frischkäsesauce mit Wildrei
 author: VitaMoment
 category: 🥩
 servings: 1
-prep_time: 10  # minutes
-cook_time: 30  # minutes
+prep_time: 10
+cook_time: 30
 tags:
 - Butter
 - Fleisch
@@ -16,7 +16,6 @@ tags:
 - Paprika
 - Pute
 - Reis
-
 ingredients:
 - name: Wildreis
   amount: 60 g
@@ -32,7 +31,6 @@ ingredients:
   amount: 1 Prise
 - name: Frischkäse (Doppelrahmstufe)
   amount: 50 g
-
 instructions:
 - Wildreis nach Packungsbeilage kochen.
 - Putenbrustfilet in Streifen schneiden.
@@ -44,3 +42,4 @@ instructions:
   mit Paprikapulver, Salz und Pfeffer würzen. Frischkäse unterrühren und etwa 2 Minuten
   köcheln lassen.
 - Putengeschnetzeltes mit Reis und Möhren servieren.
+import_date: '2026-02-26'

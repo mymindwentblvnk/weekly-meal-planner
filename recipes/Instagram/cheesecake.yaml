@@ -4,15 +4,14 @@ description: Proteinreicher Low-Carb Cheesecake mit Magerquark und Frischkäse, 
 author: Instagram
 category: 🥣
 servings: 1
-prep_time: 15  # minutes
-cook_time: 50  # minutes
+prep_time: 15
+cook_time: 50
 tags:
 - Eier
 - Frischkäse
 - Käse
 - Milch
 - Quark
-
 ingredients:
 - name: Magerquark
   amount: 1000 g
@@ -26,9 +25,11 @@ ingredients:
   amount: 2 Päckchen
 - name: Eier
   amount: 4
-
 instructions:
 - Backofen auf 180°C Umluft vorheizen, eine 23cm Springform mit Butter gut einfetten.
-- Alle Zutaten mit dem Mixer gut verrühren und eventuell nach süßen. Masse in die Springform gießen.
-- Für 50min in den Backofen geben. Ich decke ihn nach der Halfte der Zeit immer ab, damit er nicht zu dunkel wird.
+- Alle Zutaten mit dem Mixer gut verrühren und eventuell nach süßen. Masse in die
+  Springform gießen.
+- Für 50min in den Backofen geben. Ich decke ihn nach der Halfte der Zeit immer ab,
+  damit er nicht zu dunkel wird.
 - Lange genug abkühlen lassen(am besten im Kühlschrank) und genießen
+import_date: '2026-02-26'

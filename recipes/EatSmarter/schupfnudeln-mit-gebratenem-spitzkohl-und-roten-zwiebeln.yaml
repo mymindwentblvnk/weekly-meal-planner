@@ -1,5 +1,6 @@
 name: Schupfnudeln mit gebratenem Spitzkohl und roten Zwiebeln
-description: Vegetarische Variante des schwäbischen Klassikers mit selbstgemachten Schupfnudeln aus Kartoffeln und Dinkelmehl, serviert mit gebratenem Spitzkohl
+description: Vegetarische Variante des schwäbischen Klassikers mit selbstgemachten
+  Schupfnudeln aus Kartoffeln und Dinkelmehl, serviert mit gebratenem Spitzkohl
 author: EatSmarter
 category: 🍲
 servings: 4
@@ -7,49 +8,59 @@ prep_time: 30
 cook_time: 70
 image: images/recipes/schupfnudeln-mit-gebratenem-spitzkohl-und-roten-zwiebeln.jpg
 tags:
-  - Butter
-  - Dinkel
-  - Ei
-  - Kartoffeln
-  - Kohl
-  - Mehl
-  - Muskatnuss
-  - Olivenöl
-  - Öl
-  - Spitzkohl
-  - Zwiebel
-
+- Butter
+- Dinkel
+- Ei
+- Kartoffeln
+- Kohl
+- Mehl
+- Muskatnuss
+- Öl
+- Olivenöl
+- Spitzkohl
+- Zwiebel
 ingredients:
-  - name: Kartoffeln (mehligkochend)
-    amount: 800 g
-  - name: Dinkelmehl Type 1050
-    amount: 150 g
-  - name: Dinkelmehl Type 1050 (zum Bearbeiten)
-    amount: 2 EL
-  - name: Ei
-    amount: 1
-  - name: Salz
-    amount: nach Geschmack
-  - name: Muskatnuss
-    amount: nach Geschmack
-  - name: Rote Zwiebel
-    amount: 1
-  - name: Spitzkohl (klein)
-    amount: 1 (400 g)
-  - name: Olivenöl
-    amount: 1 EL
-  - name: Apfelessig
-    amount: 1 TL
-  - name: Gemüsebrühe
-    amount: 50 ml
-  - name: Pfeffer
-    amount: nach Geschmack
-  - name: Butter
-    amount: 2 EL (30 g)
-  - name: Rosa Pfefferbeeren (gestoßen)
-    amount: 2 TL
-
+- name: Kartoffeln (mehligkochend)
+  amount: 800 g
+- name: Dinkelmehl Type 1050
+  amount: 150 g
+- name: Dinkelmehl Type 1050 (zum Bearbeiten)
+  amount: 2 EL
+- name: Ei
+  amount: 1
+- name: Salz
+  amount: nach Geschmack
+- name: Muskatnuss
+  amount: nach Geschmack
+- name: Rote Zwiebel
+  amount: 1
+- name: Spitzkohl (klein)
+  amount: 1 (400 g)
+- name: Olivenöl
+  amount: 1 EL
+- name: Apfelessig
+  amount: 1 TL
+- name: Gemüsebrühe
+  amount: 50 ml
+- name: Pfeffer
+  amount: nach Geschmack
+- name: Butter
+  amount: 2 EL (30 g)
+- name: Rosa Pfefferbeeren (gestoßen)
+  amount: 2 TL
 instructions:
-  - Kartoffeln waschen und in Wasser 25-30 Minuten kochen. Dann abgießen, 5 Minuten abkühlen lassen, pellen und durch eine Kartoffelpresse drücken. Kartoffeln mit Mehl, Ei, Salz und frisch abgeriebenem Muskat verkneten. Teig 15 Minuten ruhen lassen.
-  - Kartoffelteig mit mehligen Händen zu fingerförmigen ca. 6-7 cm langen Schupfnudeln formen. Diese in leicht siedendem Salzwasser in 4-5 Minuten gar ziehen lassen, bis die Schupfnudeln oben schwimmen. Mit einem Schaumlöffel herausnehmen, abschrecken und abtropfen lassen.
-  - Inzwischen Zwiebel schälen, halbieren und in Streifen schneiden. Spitzkohl putzen, Strunk herausschneiden, waschen und in feine Streifen schneiden. Öl in einer Pfanne erhitzen. Zwiebel darin bei mittlerer Hitze glasig dünsten. Spitzkohl zugeben, 2 Minuten mitbraten und mit Essig und Brühe ablöschen. Mit Salz und Pfeffer würzen und aus der Pfanne nehmen. Butter schmelzen und Schupfnudeln portionsweise darin bei mittlerer Hitze 3-5 Minuten braten. Gemüse zugeben, mischen und mit Pfefferbeeren dekoriert servieren.
+- Kartoffeln waschen und in Wasser 25-30 Minuten kochen. Dann abgießen, 5 Minuten
+  abkühlen lassen, pellen und durch eine Kartoffelpresse drücken. Kartoffeln mit Mehl,
+  Ei, Salz und frisch abgeriebenem Muskat verkneten. Teig 15 Minuten ruhen lassen.
+- Kartoffelteig mit mehligen Händen zu fingerförmigen ca. 6-7 cm langen Schupfnudeln
+  formen. Diese in leicht siedendem Salzwasser in 4-5 Minuten gar ziehen lassen, bis
+  die Schupfnudeln oben schwimmen. Mit einem Schaumlöffel herausnehmen, abschrecken
+  und abtropfen lassen.
+- Inzwischen Zwiebel schälen, halbieren und in Streifen schneiden. Spitzkohl putzen,
+  Strunk herausschneiden, waschen und in feine Streifen schneiden. Öl in einer Pfanne
+  erhitzen. Zwiebel darin bei mittlerer Hitze glasig dünsten. Spitzkohl zugeben, 2
+  Minuten mitbraten und mit Essig und Brühe ablöschen. Mit Salz und Pfeffer würzen
+  und aus der Pfanne nehmen. Butter schmelzen und Schupfnudeln portionsweise darin
+  bei mittlerer Hitze 3-5 Minuten braten. Gemüse zugeben, mischen und mit Pfefferbeeren
+  dekoriert servieren.
+import_date: '2026-02-26'

@@ -1,5 +1,6 @@
 name: Quinoasalat mit Spinat, Grapefruit und Garnelen
-description: Frischer Quinoasalat mit Babyspinat, saftiger Grapefruit und gebratenen Garnelen, verfeinert mit Minze und Limettendressing
+description: Frischer Quinoasalat mit Babyspinat, saftiger Grapefruit und gebratenen
+  Garnelen, verfeinert mit Minze und Limettendressing
 author: EatSmarter
 category: 🍲
 servings: 4
@@ -7,53 +8,60 @@ prep_time: 20
 cook_time: 10
 image: images/recipes/quinoasalat-mit-spinat-grapefruit-und-garnelen.jpg
 tags:
-  - Fisch
-  - Garnelen
-  - Grapefruit
-  - Honig
-  - Knoblauch
-  - Kräuter
-  - Limette
-  - Minze
-  - Obst
-  - Olivenöl
-  - Öl
-  - Quinoa
-  - Schalotte
-  - Spinat
-
+- Fisch
+- Garnelen
+- Grapefruit
+- Honig
+- Knoblauch
+- Kräuter
+- Limette
+- Minze
+- Obst
+- Öl
+- Olivenöl
+- Quinoa
+- Schalotte
+- Spinat
 ingredients:
-  - name: Quinoa
-    amount: 200 g
-  - name: Gemüsebrühe
-    amount: 400 ml
-  - name: Garnelen (geschält)
-    amount: 300 g
-  - name: Olivenöl
-    amount: 3 EL
-  - name: Knoblauchzehe
-    amount: 1
-  - name: Salz
-    amount: nach Geschmack
-  - name: Pfeffer
-    amount: nach Geschmack
-  - name: Grapefruit (rosa)
-    amount: 2
-  - name: Schalotte
-    amount: 1
-  - name: Limettensaft
-    amount: 2 EL
-  - name: Honig
-    amount: 1 TL
-  - name: Babyspinat
-    amount: 100 g
-  - name: Minze (frisch)
-    amount: 0.5 Bund
-
+- name: Quinoa
+  amount: 200 g
+- name: Gemüsebrühe
+  amount: 400 ml
+- name: Garnelen (geschält)
+  amount: 300 g
+- name: Olivenöl
+  amount: 3 EL
+- name: Knoblauchzehe
+  amount: 1
+- name: Salz
+  amount: nach Geschmack
+- name: Pfeffer
+  amount: nach Geschmack
+- name: Grapefruit (rosa)
+  amount: 2
+- name: Schalotte
+  amount: 1
+- name: Limettensaft
+  amount: 2 EL
+- name: Honig
+  amount: 1 TL
+- name: Babyspinat
+  amount: 100 g
+- name: Minze (frisch)
+  amount: 0.5 Bund
 instructions:
-  - Quinoa in einem Sieb kalt abspülen. In einem Topf mit der Gemüsebrühe aufkochen und bei kleiner Hitze zugedeckt ca. 10 Minuten garen, bis die Flüssigkeit aufgesogen ist. Vom Herd nehmen und abkühlen lassen.
-  - Die Garnelen waschen und trocken tupfen. 1 EL Olivenöl in einer Pfanne erhitzen. Den Knoblauch schälen und durch eine Presse dazudrücken. Die Garnelen darin bei mittlerer Hitze 2-3 Minuten braten, bis sie rosa sind. Mit Salz und Pfeffer würzen und beiseite stellen.
-  - Die Grapefruits so schälen, dass die weiße Haut vollständig entfernt wird. Die Filets zwischen den Trennhäuten herausschneiden und den Saft dabei auffangen.
-  - Die Schalotte schälen und fein würfeln. Mit 3 EL aufgefangenem Grapefruitsaft, Limettensaft, Honig und 2 EL Olivenöl verrühren. Mit Salz und Pfeffer abschmecken.
-  - Den abgekühlten Quinoa mit dem Dressing vermengen. Babyspinat waschen und trocken schleudern, Minze waschen und grob hacken.
-  - Quinoa mit Spinat, Grapefruitfilets, Garnelen und Minze mischen. Servieren.
+- Quinoa in einem Sieb kalt abspülen. In einem Topf mit der Gemüsebrühe aufkochen
+  und bei kleiner Hitze zugedeckt ca. 10 Minuten garen, bis die Flüssigkeit aufgesogen
+  ist. Vom Herd nehmen und abkühlen lassen.
+- Die Garnelen waschen und trocken tupfen. 1 EL Olivenöl in einer Pfanne erhitzen.
+  Den Knoblauch schälen und durch eine Presse dazudrücken. Die Garnelen darin bei
+  mittlerer Hitze 2-3 Minuten braten, bis sie rosa sind. Mit Salz und Pfeffer würzen
+  und beiseite stellen.
+- Die Grapefruits so schälen, dass die weiße Haut vollständig entfernt wird. Die Filets
+  zwischen den Trennhäuten herausschneiden und den Saft dabei auffangen.
+- Die Schalotte schälen und fein würfeln. Mit 3 EL aufgefangenem Grapefruitsaft, Limettensaft,
+  Honig und 2 EL Olivenöl verrühren. Mit Salz und Pfeffer abschmecken.
+- Den abgekühlten Quinoa mit dem Dressing vermengen. Babyspinat waschen und trocken
+  schleudern, Minze waschen und grob hacken.
+- Quinoa mit Spinat, Grapefruitfilets, Garnelen und Minze mischen. Servieren.
+import_date: '2026-02-26'

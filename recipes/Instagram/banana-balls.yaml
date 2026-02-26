@@ -1,10 +1,11 @@
 name: Banana Balls
-description: Gesunde Energy Balls aus reifen Bananen, Nussmus und gemahlenen Mandeln, überzogen mit zuckerfreier dunkler Schokolade.
+description: Gesunde Energy Balls aus reifen Bananen, Nussmus und gemahlenen Mandeln,
+  überzogen mit zuckerfreier dunkler Schokolade.
 author: Instagram
 category: 🥣
 servings: 1
-prep_time: 5  # minutes
-cook_time: 15  # minutes
+prep_time: 5
+cook_time: 15
 tags:
 - Banane
 - Mandeln
@@ -12,7 +13,6 @@ tags:
 - Obst
 - Schokolade
 - Zimt
-
 ingredients:
 - name: Bananen (reif)
   amount: 2
@@ -28,11 +28,12 @@ ingredients:
   amount: etwas
 - name: Meersalz
   amount: etwas
-
 instructions:
 - Alle Zutaten vermengen und runde Kugeln formen.
 - Diese dann kurz ins Gefrierfach geben.
 - In der Zwischenzeit die Schokolade erwärmen, sodass sie flüssig wird.
-- Die Kugeln nach ca. 1-2 Stunden aus dem Gefrierfach nehmen und mit der Schokolade überziehen.
+- Die Kugeln nach ca. 1-2 Stunden aus dem Gefrierfach nehmen und mit der Schokolade
+  überziehen.
 - Bei Bedarf noch mit etwas Meersalz bestreuen.
 - Anschließend im Kühlschrank lagern.
+import_date: '2026-02-26'

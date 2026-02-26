@@ -4,8 +4,8 @@ description: Fluffige Buchweizen-Pfannkuchen mit frischer Himbeer-Joghurt-Füllu
 author: VitaMoment
 category: 🥣
 servings: 2
-prep_time: 5  # minutes
-cook_time: 15  # minutes
+prep_time: 5
+cook_time: 15
 tags:
 - Beeren
 - Eier
@@ -17,7 +17,6 @@ tags:
 - Mehl
 - Milch
 - Öl
-
 ingredients:
 - name: Eier
   amount: 2
@@ -35,7 +34,6 @@ ingredients:
   amount: 150 g
 - name: Kokosöl
   amount: 10 g
-
 instructions:
 - Eier, Haferdrink, Buchweizenmehl, Honig und etwas Salz in einer Schüssel zu einem
   Teig verarbeiten.
@@ -43,3 +41,4 @@ instructions:
 - Öl in einer Pfanne erhitzen und beide Pfannkuchen bei geringer Temperatur goldbraun
   ausbacken.
 - Auf einem Teller servieren und mit Himbeer-Joghurt toppen.
+import_date: '2026-02-26'

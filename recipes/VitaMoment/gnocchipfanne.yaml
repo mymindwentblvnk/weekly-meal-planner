@@ -3,8 +3,8 @@ description: Gebratene Gnocchi mit Blumenkohl, Brokkoli und Fenchelsaat.
 author: VitaMoment
 category: 🥦
 servings: 1
-prep_time: 10  # minutes
-cook_time: 10  # minutes
+prep_time: 10
+cook_time: 10
 tags:
 - Blumenkohl
 - Brokkoli
@@ -15,7 +15,6 @@ tags:
 - Öl
 - Pasta
 - Schafskäse
-
 ingredients:
 - name: Blumenkohl
   amount: 100 g
@@ -33,10 +32,10 @@ ingredients:
   amount: 75 g
 - name: Mandeln (gehobelt)
   amount: 15 g
-
 instructions:
 - Blumenkohl und Brokkoli waschen, Blätter und Strunk entfernen. Kleine Röschen abtrennen.
 - Kokosöl in einer Pfanne erhitzen, Blumenkohl und Brokkoli darin rundherum 2-3 Minuten
   scharf anbra-ten. Mit Salz, Pfeffer, Fenchelsaat und Thymian würzen.
 - Gnocchi in die Pfanne geben und 2-3 Minuten anbraten. Schafskäse unterrühren.
 - Auf einen tiefen Teller geben und mit gehobelten Mandeln garnieren.
+import_date: '2026-02-26'

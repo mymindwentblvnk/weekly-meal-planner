@@ -4,8 +4,8 @@ description: Ofengeröstetes Gemüse mit Zucchini, Aubergine, Süßkartoffel und
 author: VitaMoment
 category: 🥦
 servings: 1
-prep_time: 15  # minutes
-cook_time: 25  # minutes
+prep_time: 15
+cook_time: 25
 tags:
 - Aubergine
 - Avocado
@@ -18,7 +18,6 @@ tags:
 - Süßkartoffel
 - Zucchini
 - Zwiebel
-
 ingredients:
 - name: Zucchini
   amount: 100 g
@@ -42,7 +41,6 @@ ingredients:
   amount: 65 g
 - name: Körniger Frischkäse
   amount: 100 g
-
 instructions:
 - Backofen auf 220 °C Ober-/Unterhitze vorheizen.
 - Zucchini, Aubergine, Süßkartoffel und Paprika waschen und in Streifen schneiden.
@@ -54,3 +52,4 @@ instructions:
 - In der Zwischenzeit den Limettensaft, Avocado, Frischkäse, Salz und Pfeffer zu einem
   Dip anrühren.
 - Ofengemüse mit Avocado-Dip servieren.
+import_date: '2026-02-26'

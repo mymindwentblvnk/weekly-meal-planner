@@ -4,8 +4,8 @@ description: Gerollter Gemüseteig gefüllt mit Räucherlachs, Frischkäse und f
 author: VitaMoment
 category: 🐟
 servings: 1
-prep_time: 15  # minutes
-cook_time: 40  # minutes
+prep_time: 15
+cook_time: 40
 tags:
 - Eier
 - Fisch
@@ -16,7 +16,6 @@ tags:
 - Lachs
 - Zucchini
 - Zwiebel
-
 ingredients:
 - name: Zucchini
   amount: 200 g
@@ -34,7 +33,6 @@ ingredients:
   amount: 1 EL
 - name: Schnittlauch (getrocknet)
   amount: 1 EL
-
 instructions:
 - Backofen auf 180 °C Umluft vorheizen.
 - Zucchini und Möhren schälen, reiben und salzen, kurz ziehen lassen und anschließend
@@ -51,3 +49,4 @@ instructions:
   genießen.
 - Die 2. Portion lässt sich perfekt in Frischhaltefolie im Kühlschrank für den nächsten
   Tag aufbewahren.
+import_date: '2026-02-26'

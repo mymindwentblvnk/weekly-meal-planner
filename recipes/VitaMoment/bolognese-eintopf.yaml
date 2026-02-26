@@ -4,8 +4,8 @@ description: Herzhafter Eintopf mit Rinderhackfleisch, Gemüse und Buchweizenpas
 author: VitaMoment
 category: 🥩
 servings: 1
-prep_time: 10  # minutes
-cook_time: 30  # minutes
+prep_time: 10
+cook_time: 30
 tags:
 - Butter
 - Fleisch
@@ -20,7 +20,6 @@ tags:
 - Sellerie
 - Tomate
 - Zwiebel
-
 ingredients:
 - name: Zwiebel
   amount: 1
@@ -46,7 +45,6 @@ ingredients:
   amount: nach Gefühl
 - name: Parmesan
   amount: mehr ist mehr
-
 instructions:
 - Zwiebel schälen und würfeln. Knoblauch pressen. Möhren und Petersilienwurzel schälen
   und in kleine Stückchen schneiden.
@@ -57,3 +55,4 @@ instructions:
 - Buchweizennudeln in die Bolognese geben und für weitere 7-10 Minuten garen.
 - Petersilie waschen und fein hacken.
 - Eintopf mit Parmesan und Petersilie servieren.
+import_date: '2026-02-26'
