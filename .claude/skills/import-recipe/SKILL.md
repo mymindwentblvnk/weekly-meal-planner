@@ -187,6 +187,7 @@ category: 🍲
 servings: 4
 prep_time: 15  # minutes
 cook_time: 30  # minutes
+import_date: 2026-02-26  # Date when recipe was imported (YYYY-MM-DD)
 image: images/recipes/recipe-name.jpg  # optional - omit to use placeholder
 tags:
   - Tag1
@@ -203,7 +204,7 @@ instructions:
   - Step 2
 ```
 
-**Note:** The `image` field should reference the optimized image. Images are automatically resized to max 800px (maintains aspect ratio) using `sips` to reduce file size. If the image download/optimization fails or no image is available, omit this field and a placeholder will be used.
+**Note:** The `import_date` field should be set to today's date in YYYY-MM-DD format. The `image` field should reference the optimized image. Images are automatically resized to max 800px (maintains aspect ratio) using `sips` to reduce file size. If the image download/optimization fails or no image is available, omit this field and a placeholder will be used.
 
 ### Step 12: Regenerate HTML and Commit
 
