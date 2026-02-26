@@ -1,0 +1,48 @@
+name: Granatapfel-Wrap
+description: Vollkorn-Wrap mit gegrilltem Hähnchen, Granatapfelkernen und Skyr - ein proteinreiches Recovery-Snack für Sportler
+author: DFB Akademie
+category: 🍲
+servings: 1
+prep_time: 10
+cook_time: 0
+import_date: 2026-02-26
+image: images/recipes/granatapfel-wrap.jpg
+tags:
+  - Fleisch
+  - Geflügel
+  - Granatapfel
+  - Joghurt
+  - Käse
+  - Kerne
+  - Leinsamen
+  - Obst
+  - Pfeffer
+  - Salat
+  - Salz
+
+ingredients:
+  - name: Hähnchenbrust (gegrillt)
+    amount: 60 g
+  - name: Vollkorn-Tortilla-Wrap
+    amount: 1 Stück
+  - name: Skyr
+    amount: 1.5 EL
+  - name: Blattsalat (gemischt)
+    amount: 10 g
+  - name: Granatapfelkerne
+    amount: 30 g
+  - name: Cheddar
+    amount: 10 g
+  - name: Leinsamen
+    amount: 1 TL
+  - name: Salz
+    amount: 1 Prise
+  - name: Pfeffer (schwarz)
+    amount: 1 Prise
+
+instructions:
+  - Den Wrap in der Mikrowelle oder in einer Pfanne für 1-2 Minuten erwärmen.
+  - Den erwärmten Wrap mit Skyr bestreichen.
+  - Hähnchen, Käse, Blattsalat und Granatapfelkerne darauf verteilen.
+  - Leinsamen darüber streuen und mit Salz und Pfeffer würzen.
+  - Den Wrap einrollen und genießen.
