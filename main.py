@@ -37,9 +37,23 @@ def main():
     recipes_data = []
     errors = []
 
+    # Helper function to get import_date from recipe file
+    def get_import_date(yaml_file):
+        try:
+            with open(yaml_file, 'r', encoding='utf-8') as f:
+                recipe = yaml.safe_load(f)
+                import_date = recipe.get('import_date')
+                if import_date:
+                    return str(import_date)  # Return as string for sorting (YYYY-MM-DD format)
+        except Exception:
+            pass
+        # Fallback to modification time if import_date not available
+        return '1970-01-01'  # Very old date for recipes without import_date
+
     # Process all YAML files in recipes directory (including subdirectories)
-    # Sort by modification time (oldest first, so newest get highest index)
-    yaml_files = sorted(RECIPES_DIR.glob("**/*.yaml"), key=lambda p: p.stat().st_mtime)
+    # Sort by import_date (oldest first, so newest get highest index)
+    # This allows the UI to show most recently imported recipes first
+    yaml_files = sorted(RECIPES_DIR.glob("**/*.yaml"), key=get_import_date)
 
     for yaml_file in yaml_files:
         print(f"Processing {yaml_file.name}...")
