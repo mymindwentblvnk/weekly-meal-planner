@@ -244,9 +244,30 @@ def check_tags_exist(recipe_file):
     }
 
 
+def check_import_date(recipe_file):
+    """
+    Check if a recipe has an import_date field.
+
+    Args:
+        recipe_file: Path to recipe YAML file
+
+    Returns:
+        dict with 'has_import_date' (bool) and 'import_date' (str or None)
+    """
+    with open(recipe_file, 'r', encoding='utf-8') as f:
+        recipe = yaml.safe_load(f)
+
+    has_import_date = 'import_date' in recipe and recipe['import_date']
+
+    return {
+        'has_import_date': has_import_date,
+        'import_date': recipe.get('import_date', None)
+    }
+
+
 def validate_all_recipes(recipes_dir='recipes'):
     """
-    Validate all recipes for quality issues (tags, hierarchical tags, costs, descriptions).
+    Validate all recipes for quality issues (tags, hierarchical tags, descriptions, import_date).
 
     Args:
         recipes_dir: Directory to search for recipe YAML files
@@ -259,6 +280,7 @@ def validate_all_recipes(recipes_dir='recipes'):
         'total': len(recipe_files),
         'missing_description': [],
         'missing_tags': [],
+        'missing_import_date': [],
         'unsorted_tags': [],
         'missing_hierarchical': [],
         'valid': []
@@ -275,6 +297,11 @@ def validate_all_recipes(recipes_dir='recipes'):
             tags_check = check_tags_exist(recipe_file)
             if not tags_check['has_tags']:
                 results['missing_tags'].append(str(recipe_file))
+
+            # Check import_date exists
+            import_date_check = check_import_date(recipe_file)
+            if not import_date_check['has_import_date']:
+                results['missing_import_date'].append(str(recipe_file))
 
             # Check tag sorting (only if tags exist)
             sort_check = check_tag_sorting(recipe_file)
@@ -299,6 +326,7 @@ def validate_all_recipes(recipes_dir='recipes'):
             # If all checks pass, add to valid
             if (desc_check['has_description'] and
                 tags_check['has_tags'] and
+                import_date_check['has_import_date'] and
                 sort_check['sorted'] and
                 not missing):
                 results['valid'].append(str(recipe_file))
@@ -329,6 +357,7 @@ if __name__ == '__main__':
     print(f"Valid recipes: {len(results['valid'])}")
     print(f"Recipes missing description: {len(results['missing_description'])}")
     print(f"Recipes missing tags: {len(results['missing_tags'])}")
+    print(f"Recipes missing import_date: {len(results['missing_import_date'])}")
     print(f"Recipes with unsorted tags: {len(results['unsorted_tags'])}")
     print(f"Recipes missing hierarchical tags: {len(results['missing_hierarchical'])}")
 
@@ -340,6 +369,11 @@ if __name__ == '__main__':
     if results['missing_tags']:
         print("\nMissing tags:")
         for file in results['missing_tags']:
+            print(f"  {file}")
+
+    if results['missing_import_date']:
+        print("\nMissing import_date:")
+        for file in results['missing_import_date']:
             print(f"  {file}")
 
     if results['missing_hierarchical']:

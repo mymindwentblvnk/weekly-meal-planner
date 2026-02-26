@@ -11,13 +11,14 @@ This skill performs comprehensive validation of all recipes and automatically fi
 **COMPREHENSIVE VALIDATION**: This skill checks **ALL recipes** in the `recipes/` folder recursively, including all subdirectories.
 
 1. **Validates all recipes** using `.claude/utils/recipe-utils.py`
-2. **Checks for missing required fields** - description, tags
+2. **Checks for missing required fields** - description, tags, import_date
 3. **Fixes missing descriptions** - Generates appetizing German descriptions
 4. **Fixes missing tags** - Adds tags based on ingredients
-5. **Fixes incomplete hierarchical tags** - Ensures generic + specific tag pairs
-6. **Sorts tags alphabetically** - Uses German alphabetization (ä=a, ö=o, ü=u)
-7. **Regenerates HTML** - Runs `python main.py`
-8. **Commits and pushes** - Saves all changes to Git
+5. **Fixes missing import_date** - Adds current date (YYYY-MM-DD format)
+6. **Fixes incomplete hierarchical tags** - Ensures generic + specific tag pairs
+7. **Sorts tags alphabetically** - Uses German alphabetization (ä=a, ö=o, ü=u)
+8. **Regenerates HTML** - Runs `python main.py`
+9. **Commits and pushes** - Saves all changes to Git
 
 ## Using recipe-utils.py
 
@@ -46,6 +47,7 @@ results = validate_all_recipes()
 Use `validate_all_recipes()` from recipe-utils.py to get a comprehensive report:
 - **Recipes missing description field** (or empty/placeholder descriptions)
 - **Recipes missing tags field** (or empty tags)
+- **Recipes missing import_date field**
 - **Recipes with unsorted tags**
 - **Recipes with missing hierarchical tags**
 - **Count of valid recipes**
@@ -69,13 +71,26 @@ Generate a concise, appetizing German description (1-2 sentences) that:
 "Herzhafter Eintopf mit Rinderhackfleisch, Gemüse und Buchweizenpasta in würziger Tomatensauce."
 ```
 
-### Step 3: Fix Missing or Incomplete Tags
+### Step 3: Fix Missing Import Date
 
-#### 3a. Add Missing Tags
+For recipes where import_date field is missing:
+
+Add the current date in YYYY-MM-DD format. This field tracks when the recipe was added to the collection.
+
+**Example:**
+```yaml
+import_date: 2026-02-26
+```
+
+**Position in YAML:** After `cook_time`, before `image` field.
+
+### Step 4: Fix Missing or Incomplete Tags
+
+#### 4a. Add Missing Tags
 
 For recipes without tags field, analyze ingredients and add appropriate tags following hierarchical rules (see HIERARCHICAL_TAGS in recipe-utils.py).
 
-#### 3b. Fix Incomplete Hierarchical Tags
+#### 4b. Fix Incomplete Hierarchical Tags
 
 Use `check_hierarchical_tags(recipe_file)` to find missing generic tags.
 
@@ -125,7 +140,7 @@ tags:
   - Nüsse
 ```
 
-### Step 4: Sort Tags Alphabetically
+### Step 5: Sort Tags Alphabetically
 
 Use `sort_recipe_tags(recipe_file)` or `german_sort_key()` to sort tags.
 
@@ -135,25 +150,26 @@ German alphabetization (DIN 5007-1):
 - ü treated as 'u'
 - ß treated as 'ss'
 
-### Step 5: Validate Again
+### Step 6: Validate Again
 
 After fixes, run `validate_all_recipes()` again to confirm all issues are resolved.
 
-### Step 6: Regenerate HTML
+### Step 7: Regenerate HTML
 
 ```bash
 python main.py
 ```
 
-### Step 7: Commit and Push
+### Step 8: Commit and Push
 
 ```bash
 git add recipes/
 git commit -m "Validate and fix recipe metadata
 
 - Fixed [X] recipes with missing descriptions
-- Fixed [Y] recipes with incomplete hierarchical tags
-- Fixed [Z] recipes with unsorted tags
+- Fixed [Y] recipes with missing import_date
+- Fixed [Z] recipes with incomplete hierarchical tags
+- Fixed [W] recipes with unsorted tags
 - All recipes now pass validation
 
 Co-Authored-By: Claude (@vertex-ai/anthropic.claude-sonnet-4-5@20250929) <noreply@anthropic.com>"
