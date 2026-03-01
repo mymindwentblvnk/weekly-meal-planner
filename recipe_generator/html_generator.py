@@ -315,61 +315,133 @@ def generate_settings_page_html(deployment_time: datetime | None = None) -> str:
             }}
         }}
 
+        // Export/Import functions
+        let pendingImportData = null;
+
         // Export data functionality
         function exportData() {{
-            const mealPlans = localStorage.getItem('mealPlansV2') || '{{}}';
-            const settings = localStorage.getItem('mealSettings') || '{{"breakfast": true, "lunch": true, "dinner": true}}';
+            try {{
+                // Export ALL meal plans (not just current/next week)
+                const mealPlans = localStorage.getItem('mealPlansV2') || '{{}}';
+                const plans = JSON.parse(mealPlans);
 
-            const data = {{
-                mealPlans: JSON.parse(mealPlans),
-                settings: JSON.parse(settings),
-                exportDate: new Date().toISOString()
-            }};
+                const exportData = {{
+                    version: 1,
+                    exportDate: new Date().toISOString(),
+                    weeks: plans
+                }};
 
-            const jsonStr = JSON.stringify(data);
-            const base64 = btoa(unescape(encodeURIComponent(jsonStr)));
-            const url = `${{window.location.origin}}${{window.location.pathname.replace('settings.html', 'index.html')}}#import=${{base64}}`;
+                // Encode data - use LZ-String if available, otherwise fall back to base64
+                const jsonStr = JSON.stringify(exportData);
+                let encoded;
 
-            navigator.clipboard.writeText(url).then(() => {{
-                alert('✓ Link wurde in die Zwischenablage kopiert!\\n\\nTeile diesen Link, um deine Daten auf ein anderes Gerät zu übertragen.');
-            }}).catch(() => {{
-                prompt('Kopiere diesen Link:', url);
-            }});
+                if (typeof LZString !== 'undefined') {{
+                    // Use compression (shorter URLs)
+                    encoded = LZString.compressToEncodedURIComponent(jsonStr);
+                }} else {{
+                    // Fallback to base64
+                    const base64 = btoa(unescape(encodeURIComponent(jsonStr)));
+                    encoded = 'b64:' + base64;
+                }}
+
+                const url = `${{window.location.origin}}${{window.location.pathname.replace('settings.html', 'index.html')}}?import=${{encoded}}`;
+
+                navigator.clipboard.writeText(url).then(() => {{
+                    alert('✓ Link wurde in die Zwischenablage kopiert!\\n\\nTeile diesen Link, um deine Daten auf ein anderes Gerät zu übertragen.');
+                }}).catch(() => {{
+                    prompt('Kopiere diesen Link:', url);
+                }});
+            }} catch (e) {{
+                console.error('Export error:', e);
+                alert('Fehler beim Exportieren der Daten: ' + e.message);
+            }}
         }}
 
-        // Import functionality (from URL hash)
+        // Import functionality (from URL query parameter)
         function checkForImportData() {{
-            const hash = window.location.hash;
-            if (hash.startsWith('#import=')) {{
-                const base64 = hash.substring(8);
-                try {{
-                    const jsonStr = decodeURIComponent(escape(atob(base64)));
-                    const data = JSON.parse(jsonStr);
+            try {{
+                const urlParams = new URLSearchParams(window.location.search);
+                const importParam = urlParams.get('import');
 
-                    const preview = `Wochenpläne: ${{Object.keys(data.mealPlans || {{}}).length}} Wochen\\nExportiert: ${{new Date(data.exportDate).toLocaleString('de-DE')}}`;
-                    document.getElementById('importPreview').textContent = preview;
+                if (!importParam) return;
 
-                    window.importData = data;
-                    document.getElementById('importModal').style.display = 'flex';
-                }} catch (e) {{
-                    console.error('Import error:', e);
-                    alert('Fehler beim Importieren der Daten.');
+                // Decode data - handle both compressed and base64 formats
+                let jsonStr;
+
+                if (importParam.startsWith('b64:')) {{
+                    // Base64 format (fallback)
+                    const base64Data = importParam.substring(4);
+                    jsonStr = decodeURIComponent(escape(atob(base64Data)));
+                }} else if (typeof LZString !== 'undefined') {{
+                    // LZ-String compressed format
+                    jsonStr = LZString.decompressFromEncodedURIComponent(importParam);
+                    if (!jsonStr) {{
+                        throw new Error('Dekomprimierung fehlgeschlagen');
+                    }}
+                }} else {{
+                    // LZ-String not loaded but data is compressed
+                    throw new Error('Komprimierte Daten können nicht geladen werden');
                 }}
+
+                const data = JSON.parse(jsonStr);
+
+                pendingImportData = data;
+
+                // Build preview
+                let preview = '';
+                if (data.weeks) {{
+                    const weekCount = Object.keys(data.weeks).length;
+                    preview += `<strong>Wochenpläne:</strong> ${{weekCount}} Woche(n)<br>`;
+
+                    for (const [weekNum, weekData] of Object.entries(data.weeks)) {{
+                        const days = Object.keys(weekData);
+                        if (days.length > 0) {{
+                            preview += `<div style="margin-left: 15px; margin-top: 5px;">📅 Woche ${{weekNum}}: ${{days.length}} Tag(e)</div>`;
+                        }}
+                    }}
+                }}
+
+                if (data.exportDate) {{
+                    const date = new Date(data.exportDate);
+                    preview += `<br><small style="color: var(--text-secondary);">Exportiert am: ${{date.toLocaleString('de-DE')}}</small>`;
+                }}
+
+                document.getElementById('importPreview').innerHTML = preview;
+                document.getElementById('importModal').style.display = 'flex';
+            }} catch (e) {{
+                console.error('Import check error:', e);
+                alert('Ungültiger Import-Link');
+                // Remove invalid import parameter
+                const url = new URL(window.location.href);
+                url.searchParams.delete('import');
+                window.history.replaceState({{}}, '', url.toString());
             }}
         }}
 
         function closeImportModal() {{
             document.getElementById('importModal').style.display = 'none';
-            window.location.hash = '';
+            // Remove import parameter from URL
+            const url = new URL(window.location.href);
+            url.searchParams.delete('import');
+            window.history.replaceState({{}}, '', url.toString());
         }}
 
         function confirmImport() {{
-            if (window.importData) {{
-                localStorage.setItem('mealPlansV2', JSON.stringify(window.importData.mealPlans));
-                localStorage.setItem('mealSettings', JSON.stringify(window.importData.settings));
+            if (!pendingImportData) return;
+
+            try {{
+                // Import meal plans
+                if (pendingImportData.weeks) {{
+                    // Replace all meal plans with imported data
+                    localStorage.setItem('mealPlansV2', JSON.stringify(pendingImportData.weeks));
+                }}
+
                 closeImportModal();
                 loadSettings();
                 alert('✓ Daten erfolgreich importiert!');
+            }} catch (e) {{
+                console.error('Import error:', e);
+                alert('Fehler beim Importieren der Daten: ' + e.message);
             }}
         }}
 
