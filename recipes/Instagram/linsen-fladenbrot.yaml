@@ -1,0 +1,27 @@
+name: Linsen-Fladenbrot
+description: Einfaches Fladenbrot aus roten Linsen mit nur 3 Zutaten. Glutenfrei, proteinreich und schnell zubereitet.
+author: Instagram
+category: 🍞
+servings: 4
+prep_time: 480
+cook_time: 10
+import_date: 2026-03-02
+image: images/recipes/linsen-fladenbrot.jpg
+tags:
+  - Backen
+  - Glutenfrei
+  - Linsen
+
+ingredients:
+  - name: Rote Linsen (eingeweicht)
+    amount: 2 Tassen
+  - name: Wasser
+    amount: ½ Tasse
+  - name: Salz
+    amount: nach Geschmack
+
+instructions:
+  - Linsen einige Stunden einweichen (am besten über Nacht).
+  - Die eingeweichten Linsen, Wasser und Gewürze (falls gewünscht) in einen Mixer geben.
+  - Zu einer glatten Masse mixen.
+  - In einer beschichteten Pfanne von beiden Seiten goldbraun backen.
