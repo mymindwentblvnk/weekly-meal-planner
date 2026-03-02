@@ -1,0 +1,36 @@
+name: Fitnessstangen mit Haferflocken und Skyr
+description: Schnelle und einfache Fitnessstangen mit nur 6 Zutaten und ohne Mehl. Ultra lecker und perfekt als gesunder Snack.
+author: Instagram
+category: 🥣
+servings: 5
+prep_time: 10
+cook_time: 25
+import_date: 2026-03-02
+image: images/recipes/fitnessstangen-mit-haferflocken-und-skyr.jpg
+tags:
+  - Backen
+  - Chiasamen
+  - Haferflocken
+  - Kerne
+  - Skyr
+
+ingredients:
+  - name: Haferflocken
+    amount: 250 g
+  - name: Skyr
+    amount: 250 g
+  - name: Wasser
+    amount: 75 ml
+  - name: Backpulver
+    amount: ½ Päckchen
+  - name: Chiasamen
+    amount: 15 g
+  - name: Salz
+    amount: 5 g
+
+instructions:
+  - Alle Zutaten in einer Schüssel vermengen.
+  - Daraus 5 Stangen formen.
+  - Die Stangen in Chiasamen wälzen.
+  - Bei 180 Grad Umluft für 25 Minuten im Ofen backen.
+  - Nach 15 Minuten reinschauen und ggf. Temperatur anpassen, da jeder Ofen anders ist.
