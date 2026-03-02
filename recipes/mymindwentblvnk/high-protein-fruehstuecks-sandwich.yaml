@@ -1,0 +1,41 @@
+name: High-Protein Frühstücks-Sandwich
+description: Schnelles High-Protein Sandwich mit Rührei, Schinken und Käse. 49g Protein und in nur 5 Minuten fertig. Perfekt auch zum Mitnehmen.
+author: Instagram
+category: 🥣
+servings: 1
+prep_time: 2
+cook_time: 3
+import_date: 2026-03-02
+image: images/recipes/high-protein-fruehstuecks-sandwich.jpg
+tags:
+  - Brot
+  - Eier
+  - Fleisch
+  - Gurke
+  - Käse
+  - Salat
+  - Schinken
+
+ingredients:
+  - name: Sauerteigbrot
+    amount: 80 g (ca. 2 Scheiben)
+  - name: Eier
+    amount: 3
+  - name: Kochschinken
+    amount: 50 g
+  - name: Käse
+    amount: 50 g
+  - name: Gurke
+    amount: nach Geschmack
+  - name: Salat
+    amount: nach Geschmack
+  - name: Salz
+    amount: nach Geschmack
+  - name: Pfeffer
+    amount: nach Geschmack
+
+instructions:
+  - Eier in einer Schüssel vermengen.
+  - In der Pfanne kurz als Rührei anbraten und die 2 Brotscheiben dazulegen.
+  - Alles wenden und mit Käse, Schinken, Gurke und Salat belegen.
+  - Mit Salz und Pfeffer würzen und zusammenklappen.
