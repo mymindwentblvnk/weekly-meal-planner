@@ -9,7 +9,8 @@ Built a static site generator that transforms YAML recipe files into HTML pages 
 ### Current Project Structure
 
 - **Recipe files**: `recipes/<Author>/<recipe-slug>.yaml`
-  - Known authors: Chefkoch, HelloFresh, EatSmarter, mymindwentblvnk
+  - Known authors: Chefkoch, HelloFresh, EatSmarter, Instagram, mymindwentblvnk
+  - **Instagram recipes**: Must be saved to `recipes/Instagram/` folder with `author: Instagram`
 - **Recipe images**: `images/recipes/` (optimized to max 800px dimension)
 - **HTML output**: `output/` directory (gitignored, generated files)
 - **HTML generator**: `python main.py`
@@ -247,6 +248,7 @@ This ensures design changes are intentional and platform-appropriate, preventing
 - Process all URLs first, then commit all changes together
 - Images are automatically downloaded and optimized during import
 - Always allowed to use `curl` without asking for permission first
+- **Instagram imports**: Recipes from `instagram.com` must be saved to `recipes/Instagram/` folder with `author: Instagram`
 
 ## Gotchas & Solutions
 
@@ -285,7 +287,7 @@ escape(str(ingredient['amount']))
 
 Standard workflow after making changes:
 1. Make code changes
-2. Run `uv run pytest` to verify all 76 tests pass
+2. Run `uv run pytest` to verify all 92 tests pass
 3. Run `python main.py` to regenerate HTML if needed
 4. Commit and push changes directly
 
@@ -310,7 +312,7 @@ source .venv/bin/activate && pytest tests/ -v
 
 **Important Notes**:
 - **MUST run before every commit** - this is non-negotiable
-- 76 total tests covering validators, HTML generation, and config
+- 92 total tests covering validators, HTML generation, config, and import/export functionality
 - Tests located in `tests/` directory
 - Use `-v` flag for verbose output showing all test names
 - All tests should pass before committing
@@ -319,6 +321,7 @@ source .venv/bin/activate && pytest tests/ -v
 - `test_config.py`: Configuration validation
 - `test_html_generator.py`: HTML generation, formatting, escaping
 - `test_validators.py`: Recipe YAML validation
+- `test_import_export.py`: Import/export functionality and data format consistency
 
 ### Pre-Commit Rules
 
