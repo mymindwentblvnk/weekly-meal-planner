@@ -349,6 +349,11 @@ def generate_settings_page_html(deployment_time: datetime | None = None) -> str:
             <div class="form-group">
                 <p class="settings-hint">Exportiere deine Wochenpläne als Link zum Teilen mit anderen Geräten oder Personen.</p>
                 <button class="week-nav-btn" onclick="exportData()" style="width: 100%; max-width: 400px; margin-top: 8px;">📤 Daten als Link exportieren</button>
+                <div style="text-align: center; margin-top: 20px;">
+                    <p class="settings-hint" style="margin-bottom: 10px;">oder scanne den QR-Code:</p>
+                    <div id="qrcode" style="display: inline-block; padding: 15px; background: white; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);"></div>
+                    <p class="settings-hint" style="margin-top: 10px; font-size: 12px;">Scanne mit deinem Smartphone, um die Daten zu importieren</p>
+                </div>
             </div>
         </div>{last_updated_html}
 
@@ -545,13 +550,68 @@ def generate_settings_page_html(deployment_time: datetime | None = None) -> str:
             }}
         }}
 
+        // Generate QR Code on page load
+        function generateQRCode() {{
+            try {{
+                // Get meal plans data
+                const mealPlans = localStorage.getItem('mealPlansV2') || '{{}}';
+                const plans = JSON.parse(mealPlans);
+
+                const exportData = {{
+                    version: 1,
+                    exportDate: new Date().toISOString(),
+                    weeks: plans
+                }};
+
+                // Encode data
+                const jsonStr = JSON.stringify(exportData);
+                let encoded;
+
+                if (typeof LZString !== 'undefined') {{
+                    encoded = LZString.compressToEncodedURIComponent(jsonStr);
+                }} else {{
+                    const base64 = btoa(unescape(encodeURIComponent(jsonStr)));
+                    encoded = 'b64:' + base64;
+                }}
+
+                const url = `${{window.location.origin}}${{window.location.pathname.replace('settings.html', 'index.html')}}?import=${{encoded}}`;
+
+                // Clear any existing QR code
+                const qrcodeContainer = document.getElementById('qrcode');
+                qrcodeContainer.innerHTML = '';
+
+                // Generate QR code using a simple approach with qrcode library
+                // Check if QRCode is loaded
+                if (typeof QRCode !== 'undefined') {{
+                    new QRCode(qrcodeContainer, {{
+                        text: url,
+                        width: 200,
+                        height: 200,
+                        colorDark: '#000000',
+                        colorLight: '#ffffff',
+                        correctLevel: QRCode.CorrectLevel.M
+                    }});
+                }} else {{
+                    // Fallback: show error message
+                    qrcodeContainer.innerHTML = '<p style="color: var(--text-secondary); font-size: 12px;">QR-Code konnte nicht geladen werden</p>';
+                }}
+            }} catch (e) {{
+                console.error('QR Code generation error:', e);
+                const qrcodeContainer = document.getElementById('qrcode');
+                qrcodeContainer.innerHTML = '<p style="color: var(--error-color); font-size: 12px;">Fehler beim Generieren des QR-Codes</p>';
+            }}
+        }}
+
         // Initialize
         document.addEventListener('DOMContentLoaded', function() {{
             loadSettings();
             checkForImportData();
             initializeDarkMode();
+            generateQRCode();
         }});
     </script>
+    <!-- QRCode.js library from CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
 </body>
 </html>'''
 
