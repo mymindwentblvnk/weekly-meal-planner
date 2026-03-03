@@ -640,10 +640,12 @@ ol li span {
 .recipe-detail-image {
     width: 100%;
     max-width: 600px;
+    max-height: 500px;
     height: auto;
     border-radius: 8px;
-    margin: 20px 0;
+    margin: 20px auto;
     display: block;
+    object-fit: contain;
 }
 """
 
