@@ -244,6 +244,11 @@ body {
     display: none;
 }
 
+/* Wake Lock button icons */
+.wake-lock-inactive, .wake-lock-active {
+    display: inline;
+}
+
 /* Footer */
 .page-footer {
     margin-top: 20px;

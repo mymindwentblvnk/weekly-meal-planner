@@ -59,6 +59,106 @@ def generate_dark_mode_script() -> str:
         }'''
 
 
+def generate_wake_lock_script() -> str:
+    """Generate Screen Wake Lock JavaScript.
+
+    Returns:
+        JavaScript code for wake lock functionality
+    """
+    return '''
+        // Screen Wake Lock functionality
+        let wakeLock = null;
+
+        async function requestWakeLock() {
+            if (!('wakeLock' in navigator)) {
+                console.warn('Screen Wake Lock API not supported');
+                return false;
+            }
+
+            try {
+                wakeLock = await navigator.wakeLock.request('screen');
+                console.log('Wake Lock activated');
+
+                wakeLock.addEventListener('release', () => {
+                    console.log('Wake Lock released');
+                });
+
+                return true;
+            } catch (err) {
+                console.error('Wake Lock request failed:', err);
+                return false;
+            }
+        }
+
+        async function releaseWakeLock() {
+            if (wakeLock !== null) {
+                try {
+                    await wakeLock.release();
+                    wakeLock = null;
+                    console.log('Wake Lock manually released');
+                } catch (err) {
+                    console.error('Wake Lock release failed:', err);
+                }
+            }
+        }
+
+        async function toggleWakeLock() {
+            const isActive = wakeLock !== null && !wakeLock.released;
+
+            if (isActive) {
+                await releaseWakeLock();
+                localStorage.setItem('wakeLockEnabled', 'disabled');
+                updateWakeLockButton(false);
+            } else {
+                const success = await requestWakeLock();
+                if (success) {
+                    localStorage.setItem('wakeLockEnabled', 'enabled');
+                    updateWakeLockButton(true);
+                } else {
+                    alert('Screen Wake Lock wird von diesem Browser nicht unterstützt.');
+                }
+            }
+        }
+
+        function updateWakeLockButton(isActive) {
+            document.querySelectorAll('.wake-lock-inactive').forEach(el => {
+                el.style.display = isActive ? 'none' : 'inline';
+            });
+            document.querySelectorAll('.wake-lock-active').forEach(el => {
+                el.style.display = isActive ? 'inline' : 'none';
+            });
+        }
+
+        async function initializeWakeLock() {
+            // Check if wake lock is supported
+            if (!('wakeLock' in navigator)) {
+                // Hide wake lock button if not supported
+                const wakeLockBtn = document.getElementById('wakeLockButton');
+                if (wakeLockBtn) {
+                    wakeLockBtn.style.display = 'none';
+                }
+                return;
+            }
+
+            // Restore wake lock state from localStorage
+            const wakeLockEnabled = localStorage.getItem('wakeLockEnabled');
+            if (wakeLockEnabled === 'enabled') {
+                const success = await requestWakeLock();
+                updateWakeLockButton(success);
+            } else {
+                updateWakeLockButton(false);
+            }
+        }
+
+        // Re-acquire wake lock when page becomes visible (handles tab switching)
+        document.addEventListener('visibilitychange', async () => {
+            if (document.visibilityState === 'visible' && localStorage.getItem('wakeLockEnabled') === 'enabled') {
+                await requestWakeLock();
+                updateWakeLockButton(true);
+            }
+        });'''
+
+
 def generate_navigation() -> str:
     """Generate top navigation HTML.
 
@@ -71,6 +171,26 @@ def generate_navigation() -> str:
             <a href="shopping.html" class="nav-link" style="background-color: var(--accent-color);" aria-label="Shopping List">🛒</a>
             <a href="recipes.html" class="nav-link" style="background-color: var(--accent-yellow);" aria-label="Recipes Catalog">📖</a>
             <a href="settings.html" class="nav-link" style="background-color: var(--accent-green);" aria-label="Settings">⚙️</a>
+        </div>
+    </div>'''
+
+
+def generate_recipe_navigation() -> str:
+    """Generate top navigation HTML for recipe detail pages with wake lock toggle.
+
+    Returns:
+        HTML for top navigation bar with wake lock button
+    """
+    return f'''<div class="top-nav">
+        <div style="display: flex; gap: 10px; align-items: center;">
+            <a href="index.html" class="nav-link" style="background-color: var(--primary-color);" aria-label="Weekly Plan">🗓️</a>
+            <a href="shopping.html" class="nav-link" style="background-color: var(--accent-color);" aria-label="Shopping List">🛒</a>
+            <a href="recipes.html" class="nav-link" style="background-color: var(--accent-yellow);" aria-label="Recipes Catalog">📖</a>
+            <a href="settings.html" class="nav-link" style="background-color: var(--accent-green);" aria-label="Settings">⚙️</a>
+            <button id="wakeLockButton" class="nav-toggle-button" onclick="toggleWakeLock()" aria-label="Toggle Wake Lock" title="Bildschirm aktiv halten">
+                <span class="wake-lock-inactive">☀️</span>
+                <span class="wake-lock-active" style="display: none;">🔆</span>
+            </button>
         </div>
     </div>'''
 
@@ -567,7 +687,7 @@ def generate_recipe_detail_html(recipe: dict[str, Any], slug: str, deployment_ti
     <div itemscope itemtype="https://schema.org/Recipe">
         <div class="page-header">
             <h1 itemprop="name">{escape(recipe['name'])}</h1>
-            {generate_navigation()}
+            {generate_recipe_navigation()}
         </div>
 
         <p itemprop="description">{escape(recipe.get('description', ''))}</p>
@@ -1116,6 +1236,8 @@ def generate_recipe_detail_html(recipe: dict[str, Any], slug: str, deployment_ti
 
         {generate_dark_mode_script()}
 
+        {generate_wake_lock_script()}
+
         // Check if there's already a meal planned and show warning
         function checkForExistingMeal() {{
             const selectedWeekBtn = document.querySelector('#weekButtons .selection-btn.selected');
@@ -1159,6 +1281,7 @@ def generate_recipe_detail_html(recipe: dict[str, Any], slug: str, deployment_ti
         // Apply saved preferences on page load
         document.addEventListener('DOMContentLoaded', function() {{
             initializeDarkMode();
+            initializeWakeLock();
 
             // Add event listeners for week selection buttons
             document.querySelectorAll('#weekButtons .selection-btn').forEach(btn => {{
