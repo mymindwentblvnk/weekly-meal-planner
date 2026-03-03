@@ -320,7 +320,7 @@ def generate_settings_page_html(deployment_time: datetime | None = None) -> str:
                     <div style="font-size: 3em; margin-bottom: 12px;">📤</div>
                     <h3 style="color: var(--text-color); font-size: 1.1em; margin: 0 0 10px 0; font-weight: 600;">Link kopieren</h3>
                     <p style="color: var(--text-secondary); font-size: 0.9em; margin: 0 0 15px 0; line-height: 1.4;">Kopiere den Export-Link in deine Zwischenablage</p>
-                    <button onclick="exportData()" style="
+                    <button id="exportButton" onclick="exportData()" style="
                         width: 100%;
                         padding: 12px 20px;
                         background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-hover) 100%);
@@ -333,7 +333,7 @@ def generate_settings_page_html(deployment_time: datetime | None = None) -> str:
                         transition: all 0.3s;
                         box-shadow: 0 4px 12px rgba(155, 89, 182, 0.3);
                     " onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 16px rgba(155, 89, 182, 0.4)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(155, 89, 182, 0.3)';">
-                        Kopieren
+                        📋 Kopieren
                     </button>
                 </div>
 
@@ -489,14 +489,26 @@ def generate_settings_page_html(deployment_time: datetime | None = None) -> str:
                     // Continue with full URL if shortening fails
                 }}
 
+                const button = document.getElementById('exportButton');
                 navigator.clipboard.writeText(finalUrl).then(() => {{
-                    alert('✓ Link wurde in die Zwischenablage kopiert!\\n\\n' + finalUrl + '\\n\\nTeile diesen Link, um deine Daten auf ein anderes Gerät zu übertragen.');
+                    // Update button to show success
+                    button.textContent = '✅ Kopiert';
+
+                    // Reset button after 3 seconds
+                    setTimeout(() => {{
+                        button.textContent = '📋 Kopieren';
+                    }}, 3000);
                 }}).catch(() => {{
+                    // Fallback: show prompt with URL
                     prompt('Kopiere diesen Link:', finalUrl);
                 }});
             }} catch (e) {{
                 console.error('Export error:', e);
-                alert('Fehler beim Exportieren der Daten: ' + e.message);
+                const button = document.getElementById('exportButton');
+                button.textContent = '❌ Fehler';
+                setTimeout(() => {{
+                    button.textContent = '📋 Kopieren';
+                }}, 3000);
             }}
         }}
 
