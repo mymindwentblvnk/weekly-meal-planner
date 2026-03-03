@@ -367,7 +367,7 @@ def generate_settings_page_html(deployment_time: datetime | None = None) -> str:
                         transition: all 0.3s;
                         box-shadow: 0 4px 12px rgba(155, 89, 182, 0.3);
                     " onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 16px rgba(155, 89, 182, 0.4)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(155, 89, 182, 0.3)';">
-                        Link kopieren
+                        Kopieren
                     </button>
                 </div>
 

@@ -16,7 +16,7 @@ class TestImportExportFunctionality:
         """Settings page should have export data button."""
         html = generate_settings_page_html()
         assert 'onclick="exportData()"' in html
-        assert 'Link kopieren' in html
+        assert 'Kopieren' in html
 
     def test_settings_page_has_import_modal(self):
         """Settings page should have import modal."""
