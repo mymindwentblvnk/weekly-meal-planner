@@ -490,7 +490,7 @@ def generate_settings_page_html(deployment_time: datetime | None = None) -> str:
                 }}
 
                 navigator.clipboard.writeText(finalUrl).then(() => {{
-                    alert('✓ Link wurde in die Zwischenablage kopiert!\\n\\nTeile diesen Link, um deine Daten auf ein anderes Gerät zu übertragen.');
+                    alert('✓ Link wurde in die Zwischenablage kopiert!\\n\\n' + finalUrl + '\\n\\nTeile diesen Link, um deine Daten auf ein anderes Gerät zu übertragen.');
                 }}).catch(() => {{
                     prompt('Kopiere diesen Link:', finalUrl);
                 }});
