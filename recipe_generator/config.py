@@ -657,6 +657,36 @@ ol li span {
     display: block;
     object-fit: contain;
 }
+
+/* Mobile optimizations */
+@media (max-width: 768px) {
+    /* Bottom navigation bar for mobile (iOS style) */
+    body {
+        padding-bottom: 70px; /* Space for fixed bottom nav */
+    }
+
+    .top-nav {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin-bottom: 0;
+        background-color: var(--card-bg);
+        border-top: 1px solid var(--border-color);
+        padding: 8px 0;
+        box-shadow: 0 -2px 10px var(--shadow);
+        z-index: 1000;
+        justify-content: center;
+    }
+
+    .top-nav > div {
+        justify-content: center;
+    }
+
+    .page-header {
+        margin-bottom: 10px;
+    }
+}
 """
 
 OVERVIEW_PAGE_CSS = """
@@ -972,6 +1002,36 @@ h1 {
 .settings-actions {
     margin-top: 30px;
     text-align: center;
+}
+
+/* Mobile optimizations */
+@media (max-width: 768px) {
+    /* Bottom navigation bar for mobile (iOS style) */
+    body {
+        padding-bottom: 70px; /* Space for fixed bottom nav */
+    }
+
+    .top-nav {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin-bottom: 0;
+        background-color: var(--card-bg);
+        border-top: 1px solid var(--border-color);
+        padding: 8px 0;
+        box-shadow: 0 -2px 10px var(--shadow);
+        z-index: 1000;
+        justify-content: center;
+    }
+
+    .top-nav > div {
+        justify-content: center;
+    }
+
+    .page-header {
+        margin-bottom: 10px;
+    }
 }
 """
 
@@ -2102,5 +2162,35 @@ h1 {
 }
 .no-shopping-items p {
     font-size: 1.1em;
+}
+
+/* Mobile optimizations */
+@media (max-width: 768px) {
+    /* Bottom navigation bar for mobile (iOS style) */
+    body {
+        padding-bottom: 70px; /* Space for fixed bottom nav */
+    }
+
+    .top-nav {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin-bottom: 0;
+        background-color: var(--card-bg);
+        border-top: 1px solid var(--border-color);
+        padding: 8px 0;
+        box-shadow: 0 -2px 10px var(--shadow);
+        z-index: 1000;
+        justify-content: center;
+    }
+
+    .top-nav > div {
+        justify-content: center;
+    }
+
+    .page-header {
+        margin-bottom: 10px;
+    }
 }
 """
