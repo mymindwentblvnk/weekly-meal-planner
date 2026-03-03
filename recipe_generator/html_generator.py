@@ -240,7 +240,7 @@ def generate_settings_modal(show_print_button: bool = False, deployment_time: da
                 <div class="form-group">
                     <label>Daten teilen:</label>
                     <p class="settings-hint">Exportiere deine Wochenpläne als Link zum Teilen mit anderen Geräten oder Personen.</p>
-                    <button class="week-nav-btn" onclick="exportData()" style="width: 100%; margin-top: 8px;">📤 Daten als Link exportieren</button>
+                    <button id="weeklyExportButton" class="week-nav-btn" onclick="exportData()" style="width: 100%; margin-top: 8px;">📋 Kopieren</button>
                 </div>{last_updated_html}
                 <div class="modal-actions">
                     <button class="cancel-btn" onclick="closeSettingsModal()">Abbrechen</button>
@@ -1047,9 +1047,16 @@ def generate_recipe_detail_html(recipe: dict[str, Any], slug: str, deployment_ti
                 url.searchParams.set('import', encoded);
 
                 // Copy to clipboard
+                const button = document.getElementById('weeklyExportButton');
                 navigator.clipboard.writeText(url.toString()).then(() => {{
-                    alert('✅ Link kopiert!\\n\\nDer Link wurde in die Zwischenablage kopiert. Du kannst ihn jetzt teilen.');
-                    closeSettingsModal();
+                    // Update button to show success
+                    button.textContent = '✅ Kopiert';
+
+                    // Reset button after 2 seconds, then close modal
+                    setTimeout(() => {{
+                        button.textContent = '📋 Kopieren';
+                        closeSettingsModal();
+                    }}, 2000);
                 }}).catch(() => {{
                     // Fallback: show URL in prompt
                     prompt('Kopiere diesen Link:', url.toString());
@@ -2164,9 +2171,16 @@ def generate_overview_html(
                 url.searchParams.set('import', encoded);
 
                 // Copy to clipboard
+                const button = document.getElementById('weeklyExportButton');
                 navigator.clipboard.writeText(url.toString()).then(() => {{
-                    alert('✅ Link kopiert!\\n\\nDer Link wurde in die Zwischenablage kopiert. Du kannst ihn jetzt teilen.');
-                    closeSettingsModal();
+                    // Update button to show success
+                    button.textContent = '✅ Kopiert';
+
+                    // Reset button after 2 seconds, then close modal
+                    setTimeout(() => {{
+                        button.textContent = '📋 Kopieren';
+                        closeSettingsModal();
+                    }}, 2000);
                 }}).catch(() => {{
                     // Fallback: show URL in prompt
                     prompt('Kopiere diesen Link:', url.toString());
@@ -3225,9 +3239,16 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]], deploym
                 url.searchParams.set('import', encoded);
 
                 // Copy to clipboard
+                const button = document.getElementById('weeklyExportButton');
                 navigator.clipboard.writeText(url.toString()).then(() => {{
-                    alert('✅ Link kopiert!\\n\\nDer Link wurde in die Zwischenablage kopiert. Du kannst ihn jetzt teilen.');
-                    closeSettingsModal();
+                    // Update button to show success
+                    button.textContent = '✅ Kopiert';
+
+                    // Reset button after 2 seconds, then close modal
+                    setTimeout(() => {{
+                        button.textContent = '📋 Kopieren';
+                        closeSettingsModal();
+                    }}, 2000);
                 }}).catch(() => {{
                     // Fallback: show URL in prompt
                     prompt('Kopiere diesen Link:', url.toString());
@@ -3672,9 +3693,16 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]], 
                 url.searchParams.set('import', encoded);
 
                 // Copy to clipboard
+                const button = document.getElementById('weeklyExportButton');
                 navigator.clipboard.writeText(url.toString()).then(() => {{
-                    alert('✅ Link kopiert!\\n\\nDer Link wurde in die Zwischenablage kopiert. Du kannst ihn jetzt teilen.');
-                    closeSettingsModal();
+                    // Update button to show success
+                    button.textContent = '✅ Kopiert';
+
+                    // Reset button after 2 seconds, then close modal
+                    setTimeout(() => {{
+                        button.textContent = '📋 Kopieren';
+                        closeSettingsModal();
+                    }}, 2000);
                 }}).catch(() => {{
                     // Fallback: show URL in prompt
                     prompt('Kopiere diesen Link:', url.toString());
