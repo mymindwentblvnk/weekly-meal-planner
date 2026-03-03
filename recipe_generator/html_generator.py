@@ -311,40 +311,6 @@ def generate_settings_page_html(deployment_time: datetime | None = None) -> str:
 
     <div class="settings-container">
         <div class="settings-section">
-            <h2>Mahlzeiten</h2>
-            <div class="form-group">
-                <label>Mahlzeiten, die ich plane:</label>
-                <div class="settings-meal-options">
-                    <label class="settings-checkbox">
-                        <input type="checkbox" id="settingBreakfast" value="breakfast" checked>
-                        <span>Frühstück</span>
-                    </label>
-                    <label class="settings-checkbox">
-                        <input type="checkbox" id="settingLunch" value="lunch" checked>
-                        <span>Mittagessen</span>
-                    </label>
-                    <label class="settings-checkbox">
-                        <input type="checkbox" id="settingDinner" value="dinner" checked>
-                        <span>Abendessen</span>
-                    </label>
-                </div>
-                <p class="settings-hint">Wähle aus, welche Mahlzeiten du in deinem Wochenplan sehen möchtest.</p>
-            </div>
-        </div>
-
-        <div class="settings-section">
-            <h2>Darstellung</h2>
-            <div class="form-group">
-                <div class="settings-meal-options">
-                    <label class="settings-checkbox">
-                        <input type="checkbox" id="settingDarkMode">
-                        <span>🌙 Dunkelmodus</span>
-                    </label>
-                </div>
-            </div>
-        </div>
-
-        <div class="settings-section">
             <h2>Daten teilen</h2>
             <p class="settings-hint" style="text-align: center; margin-bottom: 20px;">Exportiere deine Wochenpläne zum Teilen mit anderen Geräten oder Personen</p>
 
@@ -377,6 +343,40 @@ def generate_settings_page_html(deployment_time: datetime | None = None) -> str:
                     <h3 style="color: var(--text-color); font-size: 1.1em; margin: 0 0 10px 0; font-weight: 600;">QR-Code scannen</h3>
                     <p style="color: var(--text-secondary); font-size: 0.9em; margin: 0 0 15px 0; line-height: 1.4;">Scanne mit deinem Smartphone</p>
                     <div id="qrcode" style="display: inline-block; padding: 12px; background: white; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="settings-section">
+            <h2>Mahlzeiten</h2>
+            <div class="form-group">
+                <label>Mahlzeiten, die ich plane:</label>
+                <div class="settings-meal-options">
+                    <label class="settings-checkbox">
+                        <input type="checkbox" id="settingBreakfast" value="breakfast" checked>
+                        <span>Frühstück</span>
+                    </label>
+                    <label class="settings-checkbox">
+                        <input type="checkbox" id="settingLunch" value="lunch" checked>
+                        <span>Mittagessen</span>
+                    </label>
+                    <label class="settings-checkbox">
+                        <input type="checkbox" id="settingDinner" value="dinner" checked>
+                        <span>Abendessen</span>
+                    </label>
+                </div>
+                <p class="settings-hint">Wähle aus, welche Mahlzeiten du in deinem Wochenplan sehen möchtest.</p>
+            </div>
+        </div>
+
+        <div class="settings-section">
+            <h2>Darstellung</h2>
+            <div class="form-group">
+                <div class="settings-meal-options">
+                    <label class="settings-checkbox">
+                        <input type="checkbox" id="settingDarkMode">
+                        <span>🌙 Dunkelmodus</span>
+                    </label>
                 </div>
             </div>
         </div>{last_updated_html}
