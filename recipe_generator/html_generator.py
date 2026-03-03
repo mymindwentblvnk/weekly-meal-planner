@@ -304,9 +304,9 @@ def generate_settings_page_html(deployment_time: datetime | None = None) -> str:
             </div>'''
 
     html = f'''{generate_page_header("Einstellungen", OVERVIEW_PAGE_CSS)}
+    {generate_navigation()}
     <div class="page-header">
         <h1>⚙️ Einstellungen</h1>
-        {generate_navigation()}
     </div>
 
     <div class="settings-container">
@@ -788,10 +788,10 @@ def generate_recipe_detail_html(recipe: dict[str, Any], slug: str, deployment_ti
 
     title = f"{recipe['name']} {get_text('recipe_title_suffix')}"
     html = f'''{generate_page_header(title, DETAIL_PAGE_CSS)}
+    {generate_navigation()}
     <div itemscope itemtype="https://schema.org/Recipe">
         <div class="page-header">
             <h1 itemprop="name">{escape(recipe['name'])}</h1>
-            {generate_navigation()}
         </div>
 
         <p itemprop="description">{escape(recipe.get('description', ''))}</p>
@@ -1582,9 +1582,9 @@ def generate_overview_html(
     search_items_json = json.dumps(all_search_items)
 
     html = f'''{generate_page_header(get_text('recipes_catalog_title'), OVERVIEW_PAGE_CSS)}
+    {generate_navigation()}
     <div class="page-header">
         <h1>{get_text('recipes_catalog_title')}</h1>
-        {generate_navigation()}
     </div>
 
     <div class="search-container">
@@ -2457,9 +2457,9 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]], deploym
     search_items_json = json.dumps(all_search_items, ensure_ascii=False)
 
     html = f'''{generate_page_header(get_text('weekly_plan_title'), WEEKLY_PAGE_CSS)}
+    {generate_navigation()}
     <div class="page-header">
         <h1>{get_text('weekly_plan_title')}</h1>
-        {generate_navigation()}
     </div>
 
     <div class="week-navigation">
@@ -3544,9 +3544,9 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]], 
     recipe_lookup_json = json.dumps(recipe_lookup, ensure_ascii=False)
 
     html = f'''{generate_page_header(get_text('shopping_list_title'), SHOPPING_LIST_PAGE_CSS)}
+    {generate_navigation()}
     <div class="page-header">
         <h1>{get_text('shopping_list_title')}</h1>
-        {generate_navigation()}
     </div>
 
     <div class="week-navigation">
