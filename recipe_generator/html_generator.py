@@ -175,26 +175,6 @@ def generate_navigation() -> str:
     </div>'''
 
 
-def generate_recipe_navigation() -> str:
-    """Generate top navigation HTML for recipe detail pages with wake lock toggle.
-
-    Returns:
-        HTML for top navigation bar with wake lock button
-    """
-    return f'''<div class="top-nav">
-        <div style="display: flex; gap: 10px; align-items: center;">
-            <a href="index.html" class="nav-link" style="background-color: var(--primary-color);" aria-label="Weekly Plan">🗓️</a>
-            <a href="shopping.html" class="nav-link" style="background-color: var(--accent-color);" aria-label="Shopping List">🛒</a>
-            <a href="recipes.html" class="nav-link" style="background-color: var(--accent-yellow);" aria-label="Recipes Catalog">📖</a>
-            <a href="settings.html" class="nav-link" style="background-color: var(--accent-green);" aria-label="Settings">⚙️</a>
-            <button id="wakeLockButton" class="nav-toggle-button" onclick="toggleWakeLock()" aria-label="Toggle Wake Lock" title="Bildschirm aktiv halten">
-                <span class="wake-lock-inactive">☀️</span>
-                <span class="wake-lock-active" style="display: none;">🔆</span>
-            </button>
-        </div>
-    </div>'''
-
-
 def generate_settings_modal(show_print_button: bool = False, deployment_time: datetime | None = None) -> str:
     """Generate settings modal HTML.
 
@@ -687,7 +667,7 @@ def generate_recipe_detail_html(recipe: dict[str, Any], slug: str, deployment_ti
     <div itemscope itemtype="https://schema.org/Recipe">
         <div class="page-header">
             <h1 itemprop="name">{escape(recipe['name'])}</h1>
-            {generate_recipe_navigation()}
+            {generate_navigation()}
         </div>
 
         <p itemprop="description">{escape(recipe.get('description', ''))}</p>
@@ -701,6 +681,12 @@ def generate_recipe_detail_html(recipe: dict[str, Any], slug: str, deployment_ti
         <div style="display: flex; gap: 15px; align-items: center; margin: 20px 0; flex-wrap: wrap;">
             {generate_bring_widget()}
             <button id="weeklyPlanButton" class="weekly-plan-button" onclick="toggleWeeklyPlan()">📅 Einplanen</button>
+            <button id="wakeLockButton" class="weekly-plan-button" onclick="toggleWakeLock()" aria-label="Toggle Wake Lock" title="Bildschirm aktiv halten">
+                <span class="wake-lock-inactive">🔓</span>
+                <span class="wake-lock-active" style="display: none;">🔒</span>
+                <span class="wake-lock-inactive"> Bildschirm</span>
+                <span class="wake-lock-active" style="display: none;"> Bildschirm aktiv</span>
+            </button>
         </div>
 
         <table class="recipe-info-table">
