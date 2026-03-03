@@ -346,13 +346,37 @@ def generate_settings_page_html(deployment_time: datetime | None = None) -> str:
 
         <div class="settings-section">
             <h2>Daten teilen</h2>
-            <div class="form-group">
-                <p class="settings-hint">Exportiere deine Wochenpläne als Link zum Teilen mit anderen Geräten oder Personen.</p>
-                <button class="week-nav-btn" onclick="exportData()" style="width: 100%; max-width: 400px; margin-top: 8px;">📤 Daten als Link exportieren</button>
-                <div style="text-align: center; margin-top: 20px;">
-                    <p class="settings-hint" style="margin-bottom: 10px;">oder scanne den QR-Code:</p>
-                    <div id="qrcode" style="display: inline-block; padding: 15px; background: white; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);"></div>
-                    <p class="settings-hint" style="margin-top: 10px; font-size: 12px;">Scanne mit deinem Smartphone, um die Daten zu importieren</p>
+            <p class="settings-hint" style="text-align: center; margin-bottom: 20px;">Exportiere deine Wochenpläne zum Teilen mit anderen Geräten oder Personen</p>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-top: 20px;">
+                <!-- Export Link Option -->
+                <div style="text-align: center; padding: 20px; background: var(--bg-secondary); border-radius: 12px; border: 2px solid var(--border-color); transition: all 0.3s;">
+                    <div style="font-size: 3em; margin-bottom: 12px;">📤</div>
+                    <h3 style="color: var(--text-color); font-size: 1.1em; margin: 0 0 10px 0; font-weight: 600;">Link kopieren</h3>
+                    <p style="color: var(--text-secondary); font-size: 0.9em; margin: 0 0 15px 0; line-height: 1.4;">Kopiere den Export-Link in deine Zwischenablage</p>
+                    <button onclick="exportData()" style="
+                        width: 100%;
+                        padding: 12px 20px;
+                        background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-hover) 100%);
+                        color: white;
+                        border: none;
+                        border-radius: 8px;
+                        font-size: 1em;
+                        font-weight: 600;
+                        cursor: pointer;
+                        transition: all 0.3s;
+                        box-shadow: 0 4px 12px rgba(155, 89, 182, 0.3);
+                    " onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 16px rgba(155, 89, 182, 0.4)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(155, 89, 182, 0.3)';">
+                        Link kopieren
+                    </button>
+                </div>
+
+                <!-- QR Code Option -->
+                <div style="text-align: center; padding: 20px; background: var(--bg-secondary); border-radius: 12px; border: 2px solid var(--border-color); transition: all 0.3s;">
+                    <div style="font-size: 3em; margin-bottom: 12px;">📱</div>
+                    <h3 style="color: var(--text-color); font-size: 1.1em; margin: 0 0 10px 0; font-weight: 600;">QR-Code scannen</h3>
+                    <p style="color: var(--text-secondary); font-size: 0.9em; margin: 0 0 15px 0; line-height: 1.4;">Scanne mit deinem Smartphone</p>
+                    <div id="qrcode" style="display: inline-block; padding: 12px; background: white; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);"></div>
                 </div>
             </div>
         </div>{last_updated_html}
