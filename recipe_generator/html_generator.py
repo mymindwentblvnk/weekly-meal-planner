@@ -448,7 +448,7 @@ def generate_settings_page_html(deployment_time: datetime | None = None) -> str:
         let pendingImportData = null;
 
         // Export data functionality
-        function exportData() {{
+        async function exportData() {{
             try {{
                 // Export ALL meal plans (not just current/next week)
                 const mealPlans = localStorage.getItem('mealPlansV2') || '{{}}';
@@ -473,12 +473,26 @@ def generate_settings_page_html(deployment_time: datetime | None = None) -> str:
                     encoded = 'b64:' + base64;
                 }}
 
-                const url = `${{window.location.origin}}${{window.location.pathname.replace('settings.html', 'index.html')}}?import=${{encoded}}`;
+                const fullUrl = `${{window.location.origin}}${{window.location.pathname.replace('settings.html', 'index.html')}}?import=${{encoded}}`;
 
-                navigator.clipboard.writeText(url).then(() => {{
+                // Shorten URL using is.gd (privacy-friendly, no tracking)
+                let finalUrl = fullUrl;
+                try {{
+                    const shortenResponse = await fetch(`https://is.gd/create.php?format=json&url=${{encodeURIComponent(fullUrl)}}`);
+                    const shortenData = await shortenResponse.json();
+
+                    if (shortenData.shorturl) {{
+                        finalUrl = shortenData.shorturl;
+                    }}
+                }} catch (shortenError) {{
+                    console.warn('URL shortening failed, using full URL:', shortenError);
+                    // Continue with full URL if shortening fails
+                }}
+
+                navigator.clipboard.writeText(finalUrl).then(() => {{
                     alert('✓ Link wurde in die Zwischenablage kopiert!\\n\\nTeile diesen Link, um deine Daten auf ein anderes Gerät zu übertragen.');
                 }}).catch(() => {{
-                    prompt('Kopiere diesen Link:', url);
+                    prompt('Kopiere diesen Link:', finalUrl);
                 }});
             }} catch (e) {{
                 console.error('Export error:', e);
@@ -575,7 +589,7 @@ def generate_settings_page_html(deployment_time: datetime | None = None) -> str:
         }}
 
         // Generate QR Code on page load
-        function generateQRCode() {{
+        async function generateQRCode() {{
             try {{
                 // Get meal plans data
                 const mealPlans = localStorage.getItem('mealPlansV2') || '{{}}';
@@ -598,7 +612,21 @@ def generate_settings_page_html(deployment_time: datetime | None = None) -> str:
                     encoded = 'b64:' + base64;
                 }}
 
-                const url = `${{window.location.origin}}${{window.location.pathname.replace('settings.html', 'index.html')}}?import=${{encoded}}`;
+                const fullUrl = `${{window.location.origin}}${{window.location.pathname.replace('settings.html', 'index.html')}}?import=${{encoded}}`;
+
+                // Shorten URL using is.gd (privacy-friendly, no tracking)
+                let finalUrl = fullUrl;
+                try {{
+                    const shortenResponse = await fetch(`https://is.gd/create.php?format=json&url=${{encodeURIComponent(fullUrl)}}`);
+                    const shortenData = await shortenResponse.json();
+
+                    if (shortenData.shorturl) {{
+                        finalUrl = shortenData.shorturl;
+                    }}
+                }} catch (shortenError) {{
+                    console.warn('URL shortening failed, using full URL:', shortenError);
+                    // Continue with full URL if shortening fails
+                }}
 
                 // Clear any existing QR code
                 const qrcodeContainer = document.getElementById('qrcode');
@@ -608,7 +636,7 @@ def generate_settings_page_html(deployment_time: datetime | None = None) -> str:
                 // Check if QRCode is loaded
                 if (typeof QRCode !== 'undefined') {{
                     new QRCode(qrcodeContainer, {{
-                        text: url,
+                        text: finalUrl,
                         width: 200,
                         height: 200,
                         colorDark: '#000000',
