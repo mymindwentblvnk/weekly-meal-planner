@@ -178,16 +178,16 @@ body {
 
 /* Navigation Links */
 .nav-link {
-    background-color: var(--primary-color);
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-hover) 100%);
     color: white;
     border: none;
     padding: 8px 12px;
     border-radius: 8px;
-    box-shadow: 0 2px 8px var(--shadow);
+    box-shadow: 0 4px 12px rgba(155, 89, 182, 0.3);
     cursor: pointer;
     font-size: 1.5em;
     line-height: 1;
-    transition: background-color 0.2s, transform 0.1s;
+    transition: all 0.3s;
     text-decoration: none;
     display: flex;
     align-items: center;
@@ -196,7 +196,8 @@ body {
 }
 
 .nav-link:hover {
-    background-color: var(--primary-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(155, 89, 182, 0.4);
     text-decoration: none;
 }
 
@@ -206,22 +207,23 @@ body {
 
 /* Toggle buttons in top nav */
 .nav-toggle-button {
-    background-color: var(--primary-color);
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-hover) 100%);
     border: none;
     padding: 8px 12px;
     border-radius: 8px;
-    box-shadow: 0 2px 8px var(--shadow);
+    box-shadow: 0 4px 12px rgba(155, 89, 182, 0.3);
     cursor: pointer;
     font-size: 1.5em;
     line-height: 1;
-    transition: background-color 0.2s, transform 0.1s;
+    transition: all 0.3s;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
 .nav-toggle-button:hover {
-    background-color: var(--primary-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(155, 89, 182, 0.4);
 }
 
 .nav-toggle-button:active {
@@ -377,11 +379,13 @@ body {
     background-color: var(--border-color);
 }
 .add-btn {
-    background-color: var(--primary-color);
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-hover) 100%);
     color: white;
+    box-shadow: 0 4px 12px rgba(155, 89, 182, 0.3);
 }
 .add-btn:hover {
-    background-color: var(--primary-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(155, 89, 182, 0.4);
 }
 .button-group {
     display: flex;
@@ -407,12 +411,14 @@ body {
     background-color: var(--bg-secondary);
 }
 .selection-btn.selected {
-    background-color: var(--primary-color);
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-hover) 100%);
     color: white;
     border-color: var(--primary-color);
+    box-shadow: 0 4px 12px rgba(155, 89, 182, 0.3);
 }
 .selection-btn.selected:hover {
-    background-color: var(--primary-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(155, 89, 182, 0.4);
     border-color: var(--primary-hover);
 }
 .settings-meal-options {
@@ -515,7 +521,7 @@ h2 {
     align-items: center;
 }
 .servings-btn {
-    background-color: var(--primary-color);
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-hover) 100%);
     color: white;
     border: none;
     border-radius: 4px;
@@ -523,11 +529,13 @@ h2 {
     font-size: 16px;
     font-weight: bold;
     cursor: pointer;
-    transition: background-color 0.2s;
+    transition: all 0.3s;
     min-width: 30px;
+    box-shadow: 0 4px 12px rgba(155, 89, 182, 0.3);
 }
 .servings-btn:hover {
-    background-color: var(--primary-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(155, 89, 182, 0.4);
 }
 .servings-btn:active {
     transform: scale(0.95);
@@ -614,19 +622,21 @@ ol li span {
     display: inline-block;
     padding: 8px 16px;
     margin: 0;
-    background-color: var(--primary-color);
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-hover) 100%);
     color: white;
     border: 2px solid var(--primary-color);
     border-radius: 6px;
     font-size: 0.95em;
     font-weight: 500;
     cursor: pointer;
-    transition: all 0.2s;
+    transition: all 0.3s;
     text-align: center;
     white-space: nowrap;
+    box-shadow: 0 4px 12px rgba(155, 89, 182, 0.3);
 }
 .weekly-plan-button:hover {
-    background-color: var(--primary-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(155, 89, 182, 0.4);
     border-color: var(--primary-hover);
 }
 .weekly-plan-button.in-plan {
@@ -882,35 +892,39 @@ h1 {
 .view-recipe-btn {
     display: inline-block;
     padding: 8px 16px;
-    background-color: var(--primary-color);
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-hover) 100%);
     color: white;
     text-decoration: none;
     border-radius: 4px;
     font-weight: 500;
-    transition: background-color 0.2s;
+    transition: all 0.3s;
     flex: 1;
+    box-shadow: 0 4px 12px rgba(155, 89, 182, 0.3);
 }
 .view-recipe-btn:hover {
-    background-color: var(--primary-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(155, 89, 182, 0.4);
     text-decoration: none;
 }
 .weekly-plan-button-card {
     display: inline-block;
     padding: 8px 16px;
-    background-color: var(--primary-color);
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-hover) 100%);
     color: white;
     border: 2px solid var(--primary-color);
     border-radius: 6px;
     font-size: 0.9em;
     font-weight: 500;
     cursor: pointer;
-    transition: all 0.2s;
+    transition: all 0.3s;
     text-align: center;
     white-space: nowrap;
     flex: 1;
+    box-shadow: 0 4px 12px rgba(155, 89, 182, 0.3);
 }
 .weekly-plan-button-card:hover {
-    background-color: var(--primary-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(155, 89, 182, 0.4);
     border-color: var(--primary-hover);
 }
 .weekly-plan-button-card.in-plan {
@@ -1011,15 +1025,17 @@ h1 {
     border-color: var(--primary-color);
 }
 .week-nav-btn.active {
-    background-color: var(--primary-color);
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-hover) 100%);
     color: white;
     border-color: var(--primary-color);
     opacity: 0.5;
     cursor: default;
+    box-shadow: 0 4px 12px rgba(155, 89, 182, 0.3);
 }
 .week-nav-btn.active:hover {
-    background-color: var(--primary-color);
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-hover) 100%);
     opacity: 0.5;
+    transform: none;
 }
 .week-nav-btn:disabled {
     cursor: default;
@@ -1267,21 +1283,22 @@ h1 {
     width: 24px;
     height: 24px;
     border: none;
-    background-color: var(--primary-color);
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-hover) 100%);
     color: white;
     border-radius: 50%;
     font-size: 14px;
     font-weight: bold;
     cursor: pointer;
-    transition: all 0.2s;
+    transition: all 0.3s;
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 0;
     line-height: 1;
+    box-shadow: 0 4px 12px rgba(155, 89, 182, 0.3);
 }
 .servings-btn:hover {
-    background-color: var(--primary-hover);
+    box-shadow: 0 6px 16px rgba(155, 89, 182, 0.4);
     transform: scale(1.1);
 }
 .servings-btn:active {
@@ -1478,17 +1495,19 @@ h1 {
 }
 .select-recipe-btn {
     padding: 6px 14px;
-    background-color: var(--primary-color);
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-hover) 100%);
     color: white;
     border: none;
     border-radius: 4px;
     font-size: 0.9em;
     font-weight: 500;
     cursor: pointer;
-    transition: all 0.2s;
+    transition: all 0.3s;
+    box-shadow: 0 4px 12px rgba(155, 89, 182, 0.3);
 }
 .select-recipe-btn:hover {
-    background-color: #5a35a1;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(155, 89, 182, 0.4);
 }
 
 /* Todo section */
@@ -1866,15 +1885,17 @@ h1 {
     border-color: var(--primary-color);
 }
 .week-nav-btn.active {
-    background-color: var(--primary-color);
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-hover) 100%);
     color: white;
     border-color: var(--primary-color);
     opacity: 0.5;
     cursor: default;
+    box-shadow: 0 4px 12px rgba(155, 89, 182, 0.3);
 }
 .week-nav-btn.active:hover {
-    background-color: var(--primary-color);
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-hover) 100%);
     opacity: 0.5;
+    transform: none;
 }
 .week-nav-btn:disabled {
     cursor: default;
@@ -1977,19 +1998,20 @@ h1 {
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: var(--primary-color);
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-hover) 100%);
     color: white;
     border: none;
     border-radius: 6px;
     font-size: 1.3em;
     font-weight: bold;
     cursor: pointer;
-    transition: all 0.2s;
+    transition: all 0.3s;
     user-select: none;
     -webkit-tap-highlight-color: transparent;
+    box-shadow: 0 4px 12px rgba(155, 89, 182, 0.3);
 }
 .servings-btn:hover {
-    background-color: #5a35a1;
+    box-shadow: 0 6px 16px rgba(155, 89, 182, 0.4);
     transform: scale(1.05);
 }
 .servings-btn:active {
