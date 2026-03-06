@@ -499,8 +499,11 @@ def generate_settings_page_html(deployment_time: datetime | None = None) -> str:
                         button.textContent = '📋 Kopieren';
                     }}, 3000);
                 }}).catch(() => {{
-                    // Fallback: show prompt with URL
-                    prompt('Kopiere diesen Link:', finalUrl);
+                    // Show error state instead of dialog
+                    button.textContent = '❌ Fehler';
+                    setTimeout(() => {{
+                        button.textContent = '📋 Kopieren';
+                    }}, 3000);
                 }});
             }} catch (e) {{
                 console.error('Export error:', e);
@@ -1058,9 +1061,12 @@ def generate_recipe_detail_html(recipe: dict[str, Any], slug: str, deployment_ti
                         closeSettingsModal();
                     }}, 2000);
                 }}).catch(() => {{
-                    // Fallback: show URL in prompt
-                    prompt('Kopiere diesen Link:', url.toString());
-                    closeSettingsModal();
+                    // Show error state instead of dialog
+                    button.textContent = '❌ Fehler';
+                    setTimeout(() => {{
+                        button.textContent = '📋 Kopieren';
+                        closeSettingsModal();
+                    }}, 2000);
                 }});
             }} catch (e) {{
                 console.error('Export error:', e);
@@ -2182,9 +2188,12 @@ def generate_overview_html(
                         closeSettingsModal();
                     }}, 2000);
                 }}).catch(() => {{
-                    // Fallback: show URL in prompt
-                    prompt('Kopiere diesen Link:', url.toString());
-                    closeSettingsModal();
+                    // Show error state instead of dialog
+                    button.textContent = '❌ Fehler';
+                    setTimeout(() => {{
+                        button.textContent = '📋 Kopieren';
+                        closeSettingsModal();
+                    }}, 2000);
                 }});
             }} catch (e) {{
                 console.error('Export error:', e);
@@ -3250,9 +3259,12 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]], deploym
                         closeSettingsModal();
                     }}, 2000);
                 }}).catch(() => {{
-                    // Fallback: show URL in prompt
-                    prompt('Kopiere diesen Link:', url.toString());
-                    closeSettingsModal();
+                    // Show error state instead of dialog
+                    button.textContent = '❌ Fehler';
+                    setTimeout(() => {{
+                        button.textContent = '📋 Kopieren';
+                        closeSettingsModal();
+                    }}, 2000);
                 }});
             }} catch (e) {{
                 console.error('Export error:', e);
@@ -3704,9 +3716,12 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]], 
                         closeSettingsModal();
                     }}, 2000);
                 }}).catch(() => {{
-                    // Fallback: show URL in prompt
-                    prompt('Kopiere diesen Link:', url.toString());
-                    closeSettingsModal();
+                    // Show error state instead of dialog
+                    button.textContent = '❌ Fehler';
+                    setTimeout(() => {{
+                        button.textContent = '📋 Kopieren';
+                        closeSettingsModal();
+                    }}, 2000);
                 }});
             }} catch (e) {{
                 console.error('Export error:', e);
