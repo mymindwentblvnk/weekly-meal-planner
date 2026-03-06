@@ -446,50 +446,43 @@ def generate_settings_page_html(deployment_time: datetime | None = None) -> str:
 
         // Export/Import functions
         let pendingImportData = null;
+        let preShortenedExportUrl = null;  // Store pre-shortened URL for sync clipboard copy
 
         // Export data functionality
         async function exportData() {{
             try {{
-                // Export ALL meal plans (not just current/next week)
-                const mealPlans = localStorage.getItem('mealPlansV2') || '{{}}';
-                const plans = JSON.parse(mealPlans);
-
-                const exportData = {{
-                    version: 1,
-                    exportDate: new Date().toISOString(),
-                    weeks: plans
-                }};
-
-                // Encode data - use LZ-String if available, otherwise fall back to base64
-                const jsonStr = JSON.stringify(exportData);
-                let encoded;
-
-                if (typeof LZString !== 'undefined') {{
-                    // Use compression (shorter URLs)
-                    encoded = LZString.compressToEncodedURIComponent(jsonStr);
-                }} else {{
-                    // Fallback to base64
-                    const base64 = btoa(unescape(encodeURIComponent(jsonStr)));
-                    encoded = 'b64:' + base64;
-                }}
-
-                const fullUrl = `${{window.location.origin}}${{window.location.pathname.replace('settings.html', 'index.html')}}?import=${{encoded}}`;
-
-                // Shorten URL using is.gd (privacy-friendly, no tracking)
-                let finalUrl = fullUrl;
-                try {{
-                    const shortenResponse = await fetch(`https://is.gd/create.php?format=json&url=${{encodeURIComponent(fullUrl)}}`);
-                    const shortenData = await shortenResponse.json();
-
-                    if (shortenData.shorturl) {{
-                        finalUrl = shortenData.shorturl;
-                    }}
-                }} catch (shortenError) {{
-                    console.warn('URL shortening failed, using full URL:', shortenError);
-                    // Continue with full URL if shortening fails
-                }}
-
                 const button = document.getElementById('exportButton');
+                let finalUrl;
+
+                // Use pre-shortened URL if available (enables synchronous copy on mobile Safari)
+                if (preShortenedExportUrl) {{
+                    finalUrl = preShortenedExportUrl;
+                }} else {{
+                    // Fallback: generate URL on-the-fly (might fail on mobile Safari)
+                    const mealPlans = localStorage.getItem('mealPlansV2') || '{{}}';
+                    const plans = JSON.parse(mealPlans);
+
+                    const exportData = {{
+                        version: 1,
+                        exportDate: new Date().toISOString(),
+                        weeks: plans
+                    }};
+
+                    const jsonStr = JSON.stringify(exportData);
+                    let encoded;
+
+                    if (typeof LZString !== 'undefined') {{
+                        encoded = LZString.compressToEncodedURIComponent(jsonStr);
+                    }} else {{
+                        const base64 = btoa(unescape(encodeURIComponent(jsonStr)));
+                        encoded = 'b64:' + base64;
+                    }}
+
+                    finalUrl = `${{window.location.origin}}${{window.location.pathname.replace('settings.html', 'index.html')}}?import=${{encoded}}`;
+                    // Note: No shortening in fallback to keep it synchronous
+                }}
+
+                // Copy synchronously (works on mobile Safari!)
                 navigator.clipboard.writeText(finalUrl).then(() => {{
                     // Update button to show success
                     button.textContent = '✅ Kopiert';
@@ -642,6 +635,9 @@ def generate_settings_page_html(deployment_time: datetime | None = None) -> str:
                     console.warn('URL shortening failed, using full URL:', shortenError);
                     // Continue with full URL if shortening fails
                 }}
+
+                // Store the shortened URL for the export button (enables synchronous clipboard copy on mobile)
+                preShortenedExportUrl = finalUrl;
 
                 // Clear any existing QR code
                 const qrcodeContainer = document.getElementById('qrcode');
@@ -976,39 +972,10 @@ def generate_recipe_detail_html(recipe: dict[str, Any], slug: str, deployment_ti
             const darkMode = localStorage.getItem('darkMode');
             document.getElementById('settingDarkMode').checked = darkMode === 'enabled';
 
-            document.getElementById('settingsModal').style.display = 'flex';
-        }}
-
-        function closeSettingsModal() {{
-            document.getElementById('settingsModal').style.display = 'none';
-        }}
-
-        function closeSettingsModalOnBackdrop(event) {{
-            if (event.target === event.currentTarget) {{
-                closeSettingsModal();
-            }}
-        }}
-
-        // Export/Import functions
-        let pendingImportData = null;
-
-        // Helper function to get ISO week number
-        function getISOWeek(date) {{
-            const d = new Date(date);
-            d.setHours(0, 0, 0, 0);
-            d.setDate(d.getDate() + 4 - (d.getDay() || 7));
-            const yearStart = new Date(d.getFullYear(), 0, 1);
-            const weekNo = Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
-            return d.getFullYear() + '-W' + String(weekNo).padStart(2, '0');
-        }}
-
-        function exportData() {{
+            // Pre-generate export URL for synchronous clipboard copy (works on mobile Safari)
             try {{
-                // Collect data for current week + next week
                 const today = new Date();
                 const currentWeekNum = getISOWeek(today);
-
-                // Calculate next week
                 const nextWeekDate = new Date(today);
                 nextWeekDate.setDate(nextWeekDate.getDate() + 7);
                 const nextWeekNum = getISOWeek(nextWeekDate);
@@ -1032,26 +999,100 @@ def generate_recipe_detail_html(recipe: dict[str, Any], slug: str, deployment_ti
                     exportData.weeks[nextWeekNum] = nextWeekData;
                 }}
 
-                // Encode data - use LZ-String if available, otherwise fall back to base64
                 const jsonStr = JSON.stringify(exportData);
                 let encoded;
 
                 if (typeof LZString !== 'undefined') {{
-                    // Use compression (shorter URLs)
                     encoded = LZString.compressToEncodedURIComponent(jsonStr);
                 }} else {{
-                    // Fallback to base64 (longer URLs but always works)
-                    console.warn('LZ-String not loaded, using base64 encoding');
                     encoded = 'b64:' + btoa(unescape(encodeURIComponent(jsonStr)));
                 }}
 
-                // Create shareable URL
                 const url = new URL(window.location.href);
                 url.searchParams.set('import', encoded);
+                preShortenedExportUrl = url.toString();
+            }} catch (e) {{
+                console.error('Failed to pre-generate export URL:', e);
+                preShortenedExportUrl = null;
+            }}
 
-                // Copy to clipboard
+            document.getElementById('settingsModal').style.display = 'flex';
+        }}
+
+        function closeSettingsModal() {{
+            document.getElementById('settingsModal').style.display = 'none';
+        }}
+
+        function closeSettingsModalOnBackdrop(event) {{
+            if (event.target === event.currentTarget) {{
+                closeSettingsModal();
+            }}
+        }}
+
+        // Export/Import functions
+        let pendingImportData = null;
+        let preShortenedExportUrl = null;  // Store pre-generated URL for sync clipboard copy
+
+        // Helper function to get ISO week number
+        function getISOWeek(date) {{
+            const d = new Date(date);
+            d.setHours(0, 0, 0, 0);
+            d.setDate(d.getDate() + 4 - (d.getDay() || 7));
+            const yearStart = new Date(d.getFullYear(), 0, 1);
+            const weekNo = Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
+            return d.getFullYear() + '-W' + String(weekNo).padStart(2, '0');
+        }}
+
+        function exportData() {{
+            try {{
                 const button = document.getElementById('weeklyExportButton');
-                navigator.clipboard.writeText(url.toString()).then(() => {{
+
+                // Use pre-generated URL if available (enables synchronous copy on mobile Safari)
+                let urlToCopy = preShortenedExportUrl;
+
+                // Fallback: generate URL if not pre-generated
+                if (!urlToCopy) {{
+                    const today = new Date();
+                    const currentWeekNum = getISOWeek(today);
+                    const nextWeekDate = new Date(today);
+                    nextWeekDate.setDate(nextWeekDate.getDate() + 7);
+                    const nextWeekNum = getISOWeek(nextWeekDate);
+
+                    const plans = getMealPlans();
+                    const currentWeekData = plans[currentWeekNum] || {{}};
+                    const nextWeekData = plans[nextWeekNum] || {{}};
+
+                    const exportData = {{
+                        version: 1,
+                        exportDate: new Date().toISOString(),
+                        currentWeek: currentWeekNum,
+                        nextWeek: nextWeekNum,
+                        weeks: {{}}
+                    }};
+
+                    if (Object.keys(currentWeekData).length > 0) {{
+                        exportData.weeks[currentWeekNum] = currentWeekData;
+                    }}
+                    if (Object.keys(nextWeekData).length > 0) {{
+                        exportData.weeks[nextWeekNum] = nextWeekData;
+                    }}
+
+                    const jsonStr = JSON.stringify(exportData);
+                    let encoded;
+
+                    if (typeof LZString !== 'undefined') {{
+                        encoded = LZString.compressToEncodedURIComponent(jsonStr);
+                    }} else {{
+                        encoded = 'b64:' + btoa(unescape(encodeURIComponent(jsonStr)));
+                    }}
+
+                    const url = new URL(window.location.href);
+                    url.searchParams.set('import', encoded);
+                    urlToCopy = url.toString();
+                }}
+
+                // Copy to clipboard (synchronous if using pre-generated URL!)
+                navigator.clipboard.writeText(urlToCopy).then(() => {{
                     // Update button to show success
                     button.textContent = '✅ Kopiert';
 
@@ -2103,39 +2144,10 @@ def generate_overview_html(
             const darkMode = localStorage.getItem('darkMode');
             document.getElementById('settingDarkMode').checked = darkMode === 'enabled';
 
-            document.getElementById('settingsModal').style.display = 'flex';
-        }}
-
-        function closeSettingsModal() {{
-            document.getElementById('settingsModal').style.display = 'none';
-        }}
-
-        function closeSettingsModalOnBackdrop(event) {{
-            if (event.target === event.currentTarget) {{
-                closeSettingsModal();
-            }}
-        }}
-
-        // Export/Import functions
-        let pendingImportData = null;
-
-        // Helper function to get ISO week number
-        function getISOWeek(date) {{
-            const d = new Date(date);
-            d.setHours(0, 0, 0, 0);
-            d.setDate(d.getDate() + 4 - (d.getDay() || 7));
-            const yearStart = new Date(d.getFullYear(), 0, 1);
-            const weekNo = Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
-            return d.getFullYear() + '-W' + String(weekNo).padStart(2, '0');
-        }}
-
-        function exportData() {{
+            // Pre-generate export URL for synchronous clipboard copy (works on mobile Safari)
             try {{
-                // Collect data for current week + next week
                 const today = new Date();
                 const currentWeekNum = getISOWeek(today);
-
-                // Calculate next week
                 const nextWeekDate = new Date(today);
                 nextWeekDate.setDate(nextWeekDate.getDate() + 7);
                 const nextWeekNum = getISOWeek(nextWeekDate);
@@ -2159,26 +2171,100 @@ def generate_overview_html(
                     exportData.weeks[nextWeekNum] = nextWeekData;
                 }}
 
-                // Encode data - use LZ-String if available, otherwise fall back to base64
                 const jsonStr = JSON.stringify(exportData);
                 let encoded;
 
                 if (typeof LZString !== 'undefined') {{
-                    // Use compression (shorter URLs)
                     encoded = LZString.compressToEncodedURIComponent(jsonStr);
                 }} else {{
-                    // Fallback to base64 (longer URLs but always works)
-                    console.warn('LZ-String not loaded, using base64 encoding');
                     encoded = 'b64:' + btoa(unescape(encodeURIComponent(jsonStr)));
                 }}
 
-                // Create shareable URL
                 const url = new URL(window.location.href);
                 url.searchParams.set('import', encoded);
+                preShortenedExportUrl = url.toString();
+            }} catch (e) {{
+                console.error('Failed to pre-generate export URL:', e);
+                preShortenedExportUrl = null;
+            }}
 
-                // Copy to clipboard
+            document.getElementById('settingsModal').style.display = 'flex';
+        }}
+
+        function closeSettingsModal() {{
+            document.getElementById('settingsModal').style.display = 'none';
+        }}
+
+        function closeSettingsModalOnBackdrop(event) {{
+            if (event.target === event.currentTarget) {{
+                closeSettingsModal();
+            }}
+        }}
+
+        // Export/Import functions
+        let pendingImportData = null;
+        let preShortenedExportUrl = null;  // Store pre-generated URL for sync clipboard copy
+
+        // Helper function to get ISO week number
+        function getISOWeek(date) {{
+            const d = new Date(date);
+            d.setHours(0, 0, 0, 0);
+            d.setDate(d.getDate() + 4 - (d.getDay() || 7));
+            const yearStart = new Date(d.getFullYear(), 0, 1);
+            const weekNo = Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
+            return d.getFullYear() + '-W' + String(weekNo).padStart(2, '0');
+        }}
+
+        function exportData() {{
+            try {{
                 const button = document.getElementById('weeklyExportButton');
-                navigator.clipboard.writeText(url.toString()).then(() => {{
+
+                // Use pre-generated URL if available (enables synchronous copy on mobile Safari)
+                let urlToCopy = preShortenedExportUrl;
+
+                // Fallback: generate URL if not pre-generated
+                if (!urlToCopy) {{
+                    const today = new Date();
+                    const currentWeekNum = getISOWeek(today);
+                    const nextWeekDate = new Date(today);
+                    nextWeekDate.setDate(nextWeekDate.getDate() + 7);
+                    const nextWeekNum = getISOWeek(nextWeekDate);
+
+                    const plans = getMealPlans();
+                    const currentWeekData = plans[currentWeekNum] || {{}};
+                    const nextWeekData = plans[nextWeekNum] || {{}};
+
+                    const exportData = {{
+                        version: 1,
+                        exportDate: new Date().toISOString(),
+                        currentWeek: currentWeekNum,
+                        nextWeek: nextWeekNum,
+                        weeks: {{}}
+                    }};
+
+                    if (Object.keys(currentWeekData).length > 0) {{
+                        exportData.weeks[currentWeekNum] = currentWeekData;
+                    }}
+                    if (Object.keys(nextWeekData).length > 0) {{
+                        exportData.weeks[nextWeekNum] = nextWeekData;
+                    }}
+
+                    const jsonStr = JSON.stringify(exportData);
+                    let encoded;
+
+                    if (typeof LZString !== 'undefined') {{
+                        encoded = LZString.compressToEncodedURIComponent(jsonStr);
+                    }} else {{
+                        encoded = 'b64:' + btoa(unescape(encodeURIComponent(jsonStr)));
+                    }}
+
+                    const url = new URL(window.location.href);
+                    url.searchParams.set('import', encoded);
+                    urlToCopy = url.toString();
+                }}
+
+                // Copy to clipboard (synchronous if using pre-generated URL!)
+                navigator.clipboard.writeText(urlToCopy).then(() => {{
                     // Update button to show success
                     button.textContent = '✅ Kopiert';
 
@@ -3174,39 +3260,10 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]], deploym
             const darkMode = localStorage.getItem('darkMode');
             document.getElementById('settingDarkMode').checked = darkMode === 'enabled';
 
-            document.getElementById('settingsModal').style.display = 'flex';
-        }}
-
-        function closeSettingsModal() {{
-            document.getElementById('settingsModal').style.display = 'none';
-        }}
-
-        function closeSettingsModalOnBackdrop(event) {{
-            if (event.target === event.currentTarget) {{
-                closeSettingsModal();
-            }}
-        }}
-
-        // Export/Import functions
-        let pendingImportData = null;
-
-        // Helper function to get ISO week number
-        function getISOWeek(date) {{
-            const d = new Date(date);
-            d.setHours(0, 0, 0, 0);
-            d.setDate(d.getDate() + 4 - (d.getDay() || 7));
-            const yearStart = new Date(d.getFullYear(), 0, 1);
-            const weekNo = Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
-            return d.getFullYear() + '-W' + String(weekNo).padStart(2, '0');
-        }}
-
-        function exportData() {{
+            // Pre-generate export URL for synchronous clipboard copy (works on mobile Safari)
             try {{
-                // Collect data for current week + next week
                 const today = new Date();
                 const currentWeekNum = getISOWeek(today);
-
-                // Calculate next week
                 const nextWeekDate = new Date(today);
                 nextWeekDate.setDate(nextWeekDate.getDate() + 7);
                 const nextWeekNum = getISOWeek(nextWeekDate);
@@ -3230,26 +3287,100 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]], deploym
                     exportData.weeks[nextWeekNum] = nextWeekData;
                 }}
 
-                // Encode data - use LZ-String if available, otherwise fall back to base64
                 const jsonStr = JSON.stringify(exportData);
                 let encoded;
 
                 if (typeof LZString !== 'undefined') {{
-                    // Use compression (shorter URLs)
                     encoded = LZString.compressToEncodedURIComponent(jsonStr);
                 }} else {{
-                    // Fallback to base64 (longer URLs but always works)
-                    console.warn('LZ-String not loaded, using base64 encoding');
                     encoded = 'b64:' + btoa(unescape(encodeURIComponent(jsonStr)));
                 }}
 
-                // Create shareable URL
                 const url = new URL(window.location.href);
                 url.searchParams.set('import', encoded);
+                preShortenedExportUrl = url.toString();
+            }} catch (e) {{
+                console.error('Failed to pre-generate export URL:', e);
+                preShortenedExportUrl = null;
+            }}
 
-                // Copy to clipboard
+            document.getElementById('settingsModal').style.display = 'flex';
+        }}
+
+        function closeSettingsModal() {{
+            document.getElementById('settingsModal').style.display = 'none';
+        }}
+
+        function closeSettingsModalOnBackdrop(event) {{
+            if (event.target === event.currentTarget) {{
+                closeSettingsModal();
+            }}
+        }}
+
+        // Export/Import functions
+        let pendingImportData = null;
+        let preShortenedExportUrl = null;  // Store pre-generated URL for sync clipboard copy
+
+        // Helper function to get ISO week number
+        function getISOWeek(date) {{
+            const d = new Date(date);
+            d.setHours(0, 0, 0, 0);
+            d.setDate(d.getDate() + 4 - (d.getDay() || 7));
+            const yearStart = new Date(d.getFullYear(), 0, 1);
+            const weekNo = Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
+            return d.getFullYear() + '-W' + String(weekNo).padStart(2, '0');
+        }}
+
+        function exportData() {{
+            try {{
                 const button = document.getElementById('weeklyExportButton');
-                navigator.clipboard.writeText(url.toString()).then(() => {{
+
+                // Use pre-generated URL if available (enables synchronous copy on mobile Safari)
+                let urlToCopy = preShortenedExportUrl;
+
+                // Fallback: generate URL if not pre-generated
+                if (!urlToCopy) {{
+                    const today = new Date();
+                    const currentWeekNum = getISOWeek(today);
+                    const nextWeekDate = new Date(today);
+                    nextWeekDate.setDate(nextWeekDate.getDate() + 7);
+                    const nextWeekNum = getISOWeek(nextWeekDate);
+
+                    const plans = getMealPlans();
+                    const currentWeekData = plans[currentWeekNum] || {{}};
+                    const nextWeekData = plans[nextWeekNum] || {{}};
+
+                    const exportData = {{
+                        version: 1,
+                        exportDate: new Date().toISOString(),
+                        currentWeek: currentWeekNum,
+                        nextWeek: nextWeekNum,
+                        weeks: {{}}
+                    }};
+
+                    if (Object.keys(currentWeekData).length > 0) {{
+                        exportData.weeks[currentWeekNum] = currentWeekData;
+                    }}
+                    if (Object.keys(nextWeekData).length > 0) {{
+                        exportData.weeks[nextWeekNum] = nextWeekData;
+                    }}
+
+                    const jsonStr = JSON.stringify(exportData);
+                    let encoded;
+
+                    if (typeof LZString !== 'undefined') {{
+                        encoded = LZString.compressToEncodedURIComponent(jsonStr);
+                    }} else {{
+                        encoded = 'b64:' + btoa(unescape(encodeURIComponent(jsonStr)));
+                    }}
+
+                    const url = new URL(window.location.href);
+                    url.searchParams.set('import', encoded);
+                    urlToCopy = url.toString();
+                }}
+
+                // Copy to clipboard (synchronous if using pre-generated URL!)
+                navigator.clipboard.writeText(urlToCopy).then(() => {{
                     // Update button to show success
                     button.textContent = '✅ Kopiert';
 
@@ -3631,39 +3762,10 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]], 
             const darkMode = localStorage.getItem('darkMode');
             document.getElementById('settingDarkMode').checked = darkMode === 'enabled';
 
-            document.getElementById('settingsModal').style.display = 'flex';
-        }}
-
-        function closeSettingsModal() {{
-            document.getElementById('settingsModal').style.display = 'none';
-        }}
-
-        function closeSettingsModalOnBackdrop(event) {{
-            if (event.target === event.currentTarget) {{
-                closeSettingsModal();
-            }}
-        }}
-
-        // Export/Import functions
-        let pendingImportData = null;
-
-        // Helper function to get ISO week number
-        function getISOWeek(date) {{
-            const d = new Date(date);
-            d.setHours(0, 0, 0, 0);
-            d.setDate(d.getDate() + 4 - (d.getDay() || 7));
-            const yearStart = new Date(d.getFullYear(), 0, 1);
-            const weekNo = Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
-            return d.getFullYear() + '-W' + String(weekNo).padStart(2, '0');
-        }}
-
-        function exportData() {{
+            // Pre-generate export URL for synchronous clipboard copy (works on mobile Safari)
             try {{
-                // Collect data for current week + next week
                 const today = new Date();
                 const currentWeekNum = getISOWeek(today);
-
-                // Calculate next week
                 const nextWeekDate = new Date(today);
                 nextWeekDate.setDate(nextWeekDate.getDate() + 7);
                 const nextWeekNum = getISOWeek(nextWeekDate);
@@ -3687,26 +3789,100 @@ def generate_shopping_list_html(recipes_data: list[tuple[str, dict[str, Any]]], 
                     exportData.weeks[nextWeekNum] = nextWeekData;
                 }}
 
-                // Encode data - use LZ-String if available, otherwise fall back to base64
                 const jsonStr = JSON.stringify(exportData);
                 let encoded;
 
                 if (typeof LZString !== 'undefined') {{
-                    // Use compression (shorter URLs)
                     encoded = LZString.compressToEncodedURIComponent(jsonStr);
                 }} else {{
-                    // Fallback to base64 (longer URLs but always works)
-                    console.warn('LZ-String not loaded, using base64 encoding');
                     encoded = 'b64:' + btoa(unescape(encodeURIComponent(jsonStr)));
                 }}
 
-                // Create shareable URL
                 const url = new URL(window.location.href);
                 url.searchParams.set('import', encoded);
+                preShortenedExportUrl = url.toString();
+            }} catch (e) {{
+                console.error('Failed to pre-generate export URL:', e);
+                preShortenedExportUrl = null;
+            }}
 
-                // Copy to clipboard
+            document.getElementById('settingsModal').style.display = 'flex';
+        }}
+
+        function closeSettingsModal() {{
+            document.getElementById('settingsModal').style.display = 'none';
+        }}
+
+        function closeSettingsModalOnBackdrop(event) {{
+            if (event.target === event.currentTarget) {{
+                closeSettingsModal();
+            }}
+        }}
+
+        // Export/Import functions
+        let pendingImportData = null;
+        let preShortenedExportUrl = null;  // Store pre-generated URL for sync clipboard copy
+
+        // Helper function to get ISO week number
+        function getISOWeek(date) {{
+            const d = new Date(date);
+            d.setHours(0, 0, 0, 0);
+            d.setDate(d.getDate() + 4 - (d.getDay() || 7));
+            const yearStart = new Date(d.getFullYear(), 0, 1);
+            const weekNo = Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
+            return d.getFullYear() + '-W' + String(weekNo).padStart(2, '0');
+        }}
+
+        function exportData() {{
+            try {{
                 const button = document.getElementById('weeklyExportButton');
-                navigator.clipboard.writeText(url.toString()).then(() => {{
+
+                // Use pre-generated URL if available (enables synchronous copy on mobile Safari)
+                let urlToCopy = preShortenedExportUrl;
+
+                // Fallback: generate URL if not pre-generated
+                if (!urlToCopy) {{
+                    const today = new Date();
+                    const currentWeekNum = getISOWeek(today);
+                    const nextWeekDate = new Date(today);
+                    nextWeekDate.setDate(nextWeekDate.getDate() + 7);
+                    const nextWeekNum = getISOWeek(nextWeekDate);
+
+                    const plans = getMealPlans();
+                    const currentWeekData = plans[currentWeekNum] || {{}};
+                    const nextWeekData = plans[nextWeekNum] || {{}};
+
+                    const exportData = {{
+                        version: 1,
+                        exportDate: new Date().toISOString(),
+                        currentWeek: currentWeekNum,
+                        nextWeek: nextWeekNum,
+                        weeks: {{}}
+                    }};
+
+                    if (Object.keys(currentWeekData).length > 0) {{
+                        exportData.weeks[currentWeekNum] = currentWeekData;
+                    }}
+                    if (Object.keys(nextWeekData).length > 0) {{
+                        exportData.weeks[nextWeekNum] = nextWeekData;
+                    }}
+
+                    const jsonStr = JSON.stringify(exportData);
+                    let encoded;
+
+                    if (typeof LZString !== 'undefined') {{
+                        encoded = LZString.compressToEncodedURIComponent(jsonStr);
+                    }} else {{
+                        encoded = 'b64:' + btoa(unescape(encodeURIComponent(jsonStr)));
+                    }}
+
+                    const url = new URL(window.location.href);
+                    url.searchParams.set('import', encoded);
+                    urlToCopy = url.toString();
+                }}
+
+                // Copy to clipboard (synchronous if using pre-generated URL!)
+                navigator.clipboard.writeText(urlToCopy).then(() => {{
                     // Update button to show success
                     button.textContent = '✅ Kopiert';
 
