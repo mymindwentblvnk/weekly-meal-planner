@@ -30,6 +30,8 @@ TEXTS = {
     "prep_time": "Vorbereitungszeit",
     "cook_time": "Kochzeit",
     "minutes": "Minuten",
+    "calories_label": "Kalorien",
+    "kcal_per_serving": "kcal pro Portion",
     "servings_label": "Portionen",
     "ingredients_heading": "Zutaten",
     "instructions_heading": "Zubereitung",

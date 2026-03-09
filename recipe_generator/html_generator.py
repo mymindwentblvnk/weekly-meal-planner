@@ -739,6 +739,12 @@ def generate_schema_metadata(recipe: dict[str, Any]) -> str:
     <meta itemprop="prepTime" content="{format_time(recipe['prep_time'])}">
     <meta itemprop="cookTime" content="{format_time(recipe['cook_time'])}">'''
 
+    # Add nutrition information if kcal are present
+    if 'kcal' in recipe:
+        metadata += f'''
+    <meta itemprop="nutrition" itemscope itemtype="https://schema.org/NutritionInformation">
+    <meta itemprop="calories" content="{recipe['kcal']} calories">'''
+
     # Add ingredient meta tags
     ingredient_tags = []
     for ingredient in recipe['ingredients']:
@@ -785,6 +791,7 @@ def generate_recipe_detail_html(recipe: dict[str, Any], slug: str, deployment_ti
     # Get image path (use placeholder if not specified)
     image = recipe.get('image', 'images/recipes/placeholder.svg')
 
+
     title = f"{recipe['name']} {get_text('recipe_title_suffix')}"
     html = f'''{generate_page_header(title, DETAIL_PAGE_CSS)}
     {generate_navigation()}
@@ -821,6 +828,7 @@ def generate_recipe_detail_html(recipe: dict[str, Any], slug: str, deployment_ti
                 <td><time itemprop="cookTime" datetime="{format_time(recipe['cook_time'])}">{get_text('cook_time')}</time></td>
                 <td>{recipe['cook_time']} {get_text('minutes')}</td>
             </tr>
+            {'<tr><td>' + get_text('calories_label') + '</td><td itemprop="nutrition" itemscope itemtype="https://schema.org/NutritionInformation"><span itemprop="calories">' + str(recipe['kcal']) + ' ' + get_text('kcal_per_serving') + '</span></td></tr>' if 'kcal' in recipe else ''}
             <tr>
                 <td><meta itemprop="recipeYield" content="{recipe['servings']} servings">{get_text('servings_label')}</td>
                 <td>

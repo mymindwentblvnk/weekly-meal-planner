@@ -40,3 +40,8 @@ def validate_recipe(recipe: dict[str, Any], filename: str) -> None:
         raise ValueError(f"'prep_time' must be a non-negative integer in {filename}")
     if not isinstance(recipe['cook_time'], int) or recipe['cook_time'] < 0:
         raise ValueError(f"'cook_time' must be a non-negative integer in {filename}")
+
+    # Validate optional kcal field
+    if 'kcal' in recipe:
+        if not isinstance(recipe['kcal'], int) or recipe['kcal'] <= 0:
+            raise ValueError(f"'kcal' must be a positive integer in {filename}")
