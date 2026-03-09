@@ -1,0 +1,51 @@
+name: Weiße-Bohnen-Salat mit Schafskäse
+description: Ein mediterraner Salat mit weißen Bohnen, Feta, Gurke und Tomaten - ein
+  Vergnügen für den Gaumen!
+author: EatSmarter
+category: 🥗
+servings: 4
+prep_time: 25
+cook_time: 30
+kcal: 229
+tags:
+- Bohnen
+- Feta
+- Gurke
+- Käse
+- Kräuter
+- Oliven
+- Thymian
+- Tomaten
+ingredients:
+- name: Weiße Bohnen (getrocknet)
+  amount: 200 g
+- name: Gemüsebrühe
+  amount: 800 ml
+- name: Salatgurke
+  amount: 1
+- name: Tomaten
+  amount: 4
+- name: Feta
+  amount: 180 g
+- name: Oliven (grün, ohne Stein)
+  amount: 80 g
+- name: Thymian (frisch)
+  amount: 1 EL
+- name: Salz
+  amount: nach Geschmack
+- name: Pfeffer
+  amount: nach Geschmack
+- name: Weißweinessig
+  amount: 2 EL
+- name: Olivenöl
+  amount: 1 EL
+instructions:
+- Bohnen über Nacht in reichlich Wasser einweichen. Am nächsten Tag abspülen, in Gemüsebrühe
+  ca. 30 Minuten kochen, dann abgießen und abkühlen lassen.
+- Gurke waschen, längs halbieren, Kerne entfernen und in 1 cm große Würfel schneiden.
+  Tomaten waschen und würfeln. Feta zerbröckeln. Oliven halbieren. Alles in einer
+  Schüssel vermengen.
+- Thymianblätter im Mörser zerstoßen. Salat mit Salz, Pfeffer und Thymian würzen.
+  Olivenöl und Weißweinessig dazugeben, mischen und auf Tellern anrichten.
+import_date: '2026-03-09'
+image: images/recipes/weisse-bohnen-salat-mit-schafskaese.jpg
