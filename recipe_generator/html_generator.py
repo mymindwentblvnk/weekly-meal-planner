@@ -1600,6 +1600,11 @@ def generate_overview_html(
         # Get image path (use placeholder if not specified)
         image = recipe.get('image', 'images/recipes/placeholder.svg')
 
+        # Get kcal if present
+        kcal_info = ''
+        if 'kcal' in recipe:
+            kcal_info = f' • <span class="kcal">🔥 {recipe["kcal"]} kcal</span>'
+
         recipe_entry = f'''    <div class="recipe-card" data-category="{category}" data-author="{author}" data-time="{time_category}" data-tags="{tags_json}" data-slug="{slug}" data-name="{escape(recipe['name'])}">
         <a href="{escape(filename)}"><img src="{escape(image)}" alt="{escape(recipe['name'])}" class="recipe-card-image"></a>
         <h2><a href="{escape(filename)}">{escape(recipe['name'])}</a></h2>
@@ -1607,7 +1612,7 @@ def generate_overview_html(
         <div class="recipe-card-actions">
             <p class="meta">
                 <span class="servings">🍽️ {servings} {get_text('servings')}</span> •
-                <span class="time">⏱️ {total_time} {get_text('min_total')}</span>
+                <span class="time">⏱️ {total_time} {get_text('min_total')}</span>{kcal_info}
             </p>
             <button class="weekly-plan-button-card" data-slug="{slug}" data-name="{escape(recipe['name'])}" data-category="{category}" data-servings="{servings}" onclick="toggleWeeklyPlanFromCard(this)">📅 Einplanen</button>
         </div>
