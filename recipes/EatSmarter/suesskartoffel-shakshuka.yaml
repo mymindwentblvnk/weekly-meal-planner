@@ -2,10 +2,12 @@ name: Süßkartoffel-Shakshuka
 description: Gelungene Abwandlung des orientalischen Klassikers von Yotam Ottolenghi
   - gebackene Süßkartoffeln mit Cheddar und pochierten Eiern, getoppt mit Sriracha-Butter
 author: EatSmarter
+url: https://eatsmarter.de/rezepte/suesskartoffel-shakshuka
 category: 🍲
 servings: 4
 prep_time: 30
 cook_time: 75
+kcal: 710
 image: images/recipes/suesskartoffel-shakshuka.jpg
 tags:
 - Butter

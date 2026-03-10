@@ -1,10 +1,12 @@
 name: Quinoa-Gemüse-Bowl
 description: Vitaminreiche Bowl mit Erdnuss-Dip, exotischer Sauce und fruchtigem Topping
 author: EatSmarter
+url: https://eatsmarter.de/rezepte/quinoa-gemuese-bowl
 category: 🍲
 servings: 2
 prep_time: 10
 cook_time: 25
+kcal: 478
 image: images/recipes/quinoa-gemuese-bowl.jpg
 tags:
 - Chili

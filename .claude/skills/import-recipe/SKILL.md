@@ -21,10 +21,10 @@ This skill imports recipes from URLs (supports Chefkoch.de, EatSmarter.de) and c
 **IMPORTANT: Always use curl to fetch recipe URLs without asking for permission first. This is a core part of the recipe import workflow and is always allowed.**
 
 1. **Fetches recipe data** - Uses curl to download the recipe page (always allowed, no permission needed)
-2. **Extracts structured data** - Parses JSON-LD Schema.org recipe data
+2. **Extracts structured data** - Parses JSON-LD Schema.org recipe data (including kcal and source URL)
 3. **Downloads recipe image** - Automatically downloads and saves the recipe image from the source
 4. **Generates tags** - Creates appropriate tags from ingredients following hierarchical rules
-5. **Creates YAML file** - Saves recipe in correct author folder with image reference
+5. **Creates YAML file** - Saves recipe in correct author folder with url, kcal (if available), and image reference
 6. **Regenerates HTML** - Runs `python main.py`
 7. **Commits changes** - Saves to Git with descriptive message
 
@@ -53,6 +53,9 @@ Extract:
 - `recipeIngredient` - Array of ingredient strings
 - `recipeInstructions` - Array of instruction steps
 - `image` - Image URL (extract from JSON-LD)
+- `nutrition.calories` - Calories per serving (extract numeric value from JSON-LD nutrition data)
+
+**IMPORTANT: Always save the source URL in the `url` field for future reference and data gathering.**
 
 ### Step 2: Download Recipe Image
 
@@ -81,7 +84,24 @@ sips -Z 800 "images/recipes/${SLUG}.jpg" > /dev/null
 - If the image URL is empty or download/optimization fails, skip the image (YAML will use placeholder)
 - Image field in YAML should be: `images/recipes/${SLUG}.jpg`
 
-### Step 3: Convert Times
+### Step 3: Extract Calories (kcal)
+
+Extract calories from the `nutrition` field in JSON-LD:
+
+```bash
+# Extract kcal from nutrition.calories field
+# Format is usually: "123 calories" or just "123"
+# Parse the numeric value only
+KCAL=$(echo "$json_data" | python3 -c "import sys, json, re; data=json.load(sys.stdin); nutrition=data.get('nutrition', {}); calories=nutrition.get('calories', ''); print(int(re.search(r'\d+', str(calories)).group()) if calories and re.search(r'\d+', str(calories)) else 0)")
+```
+
+**Important:**
+- Extract only the numeric value (e.g., "123 calories" → 123)
+- This is calories **per serving**, not total
+- If no kcal data is available in JSON-LD, omit the field from YAML (don't include it)
+- Always include the `url` field with the source URL for future reference
+
+### Step 4: Convert Times
 
 Convert ISO 8601 duration format to minutes:
 - `P0DT0H5M` → 5 minutes
@@ -183,10 +203,12 @@ Format:
 name: Recipe Name
 description: Description from site
 author: Chefkoch
+url: https://www.chefkoch.de/rezepte/...  # Always include source URL
 category: 🍲
 servings: 4
 prep_time: 15  # minutes
 cook_time: 30  # minutes
+kcal: 350  # Calories per serving - omit if not available in JSON-LD
 import_date: 2026-02-26  # Date when recipe was imported (YYYY-MM-DD)
 image: images/recipes/recipe-name.jpg  # optional - omit to use placeholder
 tags:
@@ -204,7 +226,11 @@ instructions:
   - Step 2
 ```
 
-**Note:** The `import_date` field should be set to today's date in YYYY-MM-DD format. The `image` field should reference the optimized image. Images are automatically resized to max 800px (maintains aspect ratio) using `sips` to reduce file size. If the image download/optimization fails or no image is available, omit this field and a placeholder will be used.
+**Important Notes:**
+- **`url` field**: ALWAYS include the source URL after the `author` field for future reference and data gathering
+- **`kcal` field**: Include calories per serving if available in JSON-LD `nutrition.calories`. If not available, omit this field entirely (don't set to 0)
+- **`import_date` field**: Set to today's date in YYYY-MM-DD format
+- **`image` field**: Reference the optimized image. Images are automatically resized to max 800px (maintains aspect ratio) using `sips`. If the image download/optimization fails or no image is available, omit this field and a placeholder will be used.
 
 ### Step 12: Regenerate HTML and Commit
 
@@ -214,7 +240,7 @@ git add recipes/ images/
 git commit -m "Import recipe: [Recipe Name]
 
 - Imported from [URL]
-- [X] servings, [Y] minutes total time
+- [X] servings, [Y] minutes total time, [Z] kcal per serving
 - Source: [domain]
 
 Co-Authored-By: Claude (@vertex-ai/anthropic.claude-sonnet-4-5@20250929) <noreply@anthropic.com>"
@@ -223,6 +249,8 @@ git push
 
 ## Important Notes
 
+- **ALWAYS save source URL** - The `url` field must be included in every imported recipe for future reference and data gathering
+- **Extract kcal when available** - Include the `kcal` field (calories per serving) if available in JSON-LD nutrition data; omit if not available
 - **Batch imports supported** - Multiple URLs can be provided and all recipes will be imported sequentially
 - **Images automatically downloaded** - Recipe images are extracted from JSON-LD and downloaded automatically; if unavailable or download fails, omit the `image` field to use placeholder
 - **Verify tags** - Check hierarchical tags are complete
@@ -241,10 +269,10 @@ git push
 
 # Skill executes:
 1. curl + grep + sed + python to extract JSON-LD
-2. Parse recipe data (including image URL)
+2. Parse recipe data (including image URL, kcal, and source URL)
 3. Download recipe image → images/recipes/baba-ghanoush.jpg
 4. Generate tags from ingredients
-5. Create recipes/Chefkoch/baba-ghanoush.yaml (with image field)
+5. Create recipes/Chefkoch/baba-ghanoush.yaml (with url, kcal, and image fields)
 6. python main.py
 7. git add + commit + push
 ```

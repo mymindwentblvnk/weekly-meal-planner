@@ -2,10 +2,12 @@ name: Chili-Hummus
 description: Chili-Hummus von EAT SMARTER ist perfekt für alle Fans von scharfen Dips
   und Aufstrichen.
 author: EatSmarter
+url: https://eatsmarter.de/rezepte/chili-hummus
 category: 🍲
 servings: 4
 prep_time: 15
 cook_time: 0
+kcal: 176
 image: images/recipes/chili-hummus.jpg
 tags:
 - Chili

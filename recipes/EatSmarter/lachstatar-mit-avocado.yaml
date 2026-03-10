@@ -2,10 +2,12 @@ name: Lachstatar mit Avocado
 description: Feines Lachstatar mit cremiger Avocado, Kapern und Limette, serviert
   mit knusprigem Baguette
 author: EatSmarter
+url: https://eatsmarter.de/rezepte/lachstatar-mit-avocado
 category: 🍲
 servings: 4
 prep_time: 20
 cook_time: 0
+kcal: 521
 image: images/recipes/lachstatar-mit-avocado.jpg
 tags:
 - Avocado

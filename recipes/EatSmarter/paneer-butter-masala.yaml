@@ -2,10 +2,12 @@ name: Paneer-Butter-Masala
 description: Indisches Gericht mit Paneer-Käse in cremiger Tomaten-Cashew-Sauce, serviert
   mit Hafer, Salat und Joghurt
 author: EatSmarter
+url: https://eatsmarter.de/rezepte/paneer-butter-masala
 category: 🍲
 servings: 4
 prep_time: 15
 cook_time: 25
+kcal: 724
 image: images/recipes/paneer-butter-masala.jpg
 tags:
 - Butter

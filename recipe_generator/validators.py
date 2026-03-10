@@ -45,3 +45,8 @@ def validate_recipe(recipe: dict[str, Any], filename: str) -> None:
     if 'kcal' in recipe:
         if not isinstance(recipe['kcal'], int) or recipe['kcal'] <= 0:
             raise ValueError(f"'kcal' must be a positive integer in {filename}")
+
+    # Validate optional url field
+    if 'url' in recipe:
+        if not isinstance(recipe['url'], str) or not recipe['url'].strip():
+            raise ValueError(f"'url' must be a non-empty string in {filename}")

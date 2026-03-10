@@ -1,10 +1,12 @@
 name: Süßkartoffel-Dal
 description: Cremiges Dal aus roten Linsen mit gerösteten Süßkartoffelspalten, Spinat und karamellisierten Zwiebeln, verfeinert mit Curry, Ingwer und frischem Koriander.
 author: Gousto
+url: https://www.gousto.co.uk/cookbook/vegetarian-recipes/sweet-potato-dal
 category: 🥦
 servings: 2
 prep_time: 0
 cook_time: 35
+kcal: 495
 import_date: 2026-03-03
 image: images/recipes/suess-kartoffel-dal.jpg
 tags:

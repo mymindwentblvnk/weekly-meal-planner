@@ -2,10 +2,12 @@ name: Roter Quinoasalat mit Hähnchenspießen und Joghurt
 description: Superfood-Rezept mit roter Quinoa, gegrillten Hähnchenspießen, frischem
   Gemüse und griechischem Joghurt
 author: EatSmarter
+url: https://eatsmarter.de/rezepte/roter-quinoasalat-mit-haehnchenspiessen-und-joghurt
 category: 🍲
 servings: 4
 prep_time: 15
 cook_time: 15
+kcal: 640
 image: images/recipes/roter-quinoasalat-mit-haehnchenspiessen-und-joghurt.jpg
 tags:
 - Fleisch

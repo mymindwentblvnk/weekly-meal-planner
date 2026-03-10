@@ -2,10 +2,12 @@ name: Banana Balls
 description: Gesunde Energy Balls aus reifen Bananen, Nussmus und gemahlenen Mandeln,
   überzogen mit zuckerfreier dunkler Schokolade.
 author: Instagram
+url: https://www.instagram.com/
 category: 🥣
 servings: 1
 prep_time: 5
 cook_time: 15
+kcal: 85
 tags:
 - Banane
 - Mandeln

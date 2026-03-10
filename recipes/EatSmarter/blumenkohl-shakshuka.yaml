@@ -2,10 +2,12 @@ name: Blumenkohl-Shakshuka
 description: Orientalische Gemüse-Eier-Pfanne mit Blumenkohl, Paprika, Tomaten und
   pochierten Eiern, gewürzt mit Kreuzkümmel und Piri-Piri
 author: EatSmarter
+url: https://eatsmarter.de/rezepte/blumenkohl-shakshuka
 category: 🍲
 servings: 4
 prep_time: 15
 cook_time: 30
+kcal: 256
 image: images/recipes/blumenkohl-shakshuka.jpg
 tags:
 - Blumenkohl
