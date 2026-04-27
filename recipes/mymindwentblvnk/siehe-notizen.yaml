@@ -7,8 +7,8 @@ prep_time: 0
 cook_time: 0
 import_date: 2026-04-27
 tags:
-  - Platzhalter
   - Notiz
+  - Platzhalter
 
 ingredients:
   - name: "⚠️ ERINNERUNG: Siehe Notizen & TODOs Bereich"

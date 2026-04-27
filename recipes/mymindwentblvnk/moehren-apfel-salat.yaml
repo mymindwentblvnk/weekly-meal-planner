@@ -1,0 +1,30 @@
+name: Möhren-Apfel-Salat
+description: Frischer Salat mit geraspelten Karotten, knackigen Äpfeln und gerösteten Walnüssen in einer Honig-Zitronen-Vinaigrette.
+author: mymindwentblvnk
+category: 🥣
+servings: 1
+prep_time: 10
+cook_time: 0
+import_date: '2026-04-27'
+tags:
+- Apfel
+- Honig
+- Karotte
+- Nüsse
+- Obst
+- Walnüsse
+- Zitrone
+
+ingredients:
+- name: Karotten
+  amount: 2
+- name: Äpfel
+  amount: 2
+- name: Honig
+  amount: nach Geschmack
+- name: Zitrone
+  amount: 1
+- name: Walnüsse
+  amount: nach Geschmack
+instructions:
+- Zusammenstellen
