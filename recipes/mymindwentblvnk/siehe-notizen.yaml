@@ -1,0 +1,21 @@
+name: "⚠️ Siehe Notizen"
+description: "Dies ist ein Platzhalter. Bitte schaue in den Notizen & TODOs Bereich für weitere Informationen zu diesem Tag."
+author: mymindwentblvnk
+category: "📝"
+servings: 1
+prep_time: 0
+cook_time: 0
+import_date: 2026-04-27
+tags:
+  - Platzhalter
+  - Notiz
+
+ingredients:
+  - name: "⚠️ ERINNERUNG: Siehe Notizen & TODOs Bereich"
+    amount: "1"
+    unit: "Hinweis"
+
+instructions:
+  - "Dies ist kein echtes Rezept, sondern ein Platzhalter."
+  - "Schaue bitte in den 'Notizen & TODOs' Bereich des jeweiligen Tages für weitere Informationen."
+  - "Dort findest du spezifische Hinweise, was an diesem Tag geplant ist."
