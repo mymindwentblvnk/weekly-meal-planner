@@ -7,6 +7,9 @@ from pathlib import Path
 RECIPES_DIR = Path("recipes")
 OUTPUT_DIR = Path("output")
 
+# Recipes at or below this many kcal per serving match the "low kcal" filter
+LOW_KCAL_THRESHOLD = 400
+
 # Text strings for the application
 TEXTS = {
     # Overview page
@@ -22,6 +25,7 @@ TEXTS = {
     "filter_bread": "Brot",
     "filter_sweet": "Frühstück",
     "filter_fast": "Schnell (≤30 min)",
+    "filter_low_kcal": f"Low kcal (≤{LOW_KCAL_THRESHOLD} kcal)",
     "menu_dark_mode": "Dunkelmodus",
     "menu_light_mode": "Hellmodus",
 
@@ -800,6 +804,12 @@ h1 {
 .selected-item-remove:hover {
     opacity: 0.7;
 }
+.filter-checkboxes {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
 .filter-checkbox {
     display: flex;
     align-items: center;
@@ -1442,6 +1452,12 @@ h1 {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+.filter-checkboxes {
+    display: flex;
+    align-items: center;
     gap: 15px;
     flex-wrap: wrap;
 }

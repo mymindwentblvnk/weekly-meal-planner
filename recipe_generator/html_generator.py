@@ -4,7 +4,7 @@ from typing import Any
 from html import escape
 from datetime import datetime
 
-from .config import COMMON_CSS, DETAIL_PAGE_CSS, OVERVIEW_PAGE_CSS, WEEKLY_PAGE_CSS, SHOPPING_LIST_PAGE_CSS, get_text
+from .config import COMMON_CSS, DETAIL_PAGE_CSS, OVERVIEW_PAGE_CSS, WEEKLY_PAGE_CSS, SHOPPING_LIST_PAGE_CSS, LOW_KCAL_THRESHOLD, get_text
 
 
 def generate_dark_mode_script() -> str:
@@ -1596,6 +1596,7 @@ def generate_overview_html(
         recipe_tags = recipe.get('tags', [])
         tags_json = escape(','.join(recipe_tags))  # Comma-separated tags for data attribute
         slug = filename.replace('.html', '')  # Recipe slug for search filtering
+        kcal_category = 'low' if recipe.get('kcal', LOW_KCAL_THRESHOLD + 1) <= LOW_KCAL_THRESHOLD else 'other'
 
         # Get image path (use placeholder if not specified)
         image = recipe.get('image', 'images/recipes/placeholder.svg')
@@ -1605,7 +1606,7 @@ def generate_overview_html(
         if 'kcal' in recipe:
             kcal_info = f' • <span class="kcal">🔥 {recipe["kcal"]} kcal</span>'
 
-        recipe_entry = f'''    <div class="recipe-card" data-category="{category}" data-author="{author}" data-time="{time_category}" data-tags="{tags_json}" data-slug="{slug}" data-name="{escape(recipe['name'])}">
+        recipe_entry = f'''    <div class="recipe-card" data-category="{category}" data-author="{author}" data-time="{time_category}" data-kcal="{kcal_category}" data-tags="{tags_json}" data-slug="{slug}" data-name="{escape(recipe['name'])}">
         <a href="{escape(filename)}"><img src="{escape(image)}" alt="{escape(recipe['name'])}" class="recipe-card-image"></a>
         <h2><a href="{escape(filename)}">{escape(recipe['name'])}</a></h2>
         <p class="description">{description}</p>
@@ -1654,10 +1655,16 @@ def generate_overview_html(
         <div id="selectedItems" class="selected-items"></div>
 
         <div class="filter-row">
-            <label class="filter-checkbox">
-                <input type="checkbox" id="fastFilter">
-                <span>⚡ {get_text('filter_fast')}</span>
-            </label>
+            <div class="filter-checkboxes">
+                <label class="filter-checkbox">
+                    <input type="checkbox" id="fastFilter">
+                    <span>⚡ {get_text('filter_fast')}</span>
+                </label>
+                <label class="filter-checkbox">
+                    <input type="checkbox" id="lowKcalFilter">
+                    <span>🔥 {get_text('filter_low_kcal')}</span>
+                </label>
+            </div>
             <button id="resetSearch" class="reset-button">🔄 Suche zurücksetzen</button>
         </div>
     </div>
@@ -1853,6 +1860,7 @@ def generate_overview_html(
         // Filter functionality
         const recipeCards = document.querySelectorAll('.recipe-card');
         const fastFilter = document.getElementById('fastFilter');
+        const lowKcalFilter = document.getElementById('lowKcalFilter');
 
         function applyFilters() {{
             // Separate selected items by type
@@ -1861,6 +1869,7 @@ def generate_overview_html(
             const selectedCategories = selectedItems.filter(i => i.type === 'category').map(i => i.value);
             const selectedRecipes = selectedItems.filter(i => i.type === 'recipe').map(i => i.value);
             const fastOnly = fastFilter.checked;
+            const lowKcalOnly = lowKcalFilter.checked;
 
             // Filter recipe cards
             recipeCards.forEach(card => {{
@@ -1882,11 +1891,14 @@ def generate_overview_html(
                 // Check if matches time filter
                 const matchesTime = !fastOnly || time === 'fast';
 
+                // Check if matches kcal filter (recipes without kcal never match)
+                const matchesKcal = !lowKcalOnly || card.dataset.kcal === 'low';
+
                 // Check if matches tag filter (recipe must have ALL selected tags)
                 const matchesTags = selectedTags.length === 0 || selectedTags.every(tag => recipeTags.includes(tag));
 
                 // Show card only if it matches all filters
-                if (matchesRecipe && matchesCategory && matchesAuthor && matchesTime && matchesTags) {{
+                if (matchesRecipe && matchesCategory && matchesAuthor && matchesTime && matchesKcal && matchesTags) {{
                     card.classList.remove('hidden');
                 }} else {{
                     card.classList.add('hidden');
@@ -1900,6 +1912,7 @@ def generate_overview_html(
         function saveFilters() {{
             localStorage.setItem('recipeSelectedItems', JSON.stringify(selectedItems));
             localStorage.setItem('recipeFastFilter', fastFilter.checked ? 'true' : 'false');
+            localStorage.setItem('recipeLowKcalFilter', lowKcalFilter.checked ? 'true' : 'false');
         }}
 
         function loadFilters() {{
@@ -1913,6 +1926,7 @@ def generate_overview_html(
                 if (savedFast !== null) {{
                     fastFilter.checked = savedFast === 'true';
                 }}
+                lowKcalFilter.checked = localStorage.getItem('recipeLowKcalFilter') === 'true';
             }} catch (e) {{
                 // Ignore errors loading saved filters
             }}
@@ -1922,6 +1936,7 @@ def generate_overview_html(
         function resetSearch() {{
             selectedItems = [];
             fastFilter.checked = false;
+            lowKcalFilter.checked = false;
             searchInput.value = '';
             autocomplete.innerHTML = '';
             autocomplete.classList.remove('show');
@@ -1931,6 +1946,7 @@ def generate_overview_html(
 
         // Add event listeners
         fastFilter.addEventListener('change', applyFilters);
+        lowKcalFilter.addEventListener('change', applyFilters);
         document.getElementById('resetSearch').addEventListener('click', resetSearch);
 
         // Track cumulative "add to plan" clicks
@@ -2511,6 +2527,7 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]], deploym
             'author': recipe.get('author', ''),
             'tags': recipe.get('tags', []),
             'time': 'fast' if recipe['prep_time'] + recipe['cook_time'] <= 30 else 'slow',
+            'kcal': 'low' if recipe.get('kcal', LOW_KCAL_THRESHOLD + 1) <= LOW_KCAL_THRESHOLD else 'other',
             'servings': recipe.get('servings', 2),
             'image': recipe.get('image', 'images/recipes/placeholder.svg'),
             'index': index  # Track order for sorting (higher = more recent)
@@ -2596,10 +2613,16 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]], deploym
                 <div id="selectedItems" class="selected-items"></div>
 
                 <div class="filter-row">
-                    <label class="filter-checkbox">
-                        <input type="checkbox" id="fastFilter">
-                        <span>⚡ {get_text('filter_fast')}</span>
-                    </label>
+                    <div class="filter-checkboxes">
+                        <label class="filter-checkbox">
+                            <input type="checkbox" id="fastFilter">
+                            <span>⚡ {get_text('filter_fast')}</span>
+                        </label>
+                        <label class="filter-checkbox">
+                            <input type="checkbox" id="lowKcalFilter">
+                            <span>🔥 {get_text('filter_low_kcal')}</span>
+                        </label>
+                    </div>
                     <button id="resetModalSearch" class="reset-button">🔄 Suche zurücksetzen</button>
                 </div>
             </div>
@@ -2956,6 +2979,7 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]], deploym
         const autocomplete = document.getElementById('autocomplete');
         const selectedItemsContainer = document.getElementById('selectedItems');
         const fastFilter = document.getElementById('fastFilter');
+        const lowKcalFilter = document.getElementById('lowKcalFilter');
 
         searchInput.addEventListener('input', function() {{
             const value = this.value.toLowerCase().trim();
@@ -3078,6 +3102,7 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]], deploym
         function resetModalSearch() {{
             selectedItems = [];
             fastFilter.checked = false;
+            lowKcalFilter.checked = false;
             searchInput.value = '';
             autocomplete.innerHTML = '';
             autocomplete.classList.remove('show');
@@ -3086,6 +3111,7 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]], deploym
         }}
 
         fastFilter.addEventListener('change', filterRecipes);
+        lowKcalFilter.addEventListener('change', filterRecipes);
         document.getElementById('resetModalSearch').addEventListener('click', resetModalSearch);
 
         function filterRecipes() {{
@@ -3095,6 +3121,7 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]], deploym
             const selectedAuthors = selectedItems.filter(i => i.type === 'author').map(i => i.label);
             const selectedCategories = selectedItems.filter(i => i.type === 'category').map(i => i.value);
             const fastOnly = fastFilter.checked;
+            const lowKcalOnly = lowKcalFilter.checked;
 
             // Get simple text query from input
             const query = searchInput.value.toLowerCase().trim();
@@ -3115,13 +3142,16 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]], deploym
                 // Check if matches time filter
                 const matchesTime = !fastOnly || recipe.time === 'fast';
 
+                // Check if matches kcal filter (recipes without kcal never match)
+                const matchesKcal = !lowKcalOnly || recipe.kcal === 'low';
+
                 // Check if matches text query (name or tags)
                 const matchesQuery = !query ||
                     recipe.name.toLowerCase().includes(query) ||
                     recipe.tags?.some(tag => tag.toLowerCase().includes(query));
 
                 // Show recipe only if it matches all filters
-                return matchesRecipe && matchesTags && matchesAuthor && matchesCategory && matchesTime && matchesQuery;
+                return matchesRecipe && matchesTags && matchesAuthor && matchesCategory && matchesTime && matchesKcal && matchesQuery;
             }}).sort((a, b) => {{
                 // Sort by index descending (higher index = more recently added = shown first)
                 return (b[1].index || 0) - (a[1].index || 0);
