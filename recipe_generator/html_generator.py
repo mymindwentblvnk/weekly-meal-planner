@@ -2510,6 +2510,7 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]], deploym
             'category': recipe.get('category', ''),
             'author': recipe.get('author', ''),
             'tags': recipe.get('tags', []),
+            'time': 'fast' if recipe['prep_time'] + recipe['cook_time'] <= 30 else 'slow',
             'servings': recipe.get('servings', 2),
             'image': recipe.get('image', 'images/recipes/placeholder.svg'),
             'index': index  # Track order for sorting (higher = more recent)
@@ -2590,10 +2591,17 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]], deploym
             </div>
             <div class="search-container-modal">
                 <label for="searchInput" class="search-label">🔍 Suchen</label>
-                <input type="text" id="searchInput" class="search-input" placeholder="z.B. Fisch, Tomate, Vegetarisch..." autocomplete="off">
+                <input type="text" id="searchInput" class="search-input" placeholder="z.B. Fisch, HelloFresh, Vegetarisch..." autocomplete="off">
                 <div id="autocomplete" class="autocomplete"></div>
                 <div id="selectedItems" class="selected-items"></div>
-                <button id="resetModalSearch" class="reset-button">🔄 Suche zurücksetzen</button>
+
+                <div class="filter-row">
+                    <label class="filter-checkbox">
+                        <input type="checkbox" id="fastFilter">
+                        <span>⚡ {get_text('filter_fast')}</span>
+                    </label>
+                    <button id="resetModalSearch" class="reset-button">🔄 Suche zurücksetzen</button>
+                </div>
             </div>
             <div id="searchResults" class="search-results"></div>
         </div>
@@ -2947,6 +2955,7 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]], deploym
         const searchInput = document.getElementById('searchInput');
         const autocomplete = document.getElementById('autocomplete');
         const selectedItemsContainer = document.getElementById('selectedItems');
+        const fastFilter = document.getElementById('fastFilter');
 
         searchInput.addEventListener('input', function() {{
             const value = this.value.toLowerCase().trim();
@@ -2968,13 +2977,10 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]], deploym
             }});
 
             if (matches.length > 0) {{
-                matches.slice(0, 10).forEach(item => {{
+                matches.forEach(item => {{
                     const suggestionEl = document.createElement('div');
                     suggestionEl.className = 'search-suggestion';
-                    const typeLabel = item.type === 'tag' ? '🏷️ ' :
-                                     item.type === 'recipe' ? '🍽️ ' :
-                                     item.type === 'author' ? '👤 ' :
-                                     item.type === 'category' ? '📁 ' : '';
+                    const typeLabel = item.type === 'tag' ? '🏷️ ' : item.type === 'author' ? '👤 ' : item.type === 'recipe' ? '🍽️ ' : '';
                     suggestionEl.innerHTML = `${{typeLabel}}${{item.label}}`;
                     suggestionEl.addEventListener('click', () => addItem(item));
                     autocomplete.appendChild(suggestionEl);
@@ -3052,10 +3058,7 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]], deploym
                 itemEl.className = 'selected-item';
 
                 // Add type indicator
-                const typeLabel = item.type === 'tag' ? '🏷️ ' :
-                                 item.type === 'recipe' ? '🍽️ ' :
-                                 item.type === 'author' ? '👤 ' :
-                                 item.type === 'category' ? '📁 ' : '';
+                const typeLabel = item.type === 'tag' ? '🏷️ ' : item.type === 'author' ? '👤 ' : item.type === 'recipe' ? '🍽️ ' : '';
                 itemEl.innerHTML = `
                     <span>${{typeLabel}}${{item.label}}</span>
                     <span class="selected-item-remove" onclick='removeItem(${{JSON.stringify(item)}})'>&times;</span>
@@ -3074,6 +3077,7 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]], deploym
         // Reset search functionality
         function resetModalSearch() {{
             selectedItems = [];
+            fastFilter.checked = false;
             searchInput.value = '';
             autocomplete.innerHTML = '';
             autocomplete.classList.remove('show');
@@ -3081,6 +3085,7 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]], deploym
             filterRecipes();
         }}
 
+        fastFilter.addEventListener('change', filterRecipes);
         document.getElementById('resetModalSearch').addEventListener('click', resetModalSearch);
 
         function filterRecipes() {{
@@ -3089,6 +3094,7 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]], deploym
             const selectedRecipes = selectedItems.filter(i => i.type === 'recipe').map(i => i.value);
             const selectedAuthors = selectedItems.filter(i => i.type === 'author').map(i => i.label);
             const selectedCategories = selectedItems.filter(i => i.type === 'category').map(i => i.value);
+            const fastOnly = fastFilter.checked;
 
             // Get simple text query from input
             const query = searchInput.value.toLowerCase().trim();
@@ -3106,13 +3112,16 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]], deploym
                 // Check if matches category filter (empty = show all)
                 const matchesCategory = selectedCategories.length === 0 || selectedCategories.includes(recipe.category);
 
+                // Check if matches time filter
+                const matchesTime = !fastOnly || recipe.time === 'fast';
+
                 // Check if matches text query (name or tags)
                 const matchesQuery = !query ||
                     recipe.name.toLowerCase().includes(query) ||
                     recipe.tags?.some(tag => tag.toLowerCase().includes(query));
 
                 // Show recipe only if it matches all filters
-                return matchesRecipe && matchesTags && matchesAuthor && matchesCategory && matchesQuery;
+                return matchesRecipe && matchesTags && matchesAuthor && matchesCategory && matchesTime && matchesQuery;
             }}).sort((a, b) => {{
                 // Sort by index descending (higher index = more recently added = shown first)
                 return (b[1].index || 0) - (a[1].index || 0);

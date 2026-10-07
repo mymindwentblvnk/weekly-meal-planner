@@ -1429,7 +1429,38 @@ h1 {
 }
 .search-container-modal {
     margin-bottom: 16px;
+    padding: 20px;
+    background-color: var(--bg-secondary);
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
     flex-shrink: 0;
+}
+.filter-row {
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+.filter-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    font-size: 0.95em;
+    color: var(--text-color);
+    user-select: none;
+}
+.filter-checkbox input[type="checkbox"] {
+    cursor: pointer;
+    width: 18px;
+    height: 18px;
+}
+.filter-checkbox:hover {
+    color: var(--primary-color);
 }
 .search-label {
     display: block;
@@ -1440,13 +1471,14 @@ h1 {
 }
 .search-input {
     width: 100%;
-    padding: 12px;
+    box-sizing: border-box;
+    padding: 12px 15px;
     border: 2px solid var(--border-color);
-    border-radius: 6px;
-    font-size: 1em;
     background-color: var(--bg-color);
     color: var(--text-color);
-    box-sizing: border-box;
+    border-radius: 6px;
+    font-size: 1em;
+    transition: border-color 0.2s;
 }
 .search-input:focus {
     outline: none;
@@ -1481,7 +1513,6 @@ h1 {
     flex-wrap: wrap;
     gap: 8px;
     margin-top: 12px;
-    margin-bottom: 12px;
 }
 .selected-item {
     display: inline-flex;
@@ -1513,7 +1544,6 @@ h1 {
     cursor: pointer;
     font-size: 0.95em;
     transition: all 0.2s ease;
-    margin-top: 8px;
 }
 .reset-button:hover {
     background-color: var(--primary-color);
