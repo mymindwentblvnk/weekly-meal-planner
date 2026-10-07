@@ -1575,14 +1575,77 @@ h1 {
     min-height: 0;
 }
 .search-result-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
     padding: 12px;
     background-color: var(--bg-secondary);
     border: 1px solid var(--border-color);
     border-radius: 4px;
     transition: all 0.2s;
+}
+.search-result-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+}
+.search-result-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+}
+.info-recipe-btn {
+    padding: 5px 9px;
+    background-color: var(--bg-color);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    font-size: 0.95em;
+    line-height: 1.2;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.info-recipe-btn:hover, .info-recipe-btn.active {
+    border-color: var(--primary-color);
+}
+.search-result-details {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border-color);
+    font-size: 0.92em;
+    color: var(--text-color);
+    line-height: 1.5;
+}
+.search-result-details-image {
+    display: block;
+    width: 100%;
+    max-height: 220px;
+    object-fit: cover;
+    border-radius: 6px;
+    margin-bottom: 10px;
+}
+.search-result-details-description {
+    margin: 0 0 8px;
+}
+.search-result-details-meta {
+    margin: 0 0 10px;
+    color: var(--text-secondary);
+}
+.search-result-details h4 {
+    margin: 12px 0 6px;
+    font-size: 1em;
+    color: var(--primary-color);
+}
+.search-result-details ul, .search-result-details ol {
+    margin: 0;
+    padding-left: 22px;
+}
+.search-result-details li {
+    margin-bottom: 4px;
+}
+.search-result-details-link {
+    display: inline-block;
+    margin-top: 12px;
+    color: var(--primary-color);
+    font-weight: 500;
 }
 .search-result-item:hover {
     border-color: var(--primary-color);

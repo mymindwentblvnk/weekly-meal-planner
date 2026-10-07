@@ -2530,7 +2530,13 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]], deploym
             'kcal': 'low' if recipe.get('kcal', LOW_KCAL_THRESHOLD + 1) <= LOW_KCAL_THRESHOLD else 'other',
             'servings': recipe.get('servings', 2),
             'image': recipe.get('image', 'images/recipes/placeholder.svg'),
-            'index': index  # Track order for sorting (higher = more recent)
+            'index': index,  # Track order for sorting (higher = more recent)
+            # Details shown inline in the recipe picker
+            'description': recipe.get('description', ''),
+            'totalTime': recipe['prep_time'] + recipe['cook_time'],
+            'kcalValue': recipe.get('kcal'),
+            'ingredients': [[str(i['amount']), i['name']] for i in recipe['ingredients']],
+            'instructions': recipe['instructions']
         }
 
     # Collect all unique tags, recipe names, authors, and categories for powerful search
@@ -2579,7 +2585,8 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]], deploym
 
     # Generate recipe lookup as JSON for JavaScript
     import json
-    recipe_lookup_json = json.dumps(recipe_lookup, ensure_ascii=False)
+    # Escape "</" so recipe text can never close the surrounding <script> tag
+    recipe_lookup_json = json.dumps(recipe_lookup, ensure_ascii=False).replace('</', '<\\/')
     search_items_json = json.dumps(all_search_items, ensure_ascii=False)
 
     html = f'''{generate_page_header(get_text('weekly_plan_title'), WEEKLY_PAGE_CSS)}
@@ -2950,10 +2957,12 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]], deploym
         const allSearchItems = {search_items_json};
         let selectedItems = [];
         let currentFocus = -1;
+        let expandedRecipeSlug = null;
 
         function openSearchModal(day, meal) {{
             currentDay = day;
             currentMeal = meal;
+            expandedRecipeSlug = null;
             const searchInput = document.getElementById('searchInput');
             searchInput.value = '';
             document.getElementById('autocomplete').innerHTML = '';
@@ -3157,17 +3166,68 @@ def generate_weekly_html(recipes_data: list[tuple[str, dict[str, Any]]], deploym
                 return (b[1].index || 0) - (a[1].index || 0);
             }});
 
-            const resultsHtml = results.map(([slug, recipe]) => `
-                <div class="search-result-item">
-                    <div class="search-result-info">
-                        <span class="search-result-emoji">${{recipe.category}}</span>
-                        <span class="search-result-name">${{recipe.name}}</span>
+            const resultsHtml = results.map(([slug, recipe]) => {{
+                const expanded = slug === expandedRecipeSlug;
+                return `
+                <div class="search-result-item" data-slug="${{slug}}">
+                    <div class="search-result-row">
+                        <div class="search-result-info">
+                            <span class="search-result-emoji">${{recipe.category}}</span>
+                            <span class="search-result-name">${{recipe.name}}</span>
+                        </div>
+                        <div class="search-result-actions">
+                            <button class="info-recipe-btn${{expanded ? ' active' : ''}}" onclick="toggleRecipeDetails('${{slug}}')" aria-label="Details anzeigen" aria-expanded="${{expanded}}" title="Details">ℹ️</button>
+                            <button class="select-recipe-btn" onclick="selectRecipe('${{slug}}')">Auswählen</button>
+                        </div>
                     </div>
-                    <button class="select-recipe-btn" onclick="selectRecipe('${{slug}}')">Auswählen</button>
+                    <div class="search-result-details"${{expanded ? '' : ' hidden'}}>${{expanded ? renderRecipeDetails(slug) : ''}}</div>
                 </div>
-            `).join('');
+            `;
+            }}).join('');
 
             document.getElementById('searchResults').innerHTML = resultsHtml || '<p style="color: var(--text-tertiary); padding: 20px; text-align: center;">Keine Rezepte gefunden</p>';
+        }}
+
+        function escapeHtml(text) {{
+            return String(text).replace(/[&<>"']/g, c => ({{'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}})[c]);
+        }}
+
+        function renderRecipeDetails(slug) {{
+            const recipe = recipeData[slug];
+            const hasImage = recipe.image && !recipe.image.endsWith('placeholder.svg');
+            const meta = [
+                `🍽️ ${{recipe.servings}} {get_text('servings')}`,
+                `⏱️ ${{recipe.totalTime}} {get_text('min_total')}`
+            ];
+            if (recipe.kcalValue) {{
+                meta.push(`🔥 ${{recipe.kcalValue}} kcal`);
+            }}
+            return `
+                ${{hasImage ? `<img src="${{escapeHtml(recipe.image)}}" alt="${{escapeHtml(recipe.name)}}" class="search-result-details-image">` : ''}}
+                ${{recipe.description ? `<p class="search-result-details-description">${{escapeHtml(recipe.description)}}</p>` : ''}}
+                <p class="search-result-details-meta">${{meta.join(' • ')}}</p>
+                <h4>{get_text('ingredients_heading')}</h4>
+                <ul>${{recipe.ingredients.map(([amount, name]) => `<li>${{escapeHtml(amount)}} ${{escapeHtml(name)}}</li>`).join('')}}</ul>
+                <h4>{get_text('instructions_heading')}</h4>
+                <ol>${{recipe.instructions.map(step => `<li>${{escapeHtml(step)}}</li>`).join('')}}</ol>
+                <a href="${{escapeHtml(recipe.filename)}}" target="_blank" rel="noopener" class="search-result-details-link">Rezeptseite in neuem Tab öffnen ↗</a>
+            `;
+        }}
+
+        function toggleRecipeDetails(slug) {{
+            expandedRecipeSlug = expandedRecipeSlug === slug ? null : slug;
+            document.querySelectorAll('#searchResults .search-result-item').forEach(item => {{
+                const expanded = item.dataset.slug === expandedRecipeSlug;
+                const details = item.querySelector('.search-result-details');
+                const button = item.querySelector('.info-recipe-btn');
+                details.hidden = !expanded;
+                details.innerHTML = expanded ? renderRecipeDetails(item.dataset.slug) : '';
+                button.classList.toggle('active', expanded);
+                button.setAttribute('aria-expanded', expanded);
+                if (expanded) {{
+                    item.scrollIntoView({{ block: 'nearest', behavior: 'smooth' }});
+                }}
+            }});
         }}
 
         function selectRecipe(slug) {{
