@@ -4,7 +4,7 @@ from typing import Any
 from html import escape
 from datetime import datetime
 
-from .config import COMMON_CSS, DETAIL_PAGE_CSS, OVERVIEW_PAGE_CSS, WEEKLY_PAGE_CSS, SHOPPING_LIST_PAGE_CSS, LOW_KCAL_THRESHOLD, get_text
+from .config import COMMON_CSS, DETAIL_PAGE_CSS, OVERVIEW_PAGE_CSS, WEEKLY_PAGE_CSS, SHOPPING_LIST_PAGE_CSS, THEME_REFINEMENT_CSS, LOW_KCAL_THRESHOLD, get_text
 
 
 def generate_dark_mode_script() -> str:
@@ -167,10 +167,10 @@ def generate_navigation() -> str:
     """
     return f'''<div class="top-nav">
         <div style="display: flex; gap: 10px; align-items: center;">
-            <a href="index.html" class="nav-link" style="background-color: var(--primary-color);" aria-label="Weekly Plan">🗓️</a>
-            <a href="shopping.html" class="nav-link" style="background-color: var(--accent-color);" aria-label="Shopping List">🛒</a>
-            <a href="recipes.html" class="nav-link" style="background-color: var(--accent-yellow);" aria-label="Recipes Catalog">📖</a>
-            <a href="settings.html" class="nav-link" style="background-color: var(--accent-green);" aria-label="Settings">⚙️</a>
+            <a href="index.html" class="nav-link" aria-label="Weekly Plan">🗓️</a>
+            <a href="shopping.html" class="nav-link" aria-label="Shopping List">🛒</a>
+            <a href="recipes.html" class="nav-link" aria-label="Recipes Catalog">📖</a>
+            <a href="settings.html" class="nav-link" aria-label="Settings">⚙️</a>
         </div>
     </div>'''
 
@@ -322,17 +322,15 @@ def generate_settings_page_html(deployment_time: datetime | None = None) -> str:
                     <p style="color: var(--text-secondary); font-size: 0.9em; margin: 0 0 15px 0; line-height: 1.4;">Kopiere den Export-Link in deine Zwischenablage</p>
                     <button id="exportButton" onclick="exportData()" style="
                         width: 100%;
-                        padding: 12px 20px;
-                        background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-hover) 100%);
-                        color: white;
+                        padding: 8px 14px;
+                        background: var(--primary-color);
+                        color: var(--accent-text);
                         border: none;
                         border-radius: 8px;
-                        font-size: 1em;
+                        font-size: 13px;
                         font-weight: 600;
                         cursor: pointer;
-                        transition: all 0.3s;
-                        box-shadow: 0 4px 12px rgba(155, 89, 182, 0.3);
-                    " onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 16px rgba(155, 89, 182, 0.4)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(155, 89, 182, 0.3)';">
+                    ">
                         📋 Kopieren
                     </button>
                 </div>
@@ -695,6 +693,7 @@ def generate_page_header(title: str, css: str, additional_css: str = "") -> str:
     all_css = f"{COMMON_CSS}\n        {css}"
     if additional_css:
         all_css += f"\n        {additional_css}"
+    all_css += f"\n        {THEME_REFINEMENT_CSS}"
 
     return f'''<!DOCTYPE html>
 <html lang="de">

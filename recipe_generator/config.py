@@ -99,71 +99,88 @@ def get_text(key: str) -> str:
 # CSS Styles
 COMMON_CSS = """
 :root {
-    /* Light grey base colors */
-    --bg-color: #F5F5F5;
-    --text-color: #2d2d2d;
-    --text-secondary: #5a5a5a;
-    --text-tertiary: #7a7a7a;
+    /* Light theme: cool grey page, white panels, mint accent */
+    --bg-color: #f4f6f8;
+    --text-color: #000000;
+    --text-secondary: #53575c;
+    --text-tertiary: #6b7177;
 
-    /* Rainbow accent colors */
-    --primary-color: #9B59B6;  /* Purple */
-    --primary-hover: #8E44AD;
-    --accent-color: #3498DB;   /* Blue */
-    --accent-green: #2ECC71;   /* Green */
-    --accent-orange: #FF8C42;  /* Orange */
-    --accent-pink: #FF6B9D;    /* Pink */
-    --accent-yellow: #D4A000;  /* Yellow (darker for readability on grey) */
-    --accent-red: #E74C3C;     /* Red */
+    /* Accent: mint fill with dark text on top, dark green for accent-coloured text */
+    --primary-color: #22f4ae;
+    --primary-hover: #1bc38b;
+    --accent-text: #000000;
+    --accent-fg: #0d6145;
+    --accent-tint: rgba(34, 244, 174, 0.12);
+    --accent-color: #2f7fb8;
+    --accent-green: #0d6145;
+    --accent-orange: #b8651b;
+    --accent-pink: #b8456f;
+    --accent-yellow: #8a6a00;
+    --accent-red: #c0392b;
 
     /* UI colors */
-    --bg-secondary: #EEEEEE;
-    --border-color: #D0D0D0;
-    --card-bg: #FAFAFA;
-    --table-header-bg: #9B59B6;
-    --shadow: rgba(0, 0, 0, 0.08);
-    --background-color: #F5F5F5;
+    --bg-secondary: #f1f4f5;
+    --border-color: #dae0e6;
+    --border-hi: #99a0a7;
+    --card-bg: #ffffff;
+    --table-header-bg: #f1f4f5;
+    --shadow: rgba(0, 0, 0, 0.06);
+    --background-color: #f4f6f8;
 
     /* Status colors */
-    --error-color: #E74C3C;    /* Red */
-    --warning-bg: #EEEEEE;
-    --warning-border: #D4A000;
-    --warning-text: #856404;
+    --error-color: #a53a45;
+    --danger-color: #d9434f;
+    --warning-bg: #fff8e6;
+    --warning-border: #e2c16b;
+    --warning-text: #6b5200;
 }
 
 body.dark-mode {
-    /* Dark grey base colors */
-    --bg-color: #1E1E1E;
-    --text-color: #E0E0E0;
-    --text-secondary: #B0B0B0;
-    --text-tertiary: #808080;
+    /* Dark theme: dark blue with mint accent */
+    --bg-color: #0d1a26;
+    --text-color: #ffffff;
+    --text-secondary: #99a0a7;
+    --text-tertiary: #7f8891;
 
-    /* Rainbow accent colors (brighter for dark mode) */
-    --primary-color: #B19CD9;  /* Light Purple */
-    --primary-hover: #9B7FD1;
-    --accent-color: #5DADE2;   /* Light Blue */
-    --accent-green: #58D68D;   /* Light Green */
-    --accent-orange: #FFAA66;  /* Light Orange */
-    --accent-pink: #FF8FB3;    /* Light Pink */
-    --accent-yellow: #FFD93D;  /* Light Yellow (brighter for dark mode) */
-    --accent-red: #EC7063;     /* Light Red */
+    --primary-color: #22f4ae;
+    --primary-hover: #1bc38b;
+    --accent-text: #000000;
+    --accent-fg: #22f4ae;
+    --accent-tint: rgba(34, 244, 174, 0.10);
+    --accent-color: #6cb8e6;
+    --accent-green: #22f4ae;
+    --accent-orange: #f0a868;
+    --accent-pink: #f08fb0;
+    --accent-yellow: #f0d060;
+    --accent-red: #ff8a8d;
 
     /* UI colors */
-    --bg-secondary: #2A2A2A;
-    --border-color: #404040;
-    --card-bg: #2A2A2A;
-    --table-header-bg: #B19CD9;
-    --shadow: rgba(0, 0, 0, 0.4);
-    --background-color: #2A2A2A;
+    --bg-secondary: #22405b;
+    --border-color: #2a4661;
+    --border-hi: #3a5875;
+    --card-bg: #182f43;
+    --table-header-bg: #22405b;
+    --shadow: rgba(0, 0, 0, 0.35);
+    --background-color: #182f43;
 
     /* Status colors */
-    --error-color: #EC7063;    /* Light Red */
-    --warning-bg: #404040;
-    --warning-border: #FFD93D;
-    --warning-text: #FFD93D;
+    --error-color: #ffb4b6;
+    --danger-color: #ff5a5f;
+    --warning-bg: #3a3320;
+    --warning-border: #6a5a2a;
+    --warning-text: #f0d060;
+}
+
+/* Page background behind the centred content column */
+html {
+    background-color: #f4f6f8;
+}
+html:has(body.dark-mode) {
+    background-color: #0d1a26;
 }
 
 body {
-    font-family: Arial, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     max-width: 800px;
     margin: 0 auto;
     padding: 20px;
@@ -184,12 +201,11 @@ body {
 
 /* Navigation Links */
 .nav-link {
-    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-hover) 100%);
-    color: white;
+    background: var(--primary-color);
+    color: var(--accent-text);
     border: none;
     padding: 8px 12px;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(155, 89, 182, 0.3);
+    border-radius: 12px;
     cursor: pointer;
     font-size: 1.5em;
     line-height: 1;
@@ -202,8 +218,6 @@ body {
 }
 
 .nav-link:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(155, 89, 182, 0.4);
     text-decoration: none;
 }
 
@@ -213,11 +227,10 @@ body {
 
 /* Toggle buttons in top nav */
 .nav-toggle-button {
-    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-hover) 100%);
+    background: var(--primary-color);
     border: none;
     padding: 8px 12px;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(155, 89, 182, 0.3);
+    border-radius: 12px;
     cursor: pointer;
     font-size: 1.5em;
     line-height: 1;
@@ -228,8 +241,7 @@ body {
 }
 
 .nav-toggle-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(155, 89, 182, 0.4);
+    background: var(--primary-hover);
 }
 
 .nav-toggle-button:active {
@@ -295,7 +307,7 @@ body {
 }
 .add-plan-modal-content {
     background-color: var(--bg-color);
-    border-radius: 8px;
+    border-radius: 12px;
     padding: 24px;
     max-width: 500px;
     width: 100%;
@@ -310,7 +322,7 @@ body {
 .add-plan-modal-title {
     font-size: 1.3em;
     font-weight: 600;
-    color: var(--primary-color);
+    color: var(--accent-fg);
     margin: 0;
 }
 .close-modal-btn {
@@ -325,7 +337,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 4px;
+    border-radius: 6px;
     transition: all 0.2s;
 }
 .close-modal-btn:hover {
@@ -349,8 +361,8 @@ body {
 }
 .plan-select {
     padding: 10px 12px;
-    border: 2px solid var(--border-color);
-    border-radius: 6px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
     font-size: 1em;
     color: var(--text-color);
     background-color: var(--bg-color);
@@ -370,7 +382,7 @@ body {
     flex: 1;
     padding: 10px 16px;
     border: none;
-    border-radius: 6px;
+    border-radius: 8px;
     font-size: 1em;
     font-weight: 600;
     cursor: pointer;
@@ -379,19 +391,17 @@ body {
 .cancel-btn {
     background-color: var(--bg-secondary);
     color: var(--text-color);
-    border: 2px solid var(--border-color);
+    border: 1px solid var(--border-color);
 }
 .cancel-btn:hover {
     background-color: var(--border-color);
 }
 .add-btn {
-    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-hover) 100%);
-    color: white;
-    box-shadow: 0 4px 12px rgba(155, 89, 182, 0.3);
+    background: var(--primary-color);
+    color: var(--accent-text);
 }
 .add-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(155, 89, 182, 0.4);
+    background: var(--primary-hover);
 }
 .button-group {
     display: flex;
@@ -402,8 +412,8 @@ body {
     flex: 1;
     min-width: 60px;
     padding: 10px 16px;
-    border: 2px solid var(--border-color);
-    border-radius: 6px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
     background-color: var(--bg-color);
     color: var(--text-color);
     font-size: 1em;
@@ -417,14 +427,11 @@ body {
     background-color: var(--bg-secondary);
 }
 .selection-btn.selected {
-    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-hover) 100%);
-    color: white;
+    background: var(--primary-color);
+    color: var(--accent-text);
     border-color: var(--primary-color);
-    box-shadow: 0 4px 12px rgba(155, 89, 182, 0.3);
 }
 .selection-btn.selected:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(155, 89, 182, 0.4);
     border-color: var(--primary-hover);
 }
 .settings-meal-options {
@@ -439,7 +446,7 @@ body {
     gap: 10px;
     cursor: pointer;
     padding: 8px;
-    border-radius: 4px;
+    border-radius: 6px;
     transition: background-color 0.2s;
 }
 .settings-checkbox:hover {
@@ -482,12 +489,12 @@ DETAIL_PAGE_CSS = """
 }
 
 h1 {
-    color: var(--primary-color);
+    color: var(--accent-fg);
     font-size: 1.75em;
     margin-bottom: 15px;
 }
 h2 {
-    color: var(--primary-color);
+    color: var(--accent-fg);
     font-size: 1.3em;
     margin-top: 40px;
     margin-bottom: 20px;
@@ -495,7 +502,7 @@ h2 {
     border-left: 3px solid var(--primary-color);
     background: linear-gradient(to right, var(--bg-secondary) 0%, transparent 100%);
     padding: 12px 15px;
-    border-radius: 4px;
+    border-radius: 6px;
 }
 .recipe-info-table {
     width: 100%;
@@ -503,7 +510,7 @@ h2 {
     margin: 20px 0;
     border-collapse: collapse;
     background-color: var(--bg-secondary);
-    border-radius: 8px;
+    border-radius: 12px;
     overflow: hidden;
 }
 .recipe-info-table td {
@@ -527,21 +534,19 @@ h2 {
     align-items: center;
 }
 .servings-btn {
-    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-hover) 100%);
-    color: white;
+    background: var(--primary-color);
+    color: var(--accent-text);
     border: none;
-    border-radius: 4px;
+    border-radius: 6px;
     padding: 4px 10px;
     font-size: 16px;
-    font-weight: bold;
+    font-weight: 600;
     cursor: pointer;
     transition: all 0.3s;
     min-width: 30px;
-    box-shadow: 0 4px 12px rgba(155, 89, 182, 0.3);
 }
 .servings-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(155, 89, 182, 0.4);
+    background: var(--primary-hover);
 }
 .servings-btn:active {
     transform: scale(0.95);
@@ -557,12 +562,12 @@ h2 {
     margin: 20px 0;
     border-collapse: collapse;
     background-color: var(--bg-secondary);
-    border-radius: 8px;
+    border-radius: 12px;
     overflow: hidden;
 }
 .ingredients-table th {
     background-color: var(--table-header-bg);
-    color: white;
+    color: var(--text-secondary);
     padding: 12px 16px;
     text-align: left;
     font-weight: 600;
@@ -576,7 +581,7 @@ h2 {
 }
 .ingredients-table td:first-child {
     font-weight: 600;
-    color: var(--primary-color);
+    color: var(--accent-fg);
     width: 30%;
 }
 .ingredients-table td:last-child {
@@ -596,29 +601,30 @@ ol {
 }
 ol li {
     counter-increment: step-counter;
-    margin-bottom: 20px;
-    padding: 20px;
-    background-color: var(--bg-secondary);
-    border-left: 4px solid var(--primary-color);
-    border-radius: 4px;
+    margin-bottom: 12px;
+    padding: 14px;
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-left: 3px solid var(--primary-color);
+    border-radius: 10px;
     position: relative;
-    line-height: 1.6;
+    line-height: 1.5;
 }
 ol li::before {
     content: counter(step-counter);
     position: absolute;
-    left: -20px;
-    top: 15px;
+    left: -14px;
+    top: 12px;
     background-color: var(--primary-color);
-    color: white;
-    width: 32px;
-    height: 32px;
+    color: var(--accent-text);
+    width: 26px;
+    height: 26px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-weight: bold;
-    font-size: 0.9em;
+    font-weight: 600;
+    font-size: 12px;
 }
 ol li span {
     display: block;
@@ -628,27 +634,24 @@ ol li span {
     display: inline-block;
     padding: 8px 16px;
     margin: 0;
-    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-hover) 100%);
-    color: white;
-    border: 2px solid var(--primary-color);
-    border-radius: 6px;
+    background: var(--primary-color);
+    color: var(--accent-text);
+    border: 1px solid var(--primary-color);
+    border-radius: 8px;
     font-size: 0.95em;
     font-weight: 500;
     cursor: pointer;
     transition: all 0.3s;
     text-align: center;
     white-space: nowrap;
-    box-shadow: 0 4px 12px rgba(155, 89, 182, 0.3);
 }
 .weekly-plan-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(155, 89, 182, 0.4);
     border-color: var(--primary-hover);
 }
 .weekly-plan-button.in-plan {
     background-color: var(--bg-color);
-    color: var(--primary-color);
-    border: 2px solid var(--primary-color);
+    color: var(--accent-fg);
+    border: 1px solid var(--primary-color);
 }
 .weekly-plan-button.in-plan:hover {
     background-color: var(--bg-secondary);
@@ -658,7 +661,7 @@ ol li span {
     max-width: 600px;
     max-height: 500px;
     height: auto;
-    border-radius: 8px;
+    border-radius: 12px;
     margin: 20px auto;
     display: block;
     object-fit: contain;
@@ -697,13 +700,13 @@ ol li span {
 
 OVERVIEW_PAGE_CSS = """
 h1 {
-    color: var(--primary-color);
+    color: var(--accent-fg);
 }
 .search-container {
     margin-bottom: 30px;
     padding: 20px;
     background-color: var(--bg-secondary);
-    border-radius: 8px;
+    border-radius: 12px;
     border: 1px solid var(--border-color);
 }
 .filter-row {
@@ -721,14 +724,14 @@ h1 {
     background-color: var(--bg-secondary);
     color: var(--text-color);
     border: 1px solid var(--border-color);
-    border-radius: 6px;
+    border-radius: 8px;
     cursor: pointer;
     font-size: 0.95em;
     transition: all 0.2s ease;
 }
 .reset-button:hover {
     background-color: var(--primary-color);
-    color: white;
+    color: var(--accent-text);
     border-color: var(--primary-color);
 }
 .search-label {
@@ -742,10 +745,10 @@ h1 {
     width: 100%;
     box-sizing: border-box;
     padding: 12px 15px;
-    border: 2px solid var(--border-color);
+    border: 1px solid var(--border-color);
     background-color: var(--bg-color);
     color: var(--text-color);
-    border-radius: 6px;
+    border-radius: 8px;
     font-size: 1em;
     transition: border-color 0.2s;
 }
@@ -757,8 +760,8 @@ h1 {
     position: relative;
     margin-top: 5px;
     background-color: var(--bg-color);
-    border: 2px solid var(--border-color);
-    border-radius: 6px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
     max-height: 200px;
     overflow-y: auto;
     display: none;
@@ -775,7 +778,7 @@ h1 {
 }
 .search-suggestion:hover, .search-suggestion.active {
     background-color: var(--primary-color);
-    color: white;
+    color: var(--accent-text);
 }
 .selected-items {
     display: flex;
@@ -789,14 +792,14 @@ h1 {
     gap: 6px;
     padding: 6px 12px;
     background-color: var(--primary-color);
-    color: white;
+    color: var(--accent-text);
     border-radius: 20px;
     font-size: 0.9em;
     font-weight: 500;
 }
 .selected-item-remove {
     cursor: pointer;
-    font-weight: bold;
+    font-weight: 600;
     font-size: 1.1em;
     line-height: 1;
     transition: opacity 0.2s;
@@ -825,7 +828,7 @@ h1 {
     height: 18px;
 }
 .filter-checkbox:hover {
-    color: var(--primary-color);
+    color: var(--accent-fg);
 }
 .recipe-grid {
     display: grid;
@@ -858,10 +861,10 @@ h1 {
 }
 .filter-btn {
     padding: 10px 20px;
-    border: 2px solid var(--primary-color);
+    border: 1px solid var(--primary-color);
     background-color: var(--bg-color);
-    color: var(--primary-color);
-    border-radius: 6px;
+    color: var(--accent-fg);
+    border-radius: 8px;
     font-size: 1em;
     font-weight: 500;
     cursor: pointer;
@@ -872,11 +875,11 @@ h1 {
 }
 .filter-btn.active {
     background-color: var(--primary-color);
-    color: white;
+    color: var(--accent-text);
 }
 .recipe-card {
     border: 1px solid var(--border-color);
-    border-radius: 8px;
+    border-radius: 12px;
     padding: 0;
     background-color: var(--card-bg);
     transition: box-shadow 0.2s;
@@ -904,7 +907,7 @@ h1 {
     color: var(--text-color);
 }
 .recipe-card h2 a {
-    color: var(--primary-color);
+    color: var(--accent-fg);
     text-decoration: none;
 }
 .recipe-card h2 a:hover {
@@ -934,27 +937,24 @@ h1 {
 .view-recipe-btn {
     display: inline-block;
     padding: 8px 16px;
-    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-hover) 100%);
-    color: white;
+    background: var(--primary-color);
+    color: var(--accent-text);
     text-decoration: none;
-    border-radius: 4px;
+    border-radius: 6px;
     font-weight: 500;
     transition: all 0.3s;
     flex: 1;
-    box-shadow: 0 4px 12px rgba(155, 89, 182, 0.3);
 }
 .view-recipe-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(155, 89, 182, 0.4);
     text-decoration: none;
 }
 .weekly-plan-button-card {
     display: inline-block;
     padding: 8px 16px;
-    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-hover) 100%);
-    color: white;
-    border: 2px solid var(--primary-color);
-    border-radius: 6px;
+    background: var(--primary-color);
+    color: var(--accent-text);
+    border: 1px solid var(--primary-color);
+    border-radius: 8px;
     font-size: 0.9em;
     font-weight: 500;
     cursor: pointer;
@@ -962,17 +962,14 @@ h1 {
     text-align: center;
     white-space: nowrap;
     flex: 1;
-    box-shadow: 0 4px 12px rgba(155, 89, 182, 0.3);
 }
 .weekly-plan-button-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(155, 89, 182, 0.4);
     border-color: var(--primary-hover);
 }
 .weekly-plan-button-card.in-plan {
     background-color: var(--bg-color);
-    color: var(--primary-color);
-    border: 2px solid var(--primary-color);
+    color: var(--accent-fg);
+    border: 1px solid var(--primary-color);
 }
 .weekly-plan-button-card.in-plan:hover {
     background-color: var(--bg-secondary);
@@ -996,13 +993,13 @@ h1 {
 }
 .settings-section {
     background-color: var(--card-bg);
-    border: 2px solid var(--border-color);
-    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
     padding: 24px;
     margin-bottom: 20px;
 }
 .settings-section h2 {
-    color: var(--primary-color);
+    color: var(--accent-fg);
     font-size: 1.3em;
     margin-top: 0;
     margin-bottom: 20px;
@@ -1066,7 +1063,7 @@ WEEKLY_PAGE_CSS = """
 }
 
 h1 {
-    color: var(--primary-color);
+    color: var(--accent-fg);
     margin-bottom: 10px;
 }
 .week-navigation {
@@ -1085,8 +1082,8 @@ h1 {
     padding: 10px 16px;
     background-color: var(--bg-secondary);
     color: var(--text-color);
-    border: 2px solid var(--border-color);
-    border-radius: 6px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
     cursor: pointer;
     font-size: 0.95em;
     font-weight: 500;
@@ -1097,15 +1094,14 @@ h1 {
     border-color: var(--primary-color);
 }
 .week-nav-btn.active {
-    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-hover) 100%);
-    color: white;
+    background: var(--primary-color);
+    color: var(--accent-text);
     border-color: var(--primary-color);
     opacity: 0.5;
     cursor: default;
-    box-shadow: 0 4px 12px rgba(155, 89, 182, 0.3);
 }
 .week-nav-btn.active:hover {
-    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-hover) 100%);
+    background: var(--primary-color);
     opacity: 0.5;
     transform: none;
 }
@@ -1125,8 +1121,8 @@ h1 {
 }
 .day-card {
     background-color: var(--card-bg);
-    border: 2px solid var(--border-color);
-    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
     padding: 20px;
     transition: box-shadow 0.2s;
 }
@@ -1136,7 +1132,7 @@ h1 {
 .day-header {
     font-size: 1.4em;
     font-weight: 600;
-    color: var(--primary-color);
+    color: var(--accent-fg);
     margin-bottom: 15px;
     padding-bottom: 0;
     display: flex;
@@ -1166,7 +1162,7 @@ h1 {
 .copy-day-btn {
     background-color: transparent;
     border: 1px solid var(--border-color);
-    border-radius: 4px;
+    border-radius: 6px;
     padding: 4px 8px;
     font-size: 0.7em;
     cursor: pointer;
@@ -1200,8 +1196,8 @@ h1 {
 }
 .meal-slot {
     background-color: var(--card-bg);
-    border: 2px solid var(--border-color);
-    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
     padding: 0;
     min-height: 100px;
     overflow: hidden;
@@ -1247,7 +1243,7 @@ h1 {
     width: 60px;
     height: 60px;
     object-fit: cover;
-    border-radius: 6px;
+    border-radius: 8px;
     flex-shrink: 0;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
@@ -1270,7 +1266,7 @@ h1 {
     color: var(--text-color);
 }
 .recipe-link {
-    color: var(--primary-color);
+    color: var(--accent-fg);
     text-decoration: none;
     font-size: 0.95em;
     font-weight: 700;
@@ -1303,19 +1299,19 @@ h1 {
     border-right: none;
 }
 .assign-btn, .change-btn {
-    color: var(--primary-color);
+    color: var(--accent-fg);
     font-weight: 600;
 }
 .assign-btn:hover, .change-btn:hover {
     background-color: var(--primary-color);
-    color: white;
+    color: var(--accent-text);
 }
 .remove-meal-btn {
-    color: #e53e3e;
+    color: var(--danger-color);
 }
 .remove-meal-btn:hover {
-    background-color: #e53e3e;
-    color: white;
+    background-color: var(--danger-color);
+    color: #ffffff;
 }
 .copy-link-btn {
     padding: 2px 6px;
@@ -1355,11 +1351,11 @@ h1 {
     width: 24px;
     height: 24px;
     border: none;
-    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-hover) 100%);
-    color: white;
+    background: var(--primary-color);
+    color: var(--accent-text);
     border-radius: 50%;
     font-size: 14px;
-    font-weight: bold;
+    font-weight: 600;
     cursor: pointer;
     transition: all 0.3s;
     display: flex;
@@ -1367,10 +1363,8 @@ h1 {
     justify-content: center;
     padding: 0;
     line-height: 1;
-    box-shadow: 0 4px 12px rgba(155, 89, 182, 0.3);
 }
 .servings-btn:hover {
-    box-shadow: 0 6px 16px rgba(155, 89, 182, 0.4);
     transform: scale(1.1);
 }
 .servings-btn:active {
@@ -1399,7 +1393,7 @@ h1 {
 }
 .search-modal-content {
     background-color: var(--bg-color);
-    border-radius: 8px;
+    border-radius: 12px;
     padding: 24px;
     max-width: 600px;
     width: 100%;
@@ -1418,7 +1412,7 @@ h1 {
 .search-modal-title {
     font-size: 1.3em;
     font-weight: 600;
-    color: var(--primary-color);
+    color: var(--accent-fg);
     margin: 0;
 }
 .close-modal-btn {
@@ -1441,7 +1435,7 @@ h1 {
     margin-bottom: 16px;
     padding: 20px;
     background-color: var(--bg-secondary);
-    border-radius: 8px;
+    border-radius: 12px;
     border: 1px solid var(--border-color);
     flex-shrink: 0;
 }
@@ -1476,7 +1470,7 @@ h1 {
     height: 18px;
 }
 .filter-checkbox:hover {
-    color: var(--primary-color);
+    color: var(--accent-fg);
 }
 .search-label {
     display: block;
@@ -1489,10 +1483,10 @@ h1 {
     width: 100%;
     box-sizing: border-box;
     padding: 12px 15px;
-    border: 2px solid var(--border-color);
+    border: 1px solid var(--border-color);
     background-color: var(--bg-color);
     color: var(--text-color);
-    border-radius: 6px;
+    border-radius: 8px;
     font-size: 1em;
     transition: border-color 0.2s;
 }
@@ -1504,8 +1498,8 @@ h1 {
     position: relative;
     margin-top: 5px;
     background-color: var(--bg-color);
-    border: 2px solid var(--border-color);
-    border-radius: 6px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
     max-height: 200px;
     overflow-y: auto;
     display: none;
@@ -1522,7 +1516,7 @@ h1 {
 }
 .search-suggestion:hover, .search-suggestion.active {
     background-color: var(--primary-color);
-    color: white;
+    color: var(--accent-text);
 }
 .selected-items {
     display: flex;
@@ -1536,14 +1530,14 @@ h1 {
     gap: 6px;
     padding: 6px 12px;
     background-color: var(--primary-color);
-    color: white;
+    color: var(--accent-text);
     border-radius: 20px;
     font-size: 0.9em;
     font-weight: 500;
 }
 .selected-item-remove {
     cursor: pointer;
-    font-weight: bold;
+    font-weight: 600;
     font-size: 1.1em;
     line-height: 1;
     transition: opacity 0.2s;
@@ -1556,14 +1550,14 @@ h1 {
     background-color: var(--bg-secondary);
     color: var(--text-color);
     border: 1px solid var(--border-color);
-    border-radius: 6px;
+    border-radius: 8px;
     cursor: pointer;
     font-size: 0.95em;
     transition: all 0.2s ease;
 }
 .reset-button:hover {
     background-color: var(--primary-color);
-    color: white;
+    color: var(--accent-text);
     border-color: var(--primary-color);
 }
 .search-results {
@@ -1578,7 +1572,7 @@ h1 {
     padding: 12px;
     background-color: var(--bg-secondary);
     border: 1px solid var(--border-color);
-    border-radius: 4px;
+    border-radius: 6px;
     transition: all 0.2s;
 }
 .search-result-row {
@@ -1597,7 +1591,7 @@ h1 {
     padding: 5px 9px;
     background-color: var(--bg-color);
     border: 1px solid var(--border-color);
-    border-radius: 4px;
+    border-radius: 6px;
     font-size: 0.95em;
     line-height: 1.2;
     cursor: pointer;
@@ -1619,7 +1613,7 @@ h1 {
     width: 100%;
     max-height: 220px;
     object-fit: cover;
-    border-radius: 6px;
+    border-radius: 8px;
     margin-bottom: 10px;
 }
 .search-result-details-description {
@@ -1632,7 +1626,7 @@ h1 {
 .search-result-details h4 {
     margin: 12px 0 6px;
     font-size: 1em;
-    color: var(--primary-color);
+    color: var(--accent-fg);
 }
 .search-result-details ul, .search-result-details ol {
     margin: 0;
@@ -1644,7 +1638,7 @@ h1 {
 .search-result-details-link {
     display: inline-block;
     margin-top: 12px;
-    color: var(--primary-color);
+    color: var(--accent-fg);
     font-weight: 500;
 }
 .search-result-item:hover {
@@ -1666,19 +1660,17 @@ h1 {
 }
 .select-recipe-btn {
     padding: 6px 14px;
-    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-hover) 100%);
-    color: white;
+    background: var(--primary-color);
+    color: var(--accent-text);
     border: none;
-    border-radius: 4px;
+    border-radius: 6px;
     font-size: 0.9em;
     font-weight: 500;
     cursor: pointer;
     transition: all 0.3s;
-    box-shadow: 0 4px 12px rgba(155, 89, 182, 0.3);
 }
 .select-recipe-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(155, 89, 182, 0.4);
+    background: var(--primary-hover);
 }
 
 /* Todo section */
@@ -1699,7 +1691,7 @@ h1 {
     min-height: 60px;
     padding: 10px;
     border: 1px solid var(--border-color);
-    border-radius: 4px;
+    border-radius: 6px;
     font-family: inherit;
     font-size: 0.95em;
     color: var(--text-color);
@@ -2026,7 +2018,7 @@ SHOPPING_LIST_PAGE_CSS = """
 }
 
 h1 {
-    color: var(--primary-color);
+    color: var(--accent-fg);
 }
 .week-navigation {
     display: flex;
@@ -2044,8 +2036,8 @@ h1 {
     padding: 10px 16px;
     background-color: var(--bg-secondary);
     color: var(--text-color);
-    border: 2px solid var(--border-color);
-    border-radius: 6px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
     cursor: pointer;
     font-size: 0.95em;
     font-weight: 500;
@@ -2056,15 +2048,14 @@ h1 {
     border-color: var(--primary-color);
 }
 .week-nav-btn.active {
-    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-hover) 100%);
-    color: white;
+    background: var(--primary-color);
+    color: var(--accent-text);
     border-color: var(--primary-color);
     opacity: 0.5;
     cursor: default;
-    box-shadow: 0 4px 12px rgba(155, 89, 182, 0.3);
 }
 .week-nav-btn.active:hover {
-    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-hover) 100%);
+    background: var(--primary-color);
     opacity: 0.5;
     transform: none;
 }
@@ -2079,8 +2070,8 @@ h1 {
 .view-toggle {
     display: inline-flex;
     background-color: var(--bg-secondary);
-    border: 2px solid var(--border-color);
-    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
     padding: 4px;
     margin: 20px 0;
     gap: 0;
@@ -2090,7 +2081,7 @@ h1 {
     background-color: transparent;
     color: var(--text-secondary);
     border: none;
-    border-radius: 6px;
+    border-radius: 8px;
     cursor: pointer;
     font-size: 0.9em;
     font-weight: 600;
@@ -2102,7 +2093,7 @@ h1 {
 }
 .view-toggle-btn.active {
     background-color: var(--bg-color);
-    color: var(--primary-color);
+    color: var(--accent-fg);
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 .view-toggle-btn.active:hover {
@@ -2117,11 +2108,11 @@ h1 {
 .recipe-shopping-section {
     background-color: var(--card-bg);
     border: 1px solid var(--border-color);
-    border-radius: 8px;
+    border-radius: 12px;
     padding: 20px;
 }
 .recipe-shopping-section h2 {
-    color: var(--primary-color);
+    color: var(--accent-fg);
     margin: 0 0 15px 0;
     font-size: 1.3em;
 }
@@ -2135,7 +2126,7 @@ h1 {
 }
 .recipe-title {
     font-size: 1.3em;
-    color: var(--primary-color);
+    color: var(--accent-fg);
     margin: 0;
 }
 .servings-control {
@@ -2152,7 +2143,7 @@ h1 {
     color: var(--text-color);
     background-color: var(--bg-secondary);
     padding: 8px 16px;
-    border-radius: 6px;
+    border-radius: 8px;
     border: 1px solid var(--border-color);
 }
 .servings-text {
@@ -2169,20 +2160,18 @@ h1 {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-hover) 100%);
-    color: white;
+    background: var(--primary-color);
+    color: var(--accent-text);
     border: none;
-    border-radius: 6px;
+    border-radius: 8px;
     font-size: 1.3em;
-    font-weight: bold;
+    font-weight: 600;
     cursor: pointer;
     transition: all 0.3s;
     user-select: none;
     -webkit-tap-highlight-color: transparent;
-    box-shadow: 0 4px 12px rgba(155, 89, 182, 0.3);
 }
 .servings-btn:hover {
-    box-shadow: 0 6px 16px rgba(155, 89, 182, 0.4);
     transform: scale(1.05);
 }
 .servings-btn:active {
@@ -2198,7 +2187,7 @@ h1 {
     width: 50px;
     padding: 8px;
     border: 1px solid var(--border-color);
-    border-radius: 4px;
+    border-radius: 6px;
     background-color: var(--bg-color);
     color: var(--text-color);
     font-size: 1em;
@@ -2264,7 +2253,7 @@ h1 {
     color: var(--text-secondary);
     background-color: var(--bg-secondary);
     border: 2px dashed var(--border-color);
-    border-radius: 8px;
+    border-radius: 12px;
     margin: 20px 0;
 }
 .no-shopping-items h2 {
@@ -2302,6 +2291,275 @@ h1 {
 
     .page-header {
         margin-bottom: 10px;
+    }
+}
+"""
+
+# Fine, compact look shared by all pages. Included after the page-specific CSS so it
+# refines sizes and spacing everywhere; screen only, print layouts stay untouched.
+THEME_REFINEMENT_CSS = """
+@media screen {
+    * {
+        box-sizing: border-box;
+    }
+    body {
+        font-size: 14px;
+        line-height: 1.45;
+        padding: 16px;
+        -webkit-font-smoothing: antialiased;
+    }
+    input[type="checkbox"], input[type="radio"] {
+        accent-color: var(--primary-color);
+    }
+    a {
+        color: var(--accent-fg);
+    }
+
+    /* Headings */
+    h1, .page-header h1 {
+        color: var(--text-color);
+        font-size: 22px;
+        font-weight: 600;
+        letter-spacing: -0.01em;
+        margin-top: 0;
+    }
+    h2 {
+        color: var(--accent-fg);
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        background: none;
+        border-left: none;
+        border-radius: 0;
+        border-bottom: 1px solid var(--border-color);
+        padding: 0 0 8px;
+        margin-top: 28px;
+        margin-bottom: 12px;
+    }
+    h2.recipe-title {
+        color: var(--text-color);
+        font-size: 15px;
+        font-weight: 600;
+        letter-spacing: normal;
+        text-transform: none;
+    }
+    h3 {
+        font-size: 15px;
+        font-weight: 600;
+    }
+
+    /* Navigation */
+    .top-nav {
+        margin-bottom: 14px;
+    }
+    .nav-link, .nav-toggle-button {
+        background: var(--card-bg);
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        padding: 6px 10px;
+        font-size: 1.25em;
+        transition: border-color 0.15s, background 0.15s;
+    }
+    .nav-link:hover, .nav-toggle-button:hover {
+        background: var(--bg-secondary);
+        border-color: var(--border-hi);
+    }
+
+    /* Panels, cards and modals */
+    .recipe-card, .day-card, .settings-section {
+        border-radius: 14px;
+    }
+    .add-plan-modal-content, .search-modal-content {
+        background-color: var(--card-bg);
+        border: 1px solid var(--border-color);
+        border-radius: 14px;
+        padding: 20px;
+    }
+    .add-plan-modal-title, .search-modal-title {
+        color: var(--text-color);
+        font-size: 15px;
+    }
+    .close-modal-btn {
+        font-size: 1.4em;
+    }
+
+    /* Recipe cards */
+    .recipe-card-image {
+        height: 160px;
+    }
+    .recipe-card h2 {
+        font-size: 15px;
+        font-weight: 600;
+        letter-spacing: normal;
+        text-transform: none;
+        border-bottom: none;
+        padding: 12px 16px 0;
+        margin-bottom: 6px;
+    }
+    .recipe-card h2 a {
+        color: var(--text-color);
+    }
+    .description {
+        padding: 0 16px;
+        font-size: 13px;
+        line-height: 1.5;
+    }
+    .recipe-card-actions {
+        padding: 10px 16px 16px;
+    }
+    .meta {
+        font-size: 12px;
+    }
+
+    /* Search mask */
+    .search-container, .search-container-modal {
+        padding: 16px;
+        border-radius: 12px;
+        background-color: var(--card-bg);
+    }
+    .search-container {
+        margin-bottom: 20px;
+    }
+    .search-label, .form-group > label {
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: var(--text-secondary);
+        margin-bottom: 8px;
+    }
+    .search-input {
+        padding: 8px 12px;
+        border-width: 1px;
+        border-radius: 8px;
+        font-size: 13px;
+    }
+    .autocomplete {
+        border-width: 1px;
+        border-radius: 8px;
+    }
+    .search-suggestion {
+        padding: 7px 12px;
+        font-size: 13px;
+    }
+    .selected-item {
+        padding: 4px 10px;
+        border-radius: 999px;
+        font-size: 12px;
+        font-weight: 600;
+    }
+    .filter-row {
+        margin-top: 12px;
+        padding-top: 12px;
+    }
+    .filter-checkbox {
+        font-size: 13px;
+    }
+    .filter-checkbox input[type="checkbox"] {
+        width: 15px;
+        height: 15px;
+    }
+
+    /* Buttons */
+    .reset-button, .cancel-btn, .add-btn, .selection-btn, .select-recipe-btn,
+    .weekly-plan-button, .weekly-plan-button-card, .week-nav-btn, .info-recipe-btn {
+        border-radius: 8px;
+        font-size: 13px;
+    }
+    .reset-button {
+        padding: 6px 12px;
+    }
+    .cancel-btn, .add-btn, .selection-btn {
+        padding: 8px 14px;
+    }
+    .selection-btn {
+        border-width: 1px;
+    }
+    .cancel-btn {
+        border-width: 1px;
+    }
+
+    /* Detail page tables and steps */
+    .recipe-info-table, .ingredients-table {
+        background-color: var(--card-bg);
+        border: 1px solid var(--border-color);
+        border-collapse: separate;
+        border-spacing: 0;
+    }
+    .recipe-info-table td, .ingredients-table td {
+        padding: 8px 14px;
+    }
+    .ingredients-table th {
+        padding: 8px 14px;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    /* Weekly plan */
+    .day-card {
+        padding: 16px;
+        margin-bottom: 14px;
+    }
+    .day-card:hover {
+        box-shadow: none;
+    }
+    .day-header {
+        color: var(--text-color);
+        font-size: 16px;
+        margin-bottom: 12px;
+    }
+    .day-header > div:hover {
+        color: var(--accent-fg);
+    }
+    .day-toggle {
+        color: var(--text-secondary);
+    }
+    .random-day-btn, .copy-day-btn {
+        font-size: 12px;
+    }
+    .meal-slot:hover {
+        border-color: var(--border-hi);
+        box-shadow: none;
+    }
+    .meal-type {
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+    }
+    .meal-content.empty .assign-btn {
+        flex: none;
+        margin-top: 8px;
+        padding: 6px 12px;
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+    }
+    .recipe-link {
+        color: var(--text-color);
+        font-weight: 600;
+    }
+    .recipe-link:hover {
+        color: var(--accent-fg);
+    }
+    .meal-thumbnail {
+        box-shadow: none;
+    }
+    .week-nav-btn {
+        padding: 7px 12px;
+    }
+    .week-nav-btn.active, .week-nav-btn.active:hover {
+        opacity: 1;
+        font-weight: 600;
+    }
+    .todos-header {
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--text-secondary);
     }
 }
 """
