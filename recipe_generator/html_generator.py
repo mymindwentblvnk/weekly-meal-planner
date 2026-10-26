@@ -620,18 +620,24 @@ def generate_settings_page_html(deployment_time: datetime | None = None) -> str:
 
                 const fullUrl = `${{window.location.origin}}${{window.location.pathname.replace('settings.html', 'index.html')}}?import=${{encoded}}`;
 
-                // Shorten URL using is.gd (privacy-friendly, no tracking)
+                // Shorten URL using is.gd, with v.gd (same service, other domain) as fallback
                 let finalUrl = fullUrl;
-                try {{
-                    const shortenResponse = await fetch(`https://is.gd/create.php?format=json&url=${{encodeURIComponent(fullUrl)}}`);
-                    const shortenData = await shortenResponse.json();
+                for (const host of ['is.gd', 'v.gd']) {{
+                    try {{
+                        const shortenResponse = await fetch(`https://${{host}}/create.php?format=json&url=${{encodeURIComponent(fullUrl)}}`);
+                        const shortenData = await shortenResponse.json();
 
-                    if (shortenData.shorturl) {{
-                        finalUrl = shortenData.shorturl;
+                        if (shortenData.shorturl) {{
+                            finalUrl = shortenData.shorturl;
+                            break;
+                        }}
+                        console.warn(`URL shortening via ${{host}} failed (errorcode ${{shortenData.errorcode}}): ${{shortenData.errormessage}}`);
+                    }} catch (shortenError) {{
+                        console.warn(`URL shortening via ${{host}} failed:`, shortenError);
                     }}
-                }} catch (shortenError) {{
-                    console.warn('URL shortening failed, using full URL:', shortenError);
-                    // Continue with full URL if shortening fails
+                }}
+                if (finalUrl === fullUrl) {{
+                    console.warn('URL shortening failed, using full URL (length ' + fullUrl.length + ')');
                 }}
 
                 // Store the shortened URL for the export button (enables synchronous clipboard copy on mobile)
